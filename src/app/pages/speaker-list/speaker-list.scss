@@ -12,6 +12,14 @@
   padding: 0;
 }
 
+.marketplace-header {
+  display: grid;
+  grid: "avatar name timestamps";
+  .avatar-area {grid-area: avatar;}
+  .name-area {grid-area: name;}
+  .timestamps-area {grid-area: timestamps;}
+}
+
 .speaker-card ion-card-header .item {
   padding: 4px 16px;
 }

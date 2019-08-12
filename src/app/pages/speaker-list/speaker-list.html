@@ -15,10 +15,22 @@
           <ion-card class="speaker-card">
             <ion-card-header>
               <ion-item detail="false" lines="none" routerLink="/app/tabs/speakers/speaker-details/{{speaker.id}}">
-                <ion-avatar slot="start">
-                  <img [src]="speaker.profilePic" alt="Speaker profile pic">
-                </ion-avatar>
-                {{speaker.name}}
+                <div class="marketplace-header">
+                  <div class="avatar-area">
+                    <ion-avatar slot="start">
+                      <img [src]="speaker.profilePic" alt="Speaker profile pic">
+                    </ion-avatar>
+                  </div>
+                  <div class="name-area">{{speaker.name}}</div>
+                  <div class="timestamps-area">
+                    <small>
+                      <div style="display: block;float: right;">November 15, 2018</div>
+                      <ion-note class="note" style="display: block;float: right;">
+                        11h ago
+                      </ion-note>
+                    </small>
+                  </div>
+                </div>
               </ion-item>
             </ion-card-header>
 

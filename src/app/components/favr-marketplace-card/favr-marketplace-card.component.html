@@ -1,0 +1,61 @@
+<ion-card class="marketplace-card">
+  <ion-card-header>
+    <ion-item detail="false" lines="none" routerLink="/app/tabs/marketplaces/marketplace-details/{{mainMarketplaceTask.customer_id}}">
+      <div class="marketplace-header">
+        <div class="avatar-area">
+          <ion-avatar slot="start">
+            <img [src]="mainMarketplaceTask.customer.profile.image" alt="profile picture">
+          </ion-avatar>
+        </div>
+        <div class="name-area">{{mainMarketplaceTask.customer.user.first_name}} {{mainMarketplaceTask.customer.user.last_name}}</div>
+        <div class="timestamps-area">
+          <small>
+            <div class="complete-by-time">{{mainMarketplaceTask.complete_before}}</div>
+            <ion-note class="note posted-time">
+              {{mainMarketplaceTask.created_at}}
+            </ion-note>
+          </small>
+        </div>
+      </div>
+    </ion-item>
+  </ion-card-header>
+
+  <ion-slides *ngIf="mainMarketplaceTask.image_one">
+    <ion-slide class="marketplace-slide-image" *ngIf="mainMarketplaceTask.image_one">
+      <img [src]="mainMarketplaceTask.image_one" alt="image one">
+    </ion-slide>
+
+    <ion-slide class="marketplace-slide-image" *ngIf="mainMarketplaceTask.image_two">
+      <img [src]="mainMarketplaceTask.image_two" alt="image two">
+    </ion-slide>
+
+    <ion-slide class="marketplace-slide-image" *ngIf="mainMarketplaceTask.image_three">
+      <img [src]="mainMarketplaceTask.image_three" alt="image three">
+    </ion-slide>
+  </ion-slides>
+
+  <ion-card-content>
+    {{mainMarketplaceTask.description}}
+  </ion-card-content>
+
+  <ion-row class="ion-no-padding ion-justify-content-center">
+    <ion-col size="4" class="ion-text-left">
+      <ion-button fill="clear" size="small" color="primary">
+        <ion-icon name="thumbs-up" slot="start"></ion-icon>
+        Accept
+      </ion-button>
+    </ion-col>
+    <ion-col size="4" class="ion-text-center">
+      <ion-button fill="clear" size="small" color="primary">
+        <ion-icon name="share-alt" slot="start"></ion-icon>
+        Share
+      </ion-button>
+    </ion-col>
+    <ion-col size="4" lass="ion-text-right">
+      <ion-button fill="clear" size="small" color="primary">
+        <ion-icon name="chatboxes" slot="start"></ion-icon>
+        Contact
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-card>
