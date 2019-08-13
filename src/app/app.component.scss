@@ -4,3 +4,15 @@
     color: var(--ion-color-primary);
   }
 }
+
+.menu-profile {
+  vertical-align: middle;
+  min-height: fit-content!important;
+  --min-height: 2in!important;
+}
+
+.profile-image {
+  height: 80px;
+  object-fit: cover;
+  object-position: 50% 50%;
+}

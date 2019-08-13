@@ -4,7 +4,6 @@
 
 .complete-by-time {
   display: block;
-  float: right;
 }
 
 .posted-time {
@@ -18,17 +17,7 @@
   overflow-x: hidden;
 }
 
-.marketplace-card-header {
-  display: grid;
-  grid: "avatar name timestamps";
-  grid-column-gap: 3%;
-  .avatar-area {padding-top: 50%;grid-area: avatar;}
-  .name-area {padding-top: 50%;grid-area: name;}
-  .timestamps-area {padding-top:50%;grid-area: timestamps;}
-}
-
 .marketplace-card {
-  height: 100%;
   display: flex;
   flex-direction: column;
 }

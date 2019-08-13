@@ -58,8 +58,44 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'marketplace',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('../marketplace/marketplace.module').then(m => m.MarketplacePageModule)
+          }
+        ]
+      },
+      {
+        path: 'friends',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('../friends/friends.module').then(m => m.FriendsPageModule)
+          }
+        ]
+      },
+      {
+        path: 'settings',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('../settings/settings.module').then(m => m.SettingsPageModule)
+          }
+        ]
+      },
+      {
+        path: 'request',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>  import('../request/request.module').then(m => m.RequestPageModule)
+          }
+        ]
+      },
+      {
         path: '',
-        redirectTo: '/app/tabs/schedule',
+        redirectTo: '/app/tabs/marketplace',
         pathMatch: 'full'
       }
     ]
