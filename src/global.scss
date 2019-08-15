@@ -33,3 +33,23 @@
  */
 
 @import "./app/app.scss";
+
+.web-only {
+  display: unset;
+}
+
+@media(max-width: 500px) {
+  .web-only {
+    display: none;
+  }
+}
+
+.mobile-only {
+  display: unset;
+}
+
+@media(min-width: 500px) {
+  .mobile-only {
+    display: none;
+  }
+}

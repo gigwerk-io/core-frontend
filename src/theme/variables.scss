@@ -221,10 +221,10 @@
 
 .md {
   /* Use the primary color as the background for the toolbar */
-  --ion-toolbar-background: var(--ion-color-primary);
+  --ion-toolbar-background: var(--ion-color-light);
 
   /* Change the color of the toolbar components */
-  --ion-toolbar-color: #fff;
+  --ion-toolbar-color: var(--color);
 
   /* Change the color of the activated toolbar components */
   --ion-toolbar-color-activated: #fff;

@@ -1,0 +1,27 @@
+.page-title-header-profile {
+  float: right;
+  height: 32px;
+  width: 32px;
+  margin-right: 12px;
+}
+
+.page-title {
+  font-weight: 800;
+  margin: 0 0 0 12px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.page-title.md {
+  margin: 0;
+}
+
+.page-title-header-profile.md {
+  margin-right: 0;
+}
+
+@media(min-width: 500px) {
+  .page-title-header-profile {
+    display: none;
+  }
+}
