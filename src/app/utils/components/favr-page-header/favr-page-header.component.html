@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar class="page-header">
+    <ion-title hidden>{{pageTitle}}</ion-title>
+  </ion-toolbar>
+
+  <ion-toolbar>
+    <ion-row class="page-title-header">
+      <ion-col>
+        <h1 class="page-title">{{pageTitle}}</h1>
+      </ion-col>
+      <ion-col>
+        <ion-avatar class="page-title-header-profile">
+          <img [src]="'http://localhost:8100/assets/img/user.png'" alt="profile picture">
+        </ion-avatar>
+      </ion-col>
+    </ion-row>
+    <ion-searchbar *ngIf="showSearchBar" placeholder="Search"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>

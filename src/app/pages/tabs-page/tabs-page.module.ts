@@ -4,27 +4,26 @@ import { IonicModule } from '@ionic/angular';
 
 import { TabsPage } from './tabs-page';
 import { TabsPageRoutingModule } from './tabs-page-routing.module';
-
-import { AboutModule } from '../about/about.module';
 import { MapModule } from '../map/map.module';
-import { ScheduleModule } from '../schedule/schedule.module';
-import { SessionDetailModule } from '../session-detail/session-detail.module';
-import { SpeakerDetailModule } from '../speaker-detail/speaker-detail.module';
-import { SpeakerListModule } from '../speaker-list/speaker-list.module';
 import { MarketplacePageModule } from '../marketplace/marketplace.module';
+import {FriendsPageModule} from '../friends/friends.module';
+import {RequestPageModule} from '../request/request.module';
+import {SettingsPageModule} from '../settings/settings.module';
+
+const MODULES = [
+  CommonModule,
+  FriendsPageModule,
+  IonicModule,
+  MapModule,
+  MarketplacePageModule,
+  RequestPageModule,
+  SettingsPageModule,
+  TabsPageRoutingModule,
+];
 
 @NgModule({
   imports: [
-    AboutModule,
-    CommonModule,
-    IonicModule,
-    MapModule,
-    MarketplacePageModule,
-    ScheduleModule,
-    SessionDetailModule,
-    SpeakerDetailModule,
-    SpeakerListModule,
-    TabsPageRoutingModule
+    ...MODULES
   ],
   declarations: [
     TabsPage,

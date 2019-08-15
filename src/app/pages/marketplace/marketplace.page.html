@@ -1,22 +1,26 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title hidden>Marketplace</ion-title>
-  </ion-toolbar>
-  <ion-toolbar>
-    <h1 class="page-title">Marketplace</h1>
-    <ion-searchbar placeholder="Search"></ion-searchbar>
-  </ion-toolbar>
-</ion-header>
+<favr-page-header
+  pageTitle="Marketplace"
+  [showSearchBar]="true"
+>
+</favr-page-header>
 
 <ion-content>
-  <favr-marketplace-card *ngFor="let task of visibleRequests"
+
+  <div class="request-task-button-area">
+    <ion-button class="request-task-button">
+      <ion-icon name="create" slot="start"></ion-icon>
+      Request a Task
+    </ion-button>
+  </div>
+
+  <favr-marketplace-card *ngFor="let task of requests"
                          [mainMarketplaceTask]="task"
   ></favr-marketplace-card>
 
-  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
-    <ion-infinite-scroll-content
-      loadingSpinner="bubbles"
-      loadingText="Loading more data...">
-    </ion-infinite-scroll-content>
-  </ion-infinite-scroll>
+  <!--<ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">-->
+    <!--<ion-infinite-scroll-content-->
+      <!--loadingSpinner="bubbles"-->
+      <!--loadingText="Loading more data...">-->
+    <!--</ion-infinite-scroll-content>-->
+  <!--</ion-infinite-scroll>-->
 </ion-content>

@@ -1,4 +1,4 @@
-import {MainMarketplace} from '../../interfaces/main-marketplace/main-marketplace';
+import {MainMarketplace} from '../interfaces/main-marketplace/main-marketplace';
 
 export const MAIN_MARKETPLACE_REQS: MainMarketplace[] = [
   {
@@ -12,8 +12,8 @@ export const MAIN_MARKETPLACE_REQS: MainMarketplace[] = [
     status: 'Requested',
     intensity: 'Medium',
     complete_before: 100,
-    image_one: '',
-    image_two: '',
+    image_one: 'http://localhost:8100/assets/img/speakers/bear.jpg',
+    image_two: 'http://localhost:8100/assets/img/speakers/duck.jpg',
     image_three: '',
     created_at: 100,
     updated_at: 100,
@@ -100,7 +100,7 @@ export const MAIN_MARKETPLACE_REQS: MainMarketplace[] = [
       street_address: '2006 15th Ave NW',
       city: 'Rochester ',
       state: 'MN',
-      zip: '55901',
+      zip: 55901,
       lat: 44.0446131,
       long: -92.48416069999999
     }]
@@ -152,7 +152,7 @@ export const MAIN_MARKETPLACE_REQS: MainMarketplace[] = [
       street_address: '2006 15th Ave NW',
       city: 'Rochester ',
       state: 'MN',
-      zip: '55901',
+      zip: 55901,
       lat: 44.0446131,
       long: -92.48416069999999
     }]
@@ -204,7 +204,7 @@ export const MAIN_MARKETPLACE_REQS: MainMarketplace[] = [
       street_address: '2006 15th Ave NW',
       city: 'Rochester ',
       state: 'MN',
-      zip: '55901',
+      zip: 55901,
       lat: 44.0446131,
       long: -92.48416069999999
     }]
@@ -308,7 +308,7 @@ export const MAIN_MARKETPLACE_REQS: MainMarketplace[] = [
       street_address: '2006 15th Ave NW',
       city: 'Rochester ',
       state: 'MN',
-      zip: '55901',
+      zip: 55901,
       lat: 44.0446131,
       long: -92.48416069999999
     }]
@@ -360,7 +360,7 @@ export const MAIN_MARKETPLACE_REQS: MainMarketplace[] = [
       street_address: '2006 15th Ave NW',
       city: 'Rochester ',
       state: 'MN',
-      zip: '55901',
+      zip: 55901,
       lat: 44.0446131,
       long: -92.48416069999999
     }]
@@ -412,7 +412,7 @@ export const MAIN_MARKETPLACE_REQS: MainMarketplace[] = [
       street_address: '2006 15th Ave NW',
       city: 'Rochester ',
       state: 'MN',
-      zip: '55901',
+      zip: 55901,
       lat: 44.0446131,
       long: -92.48416069999999
     }]

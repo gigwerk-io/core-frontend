@@ -1,32 +1,65 @@
 <ion-tabs>
 
-  <ion-tab-bar slot="bottom">
+  <ion-tab-bar *ngIf="tabSlot === 'top'" slot="top">
 
     <ion-tab-button tab="marketplace">
       <ion-icon name="cart"></ion-icon>
       <ion-label>Marketplace</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="schedule">
-      <ion-icon name="calendar"></ion-icon>
-      <ion-label>Schedule</ion-label>
+    <ion-tab-button tab="friends">
+      <ion-icon name="contacts"></ion-icon>
+      <ion-label>Friends</ion-label>
     </ion-tab-button>
 
-
-    <ion-tab-button tab="request">
+    <ion-tab-button class="mobile-only">
       <ion-icon name="add-circle-outline"></ion-icon>
       <ion-label>Request</ion-label>
     </ion-tab-button>
 
+    <ion-tab-button tab="notifications">
+      <ion-icon name="notifications"></ion-icon>
+      <ion-label>Notifications</ion-label>
+    </ion-tab-button>
     <!--<ion-tab-button tab="map">-->
       <!--<ion-icon name="map"></ion-icon>-->
       <!--<ion-label>Map</ion-label>-->
     <!--</ion-tab-button>-->
 
+
+    <ion-tab-button tab="settings" class="mobile-only">
+      <ion-icon name="settings"></ion-icon>
+      <ion-label>Settings</ion-label>
+    </ion-tab-button>
+
+  </ion-tab-bar>
+
+  <ion-tab-bar *ngIf="tabSlot === 'bottom'" slot="bottom">
+
+    <ion-tab-button tab="marketplace">
+      <ion-icon name="cart"></ion-icon>
+      <ion-label>Marketplace</ion-label>
+    </ion-tab-button>
+
     <ion-tab-button tab="friends">
       <ion-icon name="contacts"></ion-icon>
       <ion-label>Friends</ion-label>
     </ion-tab-button>
+
+    <ion-tab-button>
+      <ion-icon name="add-circle-outline"></ion-icon>
+      <ion-label>Request</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="notifications">
+      <ion-icon name="notifications"></ion-icon>
+      <ion-label>Notifications</ion-label>
+    </ion-tab-button>
+    <!--<ion-tab-button tab="map">-->
+    <!--<ion-icon name="map"></ion-icon>-->
+    <!--<ion-label>Map</ion-label>-->
+    <!--</ion-tab-button>-->
+
 
     <ion-tab-button tab="settings">
       <ion-icon name="settings"></ion-icon>
@@ -34,5 +67,4 @@
     </ion-tab-button>
 
   </ion-tab-bar>
-
 </ion-tabs>

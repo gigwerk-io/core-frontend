@@ -1,16 +1,13 @@
-.page-title {
-  margin: 0;
-  font-weight: 800;
-  padding-left: 12px;
-  padding-top: 0;
-  padding-bottom: 0;
-}
-
 ion-card-content {
   padding: 1em!important;
+}
+
+.header-ios ion-toolbar:last-child {
+  --border-width: 0!important;
 }
 
 ion-searchbar {
   padding-top: 0!important;
   padding-bottom: 0!important;
+  border-bottom: none;
 }

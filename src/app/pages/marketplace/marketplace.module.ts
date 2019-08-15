@@ -6,11 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { MarketplacePage } from './marketplace.page';
-import { FavrMarketplaceCardComponent } from '../../components/favr-marketplace-card/favr-marketplace-card.component';
-
-const COMPONENTS = [
-  FavrMarketplaceCardComponent
-];
+import {CommonComponentsModule} from '../../utils/components/common-components.module';
 
 const routes: Routes = [
   {
@@ -22,10 +18,11 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
+    CommonComponentsModule,
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [MarketplacePage, ...COMPONENTS]
+  declarations: [MarketplacePage]
 })
 export class MarketplacePageModule {}
