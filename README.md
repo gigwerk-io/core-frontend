@@ -1,4 +1,7 @@
-[logo]: https://github.com/haron68/favr-frontend/blob/master/src/assets/brand/favr_logo_rd.png "FAVR frontend documentation"
+[logo]: https://github.com/haron68/favr-frontend/blob/master/src/assets/brand/favr_logo_rd.png
+
+<img src="https://github.com/haron68/favr-frontend/blob/master/src/assets/brand/favr_logo_rd.png" alt="FAVR logo" height="40" width="140">
+
 # FAVR Frontend
 
 
