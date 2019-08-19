@@ -2,15 +2,24 @@ import { Injectable } from '@angular/core';
 import {MainMarketplace} from '../interfaces/main-marketplace/main-marketplace';
 import {MAIN_MARKETPLACE_REQS} from '../mocks/mock-requests.mock';
 import {Observable, of} from 'rxjs';
+import {UserData} from '../../providers/user-data';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MarketplaceService {
 
-  constructor() { }
+  constructor(public userData: UserData) { }
 
   public getMainMarketplaceRequests(): Observable<MainMarketplace[]> {
-    return of(MAIN_MARKETPLACE_REQS);
+    const isLoggedIn: Promise<boolean> = this.userData.isLoggedIn()
+      .then((val) => val)
+      .catch((val) => val);
+
+    if (isLoggedIn) {
+      return of(MAIN_MARKETPLACE_REQS);
+    } else {
+      return of([]);
+    }
   }
 }

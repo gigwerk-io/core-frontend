@@ -1,3 +1,4 @@
+[logo]: https://github.com/haron68/favr-frontend/blob/master/src/assets/brand/favr_logo_rd.png "FAVR frontend documentation"
 # FAVR Frontend
 
 
@@ -15,33 +16,16 @@
 
 * [Download the installer](https://nodejs.org/) for Node.js 6 or greater.
 * Install the ionic CLI globally: `npm install -g ionic`
-* Clone this repository: `git clone https://github.com/ionic-team/ionic-conference-app.git`.
+* Clone this repository: `git clone https://github.com/haron68/favr-frontend.git`.
 * Run `npm install` from the project root.
 * Run `ionic serve` in a terminal from the project root.
 * Profit. :tada:
 
 _Note: See [How to Prevent Permissions Errors](https://docs.npmjs.com/getting-started/fixing-npm-permissions) if you are running into issues when trying to install packages globally._
 
-## Contributing
-See [CONTRIBUTING.md](https://github.com/ionic-team/ionic-conference-app/blob/master/.github/CONTRIBUTING.md) :tada::+1:
-
-
 ## App Preview
 
 All app preview screenshots were taken by running `ionic serve --lab` on a retina display.
-
-- [Schedule Page](https://github.com/ionic-team/ionic-conference-app/blob/master/src/app/pages/schedule/schedule.html)
-
-  <img src="resources/screenshots/SchedulePage.png" alt="Schedule">
-
-
-- [About Page](https://github.com/ionic-team/ionic-conference-app/blob/master/src/app/pages/about/about.html)
-
-  <img src="resources/screenshots/AboutPage.png" alt="Schedule">
-
-
-- To see more images of the app, check out the [screenshots directory](https://github.com/ionic-team/ionic-conference-app/tree/master/resources/screenshots)!
-
 
 ## Deploying
 
