@@ -9,6 +9,7 @@ import { MarketplacePageModule } from '../marketplace/marketplace.module';
 import {FriendsPageModule} from '../friends/friends.module';
 import {RequestPageModule} from '../request/request.module';
 import {SettingsPageModule} from '../settings/settings.module';
+import {MarketplaceDetailPageModule} from '../marketplace-detail/marketplace-detail.module';
 
 const MODULES = [
   CommonModule,
@@ -16,6 +17,7 @@ const MODULES = [
   IonicModule,
   MapModule,
   MarketplacePageModule,
+  MarketplaceDetailPageModule,
   RequestPageModule,
   SettingsPageModule,
   TabsPageRoutingModule,

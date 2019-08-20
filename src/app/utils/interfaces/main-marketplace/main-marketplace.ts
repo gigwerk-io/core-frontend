@@ -9,6 +9,8 @@ export interface MainMarketplace {
   freelancer_count?: number;
   sub_category_id?: number;
   category_id?: number;
+  category_icon_image?: string;
+  category?: string;
   price?: number;
   description?: string;
   status?: string;

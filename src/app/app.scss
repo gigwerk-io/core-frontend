@@ -11,3 +11,23 @@ ion-searchbar {
   padding-bottom: 0!important;
   border-bottom: none;
 }
+
+.marketplace-card-distance-away {
+  padding-bottom: 1em;
+}
+
+.marketplace-card-price-area {
+  width: -webkit-fill-available;
+  text-align: right;
+  color: green;
+  font-size: 20px;
+  z-index: 999;
+  font-weight: 700;
+  .marketplace-card-price-tag {
+    width: fit-content;
+    float: right;
+    padding: 5px;
+    text-shadow: 2px 3px 3px rgba(0, 0, 0, 0.12);
+    z-index: 999;
+  }
+}

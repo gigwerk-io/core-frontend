@@ -1,0 +1,160 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="closeMarketplaceDetailPage()">
+        close
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Task Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="page == 'task-description'">
+    <div id="taskDescription"></div>
+    <div style="display: none">
+      {{$('#taskDescription').html(taskDescriptionDetail)}}
+    </div>
+  </ion-list>
+
+  <ion-list *ngIf="page == 'main'" >
+    <ion-slides [pager]="true">
+      <ion-slide (click)="viewAttachedPhoto(mainMarketplaceTask.image_one, 'Image 1')" class="marketplace-slide-image" *ngIf="mainMarketplaceTask.image_one">
+        <img [src]="mainMarketplaceTask.image_one" alt="image one">
+      </ion-slide>
+
+      <ion-slide (click)="viewAttachedPhoto(mainMarketplaceTask.image_two, 'Image 2')" class="marketplace-slide-image" *ngIf="mainMarketplaceTask.image_two">
+        <img [src]="mainMarketplaceTask.image_two" alt="image two">
+      </ion-slide>
+
+      <ion-slide (click)="viewAttachedPhoto(mainMarketplaceTask.image_one, 'Image 3')" class="marketplace-slide-image" *ngIf="mainMarketplaceTask.image_three">
+        <img [src]="mainMarketplaceTask.image_three" alt="image three">
+      </ion-slide>
+    </ion-slides>
+    <ion-item detail="false" lines="none" routerLink="/app/tabs/marketplaces/marketplace-details/{{mainMarketplaceTask.customer_id}}">
+      <ion-avatar slot="start">
+        <img [src]="mainMarketplaceTask.customer.profile.image" alt="profile picture">
+      </ion-avatar>
+      {{mainMarketplaceTask.customer.first_name}} {{mainMarketplaceTask.customer.last_name}}
+      <div slot="end">
+        <div class="marketplace-card-price-area">
+          <div class="marketplace-card-price-tag">
+            ${{mainMarketplaceTask.price}}
+          </div>
+        </div>
+      </div>
+    </ion-item>
+
+    <ion-item detail="false" lines="none">
+      <div slot="start">
+        <small>
+          <div class="complete-by-time">Needs Complete by {{mainMarketplaceTask.complete_before | date}}</div>
+          <ion-note class="note posted-time">
+            Posted {{mainMarketplaceTask.created_at | date}}
+          </ion-note>
+        </small>
+      </div>
+      <div slot="end" class="marketplace-card-distance-away">
+        <small>
+          4 min away
+        </small>
+      </div>
+    </ion-item>
+    <ion-grid padding>
+      <ion-row padding-bottom>
+        <ion-col size="3">
+          <img src="../../../assets/img/lawnmower.png" class="marketplace-detail-icons">
+        </ion-col>
+        <ion-col size="9">
+          <b>Task Category:</b>
+          <br>
+          Lawn Mowing
+          <!--{{mainMarketplaceTask.category}}-->
+        </ion-col>
+      </ion-row>
+      <ion-row padding-bottom>
+        <ion-col size="3">
+          <img src="../../../assets/img/suitcase.png" class="marketplace-detail-icons">
+        </ion-col>
+        <ion-col size="9">
+          <b>Task Description</b>
+          <br>
+          {{mainMarketplaceTask.description}}
+        </ion-col>
+      </ion-row>
+      <ion-row padding-bottom>
+        <ion-col size="3">
+          <img src="../../../assets/img/bank.png" class="marketplace-detail-icons">
+        </ion-col>
+        <ion-col size="9">
+          <b>Price:</b>
+          <br>
+          You earn
+          ${{mainMarketplaceTask.price}}
+        </ion-col>
+      </ion-row>
+      <ion-row padding-bottom>
+        <ion-col size="3">
+          <img src="../../../assets/img/group.png" class="marketplace-detail-icons">
+        </ion-col>
+        <ion-col size="9">
+          <b>Freelancer Count:</b>
+          <br>
+          {{mainMarketplaceTask.freelancer_accepted}} people accepted,
+          task needs {{mainMarketplaceTask.freelancer_count - mainMarketplaceTask.freelancer_accepted}} more
+        </ion-col>
+      </ion-row>
+      <ion-row padding-bottom>
+        <ion-col size="3">
+          <img src="../../../assets/img/map.png" class="marketplace-detail-icons">
+        </ion-col>
+        <ion-col size="9">
+          <b>Location:</b>
+          <br>
+          {{mainMarketplaceTask.locations[0].street_address}},
+          {{mainMarketplaceTask.locations[0].city}},
+          {{mainMarketplaceTask.locations[0].state}},
+          {{mainMarketplaceTask.locations[0].zip}}
+        </ion-col>
+      </ion-row>
+      <ion-row padding-bottom>
+        <ion-col size="3">
+          <img src="../../../assets/img/calendar.png" class="marketplace-detail-icons">
+        </ion-col>
+        <ion-col size="9">
+          <b>Complete Before:</b>
+          <br>
+          {{mainMarketplaceTask.complete_before | date}}
+        </ion-col>
+      </ion-row>
+      <ion-row padding-bottom>
+        <ion-col size="3">
+          <img src="../../../assets/img/tools.png" class="marketplace-detail-icons">
+        </ion-col>
+        <ion-col size="9">
+          <b>Intensity:</b>
+          <br>
+          <div *ngIf="mainMarketplaceTask.intensity == 'Easy'"
+               id="easy-button">Easy 👌
+          </div>
+          <div *ngIf="mainMarketplaceTask.intensity == 'Medium'"
+               id="medium-button">Medium 💪🏿
+          </div>
+          <div *ngIf="mainMarketplaceTask.intensity == 'Hard'"
+               id="hard-button">Hard 🔥
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row padding-bottom>
+        <ion-col size="3">
+          <img src="../../../assets/img/stopwatch.png" class="marketplace-detail-icons">
+        </ion-col>
+        <ion-col size="9">
+          <b>Current Status:</b>
+          <br>
+          Task {{taskStatusDisplay}}
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-list>
+</ion-content>

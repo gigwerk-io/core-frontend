@@ -1,9 +1,4 @@
 <ion-card class="marketplace-card">
-  <div class="marketplace-card-price-area">
-    <div class="marketplace-card-price-tag">
-      ${{mainMarketplaceTask.price}}
-    </div>
-  </div>
   <ion-slides [pager]="true">
     <ion-slide (click)="viewAttachedPhoto(mainMarketplaceTask.image_one, 'Image 1')" class="marketplace-slide-image" *ngIf="mainMarketplaceTask.image_one">
       <img [src]="mainMarketplaceTask.image_one" alt="image one">
@@ -19,21 +14,34 @@
   </ion-slides>
 
   <ion-card-header>
+    <ion-item detail="false" lines="none" routerLink="/app/tabs/marketplaces/marketplace-details/{{mainMarketplaceTask.customer_id}}">
+      <ion-avatar slot="start">
+        <img [src]="mainMarketplaceTask.customer.profile.image" alt="profile picture">
+      </ion-avatar>
+      {{mainMarketplaceTask.customer.first_name}} {{mainMarketplaceTask.customer.last_name}}
+      <div slot="end">
+        <div class="marketplace-card-price-area">
+          <div class="marketplace-card-price-tag">
+            ${{mainMarketplaceTask.price}}
+          </div>
+        </div>
+      </div>
+    </ion-item>
+
     <ion-item detail="false" lines="none">
       <div slot="start">
         <small>
           <div class="complete-by-time">Needs Complete by {{mainMarketplaceTask.complete_before | date}}</div>
           <ion-note class="note posted-time">
-            Posted on {{mainMarketplaceTask.created_at | date}}
+            Posted {{mainMarketplaceTask.created_at | date}}
           </ion-note>
         </small>
       </div>
-    </ion-item>
-    <ion-item detail="false" lines="none" routerLink="/app/tabs/marketplaces/marketplace-details/{{mainMarketplaceTask.customer_id}}">
-        <ion-avatar slot="start">
-          <img [src]="mainMarketplaceTask.customer.profile.image" alt="profile picture">
-        </ion-avatar>
-        <div>{{mainMarketplaceTask.customer.first_name}} {{mainMarketplaceTask.customer.last_name}}</div>
+      <div slot="end" class="marketplace-card-distance-away">
+        <small>
+          4 min away
+        </small>
+      </div>
     </ion-item>
   </ion-card-header>
 
@@ -63,7 +71,7 @@
       </ion-button>
     </ion-col>
     <ion-col size="4" class="ion-text-center">
-      <ion-button fill="clear" size="small" color="primary">
+      <ion-button fill="clear" size="small" color="primary" (click)="viewMarketplaceDetail()">
         <ion-icon name="eye" slot="start"></ion-icon>
         View
       </ion-button>

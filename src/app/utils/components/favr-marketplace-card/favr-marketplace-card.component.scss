@@ -12,27 +12,6 @@ template {
   display: block !important;
 }
 
-.marketplace-card-price-area {
-  width: -webkit-fill-available;
-  text-align: right;
-  position: fixed;
-  top: 0;
-  color: green;
-  font-size: 20px;
-  z-index: 999;
-  font-weight: 700;
-  padding-right: 1rem;
-  padding-top: 1em;
-  .marketplace-card-price-tag {
-    width: fit-content;
-    float: right;
-    background: var(--ion-color-dark-contrast);
-    border-radius: 1rem;
-    padding: 5px;
-    box-shadow: 0 4px 16px rgba(0,0,0,.12);
-  }
-}
-
 ion-slides {
   width: -webkit-fill-available;
 }
@@ -40,6 +19,7 @@ ion-slides {
 ion-card-header {
   ion-item {
     --padding-start: 0;
+    --inner-padding-end: 0;
   }
 }
 

@@ -1,8 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MainMarketplace} from '../../interfaces/main-marketplace/main-marketplace';
 import {PhotoViewer} from '@ionic-native/photo-viewer/ngx';
-import {PhotoViewerOptions} from '@ionic-native/photo-viewer';
-import {DatePipe} from '@angular/common';
+import {ModalController} from '@ionic/angular';
+import {MarketplaceDetailPage} from '../../../pages/marketplace-detail/marketplace-detail.page';
+import {popInAnimation} from '../../animations/enter.animation';
+import {popOutAnimation} from '../../animations/leave.animation';
 
 @Component({
   selector: 'favr-marketplace-card',
@@ -14,11 +16,22 @@ export class FavrMarketplaceCardComponent implements OnInit {
 
   @Input() mainMarketplaceTask: MainMarketplace;
 
-  constructor(private photoViewer: PhotoViewer) { }
+  constructor(private photoViewer: PhotoViewer,
+              private modalCtrl: ModalController) { }
 
   ngOnInit() {}
 
   private viewAttachedPhoto(url: string, photoTitle?: string): void {
-    this.photoViewer.show(url, photoTitle);
+    this.photoViewer.show(url, (photoTitle) ? photoTitle : '');
+  }
+
+  private async viewMarketplaceDetail(): Promise<void> {
+    const modal = await this.modalCtrl.create({
+      component: MarketplaceDetailPage,
+      componentProps: {'mainMarketplaceTask' : this.mainMarketplaceTask},
+      enterAnimation: popInAnimation,
+      leaveAnimation: popOutAnimation
+    });
+    return await modal.present();
   }
 }
