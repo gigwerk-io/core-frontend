@@ -1,9 +1,26 @@
 <favr-page-header
-  pageTitle="Friends"
+  pageTitle="My Friends"
   [showSearchBar]="true"
+  (handleSearch)="handleSearch($event)"
 >
 </favr-page-header>
 
 <ion-content>
+  <!-- List of Text Items -->
+  <ion-list>
+    <ion-card class="user-friend-card" *ngFor="let friend of friends">
+      <ion-item  [href]="'profile/' + friend.id">
+        <ion-avatar slot="start">
+          <ion-img class="user-thumb" [src]="friend.profile.image"></ion-img>
+        </ion-avatar>
+        <ion-label>
+          {{friend.name}}
+          <br>
+          <ion-card-subtitle>@{{friend.username}}</ion-card-subtitle>
+        </ion-label>
+        <ion-icon name="arrow-dropright"></ion-icon>
+      </ion-item>
+    </ion-card>
+  </ion-list>
 
 </ion-content>

@@ -14,6 +14,6 @@
         </ion-avatar>
       </ion-col>
     </ion-row>
-    <ion-searchbar *ngIf="showSearchBar" placeholder="Search"></ion-searchbar>
+    <ion-searchbar *ngIf="showSearchBar" placeholder="Search" (keyup)="onKey($event)"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
