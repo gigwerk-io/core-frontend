@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {MainMarketplace} from '../../utils/interfaces/main-marketplace/main-marketplace';
+import {MainMarketplaceTask} from '../../utils/interfaces/main-marketplace/main-marketplace-task';
 import {MarketplaceService} from '../../utils/services/marketplace.service';
+import {ModalController} from '@ionic/angular';
+import {RequestPage} from '../request/request.page';
 
 @Component({
   selector: 'marketplace',
@@ -9,11 +11,10 @@ import {MarketplaceService} from '../../utils/services/marketplace.service';
 })
 export class MarketplacePage implements OnInit {
 
-  // @ts-ignore
-  requests: MainMarketplace[];
-  // visibleRequests: MainMarketplace[];
+  requests: MainMarketplaceTask[];
 
-  constructor(private marketplaceService: MarketplaceService) { }
+  constructor(private marketplaceService: MarketplaceService,
+              private modalCtrl: ModalController) { }
 
   ngOnInit() {
     this.getRequests();
@@ -24,17 +25,20 @@ export class MarketplacePage implements OnInit {
       .subscribe(requests => this.requests = requests);
   }
 
-  // loadData(event) {
-  //   setTimeout(() => {
-  //     console.log('Done');
-  //     event.target.complete();
-  //
-  //     this.visibleRequests.push(this.requests.pop());
-  //     // App logic to determine if all data is loaded
-  //     // and disable the infinite scroll
-  //     if (this.requests.length === 0) {
-  //       event.target.disabled = true;
-  //     }
-  //   }, 500);
-  // }
+  async openRequestPage(): Promise<void> {
+    const modal = await this.modalCtrl.create({
+      component: RequestPage,
+      componentProps: {'isModal': true}
+    });
+    return await modal.present();
+  }
+
+  doRefresh(event) {
+    console.log('Begin async operation');
+
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 2000);
+  }
 }

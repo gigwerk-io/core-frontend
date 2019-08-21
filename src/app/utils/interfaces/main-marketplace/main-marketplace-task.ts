@@ -2,13 +2,15 @@ import {User} from '../user';
 import {MainProposals} from './main-proposals';
 import {Location} from '../location';
 
-export interface MainMarketplace {
+export interface MainMarketplaceTask {
   id?: number;
   customer_id?: number;
   freelancer_accepted?: number;
   freelancer_count?: number;
   sub_category_id?: number;
   category_id?: number;
+  category_icon_image?: string;
+  category?: string;
   price?: number;
   description?: string;
   status?: string;

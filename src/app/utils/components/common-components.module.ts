@@ -5,8 +5,10 @@ import {IonicModule} from '@ionic/angular';
 import {FavrMarketplaceCardComponent} from './favr-marketplace-card/favr-marketplace-card.component';
 import {FavrPageHeaderComponent} from './favr-page-header/favr-page-header.component';
 import {RouterModule} from '@angular/router';
+import {FavrCategoryCardButtonsComponent} from './favr-category-card-buttons/favr-category-card-buttons.component';
 
 const COMPONENTS = [
+  FavrCategoryCardButtonsComponent,
   FavrMarketplaceCardComponent,
   FavrPageHeaderComponent
 ];

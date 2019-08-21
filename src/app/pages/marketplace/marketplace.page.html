@@ -5,9 +5,13 @@
 </favr-page-header>
 
 <ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 
   <div class="request-task-button-area">
-    <ion-button class="request-task-button">
+
+    <ion-button class="request-task-button" (click)="openRequestPage()">
       <ion-icon name="create" slot="start"></ion-icon>
       Request a Task
     </ion-button>

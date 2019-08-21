@@ -1,6 +1,31 @@
-<favr-page-header pageTitle="Request">
+<favr-page-header
+  pageTitle="Request"
+  [isModal]="isModal"
+  [showProfile]="!isModal"
+  (close)="closeRequestPage()"
+>
 </favr-page-header>
 
 <ion-content>
+  <ion-slides>
+    <ion-slide>
+      <ion-toolbar class="search-categories-area">
+        <form action=".">
+          <ion-searchbar placeholder="Search categories..." class="search-categories"></ion-searchbar>
+        </form>
+      </ion-toolbar>
+      <favr-category-card-buttons
+        [categories]="categories"
+        (selectedCategory)="selectCategory($event)"
+      ></favr-category-card-buttons>
+    </ion-slide>
 
+    <ion-slide>
+      <ion-toolbar>
+        <ion-title>
+          Describe Task
+        </ion-title>
+      </ion-toolbar>
+    </ion-slide>
+  </ion-slides>
 </ion-content>
