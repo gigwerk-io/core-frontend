@@ -1,0 +1,16 @@
+.search-categories-area {
+  --padding-top: 0;
+  .search-categories {
+    text-align: left;
+  }
+}
+
+.swiper-container {
+  overflow: unset;
+}
+
+ion-slide {
+  height: available;
+  display: block;
+  text-align: left;
+}

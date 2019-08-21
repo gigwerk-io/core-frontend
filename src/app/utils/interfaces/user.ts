@@ -1,6 +1,6 @@
-import {MainMarketplace} from './main-marketplace/main-marketplace';
+import {MainMarketplaceTask} from './main-marketplace/main-marketplace-task';
 import {MainProposals} from './main-marketplace/main-proposals';
-import {FriendMarketplace} from './friend-marketplace/friend-marketplace';
+import {FriendMarketplaceTask} from './friend-marketplace/friend-marketplace-task';
 import {FriendProposals} from './friend-marketplace/friend-proposals';
 
 export interface User {
@@ -21,8 +21,8 @@ export interface User {
   created_at?: number;
   updated_at?: number;
   deleted_at?: number;
-  main_marketplace?: MainMarketplace[];
-  friend_marketplace?: FriendMarketplace[];
+  main_marketplace?: MainMarketplaceTask[];
+  friend_marketplace?: FriendMarketplaceTask[];
   friend_proposals?: FriendProposals[];
   main_proposals?: MainProposals[];
   profile?: {

@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ModalController, NavParams} from '@ionic/angular';
-import {MainMarketplace} from '../../utils/interfaces/main-marketplace/main-marketplace';
+import {MainMarketplaceTask} from '../../utils/interfaces/main-marketplace/main-marketplace-task';
 import {PhotoViewer} from '@ionic-native/photo-viewer/ngx';
 import * as $ from 'jquery';
 
@@ -12,7 +12,7 @@ import * as $ from 'jquery';
 })
 export class MarketplaceDetailPage implements OnInit {
 
-  @Input() mainMarketplaceTask: MainMarketplace;
+  @Input() mainMarketplaceTask: MainMarketplaceTask;
 
   page = 'main';
   subPageDetail = MarketplaceDetailPage;

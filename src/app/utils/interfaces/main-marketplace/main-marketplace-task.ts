@@ -2,7 +2,7 @@ import {User} from '../user';
 import {MainProposals} from './main-proposals';
 import {Location} from '../location';
 
-export interface MainMarketplace {
+export interface MainMarketplaceTask {
   id?: number;
   customer_id?: number;
   freelancer_accepted?: number;

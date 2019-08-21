@@ -1,7 +1,7 @@
 import {User} from '../user';
 import {FriendProposals} from './friend-proposals';
 
-export interface FriendMarketplace {
+export interface FriendMarketplaceTask {
   id: number;
   customer_id: number;
   freelancer_accepted: number;

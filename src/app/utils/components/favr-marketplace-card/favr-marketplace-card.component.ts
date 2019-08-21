@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {MainMarketplace} from '../../interfaces/main-marketplace/main-marketplace';
+import {MainMarketplaceTask} from '../../interfaces/main-marketplace/main-marketplace-task';
 import {PhotoViewer} from '@ionic-native/photo-viewer/ngx';
 import {ModalController} from '@ionic/angular';
 import {MarketplaceDetailPage} from '../../../pages/marketplace-detail/marketplace-detail.page';
@@ -14,7 +14,7 @@ import {popOutAnimation} from '../../animations/leave.animation';
 })
 export class FavrMarketplaceCardComponent implements OnInit {
 
-  @Input() mainMarketplaceTask: MainMarketplace;
+  @Input() mainMarketplaceTask: MainMarketplaceTask;
 
   constructor(private photoViewer: PhotoViewer,
               private modalCtrl: ModalController) { }

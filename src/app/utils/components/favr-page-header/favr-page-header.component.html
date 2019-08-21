@@ -1,21 +1,26 @@
 <ion-header>
   <ion-toolbar class="page-header">
+    <ion-buttons *ngIf="isModal">
+      <ion-button (click)="closePage()">
+        close
+      </ion-button>
+    </ion-buttons>
     <ion-title hidden>{{pageTitle}}</ion-title>
   </ion-toolbar>
 
-  <ion-toolbar>
+  <ion-toolbar class="search-area">
     <ion-row class="page-title-header">
-      <ion-col>
+      <ion-col class="page-title-area">
         <h1 class="page-title">{{pageTitle}}</h1>
       </ion-col>
       <ion-col>
         <ion-buttons class="page-header-buttons">
-          <ion-button>
+          <ion-button *ngIf="showProfile">
             <ion-avatar class="page-title-header-profile">
-              <img [src]="'http://localhost:8100/assets/img/user.png'" alt="profile picture">
+              <img [src]="'http://localhost:8100/assets/img/speakers/bear.jpg'" alt="profile picture">
             </ion-avatar>
           </ion-button>
-          <ion-button *ngIf="pageTitle == 'Marketplace'">
+          <ion-button (click)="presentFilterOptions()" *ngIf="pageTitle == 'Marketplace'">
             <ion-icon name="funnel"></ion-icon>
           </ion-button>
         </ion-buttons>

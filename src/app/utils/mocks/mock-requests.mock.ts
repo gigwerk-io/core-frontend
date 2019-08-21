@@ -1,6 +1,6 @@
-import {MainMarketplace} from '../interfaces/main-marketplace/main-marketplace';
+import {MainMarketplaceTask} from '../interfaces/main-marketplace/main-marketplace-task';
 
-export const MAIN_MARKETPLACE_REQS: MainMarketplace[] = [
+export const MAIN_MARKETPLACE_REQS: MainMarketplaceTask[] = [
   {
     id: 4,
     customer_id: 3,
