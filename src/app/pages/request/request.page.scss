@@ -14,3 +14,11 @@ ion-slide {
   display: block;
   text-align: left;
 }
+
+ckeditor {
+  ::ng-deep {
+    color: #000 !important;
+  }
+  -webkit-user-select: text;
+  user-select: text;
+}

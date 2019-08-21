@@ -1,5 +1,5 @@
 <favr-page-header
-  pageTitle="Request"
+  [pageTitle]="pageTitle"
   [isModal]="isModal"
   [showProfile]="!isModal"
   (close)="closeRequestPage()"
@@ -7,7 +7,7 @@
 </favr-page-header>
 
 <ion-content>
-  <ion-slides>
+  <ion-slides (ionSlideDidChange)="onSlideChange()">
     <ion-slide>
       <ion-toolbar class="search-categories-area">
         <form action=".">
@@ -21,11 +21,16 @@
     </ion-slide>
 
     <ion-slide>
-      <ion-toolbar>
-        <ion-title>
-          Describe Task
-        </ion-title>
-      </ion-toolbar>
+      <ckeditor tagName="textarea" (change)="onEditorChange($event)" [editor]="Editor" [config]="editorConfig"></ckeditor>
+    </ion-slide>
+
+    <ion-slide>
+      <ion-item class="rounded">
+        <ion-label position="fixed">
+          Set Your Price
+        </ion-label>
+        <ion-input></ion-input>
+      </ion-item>
     </ion-slide>
   </ion-slides>
 </ion-content>

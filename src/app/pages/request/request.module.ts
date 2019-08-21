@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { RequestPage } from './request.page';
 import {CommonComponentsModule} from '../../utils/components/common-components.module';
+import {CKEditorModule} from '@ckeditor/ckeditor5-angular';
 
 const routes: Routes = [
   {
@@ -15,13 +16,18 @@ const routes: Routes = [
   }
 ];
 
+const MODULES = [
+  CommonModule,
+  CommonComponentsModule,
+  CKEditorModule,
+  FormsModule,
+  IonicModule,
+  RouterModule.forChild(routes)
+];
+
 @NgModule({
   imports: [
-    CommonModule,
-    CommonComponentsModule,
-    FormsModule,
-    IonicModule,
-    RouterModule.forChild(routes)
+    ...MODULES
   ],
   declarations: [RequestPage]
 })
