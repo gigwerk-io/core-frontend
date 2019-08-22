@@ -59,6 +59,10 @@
     </ion-slide>
 
     <ion-slide>
+      <div *ngFor="let imageURI of imagesURI">
+        Here
+        <img *ngIf="imageURI" src="data:image/jpeg;base64,{{imageURI}}" alt="Attached Image">
+      </div>
       <ion-button (click)="openPhotoGallery()" class="submit-button">
         Attach Photos
       </ion-button>

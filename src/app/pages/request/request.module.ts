@@ -8,7 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { RequestPage } from './request.page';
 import {CommonComponentsModule} from '../../utils/components/common-components.module';
 import {CKEditorModule} from '@ckeditor/ckeditor5-angular';
-import {PhotoLibrary} from '@ionic-native/photo-library/ngx';
+import {ImagePicker, ImagePickerOptions} from '@ionic-native/image-picker/ngx';
 
 const routes: Routes = [
   {
@@ -32,7 +32,7 @@ const MODULES = [
   ],
   declarations: [RequestPage],
   providers: [
-    PhotoLibrary
+    ImagePicker
   ]
 })
 export class RequestPageModule {}

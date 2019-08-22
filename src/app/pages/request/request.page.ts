@@ -7,7 +7,7 @@ import {ChangeEvent} from '@ckeditor/ckeditor5-angular';
 import {MainMarketplaceTask} from '../../utils/interfaces/main-marketplace/main-marketplace-task';
 import {State} from '../../utils/interfaces/locations/state';
 import {STATES} from '../../utils/mocks/states.mock';
-import { PhotoLibrary } from '@ionic-native/photo-library/ngx';
+import {ImagePicker, ImagePickerOptions} from '@ionic-native/image-picker/ngx';
 
 @Component({
   selector: 'request',
@@ -30,7 +30,12 @@ export class RequestPage implements OnInit {
       zip: undefined,
     }],
     price: undefined,
+    image_one: undefined,
+    image_two: undefined,
+    image_three: undefined
   };
+
+  imagesURI: any[];
 
   public Editor = ClassicEditor;
   editorConfig = {
@@ -51,7 +56,7 @@ export class RequestPage implements OnInit {
   pageTitle = 'Request';
   states: State[] = STATES;
 
-  constructor(private modalCtrl: ModalController, private photoLibrary: PhotoLibrary) { }
+  constructor(private modalCtrl: ModalController, private imagePicker: ImagePicker) { }
 
   ngOnInit() {
   }
@@ -118,26 +123,29 @@ export class RequestPage implements OnInit {
   }
 
   openPhotoGallery() {
-    this.photoLibrary.requestAuthorization().then(() => {
-      this.photoLibrary.getLibrary().subscribe({
-        next: library => {
-          library.forEach(function(libraryItem) {
-            console.log(libraryItem.id);          // ID of the photo
-            console.log(libraryItem.photoURL);    // Cross-platform access to photo
-            console.log(libraryItem.thumbnailURL); // Cross-platform access to thumbnail
-            console.log(libraryItem.fileName);
-            console.log(libraryItem.width);
-            console.log(libraryItem.height);
-            console.log(libraryItem.creationDate);
-            console.log(libraryItem.latitude);
-            console.log(libraryItem.longitude);
-            console.log(libraryItem.albumIds);    // array of ids of appropriate AlbumItem, only of includeAlbumsData was used
-          });
-        },
-        error: err => { console.log('could not get photos'); },
-        complete: () => { console.log('done getting photos'); }
-      });
-    })
-    .catch(err => console.log('permissions weren\'t granted'));
+    const options: ImagePickerOptions = {
+      quality: 100,
+      width: 600,
+      height: 600,
+      outputType: 1,
+      maximumImagesCount: 3
+    };
+
+    this.imagePicker.getPictures(options).then((results) => {
+
+      for (let i = 0; i < results.length; i++) {
+        const imageURI = results[i];
+        const base64Image = 'data:image/jpeg;base64,' + imageURI;
+        this.imagesURI.push(imageURI);
+
+        if (i === 0) {
+          this.taskRequest.image_one = imageURI;
+        } else if (i === 1) {
+          this.taskRequest.image_two = imageURI;
+        } else if (i === 2) {
+          this.taskRequest.image_three = imageURI;
+        }
+      }
+    }, (err) => { console.log('Error with Image Picker.'); });
   }
 }
