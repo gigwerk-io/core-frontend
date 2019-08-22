@@ -1,0 +1,15 @@
+<ion-item class="input-item">
+  <ion-label position="stacked">
+    {{inputLabel}}
+  </ion-label>
+  <ion-input #input
+             [(ngModel)]="inputValue"
+             (change)="setValue(inputValue)"
+             (ionFocus)="onInputFocus(input)"
+             (ionBlur)="onInputBlur(input)"
+             [type]="inputType"
+             [name]="inputName"
+             [ngClass]="(iconName) ? 'icon': ''">
+    <ion-icon *ngIf="iconName" mode="ios" name="{{iconName}}" color="primary" slot="start"></ion-icon>
+  </ion-input>
+</ion-item>

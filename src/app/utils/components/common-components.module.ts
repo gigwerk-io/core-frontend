@@ -6,11 +6,17 @@ import {FavrMarketplaceCardComponent} from './favr-marketplace-card/favr-marketp
 import {FavrPageHeaderComponent} from './favr-page-header/favr-page-header.component';
 import {RouterModule} from '@angular/router';
 import {FavrCategoryCardButtonsComponent} from './favr-category-card-buttons/favr-category-card-buttons.component';
+import {FavrInputComponent} from './favr-input/favr-input.component';
+import {FavrSelectComponent} from './favr-select/favr-select.component';
+import {FavrDatetimeComponent} from './favr-datetime/favr-datetime.component';
 
 const COMPONENTS = [
   FavrCategoryCardButtonsComponent,
+  FavrDatetimeComponent,
+  FavrInputComponent,
   FavrMarketplaceCardComponent,
-  FavrPageHeaderComponent
+  FavrPageHeaderComponent,
+  FavrSelectComponent
 ];
 
 const MODULES = [

@@ -1,0 +1,13 @@
+<ion-item class="select-item">
+  <ion-label position="stacked">
+    {{selectLabel}}
+  </ion-label>
+  <ion-select #select
+             [(ngModel)]="selectValue"
+             (change)="setValue(selectValue)"
+             (ionFocus)="onSelectFocus(select)"
+             (ionBlur)="onSelectBlur(select)"
+             [name]="selectName">
+    <ng-content></ng-content>
+  </ion-select>
+</ion-item>

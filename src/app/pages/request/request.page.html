@@ -25,12 +25,65 @@
     </ion-slide>
 
     <ion-slide>
-      <ion-item class="rounded">
-        <ion-label position="fixed">
-          Set Your Price
-        </ion-label>
-        <ion-input></ion-input>
-      </ion-item>
+      <favr-datetime
+        dateTimeLabel="Complete Task By"
+        dateTimeName="datetime"
+      ></favr-datetime>
     </ion-slide>
+
+    <ion-slide>
+      <favr-input
+        inputName="street_address"
+        inputType="text"
+        inputLabel="Enter Street Address"
+        iconName="pin"
+      ></favr-input>
+      <favr-input
+        inputName="city"
+        inputType="text"
+        inputLabel="Enter City"
+        iconName="business"
+      ></favr-input>
+      <favr-select
+        selectName="state"
+        selectLabel="Select State"
+      >
+        <ion-select-option *ngFor="let state of states" value="{{state.abbrev}}">{{state.name}}</ion-select-option>
+      </favr-select>
+      <favr-input
+        inputName="zip"
+        inputType="tel"
+        inputLabel="Enter Zip"
+        iconName="globe"
+      ></favr-input>
+    </ion-slide>
+
+    <ion-slide>
+      <ion-button (click)="openPhotoGallery()" class="submit-button">
+        Attach Photos
+      </ion-button>
+    </ion-slide>
+
+    <ion-slide>
+      <favr-input
+        inputName="price"
+        inputType="tel"
+        inputLabel="Set your price"
+        iconName="logo-usd"
+        (value)="setPrice($event)"
+      ></favr-input>
+
+      <h4 text-center>You will pay</h4>
+      <div class="price-proposal">
+        <h1>
+          {{((taskRequest.price) ? taskRequest.price : 0) | currency:'USD'}}
+        </h1>
+      </div>
+
+      <ion-button type="submit" class="submit-button">
+        Submit
+      </ion-button>
+    </ion-slide>
+
   </ion-slides>
 </ion-content>

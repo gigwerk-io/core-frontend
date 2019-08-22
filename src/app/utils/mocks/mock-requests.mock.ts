@@ -1,3 +1,4 @@
+// @ts-ignore
 import {MainMarketplaceTask} from '../interfaces/main-marketplace/main-marketplace-task';
 
 export const MAIN_MARKETPLACE_REQS: MainMarketplaceTask[] = [

@@ -1,0 +1,14 @@
+<ion-item class="datetime-item">
+  <ion-label position="stacked">
+    {{dateTimeLabel}}
+  </ion-label>
+  <ion-datetime #dateTime
+                [(ngModel)]="dateTimeValue"
+                (change)="setValue(dateTimeValue)"
+                (ionFocus)="onDateTimeFocus(dateTime)"
+                (ionBlur)="onDateTimeBlur(dateTime)"
+                [name]="dateTimeName"
+                [displayFormat]="dateTimeDisplayFormat"
+  >
+  </ion-datetime>
+</ion-item>

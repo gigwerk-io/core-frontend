@@ -22,3 +22,19 @@ ckeditor {
   -webkit-user-select: text;
   user-select: text;
 }
+
+.submit-button {
+  width: 100%;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+.price-proposal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  h1 {
+    color: green;
+    margin-bottom: 20px;
+  }
+}

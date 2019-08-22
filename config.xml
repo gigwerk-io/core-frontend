@@ -99,4 +99,7 @@
     <plugin name="cordova-plugin-statusbar" spec="^2.4.3" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.1.3" />
     <plugin name="com-sarriaroman-photoviewer" spec="^1.2.4" />
+    <plugin name="cordova-plugin-photo-library" spec="^2.2.1">
+        <variable name="FAVR needs access to your Photo Library in order to attach photos to tasks or change your profile picture." value=" " />
+    </plugin>
 </widget>
