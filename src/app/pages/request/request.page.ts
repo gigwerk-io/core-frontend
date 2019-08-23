@@ -1,4 +1,4 @@
-import {Component, EventEmitter, HostListener, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {IonContent, IonSlides, ModalController} from '@ionic/angular';
 import {MainCategory} from '../../utils/interfaces/main-marketplace/main-category';
 import {TASK_CATEGORIES} from '../../utils/mocks/mock-categories.mock';
@@ -8,11 +8,13 @@ import {MainMarketplaceTask} from '../../utils/interfaces/main-marketplace/main-
 import {State} from '../../utils/interfaces/locations/state';
 import {STATES} from '../../utils/mocks/states.mock';
 import {ImagePicker, ImagePickerOptions} from '@ionic-native/image-picker/ngx';
+import {PhotoViewer} from '@ionic-native/photo-viewer/ngx';
 
 @Component({
   selector: 'request',
   templateUrl: './request.page.html',
-  styleUrls: ['./request.page.scss']
+  styleUrls: ['./request.page.scss'],
+  providers: [PhotoViewer]
 })
 export class RequestPage implements OnInit {
   @Input() isModal = false;
@@ -20,9 +22,10 @@ export class RequestPage implements OnInit {
   @ViewChild(IonContent, {static: false}) content: IonContent;
 
   taskRequest: MainMarketplaceTask = {
-    category: undefined,
+    category_id: undefined,
     complete_before: undefined,
     description: undefined,
+    intensity: undefined,
     locations: [{
       street_address: undefined,
       city: undefined,
@@ -34,6 +37,9 @@ export class RequestPage implements OnInit {
     image_two: undefined,
     image_three: undefined
   };
+
+  minYear: number = (new Date()).getFullYear();
+  maxYear: number = this.minYear + 1;
 
   imagesURI: any[];
 
@@ -55,8 +61,11 @@ export class RequestPage implements OnInit {
   categories: MainCategory[] = TASK_CATEGORIES;
   pageTitle = 'Request';
   states: State[] = STATES;
+  progress: number = 0;
 
-  constructor(private modalCtrl: ModalController, private imagePicker: ImagePicker) { }
+  constructor(private modalCtrl: ModalController,
+              private imagePicker: ImagePicker,
+              private photoViewer: PhotoViewer) { }
 
   ngOnInit() {
   }
@@ -71,13 +80,6 @@ export class RequestPage implements OnInit {
 
   getItems($event) {
     return;
-  }
-
-  selectCategory(category: MainCategory) {
-    this.taskRequest.category = category.name;
-    setTimeout(() => {
-      this.slides.slideNext();
-    }, 500);
   }
 
   onSlideChange() {
@@ -105,6 +107,10 @@ export class RequestPage implements OnInit {
             this.content.scrollToTop(500);
             break;
           case 5:
+            this.pageTitle = 'Difficulty';
+            this.content.scrollToTop(500);
+            break;
+          case 6:
             this.pageTitle = 'Price';
             this.content.scrollToTop(500);
             break;
@@ -112,13 +118,58 @@ export class RequestPage implements OnInit {
       });
   }
 
-  public onEditorChange( { editor }: ChangeEvent ) {
-    const data = editor.getData();
+  selectCategory(category: MainCategory) {
+    this.taskRequest.category_id = category.id;
+    setTimeout(() => {
+      this.progress = 0.16;
+      this.slides.slideNext();
+    }, 500);
+  }
 
-    this.taskRequest.description = data;
+  onEditorChange( { editor }: ChangeEvent ) {
+    this.taskRequest.description = editor.getData();
+    this.progress = 0.33;
+  }
+
+  setDatetime(datetime: any) {
+    this.progress = 0.5;
+    this.taskRequest.complete_before = datetime;
+  }
+
+  setStreetAddress(streetAddress: any) {
+    this.progress = 0.54;
+    this.taskRequest.locations[0].street_address = streetAddress;
+  }
+
+  setCity(city: any) {
+    this.progress = 0.58;
+    this.taskRequest.locations[0].city = city;
+  }
+
+  setState(state: any) {
+    this.progress = 0.62;
+    this.taskRequest.locations[0].state = state;
+  }
+
+  setZip(zip: any) {
+    this.progress = 0.66;
+    this.taskRequest.locations[0].zip = zip;
+  }
+
+  setImages() {
+    this.progress = 0.74;
+  }
+
+  setDifficulty(intensity: string) {
+    this.progress = 0.83;
+    this.taskRequest.intensity = intensity;
+    setTimeout(() => {
+      this.slides.slideNext();
+    }, 500);
   }
 
   setPrice(price: any) {
+    this.progress = 1;
     this.taskRequest.price = price;
   }
 
@@ -132,20 +183,32 @@ export class RequestPage implements OnInit {
     };
 
     this.imagePicker.getPictures(options).then((results) => {
+      if (results[0]) {
+        this.setImages();
+        this.taskRequest.image_one = results[0];
+      }
 
-      for (let i = 0; i < results.length; i++) {
-        const imageURI = results[i];
-        const base64Image = 'data:image/jpeg;base64,' + imageURI;
-        this.imagesURI.push(imageURI);
+      if (results[1]) {
+        this.taskRequest.image_two = results[1];
+      }
 
-        if (i === 0) {
-          this.taskRequest.image_one = imageURI;
-        } else if (i === 1) {
-          this.taskRequest.image_two = imageURI;
-        } else if (i === 2) {
-          this.taskRequest.image_three = imageURI;
-        }
+      if (results[2]) {
+        this.taskRequest.image_three = results[2];
       }
     }, (err) => { console.log('Error with Image Picker.'); });
+  }
+
+  removeImage(index: number) {
+    switch (index) {
+      case 0:
+        this.taskRequest.image_one = undefined;
+        break;
+      case 1:
+        this.taskRequest.image_two = undefined;
+        break;
+      case 2:
+        this.taskRequest.image_three = undefined;
+        break;
+    }
   }
 }

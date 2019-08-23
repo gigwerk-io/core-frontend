@@ -10,6 +10,8 @@ export class FavrDatetimeComponent implements OnInit {
   @Input() dateTimeName: string;
   @Input() dateTimeLabel: string;
   @Input() dateTimeDisplayFormat = 'MMM DD, YYYY HH:mm';
+  @Input() max: string;
+  @Input() min: string;
 
   @Output() value: EventEmitter<any> = new EventEmitter();
   dateTimeValue: any;

@@ -23,10 +23,12 @@ ckeditor {
   user-select: text;
 }
 
-.submit-button {
-  width: 100%;
-  padding-left: 1em;
-  padding-right: 1em;
+.inactive {
+  opacity: 0.5;
+}
+
+.camera-button {
+  --background: deepskyblue;
 }
 
 .price-proposal {
@@ -37,4 +39,17 @@ ckeditor {
     color: green;
     margin-bottom: 20px;
   }
+}
+
+.photo-gallery {
+  max-height: 200px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.remove-attached-image-button {
+  font-size: xx-large;
+  position: absolute;
+  top: 1rem;
+  right: 2rem;
 }

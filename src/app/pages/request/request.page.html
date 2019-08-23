@@ -7,6 +7,7 @@
 </favr-page-header>
 
 <ion-content>
+  <ion-progress-bar *ngIf="progress !== 0" [value]="progress"></ion-progress-bar>
   <ion-slides (ionSlideDidChange)="onSlideChange()">
     <ion-slide>
       <ion-toolbar class="search-categories-area">
@@ -28,6 +29,9 @@
       <favr-datetime
         dateTimeLabel="Complete Task By"
         dateTimeName="datetime"
+        max="{{maxYear}}"
+        min="{{minYear}}"
+        (value)="setDatetime($event)"
       ></favr-datetime>
     </ion-slide>
 
@@ -37,16 +41,21 @@
         inputType="text"
         inputLabel="Enter Street Address"
         iconName="pin"
+        autocorrect="true"
+        (value)="setStreetAddress($event)"
       ></favr-input>
       <favr-input
         inputName="city"
         inputType="text"
         inputLabel="Enter City"
         iconName="business"
+        autocorrect="true"
+        (value)="setCity($event)"
       ></favr-input>
       <favr-select
         selectName="state"
         selectLabel="Select State"
+        (value)="setState($event)"
       >
         <ion-select-option *ngFor="let state of states" value="{{state.abbrev}}">{{state.name}}</ion-select-option>
       </favr-select>
@@ -55,17 +64,71 @@
         inputType="tel"
         inputLabel="Enter Zip"
         iconName="globe"
+        (value)="setZip($event)"
       ></favr-input>
     </ion-slide>
 
     <ion-slide>
-      <div *ngFor="let imageURI of imagesURI">
-        Here
-        <img *ngIf="imageURI" src="data:image/jpeg;base64,{{imageURI}}" alt="Attached Image">
-      </div>
-      <ion-button (click)="openPhotoGallery()" class="submit-button">
+      <ion-slides [pager]="true" *ngIf="taskRequest.image_one || taskRequest.image_two || taskRequest.image_three" class="photo-gallery">
+        <ion-slide *ngIf="taskRequest.image_one" class="marketplace-slide-image">
+          <img src="data:image/jpeg;base64,{{taskRequest.image_one}}" alt="Attached Image 1">
+          <ion-icon (click)="removeImage(0)" name="close-circle" color="primary" class="remove-attached-image-button"></ion-icon>
+        </ion-slide>
+
+        <ion-slide *ngIf="taskRequest.image_two" class="marketplace-slide-image">
+          <img src="data:image/jpeg;base64,{{taskRequest.image_two}}" alt="Attached Image 2">
+          <ion-icon (click)="removeImage(1)" name="close-circle" color="primary" class="remove-attached-image-button"></ion-icon>
+        </ion-slide>
+
+        <ion-slide *ngIf="taskRequest.image_three" class="marketplace-slide-image">
+          <img src="data:image/jpeg;base64,{{taskRequest.image_three}}" alt="Attached Image 3">
+          <ion-icon (click)="removeImage(2)" name="close-circle" color="primary" class="remove-attached-image-button"></ion-icon>
+        </ion-slide>
+      </ion-slides>
+
+      <ion-button (click)="openPhotoGallery()" class="long-button">
+        <ion-icon name="images" slot="start"></ion-icon>
         Attach Photos
       </ion-button>
+      <ion-button class="long-button camera-button">
+        <ion-icon name="camera" slot="start"></ion-icon>
+        Take Photo
+      </ion-button>
+    </ion-slide>
+
+    <ion-slide>
+      <ul>
+        <li><b>Easy</b> tasks take 1 hour or less to complete.</li>
+        <li><b>Medium</b> tasks take about 2 - 3 hours to complete.</li>
+        <li><b>Hard</b> tasks take more than 3 hours to complete.</li>
+      </ul>
+      <div text-center>
+        <ion-button color="success"
+                    [ngClass]="(taskRequest.intensity && taskRequest.intensity != 'Easy') ? 'inactive' : ''"
+                    (click)="setDifficulty('Easy')"
+        >
+          Easy 👌
+        </ion-button>
+        <ion-button color="warning"
+                    [ngClass]="(taskRequest.intensity && taskRequest.intensity != 'Medium') ? 'inactive' : ''"
+                    (click)="setDifficulty('Medium')"
+        >
+          Medium 💪🏿
+        </ion-button>
+        <ion-button color="danger"
+                    [ngClass]="(taskRequest.intensity && taskRequest.intensity != 'Hard') ? 'inactive' : ''"
+                    (click)="setDifficulty('Hard')"
+        >
+          Hard 🔥
+        </ion-button>
+      </div>
+      <div text-center>
+        <ion-note>
+          <small>
+            <b>Note:</b> you must pay your worker the local minimum wage
+          </small>
+        </ion-note>
+      </div>
     </ion-slide>
 
     <ion-slide>
@@ -74,6 +137,10 @@
         inputType="tel"
         inputLabel="Set your price"
         iconName="logo-usd"
+        step="0.01"
+        min="5.00"
+        max="1999.99"
+        pattern="[0-9]*"
         (value)="setPrice($event)"
       ></favr-input>
 
@@ -84,7 +151,7 @@
         </h1>
       </div>
 
-      <ion-button type="submit" class="submit-button">
+      <ion-button type="submit" class="long-button">
         Submit
       </ion-button>
     </ion-slide>

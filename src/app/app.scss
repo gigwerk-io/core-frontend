@@ -35,3 +35,15 @@ ion-searchbar.ios {
     z-index: 999;
   }
 }
+
+.marketplace-slide-image {
+  max-height: 200px;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+.long-button {
+  width: 100%;
+  padding-left: 1em;
+  padding-right: 1em;
+}

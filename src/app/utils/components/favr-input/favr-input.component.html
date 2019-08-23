@@ -8,7 +8,12 @@
              (ionFocus)="onInputFocus(input)"
              (ionBlur)="onInputBlur(input)"
              [type]="inputType"
+             [step]="step"
+             [min]="min"
+             [max]="max"
+             [pattern]="pattern"
              [name]="inputName"
+             [autocorrect]="autocorrect"
              [ngClass]="(iconName) ? 'icon': ''">
     <ion-icon *ngIf="iconName" name="{{iconName}}" color="primary" slot="start"></ion-icon>
   </ion-input>

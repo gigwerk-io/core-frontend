@@ -12,6 +12,11 @@ export class FavrInputComponent implements OnInit {
   @Input() inputType: string;
   @Input() inputLabel: string;
   @Input() iconName: string;
+  @Input() step: number;
+  @Input() max: number;
+  @Input() min: number;
+  @Input() pattern: string;
+  @Input() autocorrect: boolean;
 
   @Output() value: EventEmitter<any> = new EventEmitter();
   inputValue: any;
