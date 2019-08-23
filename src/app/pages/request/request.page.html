@@ -2,12 +2,12 @@
   [pageTitle]="pageTitle"
   [isModal]="isModal"
   [showProfile]="!isModal"
+  [progress]="progress"
   (close)="closeRequestPage()"
 >
 </favr-page-header>
 
 <ion-content>
-  <ion-progress-bar *ngIf="progress !== 0" [value]="progress"></ion-progress-bar>
   <ion-slides (ionSlideDidChange)="onSlideChange()">
     <ion-slide>
       <ion-toolbar class="search-categories-area">
@@ -23,6 +23,10 @@
 
     <ion-slide>
       <ckeditor tagName="textarea" (change)="onEditorChange($event)" [editor]="Editor" [config]="editorConfig"></ckeditor>
+      <ion-button *ngIf="taskRequest.description" (click)="slides.slideNext()" class="long-button">
+        Swipe or Tap to Continue
+        <ion-icon name="arrow-forward" slot="end"></ion-icon>
+      </ion-button>
     </ion-slide>
 
     <ion-slide>
@@ -33,6 +37,10 @@
         min="{{minYear}}"
         (value)="setDatetime($event)"
       ></favr-datetime>
+      <ion-button *ngIf="taskRequest.complete_before" (click)="slides.slideNext()" class="long-button">
+        Swipe or Tap to Continue
+        <ion-icon name="arrow-forward" slot="end"></ion-icon>
+      </ion-button>
     </ion-slide>
 
     <ion-slide>
@@ -66,6 +74,14 @@
         iconName="globe"
         (value)="setZip($event)"
       ></favr-input>
+      <ion-button *ngIf="taskRequest.locations[0].street_address
+                        && taskRequest.locations[0].city
+                        && taskRequest.locations[0].state
+                        && taskRequest.locations[0].zip"
+                  (click)="slides.slideNext()" class="long-button">
+        Swipe or Tap to Continue
+        <ion-icon name="arrow-forward" slot="end"></ion-icon>
+      </ion-button>
     </ion-slide>
 
     <ion-slide>
@@ -88,11 +104,16 @@
 
       <ion-button (click)="openPhotoGallery()" class="long-button">
         <ion-icon name="images" slot="start"></ion-icon>
-        Attach Photos
+        Attach Photos (Optional)
       </ion-button>
-      <ion-button class="long-button camera-button">
+      <ion-button (click)="openCamera()" class="long-button camera-button">
         <ion-icon name="camera" slot="start"></ion-icon>
-        Take Photo
+        Take Photo (Optional)
+      </ion-button>
+
+      <ion-button (click)="slides.slideNext()" class="long-button">
+        Swipe or Tap to Continue
+        <ion-icon name="arrow-forward" slot="end"></ion-icon>
       </ion-button>
     </ion-slide>
 
@@ -129,6 +150,10 @@
           </small>
         </ion-note>
       </div>
+      <ion-button *ngIf="taskRequest.intensity" (click)="slides.slideNext()" class="long-button">
+        Swipe or Tap to Continue
+        <ion-icon name="arrow-forward" slot="end"></ion-icon>
+      </ion-button>
     </ion-slide>
 
     <ion-slide>

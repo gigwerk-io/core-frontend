@@ -4,7 +4,7 @@
   </ion-label>
   <ion-select #select
              [(ngModel)]="selectValue"
-             (change)="setValue(selectValue)"
+             (ionChange)="setValue(selectValue)"
              (ionFocus)="onSelectFocus(select)"
              (ionBlur)="onSelectBlur(select)"
              [name]="selectName">

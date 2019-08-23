@@ -24,7 +24,11 @@ import { environment } from '../environments/environment';
     })
   ],
   declarations: [AppComponent],
-  providers: [InAppBrowser, SplashScreen, StatusBar],
+  providers: [
+    InAppBrowser,
+    SplashScreen,
+    StatusBar
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

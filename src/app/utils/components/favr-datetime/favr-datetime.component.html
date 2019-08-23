@@ -4,7 +4,7 @@
   </ion-label>
   <ion-datetime #dateTime
                 [(ngModel)]="dateTimeValue"
-                (change)="setValue(dateTimeValue)"
+                (ionChange)="setValue(dateTimeValue)"
                 (ionFocus)="onDateTimeFocus(dateTime)"
                 (ionBlur)="onDateTimeBlur(dateTime)"
                 [name]="dateTimeName"

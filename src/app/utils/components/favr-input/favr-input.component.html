@@ -4,7 +4,7 @@
   </ion-label>
   <ion-input #input
              [(ngModel)]="inputValue"
-             (change)="setValue(inputValue)"
+             (ionChange)="setValue(inputValue)"
              (ionFocus)="onInputFocus(input)"
              (ionBlur)="onInputBlur(input)"
              [type]="inputType"

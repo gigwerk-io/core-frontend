@@ -30,6 +30,7 @@ export class FavrDatetimeComponent implements OnInit {
   }
 
   setValue(val: any) {
+    console.log(val);
     this.value.emit(val);
   }
 }

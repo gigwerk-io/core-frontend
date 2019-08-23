@@ -30,8 +30,8 @@ export class FavrMarketplaceCardComponent implements OnInit {
     const modal = await this.modalCtrl.create({
       component: MarketplaceDetailPage,
       componentProps: {'mainMarketplaceTask' : this.mainMarketplaceTask},
-      enterAnimation: popInAnimation,
-      leaveAnimation: popOutAnimation
+      // enterAnimation: popInAnimation,
+      // leaveAnimation: popOutAnimation
     });
     return await modal.present();
   }

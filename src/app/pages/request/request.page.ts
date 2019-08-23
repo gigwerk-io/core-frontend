@@ -8,13 +8,12 @@ import {MainMarketplaceTask} from '../../utils/interfaces/main-marketplace/main-
 import {State} from '../../utils/interfaces/locations/state';
 import {STATES} from '../../utils/mocks/states.mock';
 import {ImagePicker, ImagePickerOptions} from '@ionic-native/image-picker/ngx';
-import {PhotoViewer} from '@ionic-native/photo-viewer/ngx';
+import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
 
 @Component({
   selector: 'request',
   templateUrl: './request.page.html',
-  styleUrls: ['./request.page.scss'],
-  providers: [PhotoViewer]
+  styleUrls: ['./request.page.scss']
 })
 export class RequestPage implements OnInit {
   @Input() isModal = false;
@@ -61,11 +60,11 @@ export class RequestPage implements OnInit {
   categories: MainCategory[] = TASK_CATEGORIES;
   pageTitle = 'Request';
   states: State[] = STATES;
-  progress: number = 0;
+  progress = 0;
 
   constructor(private modalCtrl: ModalController,
               private imagePicker: ImagePicker,
-              private photoViewer: PhotoViewer) { }
+              private camera: Camera) { }
 
   ngOnInit() {
   }
@@ -210,5 +209,24 @@ export class RequestPage implements OnInit {
         this.taskRequest.image_three = undefined;
         break;
     }
+  }
+
+  openCamera() {
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE
+    };
+
+    this.camera.getPicture(options).then((imageData) => {
+      // imageData is either a base64 encoded string or a file URI
+      // If it's base64 (DATA_URL):
+      const base64Image = 'data:image/jpeg;base64,' + imageData;
+      console.log(base64Image);
+    }, (err) => {
+      // Handle error
+      console.log('Error something went wrong with camera.');
+    });
   }
 }
