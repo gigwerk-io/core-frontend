@@ -13,16 +13,32 @@ import {RequestPage} from '../request/request.page';
 export class MarketplacePage implements OnInit {
 
   requests: MainMarketplaceTask[];
+  filterInputs: any;
+  filterDefault = 'all';
 
   constructor(private marketplaceService: MarketplaceService,
               private modalCtrl: ModalController) { }
 
   ngOnInit() {
     this.getRequests();
+    this.filterInputs = [
+      {
+        type: 'radio',
+        label: 'All',
+        value: 'all',
+        checked: true
+      },
+      {
+        type: 'radio',
+        label: 'Just Me',
+        value: 'me',
+        checked: false
+      }
+    ];
   }
 
   getRequests(): void {
-    this.marketplaceService.getMainMarketplaceRequests()
+    this.marketplaceService.getMainMarketplaceRequests(this.filterDefault)
       .subscribe(requests => this.requests = requests);
   }
 
@@ -41,5 +57,10 @@ export class MarketplacePage implements OnInit {
       console.log('Async operation has ended');
       event.target.complete();
     }, 2000);
+  }
+
+  setFilterOption(option: string) {
+    this.filterDefault = option;
+    this.getRequests();
   }
 }

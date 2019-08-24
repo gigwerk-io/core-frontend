@@ -9,6 +9,7 @@ import {State} from '../../utils/interfaces/locations/state';
 import {STATES} from '../../utils/mocks/states.mock';
 import {ImagePicker, ImagePickerOptions} from '@ionic-native/image-picker/ngx';
 import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
+import {MarketplaceService} from '../../utils/services/marketplace.service';
 
 @Component({
   selector: 'request',
@@ -42,7 +43,6 @@ export class RequestPage implements OnInit {
 
   imagesURI: any[];
 
-  public Editor = ClassicEditor;
   editorConfig = {
     placeholder: 'Describe your task here.',
     toolbar: [
@@ -56,6 +56,7 @@ export class RequestPage implements OnInit {
       'blockQuote'
     ]
   };
+  Editor = ClassicEditor;
 
   categories: MainCategory[] = TASK_CATEGORIES;
   pageTitle = 'Request';
@@ -64,7 +65,8 @@ export class RequestPage implements OnInit {
 
   constructor(private modalCtrl: ModalController,
               private imagePicker: ImagePicker,
-              private camera: Camera) { }
+              private camera: Camera,
+              private marketplaceService: MarketplaceService) { }
 
   ngOnInit() {
   }
@@ -228,5 +230,12 @@ export class RequestPage implements OnInit {
       // Handle error
       console.log('Error something went wrong with camera.');
     });
+  }
+
+  onSubmitTaskRequest() {
+    this.marketplaceService.createMainMarketplaceRequest(this.taskRequest)
+      .then(() => {
+        this.closeRequestPage();
+      });
   }
 }
