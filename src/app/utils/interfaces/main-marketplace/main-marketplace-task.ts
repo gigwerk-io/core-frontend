@@ -1,6 +1,6 @@
 import {User} from '../user';
 import {MainProposals} from './main-proposals';
-import {Location} from '../location';
+import {Location} from '../locations/location';
 
 export interface MainMarketplaceTask {
   id?: number;

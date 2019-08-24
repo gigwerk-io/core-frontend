@@ -1,5 +1,7 @@
+// @ts-ignore
 import {MainMarketplaceTask} from './main-marketplace/main-marketplace-task';
 import {MainProposals} from './main-marketplace/main-proposals';
+// @ts-ignore
 import {FriendMarketplaceTask} from './friend-marketplace/friend-marketplace-task';
 import {FriendProposals} from './friend-marketplace/friend-proposals';
 

@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+// @ts-ignore
 import {MainMarketplaceTask} from '../../interfaces/main-marketplace/main-marketplace-task';
 import {PhotoViewer} from '@ionic-native/photo-viewer/ngx';
 import {ModalController} from '@ionic/angular';
@@ -29,8 +30,8 @@ export class FavrMarketplaceCardComponent implements OnInit {
     const modal = await this.modalCtrl.create({
       component: MarketplaceDetailPage,
       componentProps: {'mainMarketplaceTask' : this.mainMarketplaceTask},
-      enterAnimation: popInAnimation,
-      leaveAnimation: popOutAnimation
+      // enterAnimation: popInAnimation,
+      // leaveAnimation: popOutAnimation
     });
     return await modal.present();
   }

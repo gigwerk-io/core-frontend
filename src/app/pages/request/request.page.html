@@ -1,31 +1,185 @@
 <favr-page-header
-  pageTitle="Request"
+  [pageTitle]="pageTitle"
   [isModal]="isModal"
   [showProfile]="!isModal"
+  [progress]="progress"
   (close)="closeRequestPage()"
 >
 </favr-page-header>
 
 <ion-content>
-  <ion-slides>
-    <ion-slide>
-      <ion-toolbar class="search-categories-area">
-        <form action=".">
+  <form action="." (ngSubmit)="onSubmitTaskRequest()" method="post">
+    <ion-slides (ionSlideDidChange)="onSlideChange()">
+      <ion-slide>
+        <ion-toolbar class="search-categories-area">
           <ion-searchbar placeholder="Search categories..." class="search-categories"></ion-searchbar>
-        </form>
-      </ion-toolbar>
-      <favr-category-card-buttons
-        [categories]="categories"
-        (selectedCategory)="selectCategory($event)"
-      ></favr-category-card-buttons>
-    </ion-slide>
+        </ion-toolbar>
+        <favr-category-card-buttons
+          [categories]="categories"
+          (selectedCategory)="selectCategory($event)"
+        ></favr-category-card-buttons>
+      </ion-slide>
 
-    <ion-slide>
-      <ion-toolbar>
-        <ion-title>
-          Describe Task
-        </ion-title>
-      </ion-toolbar>
-    </ion-slide>
-  </ion-slides>
+      <ion-slide>
+        <ckeditor tagName="textarea" (change)="onEditorChange($event)" [editor]="Editor" [config]="editorConfig"></ckeditor>
+        <ion-button *ngIf="taskRequest.description" (click)="slides.slideNext()" class="long-button">
+          Swipe or Tap to Continue
+          <ion-icon name="arrow-forward" slot="end"></ion-icon>
+        </ion-button>
+      </ion-slide>
+
+      <ion-slide>
+        <favr-datetime
+          dateTimeLabel="Complete Task By"
+          dateTimeName="datetime"
+          max="{{maxYear}}"
+          min="{{minYear}}"
+          (value)="setDatetime($event)"
+        ></favr-datetime>
+        <ion-button *ngIf="taskRequest.complete_before" (click)="slides.slideNext()" class="long-button">
+          Swipe or Tap to Continue
+          <ion-icon name="arrow-forward" slot="end"></ion-icon>
+        </ion-button>
+      </ion-slide>
+
+      <ion-slide>
+        <favr-input
+          inputName="street_address"
+          inputType="text"
+          inputLabel="Enter Street Address"
+          iconName="pin"
+          autocorrect="true"
+          (value)="setStreetAddress($event)"
+        ></favr-input>
+        <favr-input
+          inputName="city"
+          inputType="text"
+          inputLabel="Enter City"
+          iconName="business"
+          autocorrect="true"
+          (value)="setCity($event)"
+        ></favr-input>
+        <favr-select
+          selectName="state"
+          selectLabel="Select State"
+          (value)="setState($event)"
+        >
+          <ion-select-option *ngFor="let state of states" value="{{state.abbrev}}">{{state.name}}</ion-select-option>
+        </favr-select>
+        <favr-input
+          inputName="zip"
+          inputType="tel"
+          inputLabel="Enter Zip"
+          iconName="globe"
+          (value)="setZip($event)"
+        ></favr-input>
+        <ion-button *ngIf="taskRequest.locations[0].street_address
+                        && taskRequest.locations[0].city
+                        && taskRequest.locations[0].state
+                        && taskRequest.locations[0].zip"
+                    (click)="slides.slideNext()" class="long-button">
+          Swipe or Tap to Continue
+          <ion-icon name="arrow-forward" slot="end"></ion-icon>
+        </ion-button>
+      </ion-slide>
+
+      <ion-slide>
+        <ion-slides [pager]="true" *ngIf="taskRequest.image_one || taskRequest.image_two || taskRequest.image_three" class="photo-gallery">
+          <ion-slide *ngIf="taskRequest.image_one" class="marketplace-slide-image">
+            <img src="data:image/jpeg;base64,{{taskRequest.image_one}}" alt="Attached Image 1">
+            <ion-icon (click)="removeImage(0)" name="close-circle" color="primary" class="remove-attached-image-button"></ion-icon>
+          </ion-slide>
+
+          <ion-slide *ngIf="taskRequest.image_two" class="marketplace-slide-image">
+            <img src="data:image/jpeg;base64,{{taskRequest.image_two}}" alt="Attached Image 2">
+            <ion-icon (click)="removeImage(1)" name="close-circle" color="primary" class="remove-attached-image-button"></ion-icon>
+          </ion-slide>
+
+          <ion-slide *ngIf="taskRequest.image_three" class="marketplace-slide-image">
+            <img src="data:image/jpeg;base64,{{taskRequest.image_three}}" alt="Attached Image 3">
+            <ion-icon (click)="removeImage(2)" name="close-circle" color="primary" class="remove-attached-image-button"></ion-icon>
+          </ion-slide>
+        </ion-slides>
+
+        <ion-button (click)="openPhotoGallery()" class="long-button">
+          <ion-icon name="images" slot="start"></ion-icon>
+          Attach Photos (Optional)
+        </ion-button>
+        <ion-button (click)="openCamera()" class="long-button camera-button">
+          <ion-icon name="camera" slot="start"></ion-icon>
+          Take Photo (Optional)
+        </ion-button>
+
+        <ion-button (click)="slides.slideNext()" class="long-button">
+          Swipe or Tap to Continue
+          <ion-icon name="arrow-forward" slot="end"></ion-icon>
+        </ion-button>
+      </ion-slide>
+
+      <ion-slide>
+        <ul>
+          <li><b>Easy</b> tasks take 1 hour or less to complete.</li>
+          <li><b>Medium</b> tasks take about 2 - 3 hours to complete.</li>
+          <li><b>Hard</b> tasks take more than 3 hours to complete.</li>
+        </ul>
+        <div text-center>
+          <ion-button color="success"
+                      [ngClass]="(taskRequest.intensity && taskRequest.intensity != 'Easy') ? 'inactive' : ''"
+                      (click)="setDifficulty('Easy')"
+          >
+            Easy 👌
+          </ion-button>
+          <ion-button color="warning"
+                      [ngClass]="(taskRequest.intensity && taskRequest.intensity != 'Medium') ? 'inactive' : ''"
+                      (click)="setDifficulty('Medium')"
+          >
+            Medium 💪🏿
+          </ion-button>
+          <ion-button color="danger"
+                      [ngClass]="(taskRequest.intensity && taskRequest.intensity != 'Hard') ? 'inactive' : ''"
+                      (click)="setDifficulty('Hard')"
+          >
+            Hard 🔥
+          </ion-button>
+        </div>
+        <div text-center>
+          <ion-note>
+            <small>
+              <b>Note:</b> you must pay your worker the local minimum wage
+            </small>
+          </ion-note>
+        </div>
+        <ion-button *ngIf="taskRequest.intensity" (click)="slides.slideNext()" class="long-button">
+          Swipe or Tap to Continue
+          <ion-icon name="arrow-forward" slot="end"></ion-icon>
+        </ion-button>
+      </ion-slide>
+
+      <ion-slide>
+        <favr-input
+          inputName="price"
+          inputType="tel"
+          inputLabel="Set your price"
+          iconName="logo-usd"
+          step="0.01"
+          min="5.00"
+          max="1999.99"
+          pattern="[0-9]*"
+          (value)="setPrice($event)"
+        ></favr-input>
+
+        <h4 text-center>You will pay</h4>
+        <div class="price-proposal">
+          <h1>
+            {{((taskRequest.price) ? taskRequest.price : 0) | currency:'USD'}}
+          </h1>
+        </div>
+
+        <ion-button type="submit" class="long-button">
+          Submit
+        </ion-button>
+      </ion-slide>
+
+    </ion-slides>
+  </form>
 </ion-content>

@@ -1,6 +1,9 @@
 <favr-page-header
   pageTitle="Marketplace"
   [showSearchBar]="true"
+  [filterInputs]="filterInputs"
+  [filterDefault]="filterDefault"
+  (filterOption)="setFilterOption($event)"
 >
 </favr-page-header>
 

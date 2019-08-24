@@ -11,6 +11,7 @@ export class FavrPageHeaderComponent implements OnInit {
   @Input() showSearchBar = false;
   @Input() isModal = false;
   @Input() showProfile = true;
+  @Input() progress: number;
 
   @Output() close: EventEmitter<boolean> = new EventEmitter();
 

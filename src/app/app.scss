@@ -12,6 +12,10 @@ ion-searchbar {
   border-bottom: none;
 }
 
+ion-searchbar.ios {
+  height: 48px;
+}
+
 .marketplace-card-distance-away {
   padding-bottom: 1em;
 }
@@ -20,7 +24,7 @@ ion-searchbar {
   width: -webkit-fill-available;
   text-align: right;
   color: green;
-  font-size: 20px;
+  font-size: 15px;
   z-index: 999;
   font-weight: 700;
   .marketplace-card-price-tag {
@@ -30,4 +34,16 @@ ion-searchbar {
     text-shadow: 2px 3px 3px rgba(0, 0, 0, 0.12);
     z-index: 999;
   }
+}
+
+.marketplace-slide-image {
+  max-height: 200px;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+.long-button {
+  width: 100%;
+  padding-left: 1em;
+  padding-right: 1em;
 }

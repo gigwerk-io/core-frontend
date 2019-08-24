@@ -39,7 +39,7 @@
       <div slot="end">
         <div class="marketplace-card-price-area">
           <div class="marketplace-card-price-tag">
-            ${{mainMarketplaceTask.price}}
+            {{mainMarketplaceTask.price | currency:'USD'}}
           </div>
         </div>
       </div>
