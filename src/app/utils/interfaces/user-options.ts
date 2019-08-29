@@ -16,3 +16,9 @@ export interface UserRegistrationOptions {
   confirm_password: string;
   freelancer?: boolean;
 }
+
+export interface AuthorizationToken {
+  headers: {
+    Authorization: string;
+  };
+}

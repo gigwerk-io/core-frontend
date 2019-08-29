@@ -28,22 +28,22 @@ ion-datetime.icon {
   padding-inline-start: 30px!important;
 }
 
-ion-icon {
-  margin-left: calc(50% - 60px);
-  left: 8px;
-  top: 0;
-  position: absolute;
-  width: 16px;
-  height: 95%;
-  contain: strict;
-  -webkit-margin-start: 0;
-  margin-inline-start: 0;
-  pointer-events: none;
-}
 
 .datetime-item {
   --inner-border-width: 0;
   --inner-padding-end: 16px;
+  ion-icon {
+    margin-left: calc(50% - 60px);
+    left: 8px;
+    top: 0;
+    position: absolute;
+    width: 16px;
+    height: 95%;
+    contain: strict;
+    -webkit-margin-start: 0;
+    margin-inline-start: 0;
+    pointer-events: none;
+  }
   ion-label {
     z-index: 999;
   }

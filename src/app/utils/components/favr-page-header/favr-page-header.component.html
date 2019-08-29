@@ -8,8 +8,7 @@
     <ion-title hidden>{{pageTitle}}</ion-title>
   </ion-toolbar>
 
-  <ion-toolbar *ngIf="pageTitle === 'Login'
-                      || pageTitle === 'Sign Up'"
+  <ion-toolbar *ngIf="showBackButton"
                class="mobile-only">
     <ion-buttons slot="start">
       <ion-back-button defaultHref></ion-back-button>
@@ -23,9 +22,9 @@
       </ion-col>
       <ion-col>
         <ion-buttons class="page-header-buttons">
-          <ion-button *ngIf="showProfile">
+          <ion-button *ngIf="showProfile" [routerLink]="'/app/tabs/profile'" routerDirection="forward">
             <ion-avatar class="page-title-header-profile">
-              <img [src]="'http://localhost:8100/assets/img/speakers/bear.jpg'" alt="profile picture">
+              <img [src]="profileImage ? profileImage : '../../../../assets/img/user.png'" alt="profile picture">
             </ion-avatar>
           </ion-button>
           <ion-button (click)="presentFilterOptions()" *ngIf="pageTitle == 'Marketplace'">

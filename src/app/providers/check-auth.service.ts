@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
-import { Location } from '@angular/common';
 import { Storage } from '@ionic/storage';
 import {StorageConsts} from './constants';
 @Injectable({
@@ -8,14 +7,12 @@ import {StorageConsts} from './constants';
 })
 export class CheckAuth implements CanActivate {
   constructor(private storage: Storage,
-              private router: Router,
-              private location: Location) {}
+              private router: Router) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Promise<boolean> {
-    console.log(state.url);
     return this.storage.get(StorageConsts.ACCESS_TOKEN)
       .then(token => {
         if (token) {

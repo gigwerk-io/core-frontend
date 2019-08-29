@@ -34,6 +34,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/welcome/welcome.module').then(m => m.WelcomePageModule),
     canActivate: [CheckAuth]
   },
+  {
+    path: '**',
+    redirectTo: '/tutorial'
+  }
   // {
   //   path: 'select-city',
   //   loadChildren: () => import('./pages/select-city/select-city.module').then(m => m.SelectCityPageModule)

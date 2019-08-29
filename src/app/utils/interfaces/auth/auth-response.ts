@@ -12,3 +12,7 @@ export interface AuthResponse {
   };
   token?: string;
 }
+
+export interface SignOutResponse {
+  message?: string;
+}

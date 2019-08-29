@@ -1,5 +1,7 @@
 import {Component, EventEmitter, Input, Output, OnInit} from '@angular/core';
 import {AlertController} from '@ionic/angular';
+import {Storage} from '@ionic/storage';
+import {StorageConsts} from '../../../providers/constants';
 
 @Component({
   selector: 'favr-page-header',
@@ -12,6 +14,7 @@ export class FavrPageHeaderComponent implements OnInit {
   @Input() showSearchBar = false;
   @Input() isModal = false;
   @Input() showProfile = true;
+  @Input() showBackButton = false;
   @Input() progress: number;
   @Input() filterDefault: string;
   @Input() filterInputs: any[];
@@ -19,9 +22,15 @@ export class FavrPageHeaderComponent implements OnInit {
   @Output() close: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() filterOption: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor(private alertCtrl: AlertController) { }
+  profileImage: string;
 
-  ngOnInit() {}
+  constructor(private alertCtrl: AlertController,
+              private storage: Storage) { }
+
+  ngOnInit() {
+    this.storage.get(StorageConsts.PROFILE)
+      .then(profile => this.profileImage = profile.image);
+  }
 
   closePage(): void {
     if (this.isModal) {
