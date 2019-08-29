@@ -5,9 +5,11 @@ import { IonicModule } from '@ionic/angular';
 
 import { SignupPage } from './signup';
 import { SignupPageRoutingModule } from './signup-routing.module';
+import {CommonComponentsModule} from '../../utils/components/common-components.module';
 
 @NgModule({
   imports: [
+    CommonComponentsModule,
     CommonModule,
     FormsModule,
     IonicModule,

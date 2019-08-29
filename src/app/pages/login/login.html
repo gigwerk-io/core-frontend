@@ -1,17 +1,10 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-
-    <ion-title>Login</ion-title>
-  </ion-toolbar>
-</ion-header>
+<favr-page-header
+  pageTitle="Login"
+  [showProfile]="false"
+  [showBackButton]="true"
+></favr-page-header>
 
 <ion-content>
-  <div class="login-logo">
-    <img src="assets/img/appicon.svg" alt="Ionic logo">
-  </div>
 
   <form #loginForm="ngForm" novalidate>
     <ion-list>
@@ -41,14 +34,21 @@
       </ion-text>
     </ion-list>
 
-    <ion-row>
-      <ion-col>
-        <ion-button (click)="onLogin(loginForm)" type="submit" expand="block">Login</ion-button>
-      </ion-col>
-      <ion-col>
-        <ion-button (click)="onSignup()" color="light" expand="block">Signup</ion-button>
-      </ion-col>
-    </ion-row>
+    <ion-button (click)="onLogin(loginForm)" type="submit" class="long-button" expand="block">Login</ion-button>
   </form>
+
+  <!--<form #loginForm='ngForm'>-->
+    <!--<favr-input-->
+      <!--inputName="username"-->
+      <!--inputLabel="Username"-->
+      <!--inputType="text"-->
+    <!--&gt;</favr-input>-->
+    <!--<favr-input-->
+      <!--inputName="password"-->
+      <!--inputLabel="Password"-->
+      <!--inputType="password"-->
+    <!--&gt;</favr-input>-->
+    <!--<ion-button (click)="onLogin(loginForm)" type="submit" class="long-button">Login</ion-button>-->
+  <!--</form>-->
 
 </ion-content>

@@ -1,12 +1,10 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { UserData } from '../../providers/user-data';
-
 import { UserOptions } from '../../utils/interfaces/user-options';
-
-
+import {AuthService} from '../../utils/services/auth.service';
+import {NavController} from '@ionic/angular';
 
 @Component({
   selector: 'page-login',
@@ -18,20 +16,19 @@ export class LoginPage {
   submitted = false;
 
   constructor(
-    public userData: UserData,
-    public router: Router
+    private authService: AuthService,
+    public navCtrl: NavController
   ) { }
 
   onLogin(form: NgForm) {
     this.submitted = true;
 
     if (form.valid) {
-      this.userData.login(this.login.username);
-      this.router.navigateByUrl('/app/tabs/schedule');
+      this.authService.login(this.login)
+        .subscribe(res => {
+          console.log(res);
+          this.navCtrl.navigateRoot('/app/tabs/marketplace');
+        });
     }
-  }
-
-  onSignup() {
-    this.router.navigateByUrl('/signup');
   }
 }

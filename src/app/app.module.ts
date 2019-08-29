@@ -11,11 +11,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import {AuthModule} from './auth/auth.module';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   imports: [
-    BrowserModule,
+    AuthModule,
     AppRoutingModule,
+    BrowserModule,
+    FormsModule,
     HttpClientModule,
     IonicModule.forRoot(),
     IonicStorageModule.forRoot(),

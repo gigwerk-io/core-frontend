@@ -1,11 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Routes, RouterModule } from '@angular/router';
+
 import { IonicModule } from '@ionic/angular';
 
-import { LoginPage } from './login';
-import { LoginPageRoutingModule } from './login-routing.module';
+import { ProfilePage } from './profile.page';
 import {CommonComponentsModule} from '../../utils/components/common-components.module';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: ProfilePage
+  }
+];
 
 @NgModule({
   imports: [
@@ -13,10 +21,8 @@ import {CommonComponentsModule} from '../../utils/components/common-components.m
     CommonModule,
     FormsModule,
     IonicModule,
-    LoginPageRoutingModule
+    RouterModule.forChild(routes)
   ],
-  declarations: [
-    LoginPage,
-  ]
+  declarations: [ProfilePage]
 })
-export class LoginModule { }
+export class ProfilePageModule {}

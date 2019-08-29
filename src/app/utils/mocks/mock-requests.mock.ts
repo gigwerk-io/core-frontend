@@ -4,7 +4,7 @@ import {MainMarketplaceTask} from '../interfaces/main-marketplace/main-marketpla
 export const MAIN_MARKETPLACE_REQS: MainMarketplaceTask[] = [
   {
     id: 4,
-    customer_id: 3,
+    customer_id: 1,
     freelancer_accepted: 0,
     freelancer_count: 1,
     sub_category_id: 1,
@@ -13,18 +13,18 @@ export const MAIN_MARKETPLACE_REQS: MainMarketplaceTask[] = [
     status: 'Requested',
     intensity: 'Medium',
     complete_before: 100,
-    image_one: 'http://localhost:8100/assets/img/speakers/bear.jpg',
-    image_two: 'http://localhost:8100/assets/img/speakers/duck.jpg',
+    image_one: '',
+    image_two: '',
     image_three: '',
     created_at: 100,
     updated_at: 100,
     deleted_at: null,
     customer: {
-      id: 3,
-      username: 'solomon_10',
+      id: 1,
+      username: 'haron68',
       role: 'Customer',
-      first_name: 'Solomon',
-      last_name: 'Antoine',
+      first_name: 'Haron',
+      last_name: 'Arama',
       email: 'contact@icodestuff.io',
       phone: 0,
       twilio_phone: 0,
@@ -52,7 +52,8 @@ export const MAIN_MARKETPLACE_REQS: MainMarketplaceTask[] = [
       zip: 55901,
       lat: 44.0446131,
       long: -92.48416069999999
-    }]
+    }],
+    proposals: []
   },
   {
     id: 5,
@@ -104,7 +105,13 @@ export const MAIN_MARKETPLACE_REQS: MainMarketplaceTask[] = [
       zip: 55901,
       lat: 44.0446131,
       long: -92.48416069999999
-    }]
+    }],
+    proposals: [
+      {
+        marketplace_id: 5,
+        user_id: 1,
+      }
+    ]
   },
   {
     id: 6,
@@ -156,7 +163,8 @@ export const MAIN_MARKETPLACE_REQS: MainMarketplaceTask[] = [
       zip: 55901,
       lat: 44.0446131,
       long: -92.48416069999999
-    }]
+    }],
+    proposals: []
   },
   {
     id: 7,
@@ -208,7 +216,8 @@ export const MAIN_MARKETPLACE_REQS: MainMarketplaceTask[] = [
       zip: 55901,
       lat: 44.0446131,
       long: -92.48416069999999
-    }]
+    }],
+    proposals: []
   },
   {
     id: 8,
@@ -260,7 +269,8 @@ export const MAIN_MARKETPLACE_REQS: MainMarketplaceTask[] = [
       zip: 55901,
       lat: 44.0446131,
       long: -92.48416069999999
-    }]
+    }],
+    proposals: []
   },
   {
     id: 9,
@@ -312,7 +322,8 @@ export const MAIN_MARKETPLACE_REQS: MainMarketplaceTask[] = [
       zip: 55901,
       lat: 44.0446131,
       long: -92.48416069999999
-    }]
+    }],
+    proposals: []
   },
   {
     id: 10,
@@ -364,7 +375,8 @@ export const MAIN_MARKETPLACE_REQS: MainMarketplaceTask[] = [
       zip: 55901,
       lat: 44.0446131,
       long: -92.48416069999999
-    }]
+    }],
+    proposals: []
   },
   {
     id: 11,
@@ -377,8 +389,8 @@ export const MAIN_MARKETPLACE_REQS: MainMarketplaceTask[] = [
     status: 'Requested',
     intensity: 'Medium',
     complete_before: 100,
-    image_one: '',
-    image_two: '',
+    image_one: 'http://localhost:8100/assets/img/speakers/bear.jpg',
+    image_two: 'http://localhost:8100/assets/img/speakers/duck.jpg',
     image_three: '',
     created_at: 100,
     updated_at: 100,
@@ -416,6 +428,7 @@ export const MAIN_MARKETPLACE_REQS: MainMarketplaceTask[] = [
       zip: 55901,
       lat: 44.0446131,
       long: -92.48416069999999
-    }]
+    }],
+    proposals: []
   }
   ];

@@ -8,6 +8,11 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
+        path: '',
+        redirectTo: '/app/tabs/marketplace',
+        pathMatch: 'full'
+      },
+      {
         path: 'marketplace',
         children: [
           {
@@ -53,9 +58,8 @@ const routes: Routes = [
         ]
       },
       {
-        path: '',
-        redirectTo: '/app/tabs/marketplace',
-        pathMatch: 'full'
+        path: 'profile',
+        loadChildren: () => import('../profile/profile.module').then(m => m.ProfilePageModule)
       }
     ]
   }

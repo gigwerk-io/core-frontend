@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { MenuController, IonSlides } from '@ionic/angular';
 
 import { Storage } from '@ionic/storage';
+import {AuthService} from '../../utils/services/auth.service';
 
 @Component({
   selector: 'page-tutorial',
@@ -17,14 +18,23 @@ export class TutorialPage {
 
   constructor(
     public menu: MenuController,
+    public  authService: AuthService,
     public router: Router,
     public storage: Storage
   ) {}
 
   startApp() {
-    this.router
-      .navigateByUrl('/app/tabs/marketplace')
-      .then(() => this.storage.set('ion_did_tutorial', true));
+    this.authService.isLoggedIn().subscribe(loggedIn => {
+      if (loggedIn) {
+        this.router
+          .navigateByUrl('/app/tabs/marketplace')
+          .then(() => this.storage.set('ion_did_tutorial', true));
+      } else {
+        this.router
+          .navigateByUrl('/welcome')
+          .then(() => this.storage.set('ion_did_tutorial', true));
+      }
+    });
   }
 
   onSlideChangeStart(event) {
@@ -36,7 +46,13 @@ export class TutorialPage {
   ionViewWillEnter() {
     this.storage.get('ion_did_tutorial').then(res => {
       if (res === true) {
-        this.router.navigateByUrl('/app/tabs/marketplace');
+        this.authService.isLoggedIn().subscribe(loggedIn => {
+          if (loggedIn) {
+            this.router.navigateByUrl('/app/tabs/marketplace');
+          } else {
+            this.router.navigateByUrl('/welcome');
+          }
+        });
       }
     });
 
