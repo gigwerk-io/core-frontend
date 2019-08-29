@@ -17,12 +17,12 @@
 
   <ion-toolbar class="search-area">
     <ion-row class="page-title-header">
-      <ion-col class="page-title-area">
+      <ion-col *ngIf="pageTitle" class="page-title-area">
         <h1 class="page-title">{{pageTitle}}</h1>
       </ion-col>
       <ion-col>
         <ion-buttons class="page-header-buttons">
-          <ion-button *ngIf="showProfile" [routerLink]="'/app/tabs/profile'" routerDirection="forward">
+          <ion-button *ngIf="showProfile" [routerLink]="['/app/profile', profileId]" routerDirection="forward">
             <ion-avatar class="page-title-header-profile">
               <img [src]="profileImage ? profileImage : '../../../../assets/img/user.png'" alt="profile picture">
             </ion-avatar>
