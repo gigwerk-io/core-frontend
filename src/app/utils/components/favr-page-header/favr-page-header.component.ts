@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, Output, OnInit} from '@angular/core';
+import {AlertController} from '@ionic/angular';
 
 @Component({
   selector: 'favr-page-header',
@@ -12,10 +13,13 @@ export class FavrPageHeaderComponent implements OnInit {
   @Input() isModal = false;
   @Input() showProfile = true;
   @Input() progress: number;
+  @Input() filterDefault: string;
+  @Input() filterInputs: any[];
 
-  @Output() close: EventEmitter<boolean> = new EventEmitter();
+  @Output() close: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() filterOption: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor() { }
+  constructor(private alertCtrl: AlertController) { }
 
   ngOnInit() {}
 
@@ -28,6 +32,30 @@ export class FavrPageHeaderComponent implements OnInit {
   }
 
   async presentFilterOptions() {
-    return;
+    this.filterInputs.forEach(input => {
+      input.checked = this.filterDefault === input.value;
+    });
+
+    const alertFilter = await this.alertCtrl.create(
+      {
+        header: 'Filter Marketplace',
+        inputs: [...this.filterInputs],
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            cssClass: 'secondary',
+            handler: () => {}
+          }, {
+            text: 'Ok',
+            handler: (filterOption) => {
+              this.filterDefault = filterOption;
+              this.filterOption.emit(filterOption);
+            }
+          }
+        ]
+      });
+
+    await alertFilter.present();
   }
 }

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Events } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
+import {USERS} from '../utils/mocks/mock-users.mock';
+import {Observable, of} from 'rxjs';
 
 
 @Injectable({
@@ -15,6 +17,10 @@ export class UserData {
     public events: Events,
     public storage: Storage
   ) { }
+
+  get userID(): number {
+    return USERS[0].id;
+  }
 
   hasFavorite(sessionName: string): boolean {
     return (this._favorites.indexOf(sessionName) > -1);
@@ -31,28 +37,6 @@ export class UserData {
     }
   }
 
-  login(username: string): Promise<any> {
-    return this.storage.set(this.HAS_LOGGED_IN, true).then(() => {
-      this.setUsername(username);
-      return this.events.publish('user:login');
-    });
-  }
-
-  signup(username: string): Promise<any> {
-    return this.storage.set(this.HAS_LOGGED_IN, true).then(() => {
-      this.setUsername(username);
-      return this.events.publish('user:signup');
-    });
-  }
-
-  logout(): Promise<any> {
-    return this.storage.remove(this.HAS_LOGGED_IN).then(() => {
-      return this.storage.remove('username');
-    }).then(() => {
-      this.events.publish('user:logout');
-    });
-  }
-
   setUsername(username: string): Promise<any> {
     return this.storage.set('username', username);
   }
@@ -60,12 +44,6 @@ export class UserData {
   getUsername(): Promise<string> {
     return this.storage.get('username').then((value) => {
       return value;
-    });
-  }
-
-  isLoggedIn(): Promise<boolean> {
-    return this.storage.get(this.HAS_LOGGED_IN).then((value) => {
-      return value === true;
     });
   }
 
