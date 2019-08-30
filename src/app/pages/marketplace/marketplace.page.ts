@@ -37,8 +37,8 @@ export class MarketplacePage implements OnInit {
     ];
   }
 
-  getRequests(): void {
-    this.marketplaceService.getMainMarketplaceRequests(this.filterDefault)
+  getRequests(filter: string = this.filterDefault): void {
+    this.marketplaceService.getMainMarketplaceRequests(filter)
       .subscribe(requests => this.requests = requests);
   }
 
@@ -50,9 +50,9 @@ export class MarketplacePage implements OnInit {
     return await modal.present();
   }
 
-  doRefresh(event) {
+  async doRefresh(event) {
     console.log('Begin async operation');
-
+    await this.getRequests();
     setTimeout(() => {
       console.log('Async operation has ended');
       event.target.complete();
@@ -61,6 +61,6 @@ export class MarketplacePage implements OnInit {
 
   setFilterOption(option: string) {
     this.filterDefault = option;
-    this.getRequests();
+    this.getRequests(option);
   }
 }

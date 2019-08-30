@@ -10,6 +10,7 @@ import {STATES} from '../../utils/mocks/states.mock';
 import {ImagePicker, ImagePickerOptions} from '@ionic-native/image-picker/ngx';
 import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
 import {MarketplaceService} from '../../utils/services/marketplace.service';
+import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'request',
@@ -22,16 +23,15 @@ export class RequestPage implements OnInit {
   @ViewChild(IonContent, {static: false}) content: IonContent;
 
   taskRequest: MainMarketplaceTask = {
-    category_id: undefined,
-    complete_before: undefined,
     description: undefined,
+    freelancer_count: 1,
+    date: undefined,
+    street_address: undefined,
+    city: undefined,
+    state: undefined,
+    zip: undefined,
+    category_id: undefined,
     intensity: undefined,
-    locations: [{
-      street_address: undefined,
-      city: undefined,
-      state: undefined,
-      zip: undefined,
-    }],
     price: undefined,
     image_one: undefined,
     image_two: undefined,
@@ -41,8 +41,6 @@ export class RequestPage implements OnInit {
   minYear: number = (new Date()).getFullYear();
   maxYear: number = this.minYear + 1;
 
-  imagesURI: any[];
-
   editorConfig = {
     placeholder: 'Describe your task here.',
     toolbar: [
@@ -50,7 +48,6 @@ export class RequestPage implements OnInit {
       '|',
       'bold',
       'italic',
-      'link',
       'bulletedList',
       'numberedList',
       'blockQuote'
@@ -62,6 +59,7 @@ export class RequestPage implements OnInit {
   pageTitle = 'Request';
   states: State[] = STATES;
   progress = 0;
+  submitted = false;
 
   constructor(private modalCtrl: ModalController,
               private imagePicker: ImagePicker,
@@ -132,33 +130,40 @@ export class RequestPage implements OnInit {
     this.progress = 0.33;
   }
 
-  setDatetime(datetime: any) {
-    this.progress = 0.5;
-    this.taskRequest.complete_before = datetime;
+  setDatetime() {
+    if (this.taskRequest.date) {
+      this.progress = 0.5;
+    }
   }
 
-  setStreetAddress(streetAddress: any) {
-    this.progress = 0.54;
-    this.taskRequest.locations[0].street_address = streetAddress;
+  setStreetAddress() {
+    if (this.taskRequest.street_address) {
+      this.progress = 0.54;
+    }
   }
 
-  setCity(city: any) {
-    this.progress = 0.58;
-    this.taskRequest.locations[0].city = city;
+  setCity() {
+    if (this.taskRequest.city) {
+      this.progress = 0.58;
+    }
   }
 
-  setState(state: any) {
-    this.progress = 0.62;
-    this.taskRequest.locations[0].state = state;
+  setState() {
+    if (this.taskRequest.state) {
+      this.progress = 0.62;
+    }
   }
 
-  setZip(zip: any) {
-    this.progress = 0.66;
-    this.taskRequest.locations[0].zip = zip;
+  setZip() {
+    if (this.taskRequest.zip) {
+      this.progress = 0.66;
+    }
   }
 
   setImages() {
-    this.progress = 0.74;
+    if (this.taskRequest.image_one || this.taskRequest.image_two || this.taskRequest.image_three) {
+      this.progress = 0.74;
+    }
   }
 
   setDifficulty(intensity: string) {
@@ -169,9 +174,10 @@ export class RequestPage implements OnInit {
     }, 500);
   }
 
-  setPrice(price: any) {
-    this.progress = 1;
-    this.taskRequest.price = price;
+  setPrice() {
+    if (this.taskRequest.price) {
+      this.progress = 1;
+    }
   }
 
   openPhotoGallery() {
@@ -232,10 +238,15 @@ export class RequestPage implements OnInit {
     });
   }
 
-  onSubmitTaskRequest() {
-    this.marketplaceService.createMainMarketplaceRequest(this.taskRequest)
-      .then(() => {
-        this.closeRequestPage();
-      });
+  onSubmitTaskRequest(form: NgForm) {
+    this.submitted = true;
+
+    if (form.valid) {
+      this.marketplaceService.createMainMarketplaceRequest(this.taskRequest)
+        .then((res) => {
+          console.log(res);
+          this.closeRequestPage();
+        });
+    }
   }
 }

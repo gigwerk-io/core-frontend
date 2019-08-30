@@ -1,9 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ModalController, NavParams} from '@ionic/angular';
-// @ts-ignore
 import {MainMarketplaceTask} from '../../utils/interfaces/main-marketplace/main-marketplace-task';
 import {PhotoViewer} from '@ionic-native/photo-viewer/ngx';
 import * as $ from 'jquery';
+import {ActivatedRoute} from '@angular/router';
+import {MarketplaceService} from '../../utils/services/marketplace.service';
 
 @Component({
   selector: 'marketplace-detail',
@@ -13,7 +14,7 @@ import * as $ from 'jquery';
 })
 export class MarketplaceDetailPage implements OnInit {
 
-  @Input() mainMarketplaceTask: MainMarketplaceTask;
+  mainMarketplaceTask: MainMarketplaceTask;
 
   page = 'main';
   subPageDetail = MarketplaceDetailPage;
@@ -22,24 +23,25 @@ export class MarketplaceDetailPage implements OnInit {
 
   constructor(private modalCtrl: ModalController,
               private photoViewer: PhotoViewer,
-              private navParams: NavParams) { }
+              private activatedRoute: ActivatedRoute,
+              private marketplaceService: MarketplaceService) {
+    this.activatedRoute.paramMap.subscribe(data => {
+      const id: number = parseInt(data.get('id'), 10);
+      this.marketplaceService.getSingleMarketplaceRequest(id)
+        .subscribe(task => {
+          this.mainMarketplaceTask = task;
+          this.taskStatusDisplay = (this.mainMarketplaceTask.status === 'Paid') ? 'Freelancer En-Route' : this.mainMarketplaceTask.status;
+        });
+    });
+  }
 
   ngOnInit() {
-    this.page = this.navParams.get('page') || this.page;
     switch (this.page) {
       case 'main':
         break;
       case 'task-description':
-        const descriptionHTML = $('#descriptionButton').val();
-        this.taskDescriptionDetail = descriptionHTML;
         break;
     }
-
-    this.taskStatusDisplay = (this.mainMarketplaceTask.status === 'Paid') ? 'Freelancer En-Route' : this.mainMarketplaceTask.status;
-  }
-
-  async closeMarketplaceDetailPage(): Promise<boolean> {
-    return this.modalCtrl.dismiss();
   }
 
   private viewAttachedPhoto(url: string, photoTitle?: string): void {

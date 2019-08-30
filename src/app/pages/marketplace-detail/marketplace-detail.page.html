@@ -1,9 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button (click)="closeMarketplaceDetailPage()">
-        close
-      </ion-button>
+      <ion-back-button defaultHref></ion-back-button>
     </ion-buttons>
     <ion-title>Task Details</ion-title>
   </ion-toolbar>
@@ -11,16 +9,12 @@
 
 <ion-content>
   <ion-list *ngIf="page == 'task-description'">
-    <div id="taskDescription"></div>
-    <div style="display: none">
-      {{$('#taskDescription').html(taskDescriptionDetail)}}
-    </div>
   </ion-list>
 
-  <ion-list *ngIf="page == 'main'" >
+  <ion-list *ngIf="page == 'main' && mainMarketplaceTask" >
     <ion-slides [pager]="true">
       <ion-slide (click)="viewAttachedPhoto(mainMarketplaceTask.image_one, 'Image 1')" class="marketplace-slide-image" *ngIf="mainMarketplaceTask.image_one">
-        <img [src]="mainMarketplaceTask.image_one" alt="image one">
+        <img [src]="mainMarketplaceTask.image_one" (click)="viewAttachedPhoto(mainMarketplaceTask.image_one, 'Image 1')" alt="image one">
       </ion-slide>
 
       <ion-slide (click)="viewAttachedPhoto(mainMarketplaceTask.image_two, 'Image 2')" class="marketplace-slide-image" *ngIf="mainMarketplaceTask.image_two">
@@ -31,7 +25,7 @@
         <img [src]="mainMarketplaceTask.image_three" alt="image three">
       </ion-slide>
     </ion-slides>
-    <ion-item detail="false" lines="none" routerLink="/app/tabs/marketplaces/marketplace-details/{{mainMarketplaceTask.customer_id}}">
+    <ion-item detail="false" lines="none" routerLink="/app/profile/{{mainMarketplaceTask.customer.username}}">
       <ion-avatar slot="start">
         <img [src]="mainMarketplaceTask.customer.profile.image" alt="profile picture">
       </ion-avatar>
@@ -79,7 +73,7 @@
         <ion-col size="9">
           <b>Task Description</b>
           <br>
-          {{mainMarketplaceTask.description}}
+          <div id="taskDescription" [innerHTML]="mainMarketplaceTask.description"></div>
         </ion-col>
       </ion-row>
       <ion-row padding-bottom>
@@ -111,10 +105,15 @@
         <ion-col size="9">
           <b>Location:</b>
           <br>
-          {{mainMarketplaceTask.locations[0].street_address}},
-          {{mainMarketplaceTask.locations[0].city}},
-          {{mainMarketplaceTask.locations[0].state}},
-          {{mainMarketplaceTask.locations[0].zip}}
+          <div *ngIf="mainMarketplaceTask.locations; else timeAway">
+            {{mainMarketplaceTask.locations[0].street_address}},
+            {{mainMarketplaceTask.locations[0].city}},
+            {{mainMarketplaceTask.locations[0].state}},
+            {{mainMarketplaceTask.locations[0].zip}}
+          </div>
+          <ng-template #timeAway>
+            4 min away
+          </ng-template>
         </ion-col>
       </ion-row>
       <ion-row padding-bottom>

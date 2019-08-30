@@ -24,5 +24,19 @@ export interface MainMarketplaceTask {
   deleted_at?: number;
   proposals?: MainProposals[];
   customer?: User;
+  street_address?: string;
+  city?: string;
+  state?: string;
+  zip?: string;
+  date?: number;
   locations?: Location[];
+}
+
+export interface MainMarketplaceRouteResponse {
+  requests: MainMarketplaceTask[];
+}
+
+export interface MainMarketplaceRequestRouteResponse {
+  message: string;
+  id: number;
 }

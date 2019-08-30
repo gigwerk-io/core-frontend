@@ -18,6 +18,10 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: () => import('../marketplace/marketplace.module').then(m => m.MarketplacePageModule)
+          },
+          {
+            path: 'detail/:id',
+            loadChildren: () => import('../marketplace-detail/marketplace-detail.module').then(m => m.MarketplaceDetailPageModule)
           }
         ]
       },
@@ -40,15 +44,6 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'request',
-        children: [
-          {
-            path: '',
-            loadChildren: () =>  import('../request/request.module').then(m => m.RequestPageModule)
-          }
-        ]
-      },
-      {
         path: 'notifications',
         children: [
           {
@@ -60,7 +55,7 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'profile/:id',
+    path: 'profile/:username',
     loadChildren: () => import('../profile/profile.module').then(m => m.ProfilePageModule)
   }
 ];
