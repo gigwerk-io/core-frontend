@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-// @ts-ignore
 import {MainMarketplaceTask} from '../../utils/interfaces/main-marketplace/main-marketplace-task';
 import {MarketplaceService} from '../../utils/services/marketplace.service';
 import {ModalController} from '@ionic/angular';

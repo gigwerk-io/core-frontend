@@ -4,6 +4,35 @@
   [showProfile]="false"
 ></favr-page-header>
 
-<ion-content>
+<ion-content *ngIf="profile">
+  <ion-card>
+    <ion-card-header text-center>
+      <div class="img-container">
+        <img [src]="profile.user.image" alt="Profile Picture of {{profile.user.user.first_name}} {{profile.user.user.last_name}}">
+      </div>
+      <ion-card-title>
+        {{profile.user.user.first_name}} {{profile.user.user.last_name}}
+        <img *ngIf="profile.user.user.role == 'Verified Freelancer'"
+             src="../../../assets/img/verified.png" style="display: inline-flex;height: .8em;width: .8em;" alt="This user is a Verified Freelancer">
+      </ion-card-title>
+      <ion-note>
+        @{{profile.user.user.username}}
+      </ion-note>
+    </ion-card-header>
+    <ion-card-content text-center>
+      {{profile.user.description}}
+    </ion-card-content>
+  </ion-card>
+  <ng-container text-center *ngIf="profile.user.user.main_marketplace.length === 0; else customerTasks">
+    <ion-title color="medium">
+      No Tasks To Display
+    </ion-title>
+  </ng-container>
+
+  <ng-template #customerTasks>
+    <favr-marketplace-card *ngFor="let task of profile.user.user.main_marketplace"
+                           [mainMarketplaceTask]="task"
+    ></favr-marketplace-card>
+  </ng-template>
 
 </ion-content>

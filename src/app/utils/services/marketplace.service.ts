@@ -4,9 +4,7 @@ import {
   MainMarketplaceRouteResponse,
   MainMarketplaceTask
 } from '../interfaces/main-marketplace/main-marketplace-task';
-import {MAIN_MARKETPLACE_REQS} from '../mocks/mock-requests.mock';
-import {Observable, of, from} from 'rxjs';
-import {UserData} from '../../providers/user-data';
+import {Observable, from} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {Storage} from '@ionic/storage';
 import {API_ADDRESS, StorageConsts} from '../../providers/constants';
@@ -18,8 +16,7 @@ import {AuthorizationToken} from '../interfaces/user-options';
 export class MarketplaceService {
 
   constructor(private httpClient: HttpClient,
-              private storage: Storage,
-              public userData: UserData) {
+              private storage: Storage) {
   }
 
   public getSingleMarketplaceRequest(id: number): Observable<MainMarketplaceTask> {

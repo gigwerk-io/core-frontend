@@ -14,7 +14,7 @@
   <ion-list *ngIf="page == 'main' && mainMarketplaceTask" >
     <ion-slides [pager]="true">
       <ion-slide (click)="viewAttachedPhoto(mainMarketplaceTask.image_one, 'Image 1')" class="marketplace-slide-image" *ngIf="mainMarketplaceTask.image_one">
-        <img [src]="mainMarketplaceTask.image_one" (click)="viewAttachedPhoto(mainMarketplaceTask.image_one, 'Image 1')" alt="image one">
+        <img [src]="mainMarketplaceTask.image_one" alt="image one">
       </ion-slide>
 
       <ion-slide (click)="viewAttachedPhoto(mainMarketplaceTask.image_two, 'Image 2')" class="marketplace-slide-image" *ngIf="mainMarketplaceTask.image_two">
@@ -25,7 +25,7 @@
         <img [src]="mainMarketplaceTask.image_three" alt="image three">
       </ion-slide>
     </ion-slides>
-    <ion-item detail="false" lines="none" routerLink="/app/profile/{{mainMarketplaceTask.customer.username}}">
+    <ion-item detail="false" lines="none" routerLink="/app/profile/{{mainMarketplaceTask.customer.id}}">
       <ion-avatar slot="start">
         <img [src]="mainMarketplaceTask.customer.profile.image" alt="profile picture">
       </ion-avatar>
@@ -42,7 +42,7 @@
     <ion-item detail="false" lines="none">
       <div slot="start">
         <small>
-          <div class="complete-by-time">Needs Complete by {{mainMarketplaceTask.complete_before | date}}</div>
+          <div class="complete-by-time">Needs Complete by {{mainMarketplaceTask.isoFormat | date}}</div>
           <ion-note class="note posted-time">
             Posted {{mainMarketplaceTask.created_at | date}}
           </ion-note>
@@ -123,7 +123,7 @@
         <ion-col size="9">
           <b>Complete Before:</b>
           <br>
-          {{mainMarketplaceTask.complete_before | date}}
+          {{mainMarketplaceTask.isoFormat | date: 'MMM dd, yyyy h:mm a'}}
         </ion-col>
       </ion-row>
       <ion-row padding-bottom>
