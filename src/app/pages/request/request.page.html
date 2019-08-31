@@ -29,26 +29,29 @@
       </ion-slide>
 
       <ion-slide>
-        <ion-item class="datetime-item">
-          <ion-label position="stacked">
-            Complete Task By
-          </ion-label>
-          <ion-datetime
-            #complete_before="ngModel"
-            [(ngModel)]="taskRequest.date"
-            name="complete_before"
-            [max]="maxYear"
-            [min]="minYear"
-            [displayFormat]="'MMM DD, YYYY hh:mm A'"
-            (ionChange)="setDatetime()"
-            required>
-          </ion-datetime>
-        </ion-item>
-        <ion-text color="danger">
-          <p [hidden]="complete_before.valid || submitted == false" class="ion-padding-start">
-            You must provide a date and time for when the task must be completed by
-          </p>
-        </ion-text>
+        <ion-list>
+          <ion-item class="datetime-item">
+            <ion-label position="stacked">
+              Complete Task By
+            </ion-label>
+            <ion-datetime
+              #complete_before="ngModel"
+              [(ngModel)]="taskRequest.date"
+              name="complete_before"
+              [max]="maxYear"
+              [min]="minYear"
+              [displayFormat]="'MMM DD, YYYY hh:mm A'"
+              (ionChange)="setDatetime()"
+              required>
+            </ion-datetime>
+          </ion-item>
+          <ion-text color="danger">
+            <p [hidden]="complete_before.valid || submitted == false" class="ion-padding-start">
+              You must provide a date and time for when the task must be completed by
+            </p>
+          </ion-text>
+        </ion-list>
+
         <ion-button *ngIf="taskRequest.date" (click)="slides.slideNext()" class="long-button">
           Swipe or Tap to Continue
           <ion-icon name="arrow-forward" slot="end"></ion-icon>
@@ -56,89 +59,91 @@
       </ion-slide>
 
       <ion-slide>
-        <ion-item class="input-item">
-          <ion-label position="stacked">
-            Enter Street Address
-          </ion-label>
-          <ion-input
-            #street_address="ngModel"
-            [(ngModel)]="taskRequest.street_address"
-            name="street_address"
-            [autocorrect]="true"
-            [autocomplete]="true"
-            class="icon"
-            (ionChange)="setStreetAddress()"
-            required>
-            <ion-icon name="pin" color="primary" slot="start"></ion-icon>
-          </ion-input>
-        </ion-item>
-        <ion-text color="danger">
-          <p [hidden]="street_address.valid || submitted == false" class="ion-padding-start">
-            Street Address is required
-          </p>
-        </ion-text>
+        <ion-list>
+          <ion-item class="input-item">
+            <ion-label position="stacked">
+              Enter Street Address
+            </ion-label>
+            <ion-input
+              #street_address="ngModel"
+              [(ngModel)]="taskRequest.street_address"
+              name="street_address"
+              [autocorrect]="true"
+              [autocomplete]="true"
+              class="icon"
+              (ionChange)="setStreetAddress()"
+              required>
+              <ion-icon name="pin" color="primary" slot="start"></ion-icon>
+            </ion-input>
+          </ion-item>
+          <ion-text color="danger">
+            <p [hidden]="street_address.valid || submitted == false" class="ion-padding-start">
+              Street Address is required
+            </p>
+          </ion-text>
 
-        <ion-item class="input-item">
-          <ion-label position="stacked">
-            Enter City
-          </ion-label>
-          <ion-input
-            #city="ngModel"
-            [(ngModel)]="taskRequest.city"
-            name="city"
-            [autocorrect]="true"
-            [autocomplete]="true"
-            class="icon"
-            (ionChange)="setCity()"
-            required>
-            <ion-icon name="business" color="primary" slot="start"></ion-icon>
-          </ion-input>
-        </ion-item>
-        <ion-text color="danger">
-          <p [hidden]="city.valid || submitted == false" class="ion-padding-start">
-            City is required
-          </p>
-        </ion-text>
+          <ion-item class="input-item">
+            <ion-label position="stacked">
+              Enter City
+            </ion-label>
+            <ion-input
+              #city="ngModel"
+              [(ngModel)]="taskRequest.city"
+              name="city"
+              [autocorrect]="true"
+              [autocomplete]="true"
+              class="icon"
+              (ionChange)="setCity()"
+              required>
+              <ion-icon name="business" color="primary" slot="start"></ion-icon>
+            </ion-input>
+          </ion-item>
+          <ion-text color="danger">
+            <p [hidden]="city.valid || submitted == false" class="ion-padding-start">
+              City is required
+            </p>
+          </ion-text>
 
-        <ion-item class="select-item">
-          <ion-label position="stacked">
-            Select State
-          </ion-label>
-          <ion-select
-            #state="ngModel"
-            [(ngModel)]="taskRequest.state"
-            name="state"
-            (ionChange)="setState()"
-            required>
-            <ion-select-option *ngFor="let state of states" value="{{state.abbrev}}">{{state.name}}</ion-select-option>
-          </ion-select>
-        </ion-item>
-        <ion-text color="danger">
-          <p [hidden]="state.valid || submitted == false" class="ion-padding-start">
-            State is required
-          </p>
-        </ion-text>
+          <ion-item class="select-item">
+            <ion-label position="stacked">
+              Select State
+            </ion-label>
+            <ion-select
+              #state="ngModel"
+              [(ngModel)]="taskRequest.state"
+              name="state"
+              (ionChange)="setState()"
+              required>
+              <ion-select-option *ngFor="let state of states" value="{{state.abbrev}}">{{state.name}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-text color="danger">
+            <p [hidden]="state.valid || submitted == false" class="ion-padding-start">
+              State is required
+            </p>
+          </ion-text>
 
-        <ion-item class="input-item">
-          <ion-label position="stacked">
-            Enter Zip
-          </ion-label>
-          <ion-input
-            #zip="ngModel"
-            [(ngModel)]="taskRequest.zip"
-            name="zip"
-            type="tel"
-            class="icon"
-            (ionChange)="setZip()"
-            required>
-            <ion-icon name="globe" color="primary" slot="start"></ion-icon>
-          </ion-input>
-        </ion-item>
-        <ion-text color="danger">
-          <p [hidden]="zip.valid || submitted == false" class="ion-padding-start">
-            Zipcode is required
-          </p>
-        </ion-text>
+          <ion-item class="input-item">
+            <ion-label position="stacked">
+              Enter Zip
+            </ion-label>
+            <ion-input
+              #zip="ngModel"
+              [(ngModel)]="taskRequest.zip"
+              name="zip"
+              type="tel"
+              class="icon"
+              (ionChange)="setZip()"
+              required>
+              <ion-icon name="globe" color="primary" slot="start"></ion-icon>
+            </ion-input>
+          </ion-item>
+          <ion-text color="danger">
+            <p [hidden]="zip.valid || submitted == false" class="ion-padding-start">
+              Zipcode is required
+            </p>
+          </ion-text>
+        </ion-list>
 
         <ion-button *ngIf="taskRequest.street_address
                         && taskRequest.city
@@ -220,30 +225,32 @@
       </ion-slide>
 
       <ion-slide>
-        <ion-item class="input-item">
-          <ion-label position="stacked">
-            Set Your Price
-          </ion-label>
-          <ion-input
-            #price="ngModel"
-            [(ngModel)]="taskRequest.price"
-            name="price"
-            type="tel"
-            step="0.01"
-            min="5.00"
-            max="1999.99"
-            pattern="[0-9]*"
-            class="icon"
-            (ionChange)="setPrice()"
-            required>
-            <ion-icon name="logo-usd" color="primary" slot="start"></ion-icon>
-          </ion-input>
-        </ion-item>
-        <ion-text color="danger">
-          <p [hidden]="price.valid || submitted == false" class="ion-padding-start">
-            Price proposal is required
-          </p>
-        </ion-text>
+        <ion-list>
+          <ion-item class="input-item">
+            <ion-label position="stacked">
+              Set Your Price
+            </ion-label>
+            <ion-input
+              #price="ngModel"
+              [(ngModel)]="taskRequest.price"
+              name="price"
+              type="tel"
+              step="0.01"
+              min="5.00"
+              max="1999.99"
+              pattern="[0-9]*"
+              class="icon"
+              (ionChange)="setPrice()"
+              required>
+              <ion-icon name="logo-usd" color="primary" slot="start"></ion-icon>
+            </ion-input>
+          </ion-item>
+          <ion-text color="danger">
+            <p [hidden]="price.valid || submitted == false" class="ion-padding-start">
+              Price proposal is required
+            </p>
+          </ion-text>
+        </ion-list>
 
         <h4 text-center>You will pay</h4>
         <div class="price-proposal">
@@ -252,7 +259,10 @@
           </h1>
         </div>
 
-        <ion-button (click)="onSubmitTaskRequest(requestForm)" type="submit" class="long-button">
+        <ion-button (click)="onSubmitTaskRequest(requestForm)"
+                    [disabled]="requestForm.valid || progress < 1"
+                    type="submit"
+                    class="long-button">
           Submit
         </ion-button>
       </ion-slide>
