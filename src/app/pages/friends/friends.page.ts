@@ -9,6 +9,7 @@ import {FriendsService} from '../../utils/services/friends.service';
 })
 export class FriendsPage implements OnInit {
   friends: Searchable[];
+  users: Searchable[];
   results: Searchable[];
   constructor(private friendService: FriendsService) { }
 
@@ -16,12 +17,15 @@ export class FriendsPage implements OnInit {
     this.friendService.getFriends().subscribe(res => {
       this.friends = res.friends;
     });
+
+    this.friendService.getUsers().subscribe(res => {
+      this.users = res.users;
+      console.log(this.users);
+    });
   }
 
   handleSearch(newValue: any) {
-    this.friendService.searchUsers(newValue).subscribe(res => {
-      this.friends = res.users;
-    });
+
   }
 
 }
