@@ -22,8 +22,8 @@ export class FavrPageHeaderComponent implements OnInit {
   @Output() close: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() filterOption: EventEmitter<string> = new EventEmitter<string>();
 
-  profileId: number;
   profileImage: string;
+  profileId: number;
 
   constructor(private alertCtrl: AlertController,
               private storage: Storage) { }
@@ -31,8 +31,10 @@ export class FavrPageHeaderComponent implements OnInit {
   ngOnInit() {
     this.storage.get(StorageConsts.PROFILE)
       .then(profile => {
-        this.profileId = profile.user_id;
-        this.profileImage = profile.image;
+        if (profile) {
+          this.profileId = profile.user_id;
+          this.profileImage = profile.image;
+        }
       });
   }
 

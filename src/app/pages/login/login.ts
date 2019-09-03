@@ -12,7 +12,10 @@ import {NavController} from '@ionic/angular';
   styleUrls: ['./login.scss'],
 })
 export class LoginPage {
-  login: UserOptions = { username: '', password: '' };
+  login: UserOptions = {
+    username: undefined,
+    password: undefined
+  };
   submitted = false;
 
   constructor(
@@ -25,10 +28,7 @@ export class LoginPage {
 
     if (form.valid) {
       this.authService.login(this.login)
-        .subscribe(res => {
-          console.log(res);
-          this.navCtrl.navigateRoot('/app/tabs/marketplace');
-        });
+        .subscribe(() => this.navCtrl.navigateRoot('/app/tabs/marketplace'));
     }
   }
 }
