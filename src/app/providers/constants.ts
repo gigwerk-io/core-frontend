@@ -3,4 +3,4 @@ export const StorageConsts = {
   PROFILE: 'PROFILE'
 };
 
-export const API_ADDRESS =  'https://lumen.askfavr.com';
+export const API_ADDRESS =  'http://favr.api';

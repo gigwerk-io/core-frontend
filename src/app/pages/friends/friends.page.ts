@@ -14,14 +14,14 @@ export class FriendsPage implements OnInit {
   constructor(private friendService: FriendsService) { }
 
   ngOnInit() {
-    this.friendService.getFriends().subscribe(res => {
-      this.friends = res.friends;
-    });
-
-    this.friendService.getUsers().subscribe(res => {
-      this.users = res.users;
-      console.log(this.users);
-    });
+    // this.friendService.getFriends().subscribe(res => {
+    //   this.friends = res;
+    // });
+    //
+    // this.friendService.getUsers().subscribe(res => {
+    //   this.users = res;
+    //   console.log(this.users);
+    // });
   }
 
   handleSearch(newValue: any) {
