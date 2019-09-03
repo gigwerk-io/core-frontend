@@ -36,7 +36,7 @@ export class SignupPage {
     zip: undefined
   };
   submitted = false;
-  maxYear = (new Date()).getFullYear() - 12;
+  maxYear = (new Date()).getFullYear() - 13;
   states: State[] = STATES;
   progress = 0;
   pageTitle = 'Sign Up';

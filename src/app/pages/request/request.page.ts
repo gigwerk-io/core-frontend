@@ -119,65 +119,34 @@ export class RequestPage implements OnInit {
 
   selectCategory(category: MainCategory) {
     this.taskRequest.category_id = category.id;
+    console.log(category.id);
     setTimeout(() => {
-      this.progress = 0.16;
+      this.updateProgress();
       this.slides.slideNext();
     }, 500);
   }
 
   onEditorChange( { editor }: ChangeEvent ) {
     this.taskRequest.description = editor.getData();
-    this.progress = 0.33;
+    this.updateProgress();
   }
 
-  setDatetime() {
-    if (this.taskRequest.date) {
-      this.progress = 0.5;
-    }
-  }
+  updateProgress() {
+    const progressStatus: number = setProgress([
+      this.taskRequest.category_id,
+      this.taskRequest.description,
+      this.taskRequest.date,
+      this.taskRequest.description,
+      this.taskRequest.street_address,
+      this.taskRequest.city,
+      this.taskRequest.state,
+      this.taskRequest.zip,
+      this.taskRequest.intensity,
+      this.taskRequest.price
+    ], 0);
 
-  setStreetAddress() {
-    if (this.taskRequest.street_address) {
-      this.progress = 0.54;
-    }
-  }
-
-  setCity() {
-    if (this.taskRequest.city) {
-      this.progress = 0.58;
-    }
-  }
-
-  setState() {
-    if (this.taskRequest.state) {
-      this.progress = 0.62;
-    }
-  }
-
-  setZip() {
-    if (this.taskRequest.zip) {
-      this.progress = 0.66;
-    }
-  }
-
-  setImages() {
-    if (this.taskRequest.image_one || this.taskRequest.image_two || this.taskRequest.image_three) {
-      this.progress = 0.74;
-    }
-  }
-
-  setDifficulty(intensity: string) {
-    this.progress = 0.83;
-    this.taskRequest.intensity = intensity;
-    setTimeout(() => {
-      this.slides.slideNext();
-    }, 500);
-  }
-
-  setPrice() {
-    if (this.taskRequest.price) {
-      this.progress = 1;
-    }
+    console.log(progressStatus);
+    this.progress = progressStatus;
   }
 
   openPhotoGallery() {
@@ -191,7 +160,6 @@ export class RequestPage implements OnInit {
 
     this.imagePicker.getPictures(options).then((results) => {
       if (results[0]) {
-        this.setImages();
         this.taskRequest.image_one = results[0];
       }
 
@@ -243,10 +211,20 @@ export class RequestPage implements OnInit {
 
     if (form.valid) {
       this.marketplaceService.createMainMarketplaceRequest(this.taskRequest)
-        .then((res) => {
-          console.log(res);
-          this.closeRequestPage();
-        });
+        .then((res) => this.closeRequestPage());
     }
   }
+
+  setDifficulty(intensity: string) {
+    this.taskRequest.intensity = intensity;
+    this.updateProgress();
+  }
+}
+
+function setProgress(formFields: any[], progress: number): number {
+  const progressRatio: number = (1  / formFields.length);
+  progress = formFields.reduce((totalProgress, field) => {
+    return totalProgress + ((field) ? progressRatio : 0);
+  });
+  return progress - (1 - progressRatio);
 }

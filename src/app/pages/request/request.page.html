@@ -41,7 +41,7 @@
               [max]="maxYear"
               [min]="minYear"
               [displayFormat]="'MMM DD, YYYY hh:mm A'"
-              (ionChange)="setDatetime()"
+              (ionChange)="updateProgress()"
               required>
             </ion-datetime>
           </ion-item>
@@ -71,7 +71,7 @@
               [autocorrect]="true"
               [autocomplete]="true"
               class="icon"
-              (ionChange)="setStreetAddress()"
+              (ionChange)="updateProgress()"
               required>
               <ion-icon name="pin" color="primary" slot="start"></ion-icon>
             </ion-input>
@@ -93,7 +93,7 @@
               [autocorrect]="true"
               [autocomplete]="true"
               class="icon"
-              (ionChange)="setCity()"
+              (ionChange)="updateProgress()"
               required>
               <ion-icon name="business" color="primary" slot="start"></ion-icon>
             </ion-input>
@@ -112,7 +112,7 @@
               #state="ngModel"
               [(ngModel)]="taskRequest.state"
               name="state"
-              (ionChange)="setState()"
+              (ionChange)="updateProgress()"
               required>
               <ion-select-option *ngFor="let state of states" value="{{state.abbrev}}">{{state.name}}</ion-select-option>
             </ion-select>
@@ -133,7 +133,7 @@
               name="zip"
               type="tel"
               class="icon"
-              (ionChange)="setZip()"
+              (ionChange)="updateProgress()"
               required>
               <ion-icon name="globe" color="primary" slot="start"></ion-icon>
             </ion-input>
@@ -240,7 +240,7 @@
               max="1999.99"
               pattern="[0-9]*"
               class="icon"
-              (ionChange)="setPrice()"
+              (ionChange)="updateProgress()"
               required>
               <ion-icon name="logo-usd" color="primary" slot="start"></ion-icon>
             </ion-input>
@@ -260,7 +260,7 @@
         </div>
 
         <ion-button (click)="onSubmitTaskRequest(requestForm)"
-                    [disabled]="requestForm.valid || progress < 1"
+                    [disabled]="progress < 1"
                     type="submit"
                     class="long-button">
           Submit

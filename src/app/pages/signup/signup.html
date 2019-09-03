@@ -112,6 +112,17 @@
             </p>
           </ion-text>
         </ion-list>
+
+        <ion-button *ngIf="first_name.valid
+                          && last_name.valid
+                          && username.valid
+                          && email.valid
+                          && phone.valid"
+                    (click)="slides.slideNext()"
+                    class="long-button">
+          Swipe or Tap to Continue
+          <ion-icon name="arrow-forward" slot="end"></ion-icon>
+        </ion-button>
       </ion-slide>
 
       <ion-slide>
@@ -168,6 +179,16 @@
             </p>
           </ion-text>
         </ion-list>
+
+        <ion-button *ngIf="birthday.valid
+                          && password.valid
+                          && confirm_password.valid
+                          && signup.password === signup.confirm_password"
+                    (click)="slides.slideNext()"
+                    class="long-button">
+          Swipe or Tap to Continue
+          <ion-icon name="arrow-forward" slot="end"></ion-icon>
+        </ion-button>
       </ion-slide>
 
       <ion-slide>

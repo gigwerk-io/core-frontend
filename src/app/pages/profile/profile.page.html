@@ -1,14 +1,19 @@
-<favr-page-header
-  pageTitle="Profile"
-  [showBackButton]="true"
-  [showProfile]="false"
-></favr-page-header>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="profile">{{profile.user.user.first_name}} {{profile.user.user.last_name}}</ion-title>
+  </ion-toolbar>
+</ion-header>
 
 <ion-content *ngIf="profile">
   <ion-card>
     <ion-card-header text-center>
       <div class="img-container">
-        <img [src]="profile.user.image" alt="Profile Picture of {{profile.user.user.first_name}} {{profile.user.user.last_name}}">
+        <img [src]="(profile.user.image) ? profile.user.image : '../../assets/img/user.png'"
+             (click)="viewAttachedPhoto(profile.user.image, profile.user.user.first_name + ' ' + profile.user.user.last_name)"
+             alt="Profile Picture of {{profile.user.user.first_name}} {{profile.user.user.last_name}}">
       </div>
       <ion-card-title>
         {{profile.user.user.first_name}} {{profile.user.user.last_name}}
