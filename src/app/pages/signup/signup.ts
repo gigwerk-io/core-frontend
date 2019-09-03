@@ -1,13 +1,11 @@
 import {Component, ViewChild} from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
 import { UserRegistrationOptions } from '../../utils/interfaces/user-options';
 import {AuthService} from '../../utils/services/auth.service';
 import {IonContent, IonSlides, NavController} from '@ionic/angular';
 import {State} from '../../utils/interfaces/locations/state';
 import {STATES} from '../../utils/mocks/states.mock';
-
-
+import {setProgress} from '../request/request.page';
 
 @Component({
   selector: 'page-signup',
@@ -75,55 +73,22 @@ export class SignupPage {
       });
   }
 
-  setProgress() {
-    this.progress = 0;
+  updateProgress() {
+    this.progress = setProgress([
+      this.signup.first_name,
+      this.signup.last_name,
+      this.signup.email,
+      this.signup.username,
+      this.signup.password,
+      this.signup.confirm_password,
+      this.signup.phone,
+      this.signup.birthday,
+      this.signup.street_address,
+      this.signup.city,
+      this.signup.state,
+      this.signup.zip
+    ]);
 
-    if (this.signup.first_name) {
-      this.progress = 1 / 12;
-    }
-
-    if (this.signup.last_name) {
-      this.progress = 2 / 12;
-    }
-
-    if (this.signup.username) {
-      this.progress = 3 / 12;
-    }
-
-    if (this.signup.email) {
-      this.progress = 4 / 12;
-    }
-
-    if (this.signup.phone) {
-      this.progress = 5 / 12;
-    }
-
-    if (this.signup.birthday) {
-      this.progress = 6 / 12;
-    }
-
-    if (this.signup.password) {
-      this.progress = 7 / 12;
-    }
-
-    if (this.signup.confirm_password) {
-      this.progress = 8 / 12;
-    }
-
-    if (this.signup.street_address) {
-      this.progress = 9 / 12;
-    }
-
-    if (this.signup.city) {
-      this.progress = 10 / 12;
-    }
-
-    if (this.signup.state) {
-      this.progress = 11 / 12;
-    }
-
-    if (this.signup.zip) {
-      this.progress = 12 / 12;
-    }
+    console.log(this.progress);
   }
 }

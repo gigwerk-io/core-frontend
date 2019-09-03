@@ -27,6 +27,14 @@
               <img [src]="profileImage ? profileImage : '../../../../assets/img/user.png'" alt="profile picture">
             </ion-avatar>
           </ion-button>
+          <ion-button *ngIf="pageTitle == 'Marketplace'
+                             || pageTitle == 'Friends'
+                             || pageTitle == 'Notifications'
+                             || pageTitle == 'Settings'"
+                      [routerLink]="'/app/chat'"
+                      [routerDirection]="'forward'">
+            <ion-icon name="chatbubbles"></ion-icon>
+          </ion-button>
           <ion-button (click)="presentFilterOptions()" *ngIf="pageTitle == 'Marketplace'">
             <ion-icon name="funnel"></ion-icon>
           </ion-button>

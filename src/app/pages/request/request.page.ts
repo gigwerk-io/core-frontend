@@ -132,7 +132,7 @@ export class RequestPage implements OnInit {
   }
 
   updateProgress() {
-    const progressStatus: number = setProgress([
+    this.progress = setProgress([
       this.taskRequest.category_id,
       this.taskRequest.description,
       this.taskRequest.date,
@@ -143,10 +143,7 @@ export class RequestPage implements OnInit {
       this.taskRequest.zip,
       this.taskRequest.intensity,
       this.taskRequest.price
-    ], 0);
-
-    console.log(progressStatus);
-    this.progress = progressStatus;
+    ]);
   }
 
   openPhotoGallery() {
@@ -221,10 +218,9 @@ export class RequestPage implements OnInit {
   }
 }
 
-function setProgress(formFields: any[], progress: number): number {
+export function setProgress(formFields: any[], initProgress: number = 0): number {
   const progressRatio: number = (1  / formFields.length);
-  progress = formFields.reduce((totalProgress, field) => {
-    return totalProgress + ((field) ? progressRatio : 0);
-  });
-  return progress - (1 - progressRatio);
+  const fields: number[] = formFields.map((field) => (field) ? progressRatio : 0);
+  const progress: number = initProgress + fields.reduce((totalProgress, currProgress) => totalProgress + currProgress);
+  return (progress < 0.999) ? progress : 1;
 }

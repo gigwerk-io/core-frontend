@@ -14,9 +14,8 @@
           <ion-item class="input-item">
             <ion-label position="stacked">First Name</ion-label>
             <ion-input [(ngModel)]="signup.first_name"
-                       (ionChange)="setProgress()"
                        #first_name="ngModel"
-                       (ionChange)="setProgress()"
+                       (ionChange)="updateProgress()"
                        name="first_name"
                        type="text"
                        spellcheck="false"
@@ -35,7 +34,7 @@
             <ion-label position="stacked">Last Name</ion-label>
             <ion-input [(ngModel)]="signup.last_name"
                        #last_name="ngModel"
-                       (ionChange)="setProgress()"
+                       (ionChange)="updateProgress()"
                        name="first_name"
                        type="text"
                        spellcheck="false"
@@ -54,7 +53,7 @@
             <ion-label position="stacked">Username</ion-label>
             <ion-input [(ngModel)]="signup.username"
                        #username="ngModel"
-                       (ionChange)="setProgress()"
+                       (ionChange)="updateProgress()"
                        name="username"
                        type="text"
                        spellcheck="false"
@@ -74,7 +73,7 @@
             <ion-label position="stacked">Email</ion-label>
             <ion-input [(ngModel)]="signup.email"
                        #email="ngModel"
-                       (ionChange)="setProgress()"
+                       (ionChange)="updateProgress()"
                        name="email"
                        type="email"
                        spellcheck="false"
@@ -96,7 +95,7 @@
                        [minlength]="10"
                        [maxlength]="10"
                        #phone="ngModel"
-                       (ionChange)="setProgress()"
+                       (ionChange)="updateProgress()"
                        name="phone"
                        type="tel"
                        spellcheck="false"
@@ -131,7 +130,7 @@
             <ion-label position="stacked">Birthday</ion-label>
             <ion-datetime [(ngModel)]="signup.birthday"
                           #birthday="ngModel"
-                       (ionChange)="setProgress()"
+                          (ionChange)="updateProgress()"
                           name="birthday"
                           [max]="maxYear"
                           [displayFormat]="'MMM DD, YYYY'"
@@ -148,7 +147,7 @@
             <ion-label position="stacked">Password</ion-label>
             <ion-input [(ngModel)]="signup.password"
                        #password="ngModel"
-                       (ionChange)="setProgress()"
+                       (ionChange)="updateProgress()"
                        name="password"
                        type="password"
                        required>
@@ -164,7 +163,7 @@
             <ion-label position="stacked">Confirm Password</ion-label>
             <ion-input [(ngModel)]="signup.confirm_password"
                        #confirm_password="ngModel"
-                       (ionChange)="setProgress()"
+                       (ionChange)="updateProgress()"
                        name="password"
                        type="password"
                        required>
@@ -199,7 +198,7 @@
             </ion-label>
             <ion-input
               #street_address="ngModel"
-                       (ionChange)="setProgress()"
+              (ionChange)="updateProgress()"
               [(ngModel)]="signup.street_address"
               name="street_address"
               [autocorrect]="true"
@@ -221,7 +220,7 @@
             </ion-label>
             <ion-input
               #city="ngModel"
-                       (ionChange)="setProgress()"
+              (ionChange)="updateProgress()"
               [(ngModel)]="signup.city"
               name="city"
               [autocorrect]="true"
@@ -243,11 +242,12 @@
             </ion-label>
             <ion-select
               #state="ngModel"
-                       (ionChange)="setProgress()"
+              (ionChange)="updateProgress()"
               [(ngModel)]="signup.state"
               name="state"
               required>
-              <ion-select-option *ngFor="let state of states" value="{{state.abbrev}}">{{state.name}}</ion-select-option>
+              <ion-select-option *ngFor="let state of states"
+                                 value="{{state.abbrev}}">{{state.name}}</ion-select-option>
             </ion-select>
           </ion-item>
           <ion-text color="danger">
@@ -262,7 +262,7 @@
             </ion-label>
             <ion-input
               #zip="ngModel"
-                       (ionChange)="setProgress()"
+              (ionChange)="updateProgress()"
               [(ngModel)]="signup.zip"
               name="zip"
               type="tel"
@@ -282,7 +282,8 @@
         <ion-button (click)="onSignup(signupForm)"
                     [disabled]="!signupForm.valid || progress < 1"
                     type="submit"
-                    class="long-button">Create Account</ion-button>
+                    class="long-button">Create Account
+        </ion-button>
       </ion-slide>
     </ion-slides>
 
