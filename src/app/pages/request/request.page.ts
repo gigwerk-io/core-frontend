@@ -119,7 +119,6 @@ export class RequestPage implements OnInit {
 
   selectCategory(category: MainCategory) {
     this.taskRequest.category_id = category.id;
-    console.log(category.id);
     setTimeout(() => {
       this.updateProgress();
       this.slides.slideNext();

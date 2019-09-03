@@ -88,7 +88,5 @@ export class SignupPage {
       this.signup.state,
       this.signup.zip
     ]);
-
-    console.log(this.progress);
   }
 }
