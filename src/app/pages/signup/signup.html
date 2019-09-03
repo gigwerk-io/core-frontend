@@ -1,5 +1,6 @@
 <favr-page-header
-  pageTitle="Sign Up"
+  [pageTitle]="pageTitle"
+  [progress]="progress"
   [showProfile]="false"
   [showBackButton]="true"
 ></favr-page-header>
@@ -7,17 +8,284 @@
 <ion-content>
 
   <form #signupForm="ngForm" novalidate>
-    <favr-input
-      inputName="username"
-      inputLabel="Username"
-      inputType="text"
-    ></favr-input>
-    <favr-input
-      inputName="password"
-      inputLabel="Password"
-      inputType="password"
-    ></favr-input>
-    <ion-button (click)="onSignup(signupForm)" type="submit" class="long-button">Create Account</ion-button>
+    <ion-slides (ionSlideDidChange)="onSlideChange()">
+      <ion-slide>
+        <ion-list>
+          <ion-item class="input-item">
+            <ion-label position="stacked">First Name</ion-label>
+            <ion-input [(ngModel)]="signup.first_name"
+                       (ionChange)="setProgress()"
+                       #first_name="ngModel"
+                       (ionChange)="setProgress()"
+                       name="first_name"
+                       type="text"
+                       spellcheck="false"
+                       autocapitalize="on"
+                       autocomplete="true"
+                       required>
+            </ion-input>
+          </ion-item>
+          <ion-text color="danger">
+            <p [hidden]="first_name.valid || submitted == false" class="ion-padding-start">
+              First Name is required
+            </p>
+          </ion-text>
+
+          <ion-item>
+            <ion-label position="stacked">Last Name</ion-label>
+            <ion-input [(ngModel)]="signup.last_name"
+                       #last_name="ngModel"
+                       (ionChange)="setProgress()"
+                       name="first_name"
+                       type="text"
+                       spellcheck="false"
+                       autocapitalize="on"
+                       autocomplete="true"
+                       required>
+            </ion-input>
+          </ion-item>
+          <ion-text color="danger">
+            <p [hidden]="last_name.valid || submitted == false" class="ion-padding-start">
+              Last Name is required
+            </p>
+          </ion-text>
+
+          <ion-item>
+            <ion-label position="stacked">Username</ion-label>
+            <ion-input [(ngModel)]="signup.username"
+                       #username="ngModel"
+                       (ionChange)="setProgress()"
+                       name="username"
+                       type="text"
+                       spellcheck="false"
+                       autocapitalize="off"
+                       autocomplete="true"
+                       placeholder="example123"
+                       required>
+            </ion-input>
+          </ion-item>
+          <ion-text color="danger">
+            <p [hidden]="username.valid || submitted == false" class="ion-padding-start">
+              Username is required
+            </p>
+          </ion-text>
+
+          <ion-item>
+            <ion-label position="stacked">Email</ion-label>
+            <ion-input [(ngModel)]="signup.email"
+                       #email="ngModel"
+                       (ionChange)="setProgress()"
+                       name="email"
+                       type="email"
+                       spellcheck="false"
+                       autocapitalize="off"
+                       autocomplete="true"
+                       placeholder="example@askfavr.com"
+                       required>
+            </ion-input>
+          </ion-item>
+          <ion-text color="danger">
+            <p [hidden]="email.valid || submitted == false" class="ion-padding-start">
+              Email is required
+            </p>
+          </ion-text>
+
+          <ion-item>
+            <ion-label position="stacked">Phone</ion-label>
+            <ion-input [(ngModel)]="signup.phone"
+                       [minlength]="10"
+                       [maxlength]="10"
+                       #phone="ngModel"
+                       (ionChange)="setProgress()"
+                       name="phone"
+                       type="tel"
+                       spellcheck="false"
+                       autocapitalize="off"
+                       autocomplete="false"
+                       placeholder="1234567890"
+                       required>
+            </ion-input>
+          </ion-item>
+          <ion-text color="danger">
+            <p [hidden]="phone.valid || submitted == false" class="ion-padding-start">
+              Phone Number is required
+            </p>
+          </ion-text>
+        </ion-list>
+
+        <ion-button *ngIf="first_name.valid
+                          && last_name.valid
+                          && username.valid
+                          && email.valid
+                          && phone.valid"
+                    (click)="slides.slideNext()"
+                    class="long-button">
+          Swipe or Tap to Continue
+          <ion-icon name="arrow-forward" slot="end"></ion-icon>
+        </ion-button>
+      </ion-slide>
+
+      <ion-slide>
+        <ion-list>
+          <ion-item>
+            <ion-label position="stacked">Birthday</ion-label>
+            <ion-datetime [(ngModel)]="signup.birthday"
+                          #birthday="ngModel"
+                       (ionChange)="setProgress()"
+                          name="birthday"
+                          [max]="maxYear"
+                          [displayFormat]="'MMM DD, YYYY'"
+                          required>
+            </ion-datetime>
+          </ion-item>
+          <ion-text color="danger">
+            <p [hidden]="birthday.valid || submitted == false" class="ion-padding-start">
+              Birthday is required: user must be older than 13 years old
+            </p>
+          </ion-text>
+
+          <ion-item>
+            <ion-label position="stacked">Password</ion-label>
+            <ion-input [(ngModel)]="signup.password"
+                       #password="ngModel"
+                       (ionChange)="setProgress()"
+                       name="password"
+                       type="password"
+                       required>
+            </ion-input>
+          </ion-item>
+          <ion-text color="danger">
+            <p [hidden]="password.valid || submitted == false" class="ion-padding-start">
+              Password is required
+            </p>
+          </ion-text>
+
+          <ion-item>
+            <ion-label position="stacked">Confirm Password</ion-label>
+            <ion-input [(ngModel)]="signup.confirm_password"
+                       #confirm_password="ngModel"
+                       (ionChange)="setProgress()"
+                       name="password"
+                       type="password"
+                       required>
+            </ion-input>
+          </ion-item>
+          <ion-text color="danger">
+            <p [hidden]="confirm_password.valid || submitted == false" class="ion-padding-start">
+              Confirm Password is required
+            </p>
+            <p [hidden]="confirm_password.value !== password.value" class="ion-padding-start">
+              Password and Confirm Password must match
+            </p>
+          </ion-text>
+        </ion-list>
+
+        <ion-button *ngIf="birthday.valid
+                          && password.valid
+                          && confirm_password.valid
+                          && signup.password === signup.confirm_password"
+                    (click)="slides.slideNext()"
+                    class="long-button">
+          Swipe or Tap to Continue
+          <ion-icon name="arrow-forward" slot="end"></ion-icon>
+        </ion-button>
+      </ion-slide>
+
+      <ion-slide>
+        <ion-list>
+          <ion-item class="input-item">
+            <ion-label position="stacked">
+              Enter Street Address
+            </ion-label>
+            <ion-input
+              #street_address="ngModel"
+                       (ionChange)="setProgress()"
+              [(ngModel)]="signup.street_address"
+              name="street_address"
+              [autocorrect]="true"
+              [autocomplete]="true"
+              class="icon"
+              required>
+              <ion-icon name="pin" color="primary" slot="start"></ion-icon>
+            </ion-input>
+          </ion-item>
+          <ion-text color="danger">
+            <p [hidden]="street_address.valid || submitted == false" class="ion-padding-start">
+              Street Address is required
+            </p>
+          </ion-text>
+
+          <ion-item class="input-item">
+            <ion-label position="stacked">
+              Enter City
+            </ion-label>
+            <ion-input
+              #city="ngModel"
+                       (ionChange)="setProgress()"
+              [(ngModel)]="signup.city"
+              name="city"
+              [autocorrect]="true"
+              [autocomplete]="true"
+              class="icon"
+              required>
+              <ion-icon name="business" color="primary" slot="start"></ion-icon>
+            </ion-input>
+          </ion-item>
+          <ion-text color="danger">
+            <p [hidden]="city.valid || submitted == false" class="ion-padding-start">
+              City is required
+            </p>
+          </ion-text>
+
+          <ion-item class="select-item">
+            <ion-label position="stacked">
+              Select State
+            </ion-label>
+            <ion-select
+              #state="ngModel"
+                       (ionChange)="setProgress()"
+              [(ngModel)]="signup.state"
+              name="state"
+              required>
+              <ion-select-option *ngFor="let state of states" value="{{state.abbrev}}">{{state.name}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-text color="danger">
+            <p [hidden]="state.valid || submitted == false" class="ion-padding-start">
+              State is required
+            </p>
+          </ion-text>
+
+          <ion-item class="input-item">
+            <ion-label position="stacked">
+              Enter Zip
+            </ion-label>
+            <ion-input
+              #zip="ngModel"
+                       (ionChange)="setProgress()"
+              [(ngModel)]="signup.zip"
+              name="zip"
+              type="tel"
+              class="icon"
+              required>
+              <ion-icon name="globe" color="primary" slot="start"></ion-icon>
+            </ion-input>
+          </ion-item>
+          <ion-text color="danger">
+            <p [hidden]="zip.valid || submitted == false" class="ion-padding-start">
+              Zipcode is required
+            </p>
+          </ion-text>
+
+        </ion-list>
+
+        <ion-button (click)="onSignup(signupForm)"
+                    [disabled]="!signupForm.valid || progress < 1"
+                    type="submit"
+                    class="long-button">Create Account</ion-button>
+      </ion-slide>
+    </ion-slides>
+
   </form>
 
 </ion-content>

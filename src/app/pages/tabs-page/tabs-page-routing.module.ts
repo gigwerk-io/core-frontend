@@ -18,6 +18,10 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: () => import('../marketplace/marketplace.module').then(m => m.MarketplacePageModule)
+          },
+          {
+            path: 'detail/:id',
+            loadChildren: () => import('../marketplace-detail/marketplace-detail.module').then(m => m.MarketplaceDetailPageModule)
           }
         ]
       },
@@ -36,15 +40,6 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: () => import('../settings/settings.module').then(m => m.SettingsPageModule)
-          }
-        ]
-      },
-      {
-        path: 'request',
-        children: [
-          {
-            path: '',
-            loadChildren: () =>  import('../request/request.module').then(m => m.RequestPageModule)
           }
         ]
       },

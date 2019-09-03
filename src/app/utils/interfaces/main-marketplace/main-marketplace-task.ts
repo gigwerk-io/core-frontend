@@ -16,6 +16,7 @@ export interface MainMarketplaceTask {
   status?: string;
   intensity?: string;
   complete_before?: number;
+  isoFormat?: number;
   image_one?: string;
   image_two?: string;
   image_three?: string;
@@ -24,5 +25,19 @@ export interface MainMarketplaceTask {
   deleted_at?: number;
   proposals?: MainProposals[];
   customer?: User;
+  street_address?: string;
+  city?: string;
+  state?: string;
+  zip?: string;
+  date?: number;
   locations?: Location[];
+}
+
+export interface MainMarketplaceRouteResponse {
+  requests: MainMarketplaceTask[];
+}
+
+export interface MainMarketplaceRequestRouteResponse {
+  message: string;
+  id: number;
 }

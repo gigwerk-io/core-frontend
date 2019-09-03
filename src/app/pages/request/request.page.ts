@@ -10,6 +10,7 @@ import {STATES} from '../../utils/mocks/states.mock';
 import {ImagePicker, ImagePickerOptions} from '@ionic-native/image-picker/ngx';
 import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
 import {MarketplaceService} from '../../utils/services/marketplace.service';
+import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'request',
@@ -22,16 +23,15 @@ export class RequestPage implements OnInit {
   @ViewChild(IonContent, {static: false}) content: IonContent;
 
   taskRequest: MainMarketplaceTask = {
-    category_id: undefined,
-    complete_before: undefined,
     description: undefined,
+    freelancer_count: 1,
+    date: undefined,
+    street_address: undefined,
+    city: undefined,
+    state: undefined,
+    zip: undefined,
+    category_id: undefined,
     intensity: undefined,
-    locations: [{
-      street_address: undefined,
-      city: undefined,
-      state: undefined,
-      zip: undefined,
-    }],
     price: undefined,
     image_one: undefined,
     image_two: undefined,
@@ -41,8 +41,6 @@ export class RequestPage implements OnInit {
   minYear: number = (new Date()).getFullYear();
   maxYear: number = this.minYear + 1;
 
-  imagesURI: any[];
-
   editorConfig = {
     placeholder: 'Describe your task here.',
     toolbar: [
@@ -50,7 +48,6 @@ export class RequestPage implements OnInit {
       '|',
       'bold',
       'italic',
-      'link',
       'bulletedList',
       'numberedList',
       'blockQuote'
@@ -62,6 +59,7 @@ export class RequestPage implements OnInit {
   pageTitle = 'Request';
   states: State[] = STATES;
   progress = 0;
+  submitted = false;
 
   constructor(private modalCtrl: ModalController,
               private imagePicker: ImagePicker,
@@ -121,57 +119,34 @@ export class RequestPage implements OnInit {
 
   selectCategory(category: MainCategory) {
     this.taskRequest.category_id = category.id;
+    console.log(category.id);
     setTimeout(() => {
-      this.progress = 0.16;
+      this.updateProgress();
       this.slides.slideNext();
     }, 500);
   }
 
   onEditorChange( { editor }: ChangeEvent ) {
     this.taskRequest.description = editor.getData();
-    this.progress = 0.33;
+    this.updateProgress();
   }
 
-  setDatetime(datetime: any) {
-    this.progress = 0.5;
-    this.taskRequest.complete_before = datetime;
-  }
+  updateProgress() {
+    const progressStatus: number = setProgress([
+      this.taskRequest.category_id,
+      this.taskRequest.description,
+      this.taskRequest.date,
+      this.taskRequest.description,
+      this.taskRequest.street_address,
+      this.taskRequest.city,
+      this.taskRequest.state,
+      this.taskRequest.zip,
+      this.taskRequest.intensity,
+      this.taskRequest.price
+    ], 0);
 
-  setStreetAddress(streetAddress: any) {
-    this.progress = 0.54;
-    this.taskRequest.locations[0].street_address = streetAddress;
-  }
-
-  setCity(city: any) {
-    this.progress = 0.58;
-    this.taskRequest.locations[0].city = city;
-  }
-
-  setState(state: any) {
-    this.progress = 0.62;
-    this.taskRequest.locations[0].state = state;
-  }
-
-  setZip(zip: any) {
-    this.progress = 0.66;
-    this.taskRequest.locations[0].zip = zip;
-  }
-
-  setImages() {
-    this.progress = 0.74;
-  }
-
-  setDifficulty(intensity: string) {
-    this.progress = 0.83;
-    this.taskRequest.intensity = intensity;
-    setTimeout(() => {
-      this.slides.slideNext();
-    }, 500);
-  }
-
-  setPrice(price: any) {
-    this.progress = 1;
-    this.taskRequest.price = price;
+    console.log(progressStatus);
+    this.progress = progressStatus;
   }
 
   openPhotoGallery() {
@@ -185,7 +160,6 @@ export class RequestPage implements OnInit {
 
     this.imagePicker.getPictures(options).then((results) => {
       if (results[0]) {
-        this.setImages();
         this.taskRequest.image_one = results[0];
       }
 
@@ -232,10 +206,25 @@ export class RequestPage implements OnInit {
     });
   }
 
-  onSubmitTaskRequest() {
-    this.marketplaceService.createMainMarketplaceRequest(this.taskRequest)
-      .then(() => {
-        this.closeRequestPage();
-      });
+  onSubmitTaskRequest(form: NgForm) {
+    this.submitted = true;
+
+    if (form.valid) {
+      this.marketplaceService.createMainMarketplaceRequest(this.taskRequest)
+        .then((res) => this.closeRequestPage());
+    }
   }
+
+  setDifficulty(intensity: string) {
+    this.taskRequest.intensity = intensity;
+    this.updateProgress();
+  }
+}
+
+function setProgress(formFields: any[], progress: number): number {
+  const progressRatio: number = (1  / formFields.length);
+  progress = formFields.reduce((totalProgress, field) => {
+    return totalProgress + ((field) ? progressRatio : 0);
+  });
+  return progress - (1 - progressRatio);
 }

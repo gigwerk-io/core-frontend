@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-// @ts-ignore
 import {MainMarketplaceTask} from '../../utils/interfaces/main-marketplace/main-marketplace-task';
 import {MarketplaceService} from '../../utils/services/marketplace.service';
 import {ModalController} from '@ionic/angular';
@@ -37,8 +36,8 @@ export class MarketplacePage implements OnInit {
     ];
   }
 
-  getRequests(): void {
-    this.marketplaceService.getMainMarketplaceRequests(this.filterDefault)
+  getRequests(filter: string = this.filterDefault): void {
+    this.marketplaceService.getMainMarketplaceRequests(filter)
       .subscribe(requests => this.requests = requests);
   }
 
@@ -50,9 +49,9 @@ export class MarketplacePage implements OnInit {
     return await modal.present();
   }
 
-  doRefresh(event) {
+  async doRefresh(event) {
     console.log('Begin async operation');
-
+    await this.getRequests();
     setTimeout(() => {
       console.log('Async operation has ended');
       event.target.complete();
@@ -61,6 +60,6 @@ export class MarketplacePage implements OnInit {
 
   setFilterOption(option: string) {
     this.filterDefault = option;
-    this.getRequests();
+    this.getRequests(option);
   }
 }

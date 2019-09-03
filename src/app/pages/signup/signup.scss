@@ -11,3 +11,13 @@
 .list {
   margin-bottom: 0;
 }
+
+.swiper-container {
+  overflow: unset;
+}
+
+ion-slide {
+  height: available;
+  display: block;
+  text-align: left;
+}

@@ -1,4 +1,7 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output, OnInit} from '@angular/core';
+import {AlertController} from '@ionic/angular';
+import {Storage} from '@ionic/storage';
+import {StorageConsts} from '../../../providers/constants';
 
 @Component({
   selector: 'favr-page-header',
@@ -6,16 +9,68 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
   styleUrls: ['./favr-page-header.component.scss'],
 })
 export class FavrPageHeaderComponent implements OnInit {
-  // search: string;
+
   @Input() pageTitle: string;
   @Input() showSearchBar = false;
-  @Output() handleSearch = new EventEmitter<string>();
+  @Input() isModal = false;
+  @Input() showProfile = true;
+  @Input() showBackButton = false;
+  @Input() progress: number;
+  @Input() filterDefault: string;
+  @Input() filterInputs: any[];
 
-  constructor() { }
+  @Output() close: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() filterOption: EventEmitter<string> = new EventEmitter<string>();
 
-  ngOnInit() {}
+  profileImage: string;
+  profileId: number;
 
-  onKey(event: any) {
-    this.handleSearch.emit(event.target.value);
+  constructor(private alertCtrl: AlertController,
+              private storage: Storage) { }
+
+  ngOnInit() {
+    this.storage.get(StorageConsts.PROFILE)
+      .then(profile => {
+        if (profile) {
+          this.profileId = profile.user_id;
+          this.profileImage = profile.image;
+        }
+      });
+  }
+
+  closePage(): void {
+    if (this.isModal) {
+      return this.close.emit(true);
+    } else {
+      return this.close.emit(false);
+    }
+  }
+
+  async presentFilterOptions() {
+    this.filterInputs.forEach(input => {
+      input.checked = this.filterDefault === input.value;
+    });
+
+    const alertFilter = await this.alertCtrl.create(
+      {
+        header: 'Filter Marketplace',
+        inputs: [...this.filterInputs],
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            cssClass: 'secondary',
+            handler: () => {}
+          }, {
+            text: 'Ok',
+            handler: (filterOption) => {
+              this.filterDefault = filterOption;
+              this.filterOption.emit(filterOption);
+            }
+          }
+        ]
+      });
+
+    await alertFilter.present();
   }
 }

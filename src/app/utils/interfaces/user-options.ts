@@ -15,6 +15,12 @@ export interface UserRegistrationOptions {
   password: string;
   confirm_password: string;
   freelancer?: boolean;
+  ssn?: number;
+  city_id: number;
+  street_address: string;
+  city: string;
+  state: string;
+  zip: number;
 }
 
 export interface AuthorizationToken {
