@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{toUser}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="message-wrap" #content>
+
+    <div *ngFor="let message of messages"
+         class="message"
+         [class.left]=" message.sender_id != user_id "
+         [class.right]=" message.sender_id == user_id ">
+      <img class="user-img" [src]="message.sender.profile.image" alt="avatar">
+      <!--<ion-spinner name="dots" *ngIf="msg.status === 'pending'"></ion-spinner>-->
+      <div class="msg-detail">
+        <div class="msg-info">
+          <p>
+            {{message.sender.first_name}}</p>
+        </div>
+        <div class="msg-content">
+          <span class="triangle"></span>
+          <p class="line-breaker ">{{message.text}}</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</ion-content>
+
+<ion-footer no-border [style.height]="'55px'">
+  <div class="input-wrap">
+    <ion-textarea placeholder="Text Input"
+                  [(ngModel)]="pendingMessage"
+                  (keyup.enter)="sendMessage()"
+                  (focusin)="onFocus()"
+                  required
+                  clearOnEdit="true"
+    ></ion-textarea>
+    <ion-button [disabled]="buttonDisabled" (click)="sendMessage()">
+      <ion-icon name="send"></ion-icon>
+    </ion-button>
+  </div>
+</ion-footer>

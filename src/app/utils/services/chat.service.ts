@@ -14,7 +14,7 @@ import {Room} from '../interfaces/chat/room';
 export class ChatService {
   constructor(private http: HttpClient, private storage: Storage) { }
 
-  public getChatRooms() {
+  public getChatRooms(): Observable<Room[]> {
     return from(
       this.storage.get(StorageConsts.ACCESS_TOKEN)
         .then(token => {
@@ -23,7 +23,39 @@ export class ChatService {
               Authorization: (token) ? token : ''
             }
           };
-          return this.http.get(API_ADDRESS + '/rooms', authHeader)
+          return this.http.get<Room[]>(API_ADDRESS + '/rooms', authHeader)
+            .toPromise()
+            .then((res: Room[]) => res);
+        })
+    );
+  }
+
+  public getChatRoom(uuid): Observable<Room> {
+    return from(
+      this.storage.get(StorageConsts.ACCESS_TOKEN)
+        .then(token => {
+          const authHeader: AuthorizationToken = {
+            headers: {
+              Authorization: (token) ? token : ''
+            }
+          };
+          return this.http.get<Room>(`${API_ADDRESS}/room/${uuid}`, authHeader)
+            .toPromise()
+            .then((res: Room) => res);
+        })
+    );
+  }
+
+  public sendMessage(uuid, text) {
+    return from(
+      this.storage.get(StorageConsts.ACCESS_TOKEN)
+        .then(token => {
+          const authHeader: AuthorizationToken = {
+            headers: {
+              Authorization: (token) ? token : ''
+            }
+          };
+          return this.http.post(`${API_ADDRESS}/message/${uuid}`, { message: text },authHeader)
             .toPromise()
             .then((res) => res);
         })

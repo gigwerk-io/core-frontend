@@ -13,6 +13,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import {AuthModule} from './auth/auth.module';
 import {FormsModule} from '@angular/forms';
+import {PusherServiceProvider} from './providers/pusher.service';
 
 @NgModule({
   imports: [
@@ -31,7 +32,8 @@ import {FormsModule} from '@angular/forms';
   providers: [
     InAppBrowser,
     SplashScreen,
-    StatusBar
+    StatusBar,
+    PusherServiceProvider
   ],
   bootstrap: [AppComponent]
 })
