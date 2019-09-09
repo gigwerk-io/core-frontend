@@ -28,6 +28,45 @@ const routes: Routes = [
   {
     path: 'settings',
     loadChildren: () => import('./pages/settings/settings.module').then(m => m.SettingsPageModule),
+  },
+  {
+    path: 'edit-profile',
+    loadChildren: () => import('./pages/edit-profile/edit-profile.module').then(m => m.EditProfilePageModule),
+  },
+  {
+    path: 'notification-preferences',
+    // tslint:disable-next-line:max-line-length
+    loadChildren: () => import('./pages/notification-preferences/notification-preferences.module').then(m => m.NotificationPreferencesPageModule),
+  },
+  {
+    path: 'privacy-preferences',
+    // tslint:disable-next-line:max-line-length
+    loadChildren: () => import('./pages/privacy-preferences/privacy-preferences.module').then(m => m.PrivacyPreferencesPageModule),
+  },
+  {
+    path: 'saved-locations',
+    // tslint:disable-next-line:max-line-length
+    loadChildren: () => import('./pages/saved-locations/saved-locations.module').then(m => m.SavedLocationsPageModule),
+  },
+  {
+    path: 'add-location',
+    loadChildren: () => import('./pages/add-location/add-location.module').then(m => m.AddLocationPageModule),
+  },
+  {
+    path: 'reset-password',
+    loadChildren: () => import('./pages/reset-password/reset-password.module').then(m => m.ResetPasswordPageModule),
+  },
+  {
+    path: 'account-options',
+    loadChildren: () => import('./pages/account-options/account-options.module').then(m => m.AccountOptionsPageModule),
+  },
+  {
+    path: 'manage-cards',
+    loadChildren: () => import('./pages/manage-cards/manage-cards.module').then(m => m.ManageCardsPageModule),
+  },
+  {
+    path: 'set-up-payments',
+    loadChildren: () => import('./pages/set-up-payments/set-up-payments.module').then(m => m.SetUpPaymentsPageModule),
   }
 ];
 
