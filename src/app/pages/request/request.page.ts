@@ -233,9 +233,9 @@ export class RequestPage implements OnInit {
   }
 
   onSubmitTaskRequest() {
-    this.marketplaceService.createMainMarketplaceRequest(this.taskRequest)
-      .then(() => {
-        this.closeRequestPage();
-      });
+    // this.marketplaceService.createMainMarketplaceRequest(this.taskRequest)
+    //   .then(() => {
+    //     this.closeRequestPage();
+    //   });
   }
 }

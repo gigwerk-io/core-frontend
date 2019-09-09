@@ -37,10 +37,10 @@ export class MarketplacePage implements OnInit {
     ];
   }
 
-  getRequests(): void {
-    this.marketplaceService.getMainMarketplaceRequests(this.filterDefault)
-      .subscribe(requests => this.requests = requests);
-  }
+  // getRequests(): void {
+  //   this.marketplaceService.getMainMarketplaceRequests(this.filterDefault)
+  //     .subscribe(requests => this.requests = requests);
+  // }
 
   async openRequestPage(): Promise<void> {
     const modal = await this.modalCtrl.create({
