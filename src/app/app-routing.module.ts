@@ -67,6 +67,14 @@ const routes: Routes = [
   {
     path: 'set-up-payments',
     loadChildren: () => import('./pages/set-up-payments/set-up-payments.module').then(m => m.SetUpPaymentsPageModule),
+  },
+  {
+    path: 'credit-amount',
+    loadChildren: () => import('./pages/credit-amount/credit-amount.module').then(m => m.CreditAmountPageModule),
+  },
+  {
+    path: 'redeem-code',
+    loadChildren: () => import('./pages/redeem-code/redeem-code.module').then(m => m.RedeemCodePageModule),
   }
 ];
 
