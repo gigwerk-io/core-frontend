@@ -20,7 +20,7 @@ export class MarketplacePage implements OnInit {
               private modalCtrl: ModalController) { }
 
   ngOnInit() {
-    this.getRequests();
+    // this.getRequests();
     this.filterInputs = [
       {
         type: 'radio',
@@ -61,6 +61,6 @@ export class MarketplacePage implements OnInit {
 
   setFilterOption(option: string) {
     this.filterDefault = option;
-    this.getRequests();
+    // this.getRequests();
   }
 }
