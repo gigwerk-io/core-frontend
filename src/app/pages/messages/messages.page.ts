@@ -14,7 +14,7 @@ import {IonContent} from '@ionic/angular';
   styleUrls: ['./messages.page.scss'],
 })
 export class MessagesPage implements OnInit {
-  @ViewChild(IonContent) content: IonContent;
+  @ViewChild(IonContent, {static: false}) content: IonContent;
   room: Room;
   user_id: Number;
   messages: any; // TODO create types
