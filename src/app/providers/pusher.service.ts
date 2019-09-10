@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import {PUSHER_ID} from './constants';
 declare const Pusher: any;
 @Injectable()
 export class PusherServiceProvider {
@@ -8,7 +9,7 @@ export class PusherServiceProvider {
 
   }
   public init(uuid) {
-    const pusher = new Pusher('3e1e4ea4e682c0c4bad7', {
+    const pusher = new Pusher(PUSHER_ID, {
       cluster: 'us2',
       encrypted: true,
     });
