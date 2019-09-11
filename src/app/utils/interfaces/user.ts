@@ -27,15 +27,7 @@ export interface User {
   friend_marketplace?: FriendMarketplaceTask[];
   friend_proposals?: FriendProposals[];
   main_proposals?: MainProposals[];
-  profile?: {
-    user_id?: number;
-    image?: string;
-    description?: string;
-    created_at?: number;
-    updated_at?: number;
-    rating?: number;
-    customer_rating?: number;
-  };
+  profile?: Profile;
 }
 
 export interface ProfileRouteResponse {
@@ -71,4 +63,14 @@ export interface ProfileRouteResponse {
       main_proposals?: MainProposals[];
     };
   };
+}
+
+export interface Profile {
+  user_id?: number;
+  image?: string;
+  description?: string;
+  created_at?: number;
+  updated_at?: number;
+  rating?: number;
+  customer_rating?: number;
 }

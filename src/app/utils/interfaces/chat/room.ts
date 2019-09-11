@@ -9,3 +9,7 @@ export interface Room {
   messages: any;
   [propName: string]: any;
 }
+
+export interface CreateChatResponse {
+  id: string;
+}

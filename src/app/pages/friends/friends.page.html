@@ -1,24 +1,51 @@
 <favr-page-header
-  pageTitle="My Friends"
+  [pageTitle]="title"
   [showSearchBar]="true"
   (handleSearch)="handleSearch($event)"
 >
 </favr-page-header>
 
 <ion-content>
+  <!--<div>-->
+    <!--<ion-select class="filter" placeholder="Select One">-->
+      <!--<ion-select-option value="f">Female</ion-select-option>-->
+      <!--<ion-select-option value="m">Male</ion-select-option>-->
+    <!--</ion-select>-->
+  <!--</div>-->
+
+
+  <!-- Default Segment -->
+  <!-- Icon end -->
+  <ion-segment color="danger" scrollable (ionChange)="segmentChanged($event)">
+    <ion-segment-button checked layout="icon-end" value="friends">
+      <ion-label>Current</ion-label>
+    </ion-segment-button>
+    <ion-segment-button checked layout="icon-end" value="recommended">
+      <ion-label>Discover</ion-label>
+    </ion-segment-button>
+    <ion-segment-button layout="icon-end" value="new">
+      <ion-label>Requests</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
   <!-- List of Text Items -->
   <ion-list>
-    <ion-card class="user-friend-card" *ngFor="let friend of friends">
-      <ion-item  [href]="'profile/' + friend.id">
-        <ion-avatar slot="start">
-          <ion-img class="user-thumb" [src]="friend.profile.image"></ion-img>
+    <ion-card class="user-friend-card" *ngFor="let user of users">
+      <ion-item >
+        <ion-avatar slot="start" (click)="goToUserProfile(user.id)">
+          <ion-img class="user-thumb" [src]="user.profile.image"></ion-img>
         </ion-avatar>
-        <ion-label>
-          {{friend.name}}
+        <ion-label (click)="goToUserProfile(user.id)">
+          {{user.name}}
           <br>
-          <ion-card-subtitle>@{{friend.username}}</ion-card-subtitle>
+          <ion-card-subtitle (click)="goToUserProfile(user.id)">@{{user.username}}</ion-card-subtitle>
         </ion-label>
-        <ion-icon name="arrow-dropright"></ion-icon>
+        <ion-button (click)="handleClick(user)">
+           <ion-icon [name]="btnClass"></ion-icon>
+        </ion-button>
+        <ion-button *ngIf="secondButton" (click)="rejectFriendRequest(user.id)">
+          <ion-icon name="remove-circle"></ion-icon>
+        </ion-button>
       </ion-item>
     </ion-card>
   </ion-list>
