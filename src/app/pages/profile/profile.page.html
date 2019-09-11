@@ -4,6 +4,14 @@
       <ion-back-button defaultHref></ion-back-button>
     </ion-buttons>
     <ion-title *ngIf="profile">{{profile.user.user.first_name}} {{profile.user.user.last_name}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button *ngIf="!isOwner" (click)="presentActionSheet()">
+        <ion-icon name="more"></ion-icon>
+      </ion-button>
+      <ion-button *ngIf="isOwner" (click)="presentOwnerActionSheet()">
+        <ion-icon name="more"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 

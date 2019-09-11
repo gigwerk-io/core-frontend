@@ -4,7 +4,6 @@ import { IonicModule } from '@ionic/angular';
 
 import { TabsPage } from './tabs-page';
 import { TabsPageRoutingModule } from './tabs-page-routing.module';
-import { MapModule } from '../map/map.module';
 import { MarketplacePageModule } from '../marketplace/marketplace.module';
 import {FriendsPageModule} from '../friends/friends.module';
 import {RequestPageModule} from '../request/request.module';
@@ -15,7 +14,6 @@ const MODULES = [
   CommonModule,
   FriendsPageModule,
   IonicModule,
-  MapModule,
   MarketplacePageModule,
   MarketplaceDetailPageModule,
   RequestPageModule,

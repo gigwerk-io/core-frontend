@@ -43,9 +43,6 @@ export class AppComponent implements OnInit {
   }
 
   async ngOnInit() {
-    // this.checkLoginStatus();
-    // this.listenForLoginEvents();
-
     this.swUpdate.available.subscribe(async res => {
       const toast = await this.toastCtrl.create({
         message: 'Update available!',
@@ -69,42 +66,4 @@ export class AppComponent implements OnInit {
       this.splashScreen.hide();
     });
   }
-
-  // checkLoginStatus() {
-  //   return this.userData.isLoggedIn().then(loggedIn => {
-  //     return this.updateLoggedInStatus(loggedIn);
-  //   });
-  // }
-  //
-  // updateLoggedInStatus(loggedIn: boolean) {
-  //   setTimeout(() => {
-  //     this.loggedIn = loggedIn;
-  //   }, 300);
-  // }
-  //
-  // listenForLoginEvents() {
-  //   this.events.subscribe('user:login', () => {
-  //     this.updateLoggedInStatus(true);
-  //   });
-  //
-  //   this.events.subscribe('user:signup', () => {
-  //     this.updateLoggedInStatus(true);
-  //   });
-  //
-  //   this.events.subscribe('user:logout', () => {
-  //     this.updateLoggedInStatus(false);
-  //   });
-  // }
-  //
-  // logout() {
-  //   this.userData.logout().then(() => {
-  //     return this.router.navigateByUrl('/login');
-  //   });
-  // }
-  //
-  // openTutorial() {
-  //   this.menu.enable(false);
-  //   this.storage.set('ion_did_tutorial', false);
-  //   this.router.navigateByUrl('/tutorial');
-  // }
 }
