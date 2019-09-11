@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {MainMarketplaceTask} from '../../utils/interfaces/main-marketplace/main-marketplace-task';
 import {MarketplaceService} from '../../utils/services/marketplace.service';
-import {ModalController} from '@ionic/angular';
+import {LoadingController, ModalController} from '@ionic/angular';
 import {RequestPage} from '../request/request.page';
 
 @Component({
@@ -16,7 +16,8 @@ export class MarketplacePage implements OnInit {
   filterDefault = 'all';
 
   constructor(private marketplaceService: MarketplaceService,
-              private modalCtrl: ModalController) { }
+              private modalCtrl: ModalController,
+              private loadingCtrl: LoadingController) { }
 
   ngOnInit() {
     this.getRequests();
@@ -41,12 +42,21 @@ export class MarketplacePage implements OnInit {
       .subscribe(requests => this.requests = requests);
   }
 
-  async openRequestPage(): Promise<void> {
+  async openRequestPage(): Promise<boolean> {
     const modal = await this.modalCtrl.create({
       component: RequestPage,
       componentProps: {'isModal': true}
     });
-    return await modal.present();
+
+    const loadingRequestPage = await this.loadingCtrl.create({
+      message: 'Please wait...',
+      translucent: true
+    });
+
+    await loadingRequestPage.present();
+
+    return await modal.present()
+      .then(() => loadingRequestPage.dismiss());
   }
 
   async doRefresh(event) {
