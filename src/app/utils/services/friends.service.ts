@@ -3,7 +3,6 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import {
   FriendRequestsResponse,
   MyFriendsResponse,
-  FriendRequestsResponse,
   RecommendedFriendsResponse,
   Searchable, GenericResponse, SearchResponse,
 } from '../interfaces/searchable';
@@ -43,15 +42,11 @@ export class FriendsService {
     return from(
       this.storage.get(StorageConsts.ACCESS_TOKEN)
         .then(token => {
-          const authHeader: AuthorizationToken = {
-            headers: {
-              Authorization: (token) ? token : '',
-            },
-            params: {
-              search: query
-            }
-          };
-          return this.http.get<SearchResponse>(API_ADDRESS + '/search', authHeader)
+          const headers = new HttpHeaders();
+          headers.set('Authorization', token);
+          const params = new HttpParams();
+          params.set('search', query);
+          return this.http.get<SearchResponse>(API_ADDRESS + '/search', {headers, params})
             .toPromise()
             .then((res: SearchResponse) => res.users);
         })
