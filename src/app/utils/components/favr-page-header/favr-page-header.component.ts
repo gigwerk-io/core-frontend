@@ -21,9 +21,11 @@ export class FavrPageHeaderComponent implements OnInit {
 
   @Output() close: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() filterOption: EventEmitter<string> = new EventEmitter<string>();
+  @Output() handleSearch: EventEmitter<string> = new EventEmitter<string>();
 
   profileImage: string;
   profileId: number;
+  searchQuery: '';
 
   constructor(private alertCtrl: AlertController,
               private storage: Storage) { }
@@ -72,5 +74,9 @@ export class FavrPageHeaderComponent implements OnInit {
       });
 
     await alertFilter.present();
+  }
+
+  onKeyEnter(event) {
+    this.handleSearch.emit(event.target.value);
   }
 }
