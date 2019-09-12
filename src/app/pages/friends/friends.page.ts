@@ -26,8 +26,14 @@ export class FriendsPage implements OnInit {
 
   }
 
-  handleSearch(newValue: any) {
-
+  handleSearch(query) {
+    this.title = 'Results';
+    this.btnClass = 'arrow-dropright-circle';
+    this.secondButton = false;
+    this.clickType = 'search';
+    this.friendService.searchUsers(query).subscribe(res => {
+      this.users = res;
+    });
   }
 
   segmentChanged(event) {
@@ -126,6 +132,9 @@ export class FriendsPage implements OnInit {
         break;
       case 'new':
         this.acceptFriendRequest(user.id);
+        break;
+      case 'search':
+        this.goToUserProfile(user.id);
         break;
       default:
         this.startChat(user.username);

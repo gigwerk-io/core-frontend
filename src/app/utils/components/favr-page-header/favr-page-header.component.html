@@ -42,6 +42,6 @@
       </ion-col>
     </ion-row>
     <ion-progress-bar *ngIf="progress" [value]="progress"></ion-progress-bar>
-    <ion-searchbar *ngIf="showSearchBar" placeholder="Search"></ion-searchbar>
+    <ion-searchbar *ngIf="showSearchBar" (keyup.enter)="onKeyEnter($event)" placeholder="Search"></ion-searchbar>
   </ion-toolbar>
 </ion-header>

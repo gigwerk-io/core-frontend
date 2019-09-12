@@ -21,3 +21,7 @@ export interface GenericResponse {
   message: string;
 }
 
+export interface SearchResponse {
+  users: Searchable[];
+}
+

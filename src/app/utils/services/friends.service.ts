@@ -5,7 +5,7 @@ import {
   MyFriendsResponse,
   FriendRequestsResponse,
   RecommendedFriendsResponse,
-  Searchable, GenericResponse,
+  Searchable, GenericResponse, SearchResponse,
 } from '../interfaces/searchable';
 import {from, Observable} from 'rxjs/index';
 import {Storage} from '@ionic/storage';
@@ -39,8 +39,23 @@ export class FriendsService {
     );
   }
 
-  public searchUsers(): Observable<Searchable[]> {
-
+  public searchUsers(query): Observable<Searchable[]> {
+    return from(
+      this.storage.get(StorageConsts.ACCESS_TOKEN)
+        .then(token => {
+          const authHeader: AuthorizationToken = {
+            headers: {
+              Authorization: (token) ? token : '',
+            },
+            params: {
+              search: query
+            }
+          };
+          return this.http.get<SearchResponse>(API_ADDRESS + '/search', authHeader)
+            .toPromise()
+            .then((res: SearchResponse) => res.users);
+        })
+    );
   }
 
   /**
