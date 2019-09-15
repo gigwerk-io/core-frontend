@@ -3,7 +3,9 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref></ion-back-button>
     </ion-buttons>
-    <ion-title *ngIf="profile">{{profile.user.user.first_name}} {{profile.user.user.last_name}}</ion-title>
+    <ion-title *ngIf="profile">
+      {{profile.user.user.first_name}} {{profile.user.user.last_name}}
+    </ion-title>
     <ion-buttons slot="end">
       <ion-button *ngIf="!isOwner" (click)="presentActionSheet()">
         <ion-icon name="more"></ion-icon>
@@ -29,15 +31,28 @@
              src="../../../assets/img/verified.png" style="display: inline-flex;height: .8em;width: .8em;" alt="This user is a Verified Freelancer">
       </ion-card-title>
       <ion-note>
+        <p>
+          <ion-chip [color]="status.class">
+            <ion-label>{{status.text}}</ion-label>
+          </ion-chip>
+        </p>
         @{{profile.user.user.username}}
       </ion-note>
     </ion-card-header>
     <ion-card-content text-center>
+      <section style="margin-top: -20px;" *ngIf="!isOwner">
+        <ion-button *ngIf="showFriendButton" size="small" [disabled]="friendButton.disable" (click)="handleFriendButtonClick()">
+          <ion-icon [name]="friendButton.class"></ion-icon>
+        </ion-button>
+        <ion-button color="" size="small" (click)="startChat(profile.user.user.username)">
+          <ion-icon name="chatbubbles"></ion-icon>
+        </ion-button>
+      </section>
       {{profile.user.description}}
     </ion-card-content>
   </ion-card>
   <ng-container text-center *ngIf="profile.user.user.main_marketplace.length === 0; else customerTasks">
-    <ion-title color="medium">
+    <ion-title color="medium" class="no-tasks">
       No Tasks To Display
     </ion-title>
   </ng-container>
