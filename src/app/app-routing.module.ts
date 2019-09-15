@@ -75,6 +75,26 @@ const routes: Routes = [
   {
     path: 'redeem-code',
     loadChildren: () => import('./pages/redeem-code/redeem-code.module').then(m => m.RedeemCodePageModule),
+  },
+  {
+    path: 'remembered-devices',
+    loadChildren: () => import('./pages/remembered-devices/remembered-devices.module').then(m => m.RememberedDevicesPageModule),
+  },
+  {
+    path: 'remembered-devices',
+    loadChildren: () => import('./pages/remembered-devices/remembered-devices.module').then(m => m.RememberedDevicesPageModule),
+  },
+  {
+    path: 'connect-bank-account',
+    loadChildren: () => import('./pages/connect-bank-account/connect-bank-account.module').then(m => m.ConnectBankAccountPageModule),
+  },
+  {
+    path: 'current-balance',
+    loadChildren: () => import('./pages/current-balance/current-balance.module').then(m => m.CurrentBalancePageModule),
+  },
+  {
+    path: 'past-transfers',
+    loadChildren: () => import('./pages/past-transfers/past-transfers.module').then(m => m.PastTransfersPageModule),
   }
 ];
 
