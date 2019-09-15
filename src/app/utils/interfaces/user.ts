@@ -39,6 +39,7 @@ export interface ProfileRouteResponse {
     updated_at?: number;
     rating?: number;
     customer_rating?: number;
+    friend_status?: string;
     user: {
       id?: number;
       username?: string;
@@ -73,4 +74,5 @@ export interface Profile {
   updated_at?: number;
   rating?: number;
   customer_rating?: number;
+  friend_status?: string;
 }

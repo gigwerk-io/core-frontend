@@ -24,7 +24,6 @@ export class ProfileService {
               Authorization: (token) ? token : ''
             }
           };
-          console.log(`${API_ADDRESS}/profile/${id}`);
           return this.httpClient.get<ProfileRouteResponse>(`${API_ADDRESS}/profile/${id}`, authHeader)
             .toPromise()
             .then((res: ProfileRouteResponse) => res);

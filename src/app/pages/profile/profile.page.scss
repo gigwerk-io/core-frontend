@@ -1,3 +1,6 @@
+$iphoneSe: 323px;
+$iphone678: 375px;
+
 .img-container {
   width: 100px;
   height: 100px;
@@ -12,5 +15,19 @@
     height: 100px;
     object-fit: cover;
     object-position: 50% 50%;
+  }
+}
+
+.no-tasks {
+  @media screen and (max-width: $iphoneSe){
+    margin-top: 200px;
+  }
+
+  @media screen and (max-width: $iphone678){
+    margin-top: 150px;
+  }
+
+  @media screen and (min-width: 376px){
+    margin-top: 10px;
   }
 }

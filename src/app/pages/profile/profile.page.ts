@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ProfileRouteResponse, User} from '../../utils/interfaces/user';
 import {ProfileService} from '../../utils/services/profile.service';
 import {PhotoViewer} from '@ionic-native/photo-viewer/ngx';
 import {Storage} from '@ionic/storage';
 import {StorageConsts} from '../../providers/constants';
 import {AuthResponse} from '../../utils/interfaces/auth/auth-response';
-import {ActionSheetController} from '@ionic/angular';
+import {ActionSheetController, ToastController} from '@ionic/angular';
+import {ChatService} from '../../utils/services/chat.service';
+import {FriendsService} from '../../utils/services/friends.service';
 
 @Component({
   selector: 'profile',
@@ -18,11 +20,18 @@ export class ProfilePage implements OnInit {
 
   profile: ProfileRouteResponse;
   isOwner: boolean;
+  status: object;
+  showFriendButton: boolean = true;
+  friendButton: object;
 
   constructor(private activatedRoute: ActivatedRoute,
               private storage: Storage,
               private profileService: ProfileService,
+              private chatService: ChatService,
+              private friendService: FriendsService,
+              private router: Router,
               private photoViewer: PhotoViewer,
+              public toastController: ToastController,
               private actionSheetCtrl: ActionSheetController) { }
 
   ngOnInit() {
@@ -31,6 +40,8 @@ export class ProfilePage implements OnInit {
       this.profileService.getProfile(id)
         .subscribe((profile: ProfileRouteResponse) => {
           this.profile = profile;
+          this.status = this.showBadge(profile.user.friend_status);
+          this.friendButton = this.defineFriendButton(profile.user.friend_status);
           this.storage.get(StorageConsts.PROFILE)
             .then((prof: any) => {
               this.isOwner = (prof.user_id === this.profile.user.user_id);
@@ -96,5 +107,76 @@ export class ProfilePage implements OnInit {
       }]
     });
     await actionSheet.present();
+  }
+
+  startChat(username) {
+    this.chatService.startChat(username).subscribe(res => {
+      this.router.navigate(['/app/room', res.id]);
+    });
+  }
+
+  showBadge(status) {
+    switch (status) {
+      case 'friend':
+        return {class: 'success', text: 'Friends'};
+      case 'sent':
+        return {class: 'dark', text: 'Pending'};
+      case 'respond':
+        return {class: 'secondary', text: 'Respond'};
+      case 'not_friend':
+        return {class: 'danger', text: 'Not Friends'};
+      case false:
+        return {class: 'tertiary', text: 'My Profile'};
+    }
+  }
+
+  defineFriendButton(status) {
+    switch (status) {
+      case 'friend':
+        this.showFriendButton = false;
+        return {class: 'close', disable: false};
+      case 'sent':
+        return {class: 'person-add', disable: true};
+      case 'respond':
+        return {class: 'add', disable: false};
+      case 'not_friend':
+        return {class: 'person-add', disable: false};
+      case false:
+        this.showFriendButton = false;
+        return;
+    }
+  }
+
+  async presentToast(message) {
+    const toast = await this.toastController.create({
+      message: message,
+      position: 'top',
+      duration: 2500,
+      color: 'dark',
+      showCloseButton: true
+    }).then(toast => {
+      toast.present();
+    });
+  }
+
+  handleFriendButtonClick() {
+    switch (this.profile.user.friend_status) {
+      case 'friend':
+        break;
+      case 'sent':
+        break;
+      case 'respond':
+        this.friendService.acceptFriendRequest(this.profile.user.user_id)
+          .subscribe(res => {
+            this.presentToast(res);
+          });
+        break;
+      case 'not_friend':
+        this.friendService.sendFriendRequest(this.profile.user.user_id)
+          .subscribe(res => {
+            this.presentToast(res);
+          });
+        break;
+    }
   }
 }

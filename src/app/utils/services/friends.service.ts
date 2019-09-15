@@ -42,11 +42,15 @@ export class FriendsService {
     return from(
       this.storage.get(StorageConsts.ACCESS_TOKEN)
         .then(token => {
-          const headers = new HttpHeaders();
-          headers.set('Authorization', token);
-          const params = new HttpParams();
-          params.set('search', query);
-          return this.http.get<SearchResponse>(API_ADDRESS + '/search', {headers, params})
+          const options = {
+            headers: {
+              Authorization: (token)
+            },
+            params: {
+              search: query
+            }
+          };
+          return this.http.get<SearchResponse>(API_ADDRESS + '/search', options)
             .toPromise()
             .then((res: SearchResponse) => res.users);
         })
