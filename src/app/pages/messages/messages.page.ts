@@ -21,7 +21,7 @@ export class MessagesPage implements OnInit {
   toUser: string;
   uuid: string;
   pendingMessage = '';
-  buttonDisabled = false;
+  sending = false;
   constructor(private activatedRoute: ActivatedRoute,
               private chatService: ChatService,
               private storage: Storage,
@@ -33,17 +33,7 @@ export class MessagesPage implements OnInit {
       this.uuid = data.get('uuid');
 
       // Initial Messages
-      this.chatService.getChatRoom(this.uuid).subscribe(res => {
-        this.room = res;
-        this.messages = this.room.messages;
-        this.toUser = this.getToUser();
-        const channel = this.pusher.init(this.uuid);
-        channel.bind('new-message', data => {
-          this.messages.push(data.message);
-          this.scrollToBottomOnInit();
-          console.log(data);
-        });
-      });
+      this.getMessages();
     });
     this.storage.get(StorageConsts.PROFILE)
       .then(profile => {
@@ -74,11 +64,25 @@ export class MessagesPage implements OnInit {
     this.scrollToBottomOnInit();
   }
 
+  public getMessages() {
+    this.chatService.getChatRoom(this.uuid).subscribe(res => {
+      this.room = res;
+      this.messages = this.room.messages;
+      this.toUser = this.getToUser();
+      const channel = this.pusher.init(this.uuid);
+      channel.bind('new-message', data => {
+        this.messages.push(data.message);
+        this.scrollToBottomOnInit();
+        console.log(data);
+        this.sending = false;
+      });
+    });
+  }
+
   public sendMessage() {
-    this.buttonDisabled = true;
-    this.chatService.sendMessage(this.uuid, this.pendingMessage).subscribe(res => {});
+    this.sending = true;
+    this.chatService.sendMessage(this.uuid, this.pendingMessage).subscribe(res => {  });
     this.pendingMessage = '';
-    this.buttonDisabled = false;
   }
 
   scrollToBottomOnInit() {
@@ -89,4 +93,10 @@ export class MessagesPage implements OnInit {
     this.scrollToBottomOnInit();
   }
 
+  doRefresh(event) {
+    this.getMessages();
+    setTimeout(() => {
+      event.target.complete();
+    }, 2000);
+  }
 }
