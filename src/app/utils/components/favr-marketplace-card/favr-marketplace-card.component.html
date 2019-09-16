@@ -34,7 +34,7 @@
         <small>
           <div class="complete-by-time">Needs Complete by {{mainMarketplaceTask.isoFormat | date}}</div>
           <ion-note class="note posted-time">
-           Posted <!--Posted {{mainMarketplaceTask.created_at | date}}-->
+            Posted {{mainMarketplaceTask.postedFormat | date}}
           </ion-note>
         </small>
       </div>
@@ -78,7 +78,7 @@
       </ion-button>
     </ion-col>
     <ion-col size="4" lass="ion-text-right">
-      <ion-button fill="clear" size="small" color="primary">
+      <ion-button fill="clear" size="small" color="primary" (click)="startChat(mainMarketplaceTask.customer.username)">
         <ion-icon name="chatbubbles" slot="start"></ion-icon>
         Contact
       </ion-button>

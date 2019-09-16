@@ -1,8 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MainMarketplaceTask} from '../../interfaces/main-marketplace/main-marketplace-task';
 import {PhotoViewer} from '@ionic-native/photo-viewer/ngx';
-import {LoadingController} from '@ionic/angular';
+import {IonDatetime, LoadingController, ToastController} from '@ionic/angular';
 import {Router} from '@angular/router';
+import {ChatService} from '../../services/chat.service';
 
 @Component({
   selector: 'favr-marketplace-card',
@@ -16,7 +17,9 @@ export class FavrMarketplaceCardComponent implements OnInit {
 
   constructor(private photoViewer: PhotoViewer,
               private loadingCtrl: LoadingController,
-              private router: Router) { }
+              private router: Router,
+              private chatService: ChatService,
+              private toastController: ToastController) { }
 
   ngOnInit() {}
 
@@ -34,5 +37,25 @@ export class FavrMarketplaceCardComponent implements OnInit {
 
     return this.router.navigateByUrl('/app/tabs/marketplace/detail/' + id)
       .then(() => loadingMarketplaceDetail.dismiss());
+  }
+
+  startChat(username) {
+    this.chatService.startChat(username).subscribe(res => {
+      this.router.navigate(['/app/room', res.id]);
+    }, error => {
+      this.presentToast(error.error.message);
+    });
+  }
+
+  async presentToast(message) {
+    const toast = await this.toastController.create({
+      message: message,
+      position: 'top',
+      duration: 2500,
+      color: 'dark',
+      showCloseButton: true
+    }).then(toast => {
+      toast.present();
+    });
   }
 }
