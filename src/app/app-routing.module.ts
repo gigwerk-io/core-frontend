@@ -95,6 +95,10 @@ const routes: Routes = [
   {
     path: 'past-transfers',
     loadChildren: () => import('./pages/past-transfers/past-transfers.module').then(m => m.PastTransfersPageModule),
+  },
+  {
+    path: 'past-payments',
+    loadChildren: () => import('./pages/past-payments/past-payments.module').then(m => m.PastPaymentsPageModule),
   }
 ];
 

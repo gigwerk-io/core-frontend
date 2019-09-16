@@ -1,14 +1,21 @@
 .container {
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .buttons {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
   padding: 10px;
 }
 
 .input {
   padding-top:20px;
+}
+
+.edit-profile-btn {
+ margin-right: 20px;
+ margin-left: 20px;
+ margin-top: 20px;
 }

@@ -4,10 +4,6 @@
 
 <ion-content>
   <div class="container">
-    <div class="buttons">
-      <ion-button color="primary" routerLink="/settings">Cancel</ion-button>
-      <ion-button color="primary" routerLink="/settings">Save</ion-button>
-    </div>
     <ion-avatar></ion-avatar>
     <div class="input">
       <favr-input inputLabel="Description"></favr-input>
@@ -23,6 +19,10 @@
     </div>
     <div class="input">
       <favr-input inputLabel="Last Name"></favr-input>
+    </div>
+    <div class="buttons">
+      <ion-button color="primary" routerLink="/settings" class="edit-profile-btn" shape="round">Cancel</ion-button>
+      <ion-button color="primary" routerLink="/settings" class="edit-profile-btn" shape="round">Save</ion-button>
     </div>
   </div>
 </ion-content>
