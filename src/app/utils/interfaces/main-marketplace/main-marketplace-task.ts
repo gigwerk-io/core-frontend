@@ -17,6 +17,7 @@ export interface MainMarketplaceTask {
   intensity?: string;
   complete_before?: number;
   isoFormat?: number;
+  postedFormat?: number;
   image_one?: string;
   image_two?: string;
   image_three?: string;
