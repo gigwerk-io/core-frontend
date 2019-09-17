@@ -8,7 +8,9 @@
 </ion-header>
 
 <ion-content>
-
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <div class="message-wrap" #content>
 
     <div *ngFor="let message of messages"
@@ -19,8 +21,7 @@
       <!--<ion-spinner name="dots" *ngIf="msg.status === 'pending'"></ion-spinner>-->
       <div class="msg-detail">
         <div class="msg-info">
-          <p>
-            {{message.sender.first_name}}</p>
+          <p>{{message.isoFormat | amFromUtc | amLocal |  amTimeAgo:true}} ago</p>
         </div>
         <div class="msg-content">
           <span class="triangle"></span>
@@ -42,8 +43,9 @@
                   required
                   clearOnEdit="true"
     ></ion-textarea>
-    <ion-button [disabled]="buttonDisabled" (click)="sendMessage()">
-      <ion-icon name="send"></ion-icon>
+    <ion-button (click)="sendMessage()">
+      <ion-spinner *ngIf="sending" name="crescent"></ion-spinner>
+      <ion-icon *ngIf="!sending" name="send"></ion-icon>
     </ion-button>
   </div>
 </ion-footer>

@@ -14,6 +14,7 @@ import { environment } from '../environments/environment';
 import {AuthModule} from './auth/auth.module';
 import {FormsModule} from '@angular/forms';
 import {PusherServiceProvider} from './providers/pusher.service';
+import {MomentModule} from 'ngx-moment';
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import {PusherServiceProvider} from './providers/pusher.service';
     IonicStorageModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production
-    })
+    }),
+    MomentModule
   ],
   declarations: [AppComponent],
   providers: [

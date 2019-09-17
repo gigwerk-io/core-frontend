@@ -16,13 +16,16 @@ export class ChatPage implements OnInit {
   constructor(private roomService: ChatService, private storage: Storage, private router: Router) { }
 
   ngOnInit() {
-    this.roomService.getChatRooms().subscribe(res => {
-      this.rooms = res;
-    });
+    this.getRooms();
     this.storage.get(StorageConsts.PROFILE)
       .then(profile => {
         this.user_id = profile.user_id;
       });
+  }
+  public getRooms() {
+    this.roomService.getChatRooms().subscribe(res => {
+      this.rooms = res;
+    });
   }
 
   public getUserProfileImage(members) {
@@ -53,6 +56,13 @@ export class ChatPage implements OnInit {
 
   public goToChatRoom(uuid) {
     this.router.navigate(['/app/room', uuid]);
+  }
+
+  doRefresh(event) {
+    this.getRooms();
+    setTimeout(() => {
+      event.target.complete();
+    }, 2000);
   }
 
 }

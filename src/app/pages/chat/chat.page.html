@@ -9,6 +9,9 @@
   </ion-header>
 
   <ion-content fullscreen>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
     <ion-list>
       <ion-item *ngFor="let room of rooms"  (click)="goToChatRoom(room.pusher_id)">
           <ion-avatar slot="start">
@@ -16,9 +19,11 @@
           </ion-avatar>
           <ion-label>
             <h2>{{getUserName(room.members)}}</h2>
-            <h3>I'm a big deal</h3>
             <p>{{getLastMessage(room)}}</p>
           </ion-label>
+        <ion-note>
+         <small> {{room.last_message.isoFormat | amFromUtc | amLocal |  amTimeAgo:true}} ago</small>
+        </ion-note>
       </ion-item>
 
     </ion-list>
