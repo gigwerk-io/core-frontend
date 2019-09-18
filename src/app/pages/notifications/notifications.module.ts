@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { NotificationsPage } from './notifications.page';
 import {CommonComponentsModule} from '../../utils/components/common-components.module';
+import {MomentModule} from 'ngx-moment';
 
 const routes: Routes = [
   {
@@ -21,7 +22,8 @@ const routes: Routes = [
     CommonComponentsModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    MomentModule
   ],
   declarations: [NotificationsPage]
 })
