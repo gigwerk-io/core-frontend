@@ -4,5 +4,37 @@
 ></favr-page-header>
 
 <ion-content>
+  <ion-segment (ionChange)="segmentChanged($event)">
+    <ion-segment-button checked value="unread">
+      <ion-label>Unread</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="all">
+      <ion-label>All</ion-label>
+    </ion-segment-button>
+  </ion-segment>
 
+  <ion-list>
+    <ion-card *ngFor="let notification of notifications; let i = index" [attr.data-index]="i">
+      <ion-item-sliding>
+        <ion-item>
+          <ion-icon name="person"></ion-icon>
+          <ion-label>
+            <h2>{{notification.type}}</h2>
+            <p>{{notification.message}}</p>
+          </ion-label>
+          <ion-note>
+            <small> {{notification.created_at | amFromUtc | amLocal |  amTimeAgo:true}} ago</small>
+          </ion-note>
+        </ion-item>
+
+        <ion-item-options side="start">
+          <ion-item-option (click)="markRead(notification.id, i)" color="danger">Mark As Read</ion-item-option>
+        </ion-item-options>
+
+        <ion-item-options side="end">
+          <ion-item-option (click)="view(notification.action)" color="success">View</ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-card>
+  </ion-list>
 </ion-content>

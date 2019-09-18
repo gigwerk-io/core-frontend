@@ -1,6 +1,7 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {RequestPage} from '../request/request.page';
 import {LoadingController, ModalController} from '@ionic/angular';
+import {NotificationService} from '../../utils/services/notification.service';
 
 @Component({
   templateUrl: 'tabs-page.html'
@@ -8,14 +9,25 @@ import {LoadingController, ModalController} from '@ionic/angular';
 export class TabsPage {
 
   tabSlot: string;
+  notificationCount: number = 0;
+  friendCount: number = 0;
 
   constructor(private modalCtrl: ModalController,
-              private loadingCtrl: LoadingController) {
+              private loadingCtrl: LoadingController,
+              private notificationService: NotificationService) {
     if (window.innerWidth >= 500) {
       this.tabSlot = 'top';
     } else {
       this.tabSlot = 'bottom';
     }
+    //this.getBadges();
+  }
+
+  getBadges() {
+    this.notificationService.getBadgeCount().subscribe(res => {
+      this.notificationCount = res.notifications;
+      this.friendCount = res.friends;
+    });
   }
 
   async openRequestPage(): Promise<boolean> {
