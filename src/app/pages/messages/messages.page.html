@@ -15,16 +15,18 @@
 
     <div *ngFor="let message of messages"
          class="message"
-         [class.left]=" message.sender_id != user_id "
-         [class.right]=" message.sender_id == user_id ">
-      <img class="user-img" [src]="message.sender.profile.image" alt="avatar">
+         [class.left]=" message.sender_id != user_id"
+         [class.right]=" message.sender_id == user_id">
+      <img class="user-img" [src]="message.sender.profile.image" alt="avatar" [routerLink]="'/app/profile/' + message.sender_id" routerDirection="forward">
       <!--<ion-spinner name="dots" *ngIf="msg.status === 'pending'"></ion-spinner>-->
       <div class="msg-detail">
         <div class="msg-info">
           <p>{{message.isoFormat | amFromUtc | amLocal |  amTimeAgo:true}} ago</p>
         </div>
         <div class="msg-content">
-          <span class="triangle"></span>
+          <span class="triangle"
+                [class.left]=" message.sender_id != user_id"
+                [class.right]=" message.sender_id == user_id"></span>
           <p class="line-breaker ">{{message.text}}</p>
         </div>
       </div>
@@ -43,9 +45,9 @@
                   required
                   clearOnEdit="true"
     ></ion-textarea>
-    <ion-button (click)="sendMessage()">
+    <ion-button class="send-button" (click)="sendMessage()">
       <ion-spinner *ngIf="sending" name="crescent"></ion-spinner>
-      <ion-icon *ngIf="!sending" name="send"></ion-icon>
+      <ion-icon mode="md" size="large" *ngIf="!sending" name="send"></ion-icon>
     </ion-button>
   </div>
 </ion-footer>

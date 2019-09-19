@@ -1,6 +1,18 @@
 $iphoneSe: 323px;
 $iphone678: 375px;
 
+hr {
+  background: lightgrey;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.badge {
+  display: inline-flex;
+  height: .8em;
+  width: .8em;
+}
+
 .img-container {
   width: 100px;
   height: 100px;

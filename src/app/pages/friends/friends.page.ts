@@ -12,10 +12,10 @@ import {ToastController} from '@ionic/angular';
 })
 export class FriendsPage implements OnInit {
   users: Searchable[];
-  title: string = 'Friends';
+  title = 'Friends';
   btnClass: string;
-  secondButton: boolean = false;
-  clickType: string = 'friends';
+  secondButton = false;
+  clickType = 'friends';
   constructor(private friendService: FriendsService,
               private chatService: ChatService,
               private router: Router,
@@ -75,7 +75,7 @@ export class FriendsPage implements OnInit {
   }
 
   showMyFriends() {
-    this.title = 'My Friends';
+    this.title = 'Friends';
     this.btnClass = 'chatbubbles';
     this.secondButton = false;
     this.friendService.getMyFriends().subscribe(res => {
