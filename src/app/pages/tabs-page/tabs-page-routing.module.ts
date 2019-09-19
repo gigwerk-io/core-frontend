@@ -65,6 +65,81 @@ const routes: Routes = [
   {
     path: 'room/:uuid',
     loadChildren: () => import('../messages/messages.module').then(m => m.MessagesPageModule)
+  },
+  {
+    path: 'settings',
+    loadChildren: () => import('../settings/settings.module').then(m => m.SettingsPageModule),
+  },
+  {
+    path: 'edit-profile',
+    loadChildren: () => import('../edit-profile/edit-profile.module').then(m => m.EditProfilePageModule),
+  },
+  {
+    path: 'notification-preferences',
+    // tslint:disable-next-line:max-line-length
+    loadChildren: () => import('../notification-preferences/notification-preferences.module').then(m => m.NotificationPreferencesPageModule),
+  },
+  {
+    path: 'privacy-preferences',
+    // tslint:disable-next-line:max-line-length
+    loadChildren: () => import('../privacy-preferences/privacy-preferences.module').then(m => m.PrivacyPreferencesPageModule),
+  },
+  {
+    path: 'saved-locations',
+    // tslint:disable-next-line:max-line-length
+    loadChildren: () => import('../saved-locations/saved-locations.module').then(m => m.SavedLocationsPageModule),
+  },
+  {
+    path: 'add-location',
+    loadChildren: () => import('../add-location/add-location.module').then(m => m.AddLocationPageModule),
+  },
+  {
+    path: 'reset-password',
+    loadChildren: () => import('../reset-password/reset-password.module').then(m => m.ResetPasswordPageModule),
+  },
+  {
+    path: 'account-options',
+    loadChildren: () => import('../account-options/account-options.module').then(m => m.AccountOptionsPageModule),
+  },
+  {
+    path: 'manage-cards',
+    loadChildren: () => import('../manage-cards/manage-cards.module').then(m => m.ManageCardsPageModule),
+  },
+  {
+    path: 'set-up-payments',
+    loadChildren: () => import('../set-up-payments/set-up-payments.module').then(m => m.SetUpPaymentsPageModule),
+  },
+  {
+    path: 'credit-amount',
+    loadChildren: () => import('../credit-amount/credit-amount.module').then(m => m.CreditAmountPageModule),
+  },
+  {
+    path: 'redeem-code',
+    loadChildren: () => import('../redeem-code/redeem-code.module').then(m => m.RedeemCodePageModule),
+  },
+  {
+    path: 'remembered-devices',
+    loadChildren: () => import('../remembered-devices/remembered-devices.module').then(m => m.RememberedDevicesPageModule),
+  },
+  {
+    path: 'remembered-devices',
+    loadChildren: () => import('../remembered-devices/remembered-devices.module').then(m => m.RememberedDevicesPageModule),
+  },
+  {
+    path: 'connect-bank-account',
+    loadChildren: () => import('../connect-bank-account/connect-bank-account.module').then(m => m.ConnectBankAccountPageModule),
+  },
+  {
+    path: 'current-balance',
+    loadChildren: () => import('../current-balance/current-balance.module').then(m => m.CurrentBalancePageModule),
+  },
+  {
+    path: 'past-transfers',
+    loadChildren: () => import('../past-transfers/past-transfers.module').then(m => m.PastTransfersPageModule),
+  },
+  {
+    path: 'past-payments',
+    loadChildren: () => import('../past-payments/past-payments.module').then(m => m.PastPaymentsPageModule),
   }
 ];
 

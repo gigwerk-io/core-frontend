@@ -1,28 +1,50 @@
-<favr-page-header
-  pageTitle="Edit Profile"
-></favr-page-header>
+<ion-app>
+  <ion-header translucent>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref></ion-back-button>
+      </ion-buttons>
+      <ion-title>Edit Profile</ion-title>
+    </ion-toolbar>
+  </ion-header>
 
-<ion-content>
-  <div class="container">
-    <ion-avatar></ion-avatar>
-    <div class="input">
-      <favr-input inputLabel="Description"></favr-input>
-    </div>
-    <div class="input">
-      <favr-input inputLabel="Username"></favr-input>
-    </div>
-    <div class="input">
-      <favr-input inputLabel="Email"></favr-input>
-    </div>
-    <div class="input">
-      <favr-input inputLabel="First Name"></favr-input>
-    </div>
-    <div class="input">
-      <favr-input inputLabel="Last Name"></favr-input>
-    </div>
-    <div class="buttons">
-      <ion-button color="primary" routerLink="/settings" class="edit-profile-btn" shape="round">Cancel</ion-button>
-      <ion-button color="primary" routerLink="/settings" class="edit-profile-btn" shape="round">Save</ion-button>
-    </div>
-  </div>
-</ion-content>
+  <ion-content fullscreen>
+    <form>
+      <ion-list lines="full" class="ion-no-margin ion-no-padding">
+        <ion-item class="ion-text-center">
+          <ion-avatar class="ion-margin-start">
+            <img src="https://s3.us-east-2.amazonaws.com/favr-images/user.png">
+          </ion-avatar>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Profile Description</ion-label>
+          <ion-textarea></ion-textarea>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Username</ion-label>
+          <ion-input required type="text"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Email</ion-label>
+          <ion-input required type="text"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">First Name</ion-label>
+          <ion-input required type="text"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Last Name</ion-label>
+          <ion-input required type="text"></ion-input>
+        </ion-item>
+      </ion-list>
+
+      <div class="ion-padding">
+        <ion-button expand="block" type="submit" class="ion-no-margin" disabled>Save Changes</ion-button>
+      </div>
+    </form>
+  </ion-content>
+</ion-app>
