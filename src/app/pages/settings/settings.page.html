@@ -3,6 +3,302 @@
 ></favr-page-header>
 
 <ion-content>
+  <!-- PREFERENCES SECTION -->
+  <ion-row>
+    <ion-item-divider>
+      <ion-label class="label" color="medium">
+        PREFERENCES
+      </ion-label>
+    </ion-item-divider>
+  </ion-row>
+  <ion-row class="item" routerLink="/edit-profile">
+    <ion-item-divider>
+    <ion-col size="11">
+      <ion-text color="dark">
+        <h6>
+          <ion-icon name="contact"></ion-icon> Edit Profile
+        </h6>
+      </ion-text>
+    </ion-col>
+    <ion-col size="1">
+      <ion-icon name="arrow-forward"></ion-icon>
+    </ion-col>
+    </ion-item-divider>
+  </ion-row>
+  <ion-row class="item" routerLink="/notification-preferences">
+    <ion-item-divider>
+      <ion-col size="11">
+        <ion-text color="dark">
+          <h6>
+            <ion-icon name="notifications-outline"></ion-icon> Notifications
+          </h6>
+        </ion-text>
+      </ion-col>
+      <ion-col size="1">
+        <ion-icon name="arrow-forward"></ion-icon>
+      </ion-col>
+    </ion-item-divider>
+  </ion-row>
+  <ion-row class="item" routerLink="/privacy-preferences">
+    <ion-item-divider>
+      <ion-col size="11">
+        <ion-text color="dark">
+          <h6>
+            <ion-icon name="eye"></ion-icon> Privacy
+          </h6>
+        </ion-text>
+      </ion-col>
+      <ion-col size="1">
+        <ion-icon name="arrow-forward"></ion-icon>
+      </ion-col>
+    </ion-item-divider>
+  </ion-row>
+  <ion-row class="item" routerLink="/saved-locations">
+    <ion-item-divider>
+      <ion-col size="11">
+        <ion-text color="dark">
+          <h6>
+            <ion-icon name="pin"></ion-icon> Locations
+          </h6>
+        </ion-text>
+      </ion-col>
+      <ion-col size="1">
+        <ion-icon name="arrow-forward"></ion-icon>
+      </ion-col>
+    </ion-item-divider>
+  </ion-row>
+
+  <!-- SECURITY SECTION -->
+  <ion-row>
+    <ion-item-divider>
+      <ion-label class="label">
+        SECURITY
+      </ion-label>
+    </ion-item-divider>
+  </ion-row>
+  <ion-row class="item" routerLink="/reset-password">
+    <ion-item-divider>
+    <ion-col size="11">
+      <ion-text color="dark">
+        <h6>
+          <ion-icon name="lock"></ion-icon> Reset Password
+        </h6>
+      </ion-text>
+    </ion-col>
+    <ion-col size="1">
+      <ion-icon name="arrow-forward"></ion-icon>
+    </ion-col>
+    </ion-item-divider>
+  </ion-row>
+  <ion-row class="item" routerLink="/account-options">
+    <ion-item-divider>
+      <ion-col size="11">
+        <ion-text color="dark">
+          <h6>
+            <ion-icon name="nuclear"></ion-icon> Account Options
+          </h6>
+        </ion-text>
+      </ion-col>
+      <ion-col size="1">
+        <ion-icon name="arrow-forward"></ion-icon>
+      </ion-col>
+    </ion-item-divider>
+  </ion-row>
+  <ion-row class="item" routerLink="/remembered-devices">
+    <ion-item-divider>
+      <ion-col size="11">
+        <ion-text color="dark">
+          <h6>
+            <ion-icon name="phone-portrait"></ion-icon> Remembered Devices (past sessions)
+          </h6>
+        </ion-text>
+      </ion-col>
+      <ion-col size="1">
+        <ion-icon name="arrow-forward"></ion-icon>
+      </ion-col>
+    </ion-item-divider>
+  </ion-row>
+
+  <!-- PAYMENTS SECTION -->
+  <ion-row>
+    <ion-item-divider>
+      <ion-label class="label">
+        PAYMENTS
+      </ion-label>
+    </ion-item-divider>
+  </ion-row>
+  <ion-row class="item" routerLink="/manage-cards">
+    <ion-item-divider>
+    <ion-col size="11">
+      <ion-text color="dark">
+        <h6>
+          <ion-icon name="card"></ion-icon> Manage Cards
+        </h6>
+      </ion-text>
+    </ion-col>
+    <ion-col size="1">
+      <ion-icon name="arrow-forward"></ion-icon>
+    </ion-col>
+    </ion-item-divider>
+  </ion-row>
+  <ion-row class="item" routerLink="/set-up-payments">
+    <ion-item-divider>
+      <ion-col size="11">
+        <ion-text color="dark">
+          <h6>
+            <ion-icon name="cash"></ion-icon> Set Up Payments
+          </h6>
+        </ion-text>
+      </ion-col>
+      <ion-col size="1">
+        <ion-icon name="arrow-forward"></ion-icon>
+      </ion-col>
+    </ion-item-divider>
+  </ion-row>
+  <ion-row class="item" routerLink="/past-payments">
+    <ion-item-divider>
+      <ion-col size="11">
+        <ion-text color="dark">
+          <h6>
+            <ion-icon name="cash"></ion-icon> Past Payments
+          </h6>
+        </ion-text>
+      </ion-col>
+      <ion-col size="1">
+        <ion-icon name="arrow-forward"></ion-icon>
+      </ion-col>
+    </ion-item-divider>
+  </ion-row>
+
+  <!-- TRANSFERS SECTION (if freelancer) -->
+  <ion-row>
+    <ion-item-divider>
+      <ion-label class="label">
+        TRANSFERS
+      </ion-label>
+    </ion-item-divider>
+  </ion-row>
+  <ion-row class="item" routerLink="/connect-bank-account">
+    <ion-item-divider>
+    <ion-col size="11">
+      <ion-text color="dark">
+        <!-- Dont show this if they belong to an organization. -->
+        <h6>
+          Connect Bank Account
+        </h6>
+      </ion-text>
+    </ion-col>
+    <ion-col size="1">
+      <ion-icon name="arrow-forward"></ion-icon>
+    </ion-col>
+    </ion-item-divider>
+  </ion-row>
+  <ion-row class="item" routerLink="/past-transfers">
+    <ion-item-divider>
+    <ion-col size="11">
+      <ion-text color="dark">
+        <h6>
+          Past Transfers
+        </h6>
+      </ion-text>
+    </ion-col>
+    <ion-col size="1">
+      <ion-icon name="arrow-forward"></ion-icon>
+    </ion-col>
+    </ion-item-divider>
+  </ion-row>
+  <ion-row class="item" routerLink="/current-balance">
+    <ion-item-divider>
+      <ion-col size="11">
+        <ion-text color="dark">
+          <h6>
+            Funds Earned
+          </h6>
+        </ion-text>
+      </ion-col>
+      <ion-col size="1">
+        <ion-icon name="arrow-forward"></ion-icon>
+      </ion-col>
+    </ion-item-divider>
+  </ion-row>
+
+  <!-- CREDIT SECTION (show if not part of organization.) -->
+  <ion-row>
+    <ion-item-divider>
+      <ion-label class="label">
+        CREDIT
+      </ion-label>
+    </ion-item-divider>
+  </ion-row>
+  <ion-row class="item" routerLink="/credit-amount">
+    <ion-item-divider>
+    <ion-col size="11">
+      <ion-text color="dark">
+        <h6>
+          <ion-icon name="card"></ion-icon> Current Credit Amount
+        </h6>
+      </ion-text>
+    </ion-col>
+    <ion-col size="1">
+      <ion-icon name="arrow-forward"></ion-icon>
+    </ion-col>
+    </ion-item-divider>
+  </ion-row>
+  <ion-row class="item" routerLink="/redeem-code">
+    <ion-item-divider>
+      <ion-col size="11">
+        <ion-text color="dark">
+          <h6>
+            <ion-icon name="barcode"></ion-icon> Redeem Code
+          </h6>
+        </ion-text>
+      </ion-col>
+      <ion-col size="1">
+        <ion-icon name="arrow-forward"></ion-icon>
+      </ion-col>
+    </ion-item-divider>
+  </ion-row>
+
+  <!-- LEGAL SECTION -->
+  <ion-row>
+    <ion-item-divider>
+      <ion-label class="label">
+        LEGAL
+      </ion-label>
+    </ion-item-divider>
+  </ion-row>
+  <a href="https://askfavr.com/terms.html" target="_blank" class="link">
+  <ion-row class="item">
+    <ion-item-divider>
+    <ion-col size="11">
+      <ion-text color="dark">
+        <h6>
+          <ion-icon name="document"></ion-icon> Terms of Service
+        </h6>
+      </ion-text>
+    </ion-col>
+    <ion-col size="1">
+      <ion-icon name="arrow-forward"></ion-icon>
+    </ion-col>
+    </ion-item-divider>
+  </ion-row>
+  </a>
+  <a href="https://app.termly.io/document/privacy-policy/f48f5cbe-6359-43b5-804f-4d8b82429fe6" target="_blank" class="link">
+    <ion-row class="item">
+      <ion-item-divider>
+      <ion-col size="11">
+        <ion-text color="dark">
+          <h6>
+            <ion-icon name="megaphone"></ion-icon> Privacy Policy
+          </h6>
+        </ion-text>
+      </ion-col>
+      <ion-col size="1">
+        <ion-icon name="arrow-forward"></ion-icon>
+      </ion-col>
+      </ion-item-divider>
+    </ion-row>
+  </a>
   <ion-list>
     <ion-item (click)="onLogout()">
       Sign Out
