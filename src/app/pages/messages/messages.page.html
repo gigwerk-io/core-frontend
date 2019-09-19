@@ -4,6 +4,11 @@
       <ion-back-button defaultHref></ion-back-button>
     </ion-buttons>
     <ion-title>{{toUser}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="presentActionSheet()">
+        <ion-icon name="more"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -11,20 +16,22 @@
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <div class="message-wrap" #content>
+  <div class="message-wrap">
 
     <div *ngFor="let message of messages"
          class="message"
-         [class.left]=" message.sender_id != user_id "
-         [class.right]=" message.sender_id == user_id ">
-      <img class="user-img" [src]="message.sender.profile.image" alt="avatar">
+         [class.left]=" message.sender_id != user_id"
+         [class.right]=" message.sender_id == user_id">
+      <img class="user-img" [src]="message.sender.profile.image" alt="avatar" [routerLink]="'/app/profile/' + message.sender_id" routerDirection="forward">
       <!--<ion-spinner name="dots" *ngIf="msg.status === 'pending'"></ion-spinner>-->
       <div class="msg-detail">
         <div class="msg-info">
           <p>{{message.isoFormat | amFromUtc | amLocal |  amTimeAgo:true}} ago</p>
         </div>
         <div class="msg-content">
-          <span class="triangle"></span>
+          <span class="triangle"
+                [class.left]=" message.sender_id != user_id"
+                [class.right]=" message.sender_id == user_id"></span>
           <p class="line-breaker ">{{message.text}}</p>
         </div>
       </div>
@@ -34,18 +41,18 @@
 
 </ion-content>
 
-<ion-footer no-border [style.height]="'55px'">
+<ion-footer no-border [style.height]="'inherit'">
   <div class="input-wrap">
-    <ion-textarea placeholder="Text Input"
+    <ion-textarea placeholder="Text Message"
                   [(ngModel)]="pendingMessage"
                   (keyup.enter)="sendMessage()"
                   (focusin)="onFocus()"
                   required
                   clearOnEdit="true"
     ></ion-textarea>
-    <ion-button (click)="sendMessage()">
+    <ion-button class="send-button" (click)="sendMessage()">
       <ion-spinner *ngIf="sending" name="crescent"></ion-spinner>
-      <ion-icon *ngIf="!sending" name="send"></ion-icon>
+      <ion-icon mode="md" size="large" *ngIf="!sending" name="send"></ion-icon>
     </ion-button>
   </div>
 </ion-footer>

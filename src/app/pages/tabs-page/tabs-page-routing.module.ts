@@ -18,10 +18,6 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: () => import('../marketplace/marketplace.module').then(m => m.MarketplacePageModule)
-          },
-          {
-            path: 'detail/:id',
-            loadChildren: () => import('../marketplace-detail/marketplace-detail.module').then(m => m.MarketplaceDetailPageModule)
           }
         ]
       },
@@ -57,6 +53,10 @@ const routes: Routes = [
   {
     path: 'profile/:id',
     loadChildren: () => import('../profile/profile.module').then(m => m.ProfilePageModule)
+  },
+  {
+    path: 'marketplace-detail/:id',
+    loadChildren: () => import('../marketplace-detail/marketplace-detail.module').then(m => m.MarketplaceDetailPageModule)
   },
   {
     path: 'chat',

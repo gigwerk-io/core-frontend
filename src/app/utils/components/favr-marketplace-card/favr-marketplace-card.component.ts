@@ -35,7 +35,7 @@ export class FavrMarketplaceCardComponent implements OnInit {
 
     await loadingMarketplaceDetail.present();
 
-    return this.router.navigateByUrl('/app/tabs/marketplace/detail/' + id)
+    return this.router.navigateByUrl('/app/marketplace-detail/' + id)
       .then(() => loadingMarketplaceDetail.dismiss());
   }
 

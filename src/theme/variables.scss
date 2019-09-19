@@ -21,6 +21,7 @@
  */
 
  :root {
+  --ion-theme: light;
   --ion-color-primary: #ff0000;
   --ion-color-primary-rgb: 255, 0, 0;
   --ion-color-primary-contrast: #ffffff;
@@ -249,7 +250,7 @@
  * ----------------------------------------------------------------------------
  */
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: var(--ion-theme)) {
   :root {
     --ion-border-color: #2a2a2a;
     --ion-background-color: var(--ion-color-dark);

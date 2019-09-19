@@ -11,18 +11,36 @@ ion-footer {
   height: 255px;
 }
 
+.send-button.ios {
+  --background: transparent;
+  ion-spinner {
+    color: #f00;
+  }
+  ion-icon {
+    color: #f00;
+  }
+}
+
 .line-breaker {
   white-space: pre-line;
 }
 
 .input-wrap {
+  padding-top: 1rem;
   padding: 5px;
   display: flex;
   ion-textarea {
     flex: 1;
     border: 0;
-    border-bottom: 1px $userBackgroundColor;
-    border-style: solid;
+    //border-bottom: 1px $userBackgroundColor;
+    //border-style: solid;
+    ::ng-deep textarea.sc-ion-textarea-ios {
+      padding-top: 1rem!important;
+      --padding-start: 1rem!important;
+    }
+    ::ng-deep textarea.sc-ion-textarea-md {
+      padding-top: 0.3em;
+    }
   }
 }
 
@@ -37,6 +55,8 @@ ion-footer {
       width: 45px;
       height: 45px;
       box-shadow: 0 0 2px rgba(0, 0, 0, 0.36);
+      object-fit: cover;
+      overflow: hidden;
     }
 
     .msg-detail {
@@ -74,6 +94,13 @@ ion-footer {
           -webkit-transform: rotate(45deg);
           transform: rotate(45deg);
           position: absolute;
+        }
+        span.triangle.right {
+          background-color: #f00;
+          border-width: 1px 1px 0 0;
+        }
+        span.triangle.left {
+          border-width: 0 0 1px 1px;
         }
       }
 
