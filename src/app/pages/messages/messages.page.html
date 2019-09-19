@@ -4,6 +4,11 @@
       <ion-back-button defaultHref></ion-back-button>
     </ion-buttons>
     <ion-title>{{toUser}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="presentActionSheet()">
+        <ion-icon name="more"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -11,7 +16,7 @@
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <div class="message-wrap" #content>
+  <div class="message-wrap">
 
     <div *ngFor="let message of messages"
          class="message"
@@ -36,9 +41,9 @@
 
 </ion-content>
 
-<ion-footer no-border [style.height]="'55px'">
+<ion-footer no-border [style.height]="'inherit'">
   <div class="input-wrap">
-    <ion-textarea placeholder="Text Input"
+    <ion-textarea placeholder="Text Message"
                   [(ngModel)]="pendingMessage"
                   (keyup.enter)="sendMessage()"
                   (focusin)="onFocus()"

@@ -26,13 +26,14 @@ ion-footer {
 }
 
 .input-wrap {
+  padding-top: 1rem;
   padding: 5px;
   display: flex;
   ion-textarea {
     flex: 1;
     border: 0;
-    border-bottom: 1px $userBackgroundColor;
-    border-style: solid;
+    //border-bottom: 1px $userBackgroundColor;
+    //border-style: solid;
     ::ng-deep textarea.sc-ion-textarea-ios {
       padding-top: 1rem!important;
       --padding-start: 1rem!important;

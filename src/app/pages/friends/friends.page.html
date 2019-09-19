@@ -37,7 +37,7 @@
       <ion-label (click)="goToUserProfile(user.id)">
         {{user.name}}
         <br>
-        <ion-card-subtitle (click)="goToUserProfile(user.id)">@{{user.username}}</ion-card-subtitle>
+        <ion-note (click)="goToUserProfile(user.id)">@{{user.username}}</ion-note>
       </ion-label>
       <ion-button (click)="handleClick(user)">
         <ion-icon [name]="btnClass"></ion-icon>
