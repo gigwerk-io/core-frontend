@@ -22,7 +22,7 @@
             <p>{{getLastMessage(room)}}</p>
           </ion-label>
         <ion-note>
-         <small> {{room.last_message.isoFormat | amFromUtc | amLocal |  amTimeAgo:true}} ago</small>
+         <small> {{room.updated_at | amFromUtc | amLocal |  amTimeAgo:true}} ago</small>
         </ion-note>
       </ion-item>
 

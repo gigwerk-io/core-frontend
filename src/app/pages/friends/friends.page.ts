@@ -37,6 +37,7 @@ export class FriendsPage implements OnInit {
   }
 
   segmentChanged(event) {
+    this.users = null;
     this.clickType = event.target.value;
     switch (event.target.value) {
       case 'recommended':
@@ -84,7 +85,7 @@ export class FriendsPage implements OnInit {
   }
 
   showMyFriendRequests() {
-    this.title = 'Requests';
+    this.title = 'Friend Requests';
     this.btnClass = 'add-circle';
     this.secondButton = true;
     this.friendService.getFriendRequests().subscribe(res => {
@@ -122,15 +123,17 @@ export class FriendsPage implements OnInit {
     });
   }
 
-  handleClick(user) {
+  handleClick(user, i) {
     switch (this.clickType) {
       case 'friends':
         this.startChat(user.username);
         break;
       case 'recommended':
+        this.users.splice(i);
         this.sendFriendRequest(user.id);
         break;
       case 'new':
+        this.users.splice(i);
         this.acceptFriendRequest(user.id);
         break;
       case 'search':
