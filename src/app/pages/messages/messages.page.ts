@@ -5,7 +5,7 @@ import {Room} from '../../utils/interfaces/chat/room';
 import {StorageConsts} from '../../providers/constants';
 import {Storage} from '@ionic/storage';
 import {PusherServiceProvider} from '../../providers/pusher.service';
-import {IonContent} from '@ionic/angular';
+import {ActionSheetController, IonContent} from '@ionic/angular';
 
 
 @Component({
@@ -25,7 +25,8 @@ export class MessagesPage implements OnInit {
   constructor(private activatedRoute: ActivatedRoute,
               private chatService: ChatService,
               private storage: Storage,
-              private pusher: PusherServiceProvider
+              private pusher: PusherServiceProvider,
+              private actionSheetCtrl: ActionSheetController
   ) { }
 
   ngOnInit() {
@@ -91,6 +92,34 @@ export class MessagesPage implements OnInit {
 
   onFocus() {
     this.scrollToBottomOnInit();
+  }
+
+  async presentActionSheet() {
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: 'Task Actions',
+      buttons: [{
+        text: 'View Profile',
+        icon: 'person',
+        handler: () => {
+          console.log('profile clicked');
+        }
+      }, {
+        text: 'Report User',
+        role: 'destructive',
+        icon: 'flag',
+        handler: () => {
+          console.log('Report clicked');
+        }
+      }, {
+        text: 'Cancel',
+        icon: 'close',
+        role: 'cancel',
+        handler: () => {
+          console.log('Cancel clicked');
+        }
+      }]
+    });
+    await actionSheet.present();
   }
 
   doRefresh(event) {
