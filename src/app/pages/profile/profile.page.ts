@@ -172,6 +172,7 @@ export class ProfilePage implements OnInit {
           });
         break;
       case 'not_friend':
+        this.friendButton['disable'] = true;
         this.friendService.sendFriendRequest(this.profile.user.user_id)
           .subscribe(res => {
             this.presentToast(res);

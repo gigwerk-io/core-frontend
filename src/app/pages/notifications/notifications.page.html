@@ -13,10 +13,10 @@
     </ion-segment-button>
   </ion-segment>
 
-  <ion-list>
+  <ion-list class="read">
     <ion-card *ngFor="let notification of notifications; let i = index" [attr.data-index]="i">
       <ion-item-sliding>
-        <ion-item>
+        <ion-item [class]="notificationClass">
           <ion-icon name="person"></ion-icon>
           <ion-label>
             <h2>{{notification.type}}</h2>
@@ -27,7 +27,7 @@
           </ion-note>
         </ion-item>
 
-        <ion-item-options side="start">
+        <ion-item-options side="start" *ngIf="readable">
           <ion-item-option (click)="markRead(notification.id, i)" color="danger">Mark As Read</ion-item-option>
         </ion-item-options>
 

@@ -12,6 +12,8 @@ export class NotificationsPage implements OnInit {
 
   notifications: Notification[];
   clickType: string = 'unread';
+  notificationClass = '';
+  readable = true;
   constructor(private notificationService: NotificationService,
               private router: Router) { }
 
@@ -38,6 +40,8 @@ export class NotificationsPage implements OnInit {
         this.getNewNotifications();
         break;
       case 'all':
+        this.notificationClass = 'read';
+        this.readable = false;
         this.getAllNotifications();
         break;
       default:

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ChatService} from '../../utils/services/chat.service';
 import {Room} from '../../utils/interfaces/chat/room';
 import {StorageConsts} from '../../providers/constants';
@@ -26,7 +26,8 @@ export class MessagesPage implements OnInit {
               private chatService: ChatService,
               private storage: Storage,
               private pusher: PusherServiceProvider,
-              private actionSheetCtrl: ActionSheetController
+              private actionSheetCtrl: ActionSheetController,
+              private router: Router
   ) { }
 
   ngOnInit() {
@@ -61,6 +62,16 @@ export class MessagesPage implements OnInit {
     }
   }
 
+  public goToUserProfile() {
+    const members = this.room.members;
+    // tslint:disable-next-line
+    for(let member of members) {
+      if (member.id !== this.user_id) {
+        this.router.navigate(['/app/profile', member.id]);
+      }
+    }
+  }
+
   ionViewDidLoad() {
     this.scrollToBottomOnInit();
   }
@@ -70,6 +81,7 @@ export class MessagesPage implements OnInit {
       this.room = res;
       this.messages = this.room.messages;
       this.toUser = this.getToUser();
+      console.log(this.toUser);
       const channel = this.pusher.init(this.uuid);
       channel.bind('new-message', data => {
         this.messages.push(data.message);
@@ -101,7 +113,7 @@ export class MessagesPage implements OnInit {
         text: 'View Profile',
         icon: 'person',
         handler: () => {
-          console.log('profile clicked');
+          this.goToUserProfile();
         }
       }, {
         text: 'Report User',
