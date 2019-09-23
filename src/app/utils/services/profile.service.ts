@@ -5,7 +5,6 @@ import {from, Observable} from 'rxjs';
 import {ProfileRouteResponse} from '../interfaces/user';
 import {API_ADDRESS, StorageConsts} from '../../providers/constants';
 import {AuthorizationToken} from '../interfaces/user-options';
-import {MainMarketplaceTask} from '../interfaces/main-marketplace/main-marketplace-task';
 
 @Injectable({
   providedIn: 'root'

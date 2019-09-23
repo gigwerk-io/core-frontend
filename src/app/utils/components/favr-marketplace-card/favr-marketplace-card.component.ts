@@ -1,9 +1,12 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MainMarketplaceTask} from '../../interfaces/main-marketplace/main-marketplace-task';
 import {PhotoViewer} from '@ionic-native/photo-viewer/ngx';
-import {IonDatetime, LoadingController, ToastController} from '@ionic/angular';
+import {LoadingController, ToastController} from '@ionic/angular';
 import {Router} from '@angular/router';
 import {ChatService} from '../../services/chat.service';
+import {Storage} from '@ionic/storage';
+import {StorageConsts} from '../../../providers/constants';
+import {Profile} from '../../interfaces/user';
 
 @Component({
   selector: 'favr-marketplace-card',
@@ -14,14 +17,25 @@ import {ChatService} from '../../services/chat.service';
 export class FavrMarketplaceCardComponent implements OnInit {
 
   @Input() mainMarketplaceTask: MainMarketplaceTask;
+  private userRole: string;
+  private userID: number;
+
+  // TODO: define types of Roles there's already storage constants for this
 
   constructor(private photoViewer: PhotoViewer,
               private loadingCtrl: LoadingController,
               private router: Router,
               private chatService: ChatService,
-              private toastController: ToastController) { }
+              private toastController: ToastController,
+              private storage: Storage) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.storage.get(StorageConsts.PROFILE)
+      .then((profile: Profile) => {
+        this.userID = profile.user_id;
+        this.userRole = profile.user.role;
+      });
+  }
 
   private viewAttachedPhoto(url: string, photoTitle?: string): void {
     this.photoViewer.show(url, (photoTitle) ? photoTitle : '');
@@ -48,7 +62,7 @@ export class FavrMarketplaceCardComponent implements OnInit {
   }
 
   async presentToast(message) {
-    const toast = await this.toastController.create({
+    await this.toastController.create({
       message: message,
       position: 'top',
       duration: 2500,

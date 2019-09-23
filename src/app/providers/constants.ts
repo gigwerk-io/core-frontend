@@ -5,5 +5,11 @@ export const StorageConsts = {
   PROFILE: 'PROFILE'
 };
 
+export const Role = {
+  VERIFIED_FREELANCER: 'Verified Freelancer',
+  PENDING_FREELANCER: 'Pending Freelancer',
+  CUSTOMER: 'Customer'
+};
+
 export const API_ADDRESS =  environment.apiUrl;
 export const PUSHER_ID = environment.pusherId;
