@@ -13,3 +13,4 @@ export const Role = {
 
 export const API_ADDRESS =  environment.apiUrl;
 export const PUSHER_ID = environment.pusherId;
+export const STRIPE_PUBLIC = environment.stripeKey;
