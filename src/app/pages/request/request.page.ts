@@ -69,7 +69,7 @@ export class RequestPage implements OnInit {
   ngOnInit() {
   }
 
-  private async closeRequestPage(): Promise<boolean> {
+  public async closeRequestPage(): Promise<boolean> {
     return this.modalCtrl.dismiss();
   }
 

@@ -60,20 +60,20 @@ export class MarketplaceDetailPage implements OnInit {
     const actionSheet = await this.actionSheetCtrl.create({
       header: 'Task Actions',
       buttons: [{
-        text: 'Delete',
-        icon: 'trash',
+        text: 'Cancel Task',
+        icon: 'close',
         role: 'destructive',
         handler: () => {
           console.log('Delete clicked');
         }
       }, {
         text: 'Edit',
+        icon: 'create',
         handler: () => {
           console.log('Edit clicked');
         }
       }, {
-        text: 'Cancel',
-        icon: 'close',
+        text: 'Close',
         role: 'cancel',
         handler: () => {
           console.log('Cancel clicked');
