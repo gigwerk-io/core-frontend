@@ -17,8 +17,8 @@ import {Profile} from '../../interfaces/user';
 export class FavrMarketplaceCardComponent implements OnInit {
 
   @Input() mainMarketplaceTask: MainMarketplaceTask;
-  private userRole: string;
-  private userID: number;
+  userRole: string;
+  userID: number;
 
   // TODO: define types of Roles there's already storage constants for this
 
