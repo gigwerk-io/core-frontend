@@ -16,23 +16,22 @@
 
   <!-- Default Segment -->
   <!-- Icon end -->
-  <ion-segment color="danger" scrollable (ionChange)="segmentChanged($event)">
-    <ion-segment-button checked layout="icon-end" value="friends">
+  <ion-segment (ionChange)="segmentChanged($event)">
+    <ion-segment-button checked value="friends">
       <ion-label>Friend List</ion-label>
     </ion-segment-button>
-    <ion-segment-button checked layout="icon-end" value="recommended">
+    <ion-segment-button value="recommended">
       <ion-label>Discover</ion-label>
     </ion-segment-button>
-    <ion-segment-button layout="icon-end" value="new">
-      <ion-label>Requests</ion-label>
+    <ion-segment-button value="new">
+      <ion-label>Friend Requests</ion-label>
     </ion-segment-button>
   </ion-segment>
 
   <!-- List of Text Items -->
   <ion-list>
-    <ion-item [detail]="(btnClass == 'arrow-forward')" *ngFor="let user of users"
-              (click)="goToUserProfile(user.id)">
-      <ion-avatar slot="start">
+    <ion-item [detail]="(btnClass == 'arrow-forward')" *ngFor="let user of users; let i = index;" [attr.data-index]="i">
+      <ion-avatar slot="start" (click)="goToUserProfile(user.id)">
         <ion-img [src]="user.profile.image"></ion-img>
       </ion-avatar>
       <ion-label>
@@ -40,7 +39,7 @@
         <br>
         <ion-note>@{{user.username}}</ion-note>
       </ion-label>
-      <ion-button *ngIf="btnClass != 'arrow-forward'" (click)="handleClick(user)">
+      <ion-button *ngIf="btnClass != 'arrow-forward'" (click)="handleClick(user, i)">
         <ion-icon [name]="btnClass"></ion-icon>
       </ion-button>
       <ion-button *ngIf="secondButton" (click)="rejectFriendRequest(user.id)">
