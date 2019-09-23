@@ -19,6 +19,7 @@ export class MarketplaceDetailPage implements OnInit {
   page = 'main';
   taskStatusDisplay: string;
   isOwner: boolean;
+  userRole: string;
 
   constructor(private modalCtrl: ModalController,
               private storage: Storage,
@@ -35,6 +36,7 @@ export class MarketplaceDetailPage implements OnInit {
 
           this.storage.get(StorageConsts.PROFILE)
             .then(prof => {
+              this.userRole = prof.user.role;
               this.isOwner = prof.user_id === task.customer_id;
             });
         });

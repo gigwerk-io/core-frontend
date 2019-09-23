@@ -22,26 +22,38 @@
       </ion-col>
       <ion-col>
         <ion-buttons class="page-header-buttons">
-          <ion-button *ngIf="showProfile" [routerLink]="['/app/profile', profileId]" routerDirection="forward">
+          <ion-button *ngIf="showProfile"
+                      [routerLink]="['/app/profile', profileId]"
+                      routerDirection="forward">
             <ion-avatar class="page-title-header-profile">
               <img [src]="profileImage ? profileImage : '../../../../assets/img/user.png'" alt="profile picture">
             </ion-avatar>
           </ion-button>
+
           <ion-button *ngIf="pageTitle == 'Marketplace'
                              || pageTitle == 'Friends'
                              || pageTitle == 'Notifications'
                              || pageTitle == 'Settings'"
+                      class="mobile-only nav-button">
+            <ion-icon name="search"></ion-icon>
+          </ion-button>
+
+          <ion-button *ngIf="pageTitle == 'Friends'"
+                      class="nav-button"
                       [routerLink]="'/app/chat'"
                       [routerDirection]="'forward'">
             <ion-icon name="chatbubbles"></ion-icon>
           </ion-button>
-          <ion-button (click)="presentFilterOptions()" *ngIf="pageTitle == 'Marketplace'">
-            <ion-icon name="funnel"></ion-icon>
+
+          <ion-button (click)="presentFilterOptions()"
+                      *ngIf="pageTitle == 'Marketplace'"
+                      class="nav-button">
+            <ion-icon name="funnel" size="medium"></ion-icon>
           </ion-button>
         </ion-buttons>
       </ion-col>
     </ion-row>
     <ion-progress-bar *ngIf="progress" [value]="progress"></ion-progress-bar>
-    <ion-searchbar *ngIf="showSearchBar" (keyup.enter)="onKeyEnter($event)" placeholder="Search"></ion-searchbar>
+    <ion-searchbar *ngIf="showSearchBar" class="web-only" (keyup.enter)="onKeyEnter($event)" placeholder="Search"></ion-searchbar>
   </ion-toolbar>
 </ion-header>

@@ -75,4 +75,7 @@ export interface Profile {
   rating?: number;
   customer_rating?: number;
   friend_status?: string;
+  user?: {
+    role?: string; // TODO: define types for this value
+  };
 }

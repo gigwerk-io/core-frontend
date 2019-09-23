@@ -31,6 +31,8 @@ ion-card-header {
 .marketplace-card {
   display: flex;
   flex-direction: column;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 @media(min-width: 612px) {

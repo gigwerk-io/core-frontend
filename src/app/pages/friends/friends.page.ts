@@ -28,7 +28,7 @@ export class FriendsPage implements OnInit {
 
   handleSearch(query) {
     this.title = 'Results';
-    this.btnClass = 'arrow-dropright-circle';
+    this.btnClass = 'arrow-forward';
     this.secondButton = false;
     this.clickType = 'search';
     this.friendService.searchUsers(query).subscribe(res => {
