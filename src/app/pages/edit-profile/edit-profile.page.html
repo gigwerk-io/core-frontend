@@ -1,50 +1,57 @@
-<ion-app>
-  <ion-header translucent>
-    <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-back-button defaultHref></ion-back-button>
-      </ion-buttons>
-      <ion-title>Edit Profile</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref></ion-back-button>
+    </ion-buttons>
+    <ion-title>Edit Profile</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-  <ion-content fullscreen>
-    <form>
-      <ion-list lines="full" class="ion-no-margin ion-no-padding">
-        <ion-item class="ion-text-center">
-          <ion-avatar class="ion-margin-start">
-            <img src="https://s3.us-east-2.amazonaws.com/favr-images/user.png">
-          </ion-avatar>
-        </ion-item>
-        <ion-item>
-          <ion-label position="stacked">Profile Description</ion-label>
-          <ion-textarea></ion-textarea>
-        </ion-item>
+<ion-content>
+  <ion-list class="ion-padding">
+    <ion-item>
+      <ion-avatar class="image-center">
+        <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+      </ion-avatar>
+    </ion-item>
 
-        <ion-item>
-          <ion-label position="stacked">Username</ion-label>
-          <ion-input required type="text"></ion-input>
-        </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Description</ion-label>
+      <ion-textarea placeholder="Profile description..."></ion-textarea>
+    </ion-item>
 
-        <ion-item>
-          <ion-label position="stacked">Email</ion-label>
-          <ion-input required type="text"></ion-input>
-        </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Username</ion-label>
+      <ion-input readonly value="Yes"></ion-input>
+    </ion-item>
 
-        <ion-item>
-          <ion-label position="stacked">First Name</ion-label>
-          <ion-input required type="text"></ion-input>
-        </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Email</ion-label>
+      <ion-input type="text"></ion-input>
+    </ion-item>
 
-        <ion-item>
-          <ion-label position="stacked">Last Name</ion-label>
-          <ion-input required type="text"></ion-input>
-        </ion-item>
-      </ion-list>
+    <ion-item >
+      <ion-label position="stacked">First Name</ion-label>
+      <ion-input type="text"></ion-input>
+    </ion-item>
 
-      <div class="ion-padding">
-        <ion-button expand="block" type="submit" class="ion-no-margin" disabled>Save Changes</ion-button>
-      </div>
-    </form>
-  </ion-content>
-</ion-app>
+    <ion-item >
+      <ion-label position="stacked">Last Name</ion-label>
+      <ion-input type="text"></ion-input>
+    </ion-item>
+
+    <ion-item >
+      <ion-label position="stacked">Phone</ion-label>
+      <ion-input type="text"></ion-input>
+    </ion-item>
+
+    <ion-item >
+      <ion-label position="stacked">Birthday</ion-label>
+      <ion-input type="text"></ion-input>
+    </ion-item>
+
+    <div class="ion-padding">
+      <ion-button expand="block" type="submit" class="ion-no-margin">Save Changes</ion-button>
+    </div>
+  </ion-list>
+</ion-content>

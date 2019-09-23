@@ -1,23 +1,67 @@
-<favr-page-header
-  pageTitle="Set Up Payments"
-></favr-page-header>
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/app/manage-cards"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Set Up Payments</ion-title>
+  </ion-toolbar>
+</ion-header>
+
 
 <ion-content>
-  <div class="container">
-    <div class="input">
-      <favr-input inputLabel="Card Number"></favr-input>
+  <ion-list class="ion-padding">
+    <ion-list-header>
+      ADD PAYMENT METHOD
+    </ion-list-header>
+
+    <ion-item>
+      <ion-label position="stacked">Card Number<ion-text color="danger">*</ion-text></ion-label>
+      <ion-input></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Expiration Month<ion-text color="danger">*</ion-text></ion-label>
+      <ion-select>
+        <ion-select-option value="01">January</ion-select-option>
+        <ion-select-option value="02">February</ion-select-option>
+        <ion-select-option value="03">March</ion-select-option>
+        <ion-select-option value="04">April</ion-select-option>
+        <ion-select-option value="05">May</ion-select-option>
+        <ion-select-option value="06">June</ion-select-option>
+        <ion-select-option value="07">July</ion-select-option>
+        <ion-select-option value="08">August</ion-select-option>
+        <ion-select-option value="09">September</ion-select-option>
+        <ion-select-option value="10">October</ion-select-option>
+        <ion-select-option value="11">November</ion-select-option>
+        <ion-select-option value="12">December</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Expiration Year<ion-text color="danger">*</ion-text></ion-label>
+      <ion-select>
+        <ion-select-option>2019</ion-select-option>
+        <ion-select-option>2020</ion-select-option>
+        <ion-select-option>2021</ion-select-option>
+        <ion-select-option>2022</ion-select-option>
+        <ion-select-option>2023</ion-select-option>
+        <ion-select-option>2024</ion-select-option>
+        <ion-select-option>2025</ion-select-option>
+        <ion-select-option>2026</ion-select-option>
+        <ion-select-option>2027</ion-select-option>
+        <ion-select-option>2028</ion-select-option>
+        <ion-select-option>2029</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">CVC<ion-text color="danger">*</ion-text></ion-label>
+      <ion-input></ion-input>
+    </ion-item>
+
+    <div class="ion-padding">
+      <ion-button expand="block" type="submit" shape="round" class="ion-no-margin">Submit</ion-button>
     </div>
-    <div class="input">
-      <favr-select selectLabel="Expiration Month"></favr-select>
-    </div>
-    <div class="input">
-      <favr-input inputLabel="Expiration Year"></favr-input>
-    </div>
-    <div class="input">
-      <favr-input inputLabel="CVC"></favr-input>
-    </div>
-  </div>
-  <div class="submit">
-    <ion-button color="primary" shape="round">Submit</ion-button>
-  </div>
+
+  </ion-list>
 </ion-content>

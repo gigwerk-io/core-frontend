@@ -1,77 +1,40 @@
-<favr-page-header
-  pageTitle="Privacy"
-></favr-page-header>
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/app/tabs/settings"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Privacy Settings</ion-title>
+  </ion-toolbar>
+</ion-header>
 
 <ion-content>
-  <ion-row>
-    <ion-item-divider>
-      <ion-label class="label" color="medium">
-        PRIVACY PREFERENCES
-      </ion-label>
-    </ion-item-divider>
-  </ion-row>
-    <ion-row>
-    <ion-item-divider>
-      <ion-col size="9">
-        <ion-text color="dark">
-          <h6>
-            Default Scope
-          </h6>
-        </ion-text>
-      </ion-col>
-      <ion-col size="3">
-        <ion-item>
-          <favr-select value="notifications">
-            <ion-select-option value="only_me">Only Me</ion-select-option>
-            <ion-select-option value="friends">Friends</ion-select-option>
-            <ion-select-option value="friends_of_friends">Friends of friends</ion-select-option>
-            <ion-select-option value="public">Public</ion-select-option>
-          </favr-select>
-        </ion-item>
-      </ion-col>
-    </ion-item-divider>
-  </ion-row>
-  <ion-row>
-    <ion-item-divider>
-      <ion-col size="11">
-        <ion-text color="dark">
-          <h6>
-            Display Rating
-          </h6>
-        </ion-text>
-      </ion-col>
-      <ion-col size="1">
-        <ion-toggle color="primary"></ion-toggle>
-      </ion-col>
-    </ion-item-divider>
-  </ion-row>
-  <ion-row>
-    <ion-item-divider>
-      <ion-col size="11">
-        <ion-text color="dark">
-          <h6>
-            Display Description
-          </h6>
-        </ion-text>
-      </ion-col>
-      <ion-col size="1">
-        <ion-toggle color="primary"></ion-toggle>
-      </ion-col>
-    </ion-item-divider>
-  </ion-row>
-  <ion-row>
-    <ion-item-divider>
-      <ion-col size="11">
-        <ion-text color="dark">
-          <h6>
-            Display Receipts
-          </h6>
-        </ion-text>
-      </ion-col>
-      <ion-col size="1">
-        <ion-toggle color="primary"></ion-toggle>
-      </ion-col>
-    </ion-item-divider>
-  </ion-row>
-  
+  <ion-list class="ion-padding">
+    <ion-list-header>
+      PRIVACY PREFERENCES
+    </ion-list-header>
+
+    <ion-item>
+      <ion-label> Default Scope </ion-label>
+      <ion-select>
+        <ion-select-option value="public" selected>Public</ion-select-option>
+        <ion-select-option value="friends_of_friends">Friends of friends</ion-select-option>
+        <ion-select-option value="friends">Friends</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label> Display Description </ion-label>
+      <ion-note><ion-toggle color="primary"></ion-toggle></ion-note>
+    </ion-item>
+
+    <ion-item>
+      <ion-label> Display Rating  </ion-label>
+      <ion-note><ion-toggle color="primary"></ion-toggle></ion-note>
+    </ion-item>
+
+    <ion-item>
+      <ion-label> Display Receipts </ion-label>
+      <ion-note><ion-toggle color="primary"></ion-toggle></ion-note>
+    </ion-item>
+  </ion-list>
 </ion-content>

@@ -1,48 +1,32 @@
-<favr-page-header
-  pageTitle="Account Options"
-></favr-page-header>
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/app/tabs/settings"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Account Options</ion-title>
+  </ion-toolbar>
+</ion-header>
 
 <ion-content>
-  <ion-row class="row-header">
-    <ion-item-divider>
-      <ion-label class="label" color="medium">
-        TEMPORARY OPTION
-      </ion-label>
-    </ion-item-divider>
-  </ion-row>
-  <ion-row class="btn">
-    <ion-item-divider>
-    <ion-col size="11">
-      <ion-text color="dark">
-        <h6>
-          <ion-icon name="alert"></ion-icon> <span class="text"> Deactivate My Account</span>
-        </h6>
-      </ion-text>
-    </ion-col>
-    <ion-col size="1">
-      <ion-icon name="arrow-forward"></ion-icon>
-    </ion-col>
-    </ion-item-divider>
-  </ion-row>
-  <ion-row class="row-header">
-    <ion-item-divider>
-      <ion-label class="label" color="medium">
-        PERMANENT OPTION
-      </ion-label>
-    </ion-item-divider>
-  </ion-row>
-  <ion-row class="btn">
-    <ion-item-divider>
-    <ion-col size="11">
-      <ion-text color="dark">
-        <h6>
-          <ion-icon name="nuclear"></ion-icon> <span class="text"> Delete My Account</span>
-        </h6>
-      </ion-text>
-    </ion-col>
-    <ion-col size="1">
-      <ion-icon name="arrow-forward"></ion-icon>
-    </ion-col>
-    </ion-item-divider>
-  </ion-row>
+  <ion-list class="ion-padding">
+    <ion-list-header>
+      TEMPORARY OPTION
+    </ion-list-header>
+
+    <ion-item href="#">
+      <ion-icon slot="start" name="alert"></ion-icon>
+      <ion-label>Deactivate My Account</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-list class="ion-padding">
+    <ion-list-header>
+      PERMANENT OPTION
+    </ion-list-header>
+
+    <ion-item href="#">
+      <ion-icon slot="start" name="nuclear"></ion-icon>
+      <ion-label>Delete My Account</ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>

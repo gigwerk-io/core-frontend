@@ -1,56 +1,31 @@
-<favr-page-header
-  pageTitle="Notifications"
-></favr-page-header>
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/app/tabs/settings"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Notification Settings</ion-title>
+  </ion-toolbar>
+</ion-header>
 
 <ion-content>
-  <ion-row>
-    <ion-item-divider>
-      <ion-label class="label" color="medium">
-        NOTIFICATION PREFERENCES
-      </ion-label>
-    </ion-item-divider>
-  </ion-row>
-  <ion-row>
-    <ion-item-divider>
-      <ion-col size="11">
-        <ion-text color="dark">
-          <h6>
-            Email Notifications
-          </h6>
-        </ion-text>
-      </ion-col>
-      <ion-col size="1">
-        <ion-toggle color="primary"></ion-toggle>
-      </ion-col>
-    </ion-item-divider>
-  </ion-row>
-  <ion-row>
-    <ion-item-divider>
-      <ion-col size="11">
-        <ion-text color="dark">
-          <h6>
-            SMS Notifications
-          </h6>
-        </ion-text>
-      </ion-col>
-      <ion-col size="1">
-        <ion-toggle color="primary"></ion-toggle>
-      </ion-col>
-    </ion-item-divider>
-  </ion-row>
-  <ion-row>
-    <ion-item-divider>
-      <ion-col size="11">
-        <ion-text color="dark">
-          <h6>
-            Push Notifications
-          </h6>
-        </ion-text>
-      </ion-col>
-      <ion-col size="1">
-        <ion-toggle color="primary"></ion-toggle>
-      </ion-col>
-    </ion-item-divider>
-  </ion-row>
-  
+  <ion-list class="ion-padding">
+    <ion-list-header>
+      NOTIFICATION PREFERENCES
+    </ion-list-header>
+
+    <ion-item>
+      <ion-label> Email Notifications </ion-label>
+      <ion-note><ion-toggle color="primary"></ion-toggle></ion-note>
+    </ion-item>
+
+    <ion-item>
+      <ion-label> SMS Notifications </ion-label>
+      <ion-note><ion-toggle color="primary"></ion-toggle></ion-note>
+    </ion-item>
+
+    <ion-item>
+      <ion-label> Push Notifications </ion-label>
+      <ion-note><ion-toggle color="primary"></ion-toggle></ion-note>
+    </ion-item>
+  </ion-list>
 </ion-content>
