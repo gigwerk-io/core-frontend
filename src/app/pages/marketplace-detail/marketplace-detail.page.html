@@ -16,10 +16,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-list *ngIf="page == 'task-description'">
-  </ion-list>
-
-  <ion-list *ngIf="page == 'main' && mainMarketplaceTask" >
+  <ion-list *ngIf="mainMarketplaceTask" >
     <ion-slides [pager]="true">
       <ion-slide (click)="viewAttachedPhoto(mainMarketplaceTask.image_one, 'Image 1')" class="marketplace-slide-image" *ngIf="mainMarketplaceTask.image_one">
         <img [src]="mainMarketplaceTask.image_one" alt="image one">
@@ -33,6 +30,7 @@
         <img [src]="mainMarketplaceTask.image_three" alt="image three">
       </ion-slide>
     </ion-slides>
+
     <ion-item detail="false" lines="none" routerLink="/app/profile/{{mainMarketplaceTask.customer.id}}">
       <ion-avatar slot="start">
         <img [src]="mainMarketplaceTask.customer.profile.image" alt="profile picture">
@@ -62,7 +60,41 @@
         </small>
       </div>
     </ion-item>
-    <ion-grid padding>
+
+    <ion-grid padding-start padding-end>
+
+      <ion-row *ngIf="userRole == 'Verified Freelancer' && !isOwner"
+               class="ion-no-padding ion-justify-content-center" padding-bottom>
+        <ion-col size="6" class="ion-text-center">
+          <ion-button fill="clear" size="small" color="primary">
+            <ion-icon name="thumbs-up" slot="start"></ion-icon>
+            Accept
+          </ion-button>
+        </ion-col>
+        <ion-col size="6" class="ion-text-center">
+          <ion-button fill="clear" size="small" color="primary" (click)="startChat(mainMarketplaceTask.customer.username)">
+            <ion-icon name="chatbubbles" slot="start"></ion-icon>
+            Contact
+          </ion-button>
+        </ion-col>
+      </ion-row>
+
+      <ion-row *ngIf="isOwner"
+               class="ion-no-padding ion-justify-content-center" padding-bottom>
+        <ion-col size="6" class="ion-text-center">
+          <ion-button fill="clear" size="small" color="primary">
+            <ion-icon name="close" slot="start" size="large" style="margin-right: 0"></ion-icon>
+            Cancel
+          </ion-button>
+        </ion-col>
+        <ion-col size="6" class="ion-text-center">
+          <ion-button fill="clear" size="small" color="primary">
+            <ion-icon name="create" slot="start"></ion-icon>
+            Edit
+          </ion-button>
+        </ion-col>
+      </ion-row>
+
       <ion-row padding-bottom>
         <ion-col size="3">
           <img src="../../../assets/img/lawnmower.png" class="marketplace-detail-icons">
@@ -74,6 +106,7 @@
           <!--{{mainMarketplaceTask.category}}-->
         </ion-col>
       </ion-row>
+
       <ion-row padding-bottom>
         <ion-col size="3">
           <img src="../../../assets/img/suitcase.png" class="marketplace-detail-icons">

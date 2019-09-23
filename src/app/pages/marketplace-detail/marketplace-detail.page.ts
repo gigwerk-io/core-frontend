@@ -19,6 +19,7 @@ export class MarketplaceDetailPage implements OnInit {
   page = 'main';
   taskStatusDisplay: string;
   isOwner: boolean;
+  userRole: string;
 
   constructor(private modalCtrl: ModalController,
               private storage: Storage,
@@ -35,6 +36,7 @@ export class MarketplaceDetailPage implements OnInit {
 
           this.storage.get(StorageConsts.PROFILE)
             .then(prof => {
+              this.userRole = prof.user.role;
               this.isOwner = prof.user_id === task.customer_id;
             });
         });
@@ -58,20 +60,20 @@ export class MarketplaceDetailPage implements OnInit {
     const actionSheet = await this.actionSheetCtrl.create({
       header: 'Task Actions',
       buttons: [{
-        text: 'Delete',
-        icon: 'trash',
+        text: 'Cancel Task',
+        icon: 'close',
         role: 'destructive',
         handler: () => {
           console.log('Delete clicked');
         }
       }, {
         text: 'Edit',
+        icon: 'create',
         handler: () => {
           console.log('Edit clicked');
         }
       }, {
-        text: 'Cancel',
-        icon: 'close',
+        text: 'Close',
         role: 'cancel',
         handler: () => {
           console.log('Cancel clicked');
