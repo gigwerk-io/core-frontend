@@ -29,7 +29,7 @@ export class MarketplaceDetailPage implements OnInit {
               private actionSheetCtrl: ActionSheetController) {
     this.activatedRoute.paramMap.subscribe(data => {
       const id: number = parseInt(data.get('id'), 10);
-      this.marketplaceService.getSingleMarketplaceRequest(id)
+      this.marketplaceService.getSingleMainMarketplaceRequest(id)
         .subscribe((task: MainMarketplaceTask) => {
           this.mainMarketplaceTask = task;
           this.taskStatusDisplay = (this.mainMarketplaceTask.status === 'Paid') ? 'Freelancer En-Route' : this.mainMarketplaceTask.status;

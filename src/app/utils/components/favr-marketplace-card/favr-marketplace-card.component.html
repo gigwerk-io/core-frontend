@@ -53,7 +53,8 @@
   <ion-row *ngIf="userRole == 'Verified Freelancer' && mainMarketplaceTask.customer_id != userID"
            class="ion-no-padding ion-justify-content-center">
     <ion-col size="4" class="ion-text-left">
-      <ion-button fill="clear" size="small" color="primary">
+      <ion-button (click)="freelancerAcceptTask()"
+                  fill="clear" size="small" color="primary">
         <ion-icon name="thumbs-up" slot="start"></ion-icon>
         Accept
       </ion-button>

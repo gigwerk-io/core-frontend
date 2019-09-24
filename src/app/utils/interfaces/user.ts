@@ -1,6 +1,6 @@
 // @ts-ignore
 import {MainMarketplaceTask} from './main-marketplace/main-marketplace-task';
-import {MainProposals} from './main-marketplace/main-proposals';
+import {MainProposal} from './main-marketplace/main-proposal';
 // @ts-ignore
 import {FriendMarketplaceTask} from './friend-marketplace/friend-marketplace-task';
 import {FriendProposals} from './friend-marketplace/friend-proposals';
@@ -26,7 +26,7 @@ export interface User {
   main_marketplace?: MainMarketplaceTask[];
   friend_marketplace?: FriendMarketplaceTask[];
   friend_proposals?: FriendProposals[];
-  main_proposals?: MainProposals[];
+  main_proposals?: MainProposal[];
   profile?: Profile;
 }
 
@@ -61,7 +61,7 @@ export interface ProfileRouteResponse {
       main_marketplace?: MainMarketplaceTask[];
       friend_marketplace?: FriendMarketplaceTask[];
       friend_proposals?: FriendProposals[];
-      main_proposals?: MainProposals[];
+      main_proposals?: MainProposal[];
     };
   };
 }

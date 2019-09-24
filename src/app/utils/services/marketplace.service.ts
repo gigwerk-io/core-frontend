@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
+  CustomerCancelTaskResponse,
+  FreelancerAcceptMainMarketplaceTaskRouteResponse,
   MainMarketplaceRequestRouteResponse,
   MainMarketplaceRouteResponse,
   MainMarketplaceTask
@@ -19,7 +21,7 @@ export class MarketplaceService {
               private storage: Storage) {
   }
 
-  public getSingleMarketplaceRequest(id: number): Observable<MainMarketplaceTask> {
+  public getSingleMainMarketplaceRequest(id: number): Observable<MainMarketplaceTask> {
     return from(
       this.storage.get(StorageConsts.ACCESS_TOKEN)
         .then(token => {
@@ -93,6 +95,36 @@ export class MarketplaceService {
         return this.httpClient.post<MainMarketplaceRequestRouteResponse>(`${API_ADDRESS}/marketplace/main/request`, req, authHeader)
           .toPromise()
           .then((res: MainMarketplaceRequestRouteResponse) => res.message);
+      });
+  }
+
+  public freelancerAcceptMainMarketplaceRequest(id: number): Promise<string> {
+    return this.storage.get(StorageConsts.ACCESS_TOKEN)
+      .then(token => {
+        const authHeader: AuthorizationToken = {
+          headers: {
+            Authorization: (token) ? token : ''
+          }
+        };
+        // tslint:disable-next-line
+        return this.httpClient.get<FreelancerAcceptMainMarketplaceTaskRouteResponse>(`${API_ADDRESS}/marketplace/main/accept/${id}`, authHeader)
+          .toPromise()
+          .then((res: FreelancerAcceptMainMarketplaceTaskRouteResponse) => res.message);
+      });
+  }
+
+  public customerCancelMainMarketplaceRequeset(id: number): Promise<string> {
+    return this.storage.get(StorageConsts.ACCESS_TOKEN)
+      .then(token => {
+        const authHeader: AuthorizationToken = {
+          headers: {
+            Authorization: (token) ? token : ''
+          }
+        };
+
+        return this.httpClient.get<CustomerCancelTaskResponse>(`${API_ADDRESS}/marketplace/main/request/cancel/${id}`, authHeader)
+          .toPromise()
+          .then((res: CustomerCancelTaskResponse) => res.message);
       });
   }
 }
