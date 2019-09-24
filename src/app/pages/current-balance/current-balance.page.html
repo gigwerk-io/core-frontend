@@ -1,20 +1,15 @@
-<favr-page-header
-  pageTitle="Funds Earned"
-></favr-page-header>
-
-<ion-content>
-  <ion-row>
-    <ion-item-divider>
-      <ion-label class="label" color="medium">
-        FUNDS EARNED
-      </ion-label>
-    </ion-item-divider>
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/app/tabs/settings"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Current Balance</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-grid style="height: 100%">
+  <ion-row justify-content-center align-items-center style="height: 100%">
+    <ion-title color="success" text-center>
+      <h1>$25.00</h1>
+    </ion-title>
   </ion-row>
-  <ion-row>
-    <ion-item-divider>
-      <ion-col class="col" size="12">
-        <ion-text color="dark">$250.00</ion-text>
-      </ion-col>
-    </ion-item-divider>
-  </ion-row>
-</ion-content>
+</ion-grid>

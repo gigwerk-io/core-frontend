@@ -24,20 +24,12 @@
     <ion-list-header>
       SAVED LOCATIONS
     </ion-list-header>
-    <ion-item>
-      <ion-icon slot="end" name="checkmark"></ion-icon>
+    <ion-item *ngFor="let location of locations" (click)="presentActionSheet(location.id)">
+      <ion-icon *ngIf="location.default" slot="end" name="checkmark"></ion-icon>
       <ion-label>
-        <h3>2006 15th Ave NW</h3>
-        <p>Rochester, MN 55901</p>
+        <h3>{{location.street_address}}</h3>
+        <p>{{location.city}}, {{location.state}} {{location.zip}}</p>
       </ion-label>
     </ion-item>
-    <ion-item>
-      <ion-label>
-        <h3>15300 Greenhaven Ln</h3>
-        <p>Burnsville, MN 55306</p>
-      </ion-label>
-    </ion-item>
-
-
   </ion-list>
 </ion-content>

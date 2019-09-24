@@ -15,17 +15,17 @@
 
     <ion-item>
       <ion-label position="stacked">What is your street address?<ion-text color="danger">*</ion-text></ion-label>
-      <ion-input placeholder="123 Main Street"></ion-input>
+      <ion-input [(ngModel)]="street" placeholder="123 Main Street"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label position="stacked">What is your city?<ion-text color="danger">*</ion-text></ion-label>
-      <ion-input placeholder="Rochester"></ion-input>
+      <ion-input [(ngModel)]="city" placeholder="Rochester"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label position="stacked">What is your state?<ion-text color="danger">*</ion-text></ion-label>
-      <ion-select>
+      <ion-select [(ngModel)]="state">
         <ion-select-option value="AL">Alabama</ion-select-option>
         <ion-select-option value="AK">Alaska</ion-select-option>
         <ion-select-option value="AZ">Arizona</ion-select-option>
@@ -82,11 +82,11 @@
 
     <ion-item>
       <ion-label position="stacked">What is your zip code?<ion-text color="danger">*</ion-text></ion-label>
-      <ion-input placeholder="55901"></ion-input>
+      <ion-input [(ngModel)]="zip" placeholder="55901"></ion-input>
     </ion-item>
 
     <div class="ion-padding">
-      <ion-button expand="block" type="submit" shape="round" class="ion-no-margin">Submit</ion-button>
+      <ion-button (click)="submitForm()" expand="block" type="submit" shape="round" class="ion-no-margin">Submit</ion-button>
     </div>
 
   </ion-list>

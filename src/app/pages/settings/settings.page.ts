@@ -12,11 +12,26 @@ import {NavController} from '@ionic/angular';
 })
 export class SettingsPage implements OnInit {
 
+  seeCredit: boolean;
+  seeTransfers: boolean;
   constructor(private authService: AuthService,
               private storage: Storage,
               private  navCtrl: NavController) { }
 
   ngOnInit() {
+    this.storage.get(StorageConsts.PROFILE).then(profile => {
+      if (profile.user.role === 'Verified Freelancer') {
+        this.seeTransfers = true;
+      } else {
+        this.seeTransfers = false;
+      }
+
+      if (profile.user.organization_id === null) {
+        this.seeCredit = true;
+      } else {
+        this.seeCredit = false;
+      }
+    });
   }
 
   onLogout() {

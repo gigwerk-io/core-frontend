@@ -75,7 +75,7 @@
   </ion-list>
 
   <!--TRANSFERS SECTION (if freelancer)-->
-  <ion-list class="ion-padding">
+  <ion-list class="ion-padding" *ngIf="seeTransfers">
     <ion-list-header>
       TRANSFERS
     </ion-list-header>
@@ -98,7 +98,7 @@
   </ion-list>
 
   <!--CREDIT SECTION (show if not part of organization.)-->
-  <ion-list class="ion-padding">
+  <ion-list class="ion-padding" *ngIf="seeCredit">
     <ion-list-header>
       CREDIT
     </ion-list-header>
