@@ -3,10 +3,154 @@
 ></favr-page-header>
 
 <ion-content>
-  <ion-list>
-    <ion-item (click)="onLogout()">
-      Sign Out
-      <ion-icon mode="ios" name="arrow-forward" slot="end"></ion-icon>
+  <!-- PREFERENCES SECTION -->
+  <ion-list class="ion-padding">
+    <ion-list-header>
+      PREFERENCES
+    </ion-list-header>
+
+    <ion-item href="/app/edit-profile">
+      <ion-icon slot="start" name="contact"></ion-icon>
+      <ion-label> Edit Profile</ion-label>
+    </ion-item>
+
+    <ion-item href="/app/notification-preferences">
+      <ion-icon slot="start" name="notifications-outline"></ion-icon>
+      <ion-label> Notifications </ion-label>
+    </ion-item>
+
+    <ion-item href="/app/privacy-preferences">
+      <ion-icon slot="start" name="eye"></ion-icon>
+      <ion-label> Privacy </ion-label>
+    </ion-item>
+
+    <ion-item href="/app/saved-locations">
+      <ion-icon slot="start" name="pin"></ion-icon>
+      <ion-label> Locations </ion-label>
     </ion-item>
   </ion-list>
+
+  <!--SECURITY SECTION-->
+  <ion-list class="ion-padding">
+    <ion-list-header>
+      SECURITY SECTION
+    </ion-list-header>
+
+    <ion-item href="/app/reset-password">
+      <ion-icon slot="start" name="lock"></ion-icon>
+      <ion-label> Reset Password</ion-label>
+    </ion-item>
+
+    <ion-item href="/app/account-options">
+      <ion-icon slot="start" name="nuclear"></ion-icon>
+      <ion-label> Account Options </ion-label>
+    </ion-item>
+
+    <ion-item href="/app/remembered-devices">
+      <ion-icon slot="start" name="phone-portrait"></ion-icon>
+      <ion-label> Remembered Devices </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!--PAYMENTS SECTION-->
+  <ion-list class="ion-padding">
+    <ion-list-header>
+      PAYMENTS
+    </ion-list-header>
+
+    <ion-item href="/app/manage-cards">
+      <ion-icon slot="start" name="card"></ion-icon>
+      <ion-label> Manage Cards</ion-label>
+    </ion-item>
+
+    <ion-item href="/app/set-up-payments">
+      <ion-icon slot="start" name="cash"></ion-icon>
+      <ion-label> Add Payment Method </ion-label>
+    </ion-item>
+
+    <ion-item href="/app/past-payments">
+      <ion-icon slot="start" name="paper"></ion-icon>
+      <ion-label> Payment History </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!--TRANSFERS SECTION (if freelancer)-->
+  <ion-list class="ion-padding" *ngIf="seeTransfers">
+    <ion-list-header>
+      TRANSFERS
+    </ion-list-header>
+
+    <ion-item href="/app/connect-bank-account">
+      <ion-icon slot="start" name="card"></ion-icon>
+      <!-- Dont show this if they belong to an organization.-->
+      <ion-label> Connect Bank Account </ion-label>
+    </ion-item>
+
+    <ion-item href="/app/current-balance">
+      <ion-icon slot="start" name="logo-usd"></ion-icon>
+      <ion-label> Current Balance </ion-label>
+    </ion-item>
+
+    <ion-item href="/app/past-transfers">
+      <ion-icon slot="start" name="paper"></ion-icon>
+      <ion-label> Payout History </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!--CREDIT SECTION (show if not part of organization.)-->
+  <ion-list class="ion-padding" *ngIf="seeCredit">
+    <ion-list-header>
+      CREDIT
+    </ion-list-header>
+
+    <ion-item href="/app/credit-amount">
+      <ion-icon slot="start" name="card"></ion-icon>
+      <ion-label> Current Credit Amount </ion-label>
+    </ion-item>
+
+    <ion-item href="/app/redeem-code">
+      <ion-icon slot="start" name="barcode"></ion-icon>
+      <ion-label> Redeem Code </ion-label>
+    </ion-item>
+
+    <ion-item href="/app/redeem-code">
+      <ion-icon slot="start" name="person-add"></ion-icon>
+      <ion-label> Invite Friends for Credit </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!--Support Section-->
+  <ion-list class="ion-padding">
+    <ion-list-header>
+      SUPPORT
+    </ion-list-header>
+
+    <ion-item href="#">
+      <ion-icon slot="start" name="alert"></ion-icon>
+      <ion-label> Help </ion-label>
+    </ion-item>
+
+    <ion-item href="#">
+      <ion-icon slot="start" name="help"></ion-icon>
+      <ion-label> FAQ </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!--LEGAL SECTION-->
+  <ion-list class="ion-padding">
+    <ion-list-header>
+      LEGAL
+    </ion-list-header>
+
+    <ion-item href="/app/credit-amount">
+      <ion-icon slot="start" name="document"></ion-icon>
+      <ion-label> Terms of Service </ion-label>
+    </ion-item>
+
+    <ion-item href="/app/redeem-code">
+      <ion-icon slot="start" name="megaphone"></ion-icon>
+      <ion-label> Privacy Policy </ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-button class="ion-padding logout" (click)="onLogout()" expand="block">Sign Out</ion-button>
 </ion-content>

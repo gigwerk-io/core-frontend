@@ -15,6 +15,7 @@ import {AuthModule} from './auth/auth.module';
 import {FormsModule} from '@angular/forms';
 import {PusherServiceProvider} from './providers/pusher.service';
 import {MomentModule} from 'ngx-moment';
+import {Stripe} from '@ionic-native/stripe/ngx';
 
 @NgModule({
   imports: [
@@ -35,7 +36,8 @@ import {MomentModule} from 'ngx-moment';
     InAppBrowser,
     SplashScreen,
     StatusBar,
-    PusherServiceProvider
+    PusherServiceProvider,
+    Stripe,
   ],
   bootstrap: [AppComponent]
 })

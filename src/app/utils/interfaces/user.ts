@@ -52,6 +52,8 @@ export interface ProfileRouteResponse {
       birthday?: number;
       city_id?: number;
       is_admin?: boolean;
+      organization_id?: number;
+      is_organization_admin?: boolean
       credit_amount?: number;
       intercom_id?: number;
       email_verified_at?: number;
