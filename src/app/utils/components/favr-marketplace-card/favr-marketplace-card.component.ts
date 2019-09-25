@@ -120,6 +120,7 @@ export class FavrMarketplaceCardComponent implements OnInit {
       color: 'dark',
       showCloseButton: true
     }).then(toast => {
+      customerCancel.dismiss();
       toast.present();
     });
   }
