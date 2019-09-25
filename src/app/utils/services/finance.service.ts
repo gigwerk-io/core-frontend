@@ -5,8 +5,8 @@ import {API_ADDRESS, StorageConsts} from '../../providers/constants';
 import {AuthorizationToken} from '../interfaces/user-options';
 import {from} from 'rxjs/index';
 import {BalanceResponse, OAuthResponse, PayoutsResponse} from '../interfaces/finance/transfers';
-import {CardSavedResponse} from '../interfaces/finance/payments';
-import {UserCreditResponse} from '../interfaces/finance/credit';
+import {CardSavedResponse, PaymentsResponse} from '../interfaces/finance/payments';
+import {RedeemedCreditResponse, UserCreditResponse} from '../interfaces/finance/credit';
 
 @Injectable({
   providedIn: 'root'
@@ -74,9 +74,9 @@ export class FinanceService {
               Authorization: (token) ? token : ''
             }
           };
-          return this.httpClient.get<PayoutsResponse>(`${API_ADDRESS}/payments`, authHeader)
+          return this.httpClient.get<PaymentsResponse>(`${API_ADDRESS}/payments`, authHeader)
             .toPromise()
-            .then((res: PayoutsResponse) => res);
+            .then((res: PaymentsResponse) => res);
         })
     );
   }
@@ -109,6 +109,22 @@ export class FinanceService {
           return this.httpClient.get<UserCreditResponse>(`${API_ADDRESS}/credit`, authHeader)
             .toPromise()
             .then((res: UserCreditResponse) => res);
+        })
+    );
+  }
+
+  redeemCredit(body) {
+    return from(
+      this.storage.get(StorageConsts.ACCESS_TOKEN)
+        .then(token => {
+          const authHeader: AuthorizationToken = {
+            headers: {
+              Authorization: (token) ? token : ''
+            }
+          };
+          return this.httpClient.post<RedeemedCreditResponse>(`${API_ADDRESS}/redeem`, body, authHeader)
+            .toPromise()
+            .then((res: RedeemedCreditResponse) => res);
         })
     );
   }

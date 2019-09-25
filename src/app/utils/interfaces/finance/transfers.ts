@@ -1,3 +1,6 @@
+import {MainMarketplaceTask} from '../main-marketplace/main-marketplace-task';
+import {User} from '../user';
+
 export interface BalanceResponse {
   balance: string;
 }
@@ -13,6 +16,8 @@ export interface Transfers {
   reversed: boolean;
   created_at: string;
   updated_at: string;
+  marketplace: MainMarketplaceTask;
+  freelancer: User;
 }
 
 export interface OAuthResponse {

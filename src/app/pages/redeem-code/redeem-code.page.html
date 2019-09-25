@@ -16,11 +16,11 @@
 
     <ion-item>
       <ion-label position="stacked">Credit Code<ion-text color="danger">*</ion-text></ion-label>
-      <ion-input></ion-input>
+      <ion-input [(ngModel)]="code"></ion-input>
     </ion-item>
 
     <div class="ion-padding">
-      <ion-button expand="block" type="submit" shape="round" class="ion-no-margin">Redeem</ion-button>
+      <ion-button (click)="redeem()" expand="block" type="submit" shape="round" class="ion-no-margin">Redeem</ion-button>
     </div>
 
   </ion-list>

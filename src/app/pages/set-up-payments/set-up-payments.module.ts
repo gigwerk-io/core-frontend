@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
 import { SetUpPaymentsPage } from './set-up-payments.page';
 import {CommonComponentsModule} from '../../utils/components/common-components.module';
+import { CreditCardDirectivesModule } from 'angular-cc-library';
 
 const routes: Routes = [
   {
@@ -21,7 +22,9 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    CreditCardDirectivesModule,
+    ReactiveFormsModule
   ],
   declarations: [SetUpPaymentsPage]
 })
