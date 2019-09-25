@@ -5,8 +5,7 @@ import {ProfileService} from '../../utils/services/profile.service';
 import {PhotoViewer} from '@ionic-native/photo-viewer/ngx';
 import {Storage} from '@ionic/storage';
 import {StorageConsts} from '../../providers/constants';
-import {AuthResponse} from '../../utils/interfaces/auth/auth-response';
-import {ActionSheetController, ToastController} from '@ionic/angular';
+import {ActionSheetController, Events, ToastController} from '@ionic/angular';
 import {ChatService} from '../../utils/services/chat.service';
 import {FriendsService} from '../../utils/services/friends.service';
 
@@ -21,7 +20,7 @@ export class ProfilePage implements OnInit {
   profile: ProfileRouteResponse;
   isOwner: boolean;
   status: object;
-  showFriendButton: boolean = true;
+  showFriendButton = true;
   friendButton: object;
 
   constructor(private activatedRoute: ActivatedRoute,
@@ -32,7 +31,7 @@ export class ProfilePage implements OnInit {
               private router: Router,
               private photoViewer: PhotoViewer,
               public toastController: ToastController,
-              private actionSheetCtrl: ActionSheetController) { }
+              private actionSheetCtrl: ActionSheetController,
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe(data => {
@@ -154,8 +153,8 @@ export class ProfilePage implements OnInit {
       duration: 2500,
       color: 'dark',
       showCloseButton: true
-    }).then(toast => {
-      toast.present();
+    }).then(t => {
+      t.present();
     });
   }
 

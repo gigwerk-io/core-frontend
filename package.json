@@ -54,6 +54,7 @@
     "core-js": "^2.5.7",
     "jquery": "^3.4.1",
     "moment": "^2.24.0",
+    "native-run": "^0.2.8",
     "ngx-moment": "^3.4.0",
     "rxjs": "^6.5.2",
     "sw-toolbox": "3.6.0",

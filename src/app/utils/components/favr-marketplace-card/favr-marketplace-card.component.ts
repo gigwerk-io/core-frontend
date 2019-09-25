@@ -101,4 +101,26 @@ export class FavrMarketplaceCardComponent implements OnInit {
       toast.present();
     });
   }
+
+  async customerCancelTask() {
+    const customerCancel = await this.loadingCtrl.create({
+      message: 'Please wait...',
+      translucent: true
+    });
+
+    await customerCancel.present();
+    const cancelTask = await this.marketplaceService.customerCancelMainMarketplaceRequeset(this.mainMarketplaceTask.id)
+      .then((res: string) => res)
+      .catch((err: any) => err.error.message);
+
+    await this.toastController.create({
+      message: cancelTask,
+      position: 'top',
+      duration: 2500,
+      color: 'dark',
+      showCloseButton: true
+    }).then(toast => {
+      toast.present();
+    });
+  }
 }

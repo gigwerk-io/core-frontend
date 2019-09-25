@@ -76,7 +76,8 @@
   <ion-row *ngIf="mainMarketplaceTask.customer_id == userID"
            class="ion-no-padding ion-justify-content-center">
     <ion-col size="4" class="ion-text-left">
-      <ion-button fill="clear" size="small" color="primary">
+      <ion-button (click)="customerCancelTask()"
+                  fill="clear" size="small" color="primary">
         <ion-icon name="close" slot="start" size="large" style="margin-right: 0"></ion-icon>
         Cancel
       </ion-button>
