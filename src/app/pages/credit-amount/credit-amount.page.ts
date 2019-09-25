@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {FinanceService} from '../../utils/services/finance.service';
 
 @Component({
   selector: 'credit-amount',
@@ -6,10 +7,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./credit-amount.page.scss'],
 })
 export class CreditAmountPage implements OnInit {
-
-  constructor() { }
+  credit;
+  constructor(private financeService: FinanceService) { }
 
   ngOnInit() {
+    this.getCreditBalance();
   }
 
+  getCreditBalance() {
+    this.financeService.getCreditBalance().subscribe(res => {
+      this.credit = res.credit;
+    })
+  }
 }
