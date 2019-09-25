@@ -12,10 +12,13 @@ import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import {AuthModule} from './auth/auth.module';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, FormBuilder, ReactiveFormsModule} from '@angular/forms';
 import {PusherServiceProvider} from './providers/pusher.service';
 import {MomentModule} from 'ngx-moment';
 import {Stripe} from '@ionic-native/stripe/ngx';
+import { CreditCardDirectivesModule } from 'angular-cc-library';
+import { Intercom } from '@ionic-native/intercom/ngx';
+import { IntercomModule } from 'ng-intercom';
 
 @NgModule({
   imports: [
@@ -29,7 +32,13 @@ import {Stripe} from '@ionic-native/stripe/ngx';
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production
     }),
-    MomentModule
+    MomentModule,
+    CreditCardDirectivesModule,
+    ReactiveFormsModule,
+    IntercomModule.forRoot({
+      appId: 'yvoar9nd', // from your Intercom config
+      updateOnRouterChange: true // will automatically run `update` on router event changes. Default: `false`
+    })
   ],
   declarations: [AppComponent],
   providers: [
@@ -38,6 +47,8 @@ import {Stripe} from '@ionic-native/stripe/ngx';
     StatusBar,
     PusherServiceProvider,
     Stripe,
+    FormBuilder,
+    Intercom
   ],
   bootstrap: [AppComponent]
 })

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {FinanceService} from '../../utils/services/finance.service';
 
 @Component({
   selector: 'current-balance',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CurrentBalancePage implements OnInit {
 
-  constructor() { }
+  balance: string;
+  constructor(private financeService: FinanceService) { }
 
   ngOnInit() {
+    this.getBalance();
   }
 
+  getBalance() {
+    this.financeService.getFreelancerBalance().subscribe(res => {
+      this.balance = res.balance;
+    });
+  }
 }

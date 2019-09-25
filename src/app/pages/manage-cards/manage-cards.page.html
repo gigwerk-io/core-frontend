@@ -12,7 +12,7 @@
     <ion-list-header>
       Manage Payment Methods
     </ion-list-header>
-    <ion-item href="/app/set-up-payments">
+    <ion-item routerLink="/app/set-up-payments">
       <ion-icon slot="start" name="add"></ion-icon>
       <ion-label>Add a Payment Method</ion-label>
     </ion-item>
@@ -25,9 +25,7 @@
       SAVED CARDS
     </ion-list-header>
     <ion-item>
-      <ion-thumbnail slot="start">
-        <img src="../../../assets/img/visa.png">
-      </ion-thumbnail>
+      <ion-icon slot="start" name="card"></ion-icon>
       <ion-label>
         <h3>Visa</h3>
         <p>Card Ending with 0665</p>
