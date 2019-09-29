@@ -7,18 +7,23 @@
       {{profile.user.user.first_name}} {{profile.user.user.last_name}}
     </ion-title>
     <ion-buttons slot="end" *ngIf="!isOwner" >
-      <ion-button (click)="startChat(profile.user.user.username)">
+      <ion-button (click)="startChat(profile.user.user.username)"
+                  class="nav-button">
         <ion-icon name="chatbubbles"></ion-icon>
       </ion-button>
-      <ion-button (click)="presentActionSheet()">
+      <ion-button (click)="presentActionSheet()"
+                  class="nav-button">
         <ion-icon name="more"></ion-icon>
       </ion-button>
     </ion-buttons>
     <ion-buttons slot="end" *ngIf="isOwner">
-      <ion-button routerLink="/app/chat" routerDirection="forward">
+      <ion-button routerLink="/app/chat"
+                  routerDirection="forward"
+                  class="nav-button">
         <ion-icon name="chatbubbles"></ion-icon>
       </ion-button>
-      <ion-button (click)="presentOwnerActionSheet()">
+      <ion-button (click)="presentOwnerActionSheet()"
+                  class="nav-button">
         <ion-icon name="more"></ion-icon>
       </ion-button>
     </ion-buttons>

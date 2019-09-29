@@ -214,3 +214,11 @@ ion-select.icon {
   top: 10px;
   position: absolute;
 }
+
+.nav-button {
+  background-color: var(--ion-color-primary-tint);
+  color: white;
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+}
