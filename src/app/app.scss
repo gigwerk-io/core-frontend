@@ -222,3 +222,12 @@ ion-select.icon {
   width: 32px;
   border-radius: 50%;
 }
+
+ion-textarea.ios {
+  --padding-start: 8px!important;
+  border-radius: 10px;
+}
+
+ion-textarea.md {
+  --background: none!important;
+}
