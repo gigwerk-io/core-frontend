@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from '../../utils/services/auth.service';
 import { Storage } from '@ionic/storage';
-import {StorageConsts} from '../../providers/constants';
+import {INTERCOM_ID, StorageConsts} from '../../providers/constants';
 import {AuthorizationToken} from '../../utils/interfaces/user-options';
-import {NavController, Platform} from '@ionic/angular';
+import {ActionSheetController, NavController, Platform} from '@ionic/angular';
 import {Intercom} from '@ionic-native/intercom/ngx';
 import {Intercom as WebIntercom} from 'ng-intercom';
 import {InAppBrowser} from '@ionic-native/in-app-browser/ngx';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { Contacts, Contact, ContactField, ContactName } from '@ionic-native/contacts/ngx';
+
 
 @Component({
   selector: 'settings',
@@ -23,7 +26,10 @@ export class SettingsPage implements OnInit {
               private intercom: Intercom,
               private platform: Platform,
               private webIntercom: WebIntercom,
-              private iab: InAppBrowser) { }
+              private iab: InAppBrowser,
+              private socialSharing: SocialSharing,
+              public actionSheetController: ActionSheetController,
+              private contacts: Contacts) { }
 
   ngOnInit() {
     this.storage.get(StorageConsts.PROFILE).then(profile => {
@@ -39,6 +45,8 @@ export class SettingsPage implements OnInit {
         this.seeCredit = false;
       }
     });
+
+    console.log(this.platform.platforms());
   }
 
   onLogout() {
@@ -63,7 +71,7 @@ export class SettingsPage implements OnInit {
     } else {
       this.storage.get(StorageConsts.PROFILE).then(profile => {
         this.webIntercom.boot({
-          app_id: 'yvoar9nd',
+          app_id: INTERCOM_ID,
           email: profile.user.email,
           name: profile.user.first_name + " " + profile.user.last_name,
           // Supports all optional configuration.
@@ -91,5 +99,80 @@ export class SettingsPage implements OnInit {
     } else {
       window.open('https://app.termly.io/document/privacy-policy/f48f5cbe-6359-43b5-804f-4d8b82429fe6');
     }
+  }
+
+  async inviteFriends() {
+    const message = 'Get $10 off your first FAVR job when you use my signup link!';
+    const url = 'https://askfavr.com/10off/';
+    const buttons = [
+      {
+        text: 'Share via Facebook',
+        icon: 'logo-facebook',
+        handler: () => {
+          if (this.platform.is('desktop')) {
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`);
+          } else {
+            this.socialSharing.shareViaFacebook(message, '', url).then(res => {
+              console.log(res);
+            }).catch(err => {
+              console.warn(err);
+            });
+          }
+        }
+      }, !this.platform.is('mobile') ?  {
+        text: 'Share via Text',
+        icon: 'text',
+        handler: () => {
+          this.contacts.pickContact().then(contact => {
+            const phone = contact.phoneNumbers[0].value;
+            console.log(phone);
+            this.socialSharing.shareViaSMS(message, phone).then(res => {
+              console.log(res);
+            }).catch(err => {
+              console.warn(err);
+            });
+          });
+        }
+      } : null, {
+        text: 'Share via Twitter',
+        icon: 'logo-twitter',
+        handler: () => {
+          if (this.platform.is('desktop')) {
+            window.open(`https://twitter.com/intent/tweet?url=${url}&text=${message}`);
+          } else {
+            this.socialSharing.shareViaTwitter(message, '', url).then(res => {
+              console.log(res);
+            }).catch(err => {
+              console.warn(err);
+            });
+          }
+        }
+      }, {
+        text: 'Share via WhatsApp',
+        icon: 'logo-whatsapp',
+        handler: () => {
+          this.socialSharing.shareViaWhatsApp(message).then(res => {
+            console.log(res);
+          }).catch(err => {
+            console.warn(err);
+          });
+        }
+      }, {
+        text: 'Cancel',
+        icon: 'close',
+        role: 'cancel',
+        handler: () => {
+          // console.log('Cancel clicked');
+        }
+      }];
+    if (!this.platform.is('mobile')) {
+      buttons.splice(1, 1);
+      buttons.splice(2, 1);
+    }
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Earn $5 For Each Friend You Invite To FAVR!',
+      buttons: buttons
+    });
+    await actionSheet.present();
   }
 }

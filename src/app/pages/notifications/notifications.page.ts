@@ -50,7 +50,7 @@ export class NotificationsPage implements OnInit {
   }
 
   markRead(id, index) {
-    this.notifications.splice(index);
+    this.notifications.splice(index, 1);
     this.notificationService.markNotificationAsRead(id).subscribe();
   }
 
