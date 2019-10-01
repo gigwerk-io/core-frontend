@@ -4,7 +4,9 @@ import { Router } from '@angular/router';
 
 import { UserOptions } from '../../utils/interfaces/user-options';
 import {AuthService} from '../../utils/services/auth.service';
-import {NavController} from '@ionic/angular';
+import {NavController, Platform} from '@ionic/angular';
+import { Push, PushObject, PushOptions } from '@ionic-native/push/ngx';
+import {NotificationService} from '../../utils/services/notification.service';
 
 @Component({
   selector: 'page-login',
@@ -20,15 +22,54 @@ export class LoginPage {
 
   constructor(
     private authService: AuthService,
-    public navCtrl: NavController
+    public navCtrl: NavController,
+    private push: Push,
+    private notficationService: NotificationService,
+    private platform: Platform
   ) { }
 
   onLogin(form: NgForm) {
     this.submitted = true;
-
     if (form.valid) {
       this.authService.login(this.login)
-        .subscribe(() => this.navCtrl.navigateRoot('/app/tabs/marketplace'));
+        .subscribe(() => {
+          this.navCtrl.navigateRoot('/app/tabs/marketplace').then(res => {
+            // to check if we have permission
+            try {
+              this.initPushNotification();
+            } catch (e) {
+              console.warn(e);
+            }
+          });
+        });
     }
+  }
+
+  initPushNotification() {
+    if (!this.platform.is('cordova')) {
+      console.warn('Push notifications not initialized. Cordova is not available - Run in physical device');
+      return;
+    }
+
+    const options: PushOptions = {
+      ios: {
+        alert: true,
+        badge: true,
+        sound: true,
+      }
+    };
+    const pushObject: PushObject = this.push.init(options);
+    pushObject.on('registration').subscribe((data: any) => {
+      console.log(data.registrationId);
+      if (this.platform.is('ios')) {
+        this.notficationService.saveAPNToken({'device_token': data.registrationId}).subscribe(res => {
+          console.log(res);
+        });
+      } else {
+        this.notficationService.saveFCMToken({'device_token': data.registrationId}).subscribe(res => {
+          console.log(res);
+        });
+      }
+    });
   }
 }

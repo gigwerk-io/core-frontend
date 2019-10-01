@@ -5,6 +5,7 @@ import {AuthorizationToken} from '../interfaces/user-options';
 import {from} from 'rxjs/index';
 import {API_ADDRESS, StorageConsts} from '../../providers/constants';
 import {Badge, NotificationsResponse} from '../interfaces/notification/notification';
+import {UpdateResponse} from '../interfaces/settings/preferences';
 
 @Injectable({
   providedIn: 'root'
@@ -75,6 +76,38 @@ export class NotificationService {
           return this.httpClient.get(`${API_ADDRESS}/notification/${id}`, authHeader)
             .toPromise()
             .then((res) => res);
+        })
+    );
+  }
+
+  public saveFCMToken(body) {
+    return from(
+      this.storage.get(StorageConsts.ACCESS_TOKEN)
+        .then(token => {
+          const authHeader: AuthorizationToken = {
+            headers: {
+              Authorization: (token) ? token : ''
+            }
+          };
+          return this.httpClient.post<UpdateResponse>(`${API_ADDRESS}/fcm_token`, body, authHeader)
+            .toPromise()
+            .then((res: UpdateResponse) => res);
+        })
+    );
+  }
+
+  public saveAPNToken(body) {
+    return from(
+      this.storage.get(StorageConsts.ACCESS_TOKEN)
+        .then(token => {
+          const authHeader: AuthorizationToken = {
+            headers: {
+              Authorization: (token) ? token : ''
+            }
+          };
+          return this.httpClient.post<UpdateResponse>(`${API_ADDRESS}/apn_token`, body, authHeader)
+            .toPromise()
+            .then((res: UpdateResponse) => res);
         })
     );
   }
