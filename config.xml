@@ -111,4 +111,6 @@
         <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value="FAVR requires permission to use photos within certain functions of the app." />
     </plugin>
     <plugin name="cordova-plugin-camera" spec="^4.1.0" />
+    <plugin name="cordova-plugin-stripe" spec="^1.5.3" />
+    <plugin name="cordova-plugin-intercom" spec="^7.1.1" />
 </widget>

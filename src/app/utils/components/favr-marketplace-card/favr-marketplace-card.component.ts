@@ -1,5 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {MainMarketplaceTask} from '../../interfaces/main-marketplace/main-marketplace-task';
+import {
+  FreelancerAcceptMainMarketplaceTaskRouteResponse,
+  MainMarketplaceTask
+} from '../../interfaces/main-marketplace/main-marketplace-task';
 import {PhotoViewer} from '@ionic-native/photo-viewer/ngx';
 import {LoadingController, ToastController} from '@ionic/angular';
 import {Router} from '@angular/router';
@@ -7,6 +10,8 @@ import {ChatService} from '../../services/chat.service';
 import {Storage} from '@ionic/storage';
 import {StorageConsts} from '../../../providers/constants';
 import {Profile} from '../../interfaces/user';
+import {MarketplaceService} from '../../services/marketplace.service';
+import {ProfileService} from '../../services/profile.service';
 
 @Component({
   selector: 'favr-marketplace-card',
@@ -25,6 +30,7 @@ export class FavrMarketplaceCardComponent implements OnInit {
   constructor(private photoViewer: PhotoViewer,
               private loadingCtrl: LoadingController,
               private router: Router,
+              private marketplaceService: MarketplaceService,
               private chatService: ChatService,
               private toastController: ToastController,
               private storage: Storage) { }
@@ -69,6 +75,52 @@ export class FavrMarketplaceCardComponent implements OnInit {
       color: 'dark',
       showCloseButton: true
     }).then(toast => {
+      toast.present();
+    });
+  }
+
+  async freelancerAcceptTask() {
+    const freelancerAcceptingRequest = await this.loadingCtrl.create({
+      message: 'Please wait...',
+      translucent: true
+    });
+
+    await freelancerAcceptingRequest.present();
+    const freelancerAcceptedTask = await this.marketplaceService.freelancerAcceptMainMarketplaceRequest(this.mainMarketplaceTask.id)
+      .then((res: string) => res)
+      .catch((err: any) => err.error.message);
+
+    await this.toastController.create({
+      message: freelancerAcceptedTask,
+      position: 'top',
+      duration: 2500,
+      color: 'dark',
+      showCloseButton: true
+    }).then(toast => {
+      freelancerAcceptingRequest.dismiss();
+      toast.present();
+    });
+  }
+
+  async customerCancelTask() {
+    const customerCancel = await this.loadingCtrl.create({
+      message: 'Please wait...',
+      translucent: true
+    });
+
+    await customerCancel.present();
+    const cancelTask = await this.marketplaceService.customerCancelMainMarketplaceRequeset(this.mainMarketplaceTask.id)
+      .then((res: string) => res)
+      .catch((err: any) => err.error.message);
+
+    await this.toastController.create({
+      message: cancelTask,
+      position: 'top',
+      duration: 2500,
+      color: 'dark',
+      showCloseButton: true
+    }).then(toast => {
+      customerCancel.dismiss();
       toast.present();
     });
   }

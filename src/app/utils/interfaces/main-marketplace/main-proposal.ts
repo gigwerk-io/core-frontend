@@ -1,4 +1,4 @@
-export interface MainProposals {
+export interface MainProposal {
   marketplace_id?: number;
   user_id?: number;
   approved?: boolean;

@@ -23,8 +23,7 @@
       <ion-col>
         <ion-buttons class="page-header-buttons">
           <ion-button *ngIf="showProfile"
-                      [routerLink]="['/app/profile', profileId]"
-                      routerDirection="forward">
+                      (click)="navigateToProfile()">
             <ion-avatar class="page-title-header-profile">
               <img [src]="profileImage ? profileImage : '../../../../assets/img/user.png'" alt="profile picture">
             </ion-avatar>
@@ -39,9 +38,8 @@
           </ion-button>
 
           <ion-button *ngIf="pageTitle == 'Friends'"
-                      class="nav-button"
-                      [routerLink]="'/app/chat'"
-                      [routerDirection]="'forward'">
+                      (click)="navigateToChat()"
+                      class="nav-button">
             <ion-icon name="chatbubbles"></ion-icon>
           </ion-button>
 

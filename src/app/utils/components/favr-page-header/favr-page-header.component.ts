@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output, OnInit} from '@angular/core';
-import {AlertController} from '@ionic/angular';
+import {AlertController, NavController} from '@ionic/angular';
 import {Storage} from '@ionic/storage';
 import {StorageConsts} from '../../../providers/constants';
 
@@ -22,12 +22,13 @@ export class FavrPageHeaderComponent implements OnInit {
   @Output() close: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() filterOption: EventEmitter<string> = new EventEmitter<string>();
   @Output() handleSearch: EventEmitter<string> = new EventEmitter<string>();
+  @Output() navigateForward: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   profileImage: string;
   profileId: number;
-  searchQuery: '';
 
   constructor(private alertCtrl: AlertController,
+              private navCtrl: NavController,
               private storage: Storage) { }
 
   ngOnInit() {
@@ -78,5 +79,15 @@ export class FavrPageHeaderComponent implements OnInit {
 
   onKeyEnter(event) {
     this.handleSearch.emit(event.target.value);
+  }
+
+  navigateToChat() {
+    this.navCtrl.navigateForward('/app/chat');
+    this.navigateForward.emit(true);
+  }
+
+  navigateToProfile() {
+    this.navCtrl.navigateForward(`/app/profile/${this.profileId}`);
+    this.navigateForward.emit(true);
   }
 }

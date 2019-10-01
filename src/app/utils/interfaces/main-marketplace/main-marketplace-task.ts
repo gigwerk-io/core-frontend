@@ -1,5 +1,5 @@
 import {User} from '../user';
-import {MainProposals} from './main-proposals';
+import {MainProposal} from './main-proposal';
 import {Location} from '../locations/location';
 
 export interface MainMarketplaceTask {
@@ -24,7 +24,7 @@ export interface MainMarketplaceTask {
   created_at?: number;
   updated_at?: number;
   deleted_at?: number;
-  proposals?: MainProposals[];
+  proposals?: MainProposal[];
   customer?: User;
   street_address?: string;
   city?: string;
@@ -41,4 +41,12 @@ export interface MainMarketplaceRouteResponse {
 export interface MainMarketplaceRequestRouteResponse {
   message: string;
   id: number;
+}
+
+export interface FreelancerAcceptMainMarketplaceTaskRouteResponse {
+  message: string;
+}
+
+export interface CustomerCancelTaskResponse {
+  message: string;
 }

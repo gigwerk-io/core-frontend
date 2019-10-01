@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ProfileRouteResponse, User} from '../../utils/interfaces/user';
+import {ProfileRouteResponse} from '../../utils/interfaces/user';
 import {ProfileService} from '../../utils/services/profile.service';
 import {PhotoViewer} from '@ionic-native/photo-viewer/ngx';
 import {Storage} from '@ionic/storage';
-import {StorageConsts} from '../../providers/constants';
-import {AuthResponse} from '../../utils/interfaces/auth/auth-response';
 import {ActionSheetController, ToastController} from '@ionic/angular';
 import {ChatService} from '../../utils/services/chat.service';
 import {FriendsService} from '../../utils/services/friends.service';
+import {StorageConsts} from '../../providers/constants';
 
 @Component({
   selector: 'profile',
@@ -21,7 +20,7 @@ export class ProfilePage implements OnInit {
   profile: ProfileRouteResponse;
   isOwner: boolean;
   status: object;
-  showFriendButton: boolean = true;
+  showFriendButton = true;
   friendButton: object;
 
   constructor(private activatedRoute: ActivatedRoute,
@@ -32,7 +31,7 @@ export class ProfilePage implements OnInit {
               private router: Router,
               private photoViewer: PhotoViewer,
               public toastController: ToastController,
-              private actionSheetCtrl: ActionSheetController) { }
+              private actionSheetCtrl: ActionSheetController) {}
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe(data => {
@@ -59,6 +58,7 @@ export class ProfilePage implements OnInit {
       header: 'Task Actions',
       buttons: [{
         text: 'Edit Profile',
+        icon: 'create',
         handler: () => {
           console.log('Edit clicked');
         }
@@ -69,8 +69,7 @@ export class ProfilePage implements OnInit {
           console.log('Settings clicked');
         }
       }, {
-        text: 'Cancel',
-        icon: 'close',
+        text: 'Close',
         role: 'cancel',
         handler: () => {
           console.log('Cancel clicked');
@@ -98,8 +97,7 @@ export class ProfilePage implements OnInit {
           console.log('Block clicked');
         }
       }, {
-        text: 'Cancel',
-        icon: 'close',
+        text: 'Close',
         role: 'cancel',
         handler: () => {
           console.log('Cancel clicked');
@@ -154,8 +152,8 @@ export class ProfilePage implements OnInit {
       duration: 2500,
       color: 'dark',
       showCloseButton: true
-    }).then(toast => {
-      toast.present();
+    }).then(t => {
+      t.present();
     });
   }
 

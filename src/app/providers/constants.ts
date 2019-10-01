@@ -11,6 +11,14 @@ export const Role = {
   CUSTOMER: 'Customer'
 };
 
+export const TaskStatus = {
+  REQUESTED: 'Requested',
+  PENDING_APPROVAL: 'Pending Approval',
+  PAID: 'Paid',
+  IN_PROGRESS: 'In Progress',
+  COMPLETE: 'Complete'
+};
+
 export const API_ADDRESS =  environment.apiUrl;
 export const PUSHER_ID = environment.pusherId;
 export const STRIPE_PUBLIC = environment.stripeKey;

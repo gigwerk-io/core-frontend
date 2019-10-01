@@ -214,3 +214,20 @@ ion-select.icon {
   top: 10px;
   position: absolute;
 }
+
+.nav-button {
+  background-color: var(--ion-color-primary-tint);
+  color: white;
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+}
+
+ion-textarea.ios {
+  --padding-start: 8px!important;
+  border-radius: 10px;
+}
+
+ion-textarea.md {
+  --background: none!important;
+}
