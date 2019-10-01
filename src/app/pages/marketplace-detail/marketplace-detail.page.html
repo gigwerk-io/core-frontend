@@ -67,12 +67,17 @@
 
     <ion-grid padding-start padding-end>
 
-      <ion-row *ngIf="userRole == 'Verified Freelancer' && !isOwner"
+      <ion-row *ngIf="userRole == Role.VERIFIED_FREELANCER && !isOwner"
                class="ion-no-padding ion-justify-content-center" padding-bottom>
         <ion-col size="6" class="ion-text-center">
-          <ion-button fill="clear" size="small" color="primary">
+          <ion-button *ngIf="mainMarketplaceTask.status == TaskStatus.REQUESTED && !isFreelancer" fill="clear" size="small" color="primary">
             <ion-icon name="thumbs-up" slot="start"></ion-icon>
             Accept
+          </ion-button>
+
+          <ion-button *ngIf="mainMarketplaceTask.status == TaskStatus.PENDING_APPROVAL && isFreelancer" fill="clear" size="small" color="primary">
+            <ion-icon name="thumbs-down" slot="start"></ion-icon>
+            Withdraw
           </ion-button>
         </ion-col>
         <ion-col size="6" class="ion-text-center">

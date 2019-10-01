@@ -5,7 +5,7 @@ import {PhotoViewer} from '@ionic-native/photo-viewer/ngx';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MarketplaceService} from '../../utils/services/marketplace.service';
 import {Storage} from '@ionic/storage';
-import {StorageConsts} from '../../providers/constants';
+import {Role, StorageConsts, TaskStatus} from '../../providers/constants';
 import {ChatService} from '../../utils/services/chat.service';
 
 @Component({
@@ -20,7 +20,10 @@ export class MarketplaceDetailPage implements OnInit {
   page = 'main';
   taskStatusDisplay: string;
   isOwner: boolean;
+  isFreelancer: boolean;
   userRole: string;
+  TaskStatus = TaskStatus;
+  Role = Role;
 
   constructor(private modalCtrl: ModalController,
               private loadingCtrl: LoadingController,
@@ -39,11 +42,13 @@ export class MarketplaceDetailPage implements OnInit {
         .subscribe((task: MainMarketplaceTask) => {
           this.mainMarketplaceTask = task;
           this.taskStatusDisplay = (this.mainMarketplaceTask.status === 'Paid') ? 'Freelancer En-Route' : this.mainMarketplaceTask.status;
-
           this.storage.get(StorageConsts.PROFILE)
             .then(prof => {
               this.userRole = prof.user.role;
               this.isOwner = prof.user_id === task.customer_id;
+              this.isFreelancer = (this.userRole === Role.VERIFIED_FREELANCER)
+                ? this.marketplaceService.checkTaskFreelancer(prof.user_id, this.mainMarketplaceTask)
+                : false;
             });
         });
     });

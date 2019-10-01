@@ -11,6 +11,7 @@ import {HttpClient} from '@angular/common/http';
 import {Storage} from '@ionic/storage';
 import {API_ADDRESS, StorageConsts} from '../../providers/constants';
 import {AuthorizationToken} from '../interfaces/user-options';
+import {MainProposal} from '../interfaces/main-marketplace/main-proposal';
 
 @Injectable({
   providedIn: 'root'
@@ -126,5 +127,10 @@ export class MarketplaceService {
           .toPromise()
           .then((res: CustomerCancelTaskResponse) => res.message);
       });
+  }
+
+  public checkTaskFreelancer(userID: number, task: MainMarketplaceTask): boolean {
+    const proposals: MainProposal[] = task.proposals;
+    return proposals.find((proposal: MainProposal) => proposal.user_id === userID) !== undefined;
   }
 }
