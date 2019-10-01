@@ -7,7 +7,7 @@ export const environment = {
   apiUrl: 'https://lumen.askfavr.com',
   pusherId: '3e1e4ea4e682c0c4bad7',
   stripeKey: 'pk_test_WRhN4BKmkqctL2nrjCPJCTXi',
-  googleAnalyticsId: '',
+  googleAnalyticsId: 'UA-122971401-1',
   intercomId: 'yvoar9nd'
 };
 

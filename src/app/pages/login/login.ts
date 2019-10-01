@@ -36,7 +36,7 @@ export class LoginPage {
           this.navCtrl.navigateRoot('/app/tabs/marketplace').then(res => {
             // to check if we have permission
             try {
-              this.initPushNotification();
+              // this.initPushNotification();
             } catch (e) {
               console.warn(e);
             }
@@ -52,24 +52,31 @@ export class LoginPage {
     }
 
     const options: PushOptions = {
+      android: {},
       ios: {
-        alert: true,
+        alert: 'true',
         badge: true,
-        sound: true,
+        sound: 'false'
+      },
+      windows: {},
+      browser: {
+        pushServiceURL: 'http://push.api.phonegap.com/v1/push'
       }
     };
-    const pushObject: PushObject = this.push.init(options);
-    pushObject.on('registration').subscribe((data: any) => {
-      console.log(data.registrationId);
-      if (this.platform.is('ios')) {
-        this.notficationService.saveAPNToken({'device_token': data.registrationId}).subscribe(res => {
-          console.log(res);
-        });
-      } else {
-        this.notficationService.saveFCMToken({'device_token': data.registrationId}).subscribe(res => {
-          console.log(res);
-        });
-      }
-    });
+    if (!(this.platform.is('mobileweb') && this.platform.is('ios'))) {
+      const pushObject: PushObject = this.push.init(options);
+      pushObject.on('registration').subscribe((data: any) => {
+        console.log(data.registrationId);
+        if (this.platform.is('ios')) {
+          this.notficationService.saveAPNToken({'device_token': data.registrationId}).subscribe(res => {
+            console.log(res);
+          });
+        } else {
+          this.notficationService.saveFCMToken({'device_token': data.registrationId}).subscribe(res => {
+            console.log(res);
+          });
+        }
+      });
+    }
   }
 }
