@@ -10,7 +10,6 @@ export function popOutAnimation(AnimationC: Animation, baseEl: HTMLElement): Pro
   const wrapperAnimation = new AnimationC();
   const wrapperEl = baseEl.querySelector('.modal-wrapper');
   wrapperAnimation.addElement(wrapperEl);
-  const wrapperElRect = wrapperEl!.getBoundingClientRect();
 
   wrapperAnimation
     .fromTo('transform', 'scaleX(1) scaleY(1)', 'translateX(0%) scaleX(0.9) scaleY(0.5)')

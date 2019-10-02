@@ -37,7 +37,7 @@ export class SavedLocationsPage implements OnInit {
             this.presentToast(res.message);
           });
         }
-      },{
+      }, {
         text: 'Cancel',
         icon: 'close',
         role: 'cancel',

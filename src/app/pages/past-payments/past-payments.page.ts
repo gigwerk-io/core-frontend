@@ -11,7 +11,7 @@ import {Router} from '@angular/router';
 })
 export class PastPaymentsPage implements OnInit {
   payments: Payments[];
-  none: boolean = false;
+  isNone = false;
   constructor(private financeService: FinanceService, private toastController: ToastController, private router: Router) { }
 
   ngOnInit() {
@@ -22,7 +22,7 @@ export class PastPaymentsPage implements OnInit {
     this.financeService.getPayments().subscribe(res => {
       this.payments = res.payments;
       if (res.payments.length === 0) {
-        this.none = true;
+        this.isNone = true;
       }
     }, error => {
       this.presentToast(error.error.message).then(() => {
