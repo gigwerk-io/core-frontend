@@ -7,6 +7,7 @@ import {AuthService} from '../../utils/services/auth.service';
 import {NavController, Platform} from '@ionic/angular';
 import { Push, PushObject, PushOptions } from '@ionic-native/push/ngx';
 import {NotificationService} from '../../utils/services/notification.service';
+import {GCM_KEY} from '../../providers/constants';
 
 @Component({
   selector: 'page-login',
@@ -36,7 +37,7 @@ export class LoginPage {
           this.navCtrl.navigateRoot('/app/tabs/marketplace').then(res => {
             // to check if we have permission
             try {
-              // this.initPushNotification();
+              this.initPushNotification();
             } catch (e) {
               console.warn(e);
             }
@@ -52,30 +53,35 @@ export class LoginPage {
     }
 
     const options: PushOptions = {
-      android: {},
-      ios: {
-        alert: 'true',
-        badge: true,
-        sound: 'false'
+      android: {
+        sound: true
       },
-      windows: {},
-      browser: {
-        pushServiceURL: 'http://push.api.phonegap.com/v1/push'
-      }
+      ios: {
+        alert: true,
+        badge: true,
+        sound: true
+      },
+      // windows: {},
+      // browser: {
+      //   pushServiceURL: 'http://push.api.phonegap.com/v1/push',
+      //   applicationServerKey: GCM_KEY
+      // }
     };
-    if (!(this.platform.is('mobileweb') && this.platform.is('ios'))) {
+    if (!(this.platform.is('pwa') && this.platform.is('ios'))) {
       const pushObject: PushObject = this.push.init(options);
       pushObject.on('registration').subscribe((data: any) => {
-        console.log(data.registrationId);
+        console.log('Token: ' + data.registrationId);
         if (this.platform.is('ios')) {
           this.notficationService.saveAPNToken({'device_token': data.registrationId}).subscribe(res => {
             console.log(res);
           });
-        } else {
+        } else if (this.platform.is('android')) {
           this.notficationService.saveFCMToken({'device_token': data.registrationId}).subscribe(res => {
             console.log(res);
           });
         }
+      }, error1 => {
+        console.log(error1);
       });
     }
   }
