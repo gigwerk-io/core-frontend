@@ -11,5 +11,4 @@ export class ManageCardsPage implements OnInit {
 
   ngOnInit() {
   }
-
 }

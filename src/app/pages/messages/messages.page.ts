@@ -44,8 +44,7 @@ export class MessagesPage implements OnInit {
   }
   public getUserProfileImage() {
     const members = this.room.members;
-    // tslint:disable-next-line
-    for(let member of members) {
+    for (const member of members) {
       if (member.id !== this.user_id) {
         return member.profile.image;
       }
@@ -64,8 +63,7 @@ export class MessagesPage implements OnInit {
 
   public goToUserProfile() {
     const members = this.room.members;
-    // tslint:disable-next-line
-    for(let member of members) {
+    for (const member of members) {
       if (member.id !== this.user_id) {
         this.router.navigate(['/app/profile', member.id]);
       }

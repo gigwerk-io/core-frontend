@@ -11,5 +11,4 @@ export class RememberedDevicesPage implements OnInit {
 
   ngOnInit() {
   }
-
 }

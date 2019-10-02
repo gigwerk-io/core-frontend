@@ -11,5 +11,4 @@ export class ResetPasswordPage implements OnInit {
 
   ngOnInit() {
   }
-
 }

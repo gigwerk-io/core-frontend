@@ -33,17 +33,9 @@ export class SettingsPage implements OnInit {
 
   ngOnInit() {
     this.storage.get(StorageConsts.PROFILE).then(profile => {
-      if (profile.user.role === 'Verified Freelancer') {
-        this.seeTransfers = true;
-      } else {
-        this.seeTransfers = false;
-      }
+      this.seeTransfers = profile.user.role === 'Verified Freelancer';
 
-      if (profile.user.organization_id === null) {
-        this.seeCredit = true;
-      } else {
-        this.seeCredit = false;
-      }
+      this.seeCredit = profile.user.organization_id === null;
     });
 
     console.log(this.platform.platforms());
@@ -66,17 +58,17 @@ export class SettingsPage implements OnInit {
   }
 
   openSupport() {
-    if (this.platform.is('ios') || this.platform.is('android')){
+    if (this.platform.is('ios') || this.platform.is('android')) {
       this.intercom.registerForPush();
     } else {
       this.storage.get(StorageConsts.PROFILE).then(profile => {
         this.webIntercom.boot({
           app_id: INTERCOM_ID,
           email: profile.user.email,
-          name: profile.user.first_name + " " + profile.user.last_name,
+          name: profile.user.first_name + ' ' + profile.user.last_name,
           // Supports all optional configuration.
           widget: {
-            "activator": "#intercom"
+            'activator': '#intercom'
           }
         });
         this.webIntercom.show();
@@ -86,7 +78,7 @@ export class SettingsPage implements OnInit {
   }
 
   openTerms() {
-    if (this.platform.is('ios') || this.platform.is('android')){
+    if (this.platform.is('ios') || this.platform.is('android')) {
       this.iab.create('https://askfavr.com/terms.html');
     } else {
       window.open('https://askfavr.com/terms.html');

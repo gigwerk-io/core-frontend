@@ -11,7 +11,7 @@ import {Router} from '@angular/router';
 export class NotificationsPage implements OnInit {
 
   notifications: Notification[];
-  clickType: string = 'unread';
+  clickType = 'unread';
   notificationClass = '';
   readable = true;
   constructor(private notificationService: NotificationService,

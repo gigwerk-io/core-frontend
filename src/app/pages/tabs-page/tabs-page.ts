@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {RequestPage} from '../request/request.page';
 import {LoadingController, ModalController} from '@ionic/angular';
 import {NotificationService} from '../../utils/services/notification.service';
@@ -9,8 +9,8 @@ import {NotificationService} from '../../utils/services/notification.service';
 export class TabsPage {
 
   tabSlot: string;
-  notificationCount: number = 0;
-  friendCount: number = 0;
+  notificationCount = 0;
+  friendCount = 0;
 
   constructor(private modalCtrl: ModalController,
               private loadingCtrl: LoadingController,
@@ -20,7 +20,7 @@ export class TabsPage {
     } else {
       this.tabSlot = 'bottom';
     }
-    //this.getBadges();
+    // this.getBadges();
   }
 
   getBadges() {

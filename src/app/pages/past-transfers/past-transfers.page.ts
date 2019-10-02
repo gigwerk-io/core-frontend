@@ -11,7 +11,7 @@ import {Transfers} from '../../utils/interfaces/finance/transfers';
 })
 export class PastTransfersPage implements OnInit {
   transfers: Transfers[];
-  none: boolean = false;
+  isNone = false;
   constructor(private financeService: FinanceService, private toastController: ToastController, private router: Router) { }
 
   ngOnInit() {
@@ -22,7 +22,7 @@ export class PastTransfersPage implements OnInit {
     this.financeService.getTransfers().subscribe(res => {
       this.transfers = res.payouts;
       if (res.payouts.length === 0) {
-        this.none = true;
+        this.isNone = true;
       }
     }, error => {
       this.presentToast(error.error.message).then(() => {
@@ -32,7 +32,7 @@ export class PastTransfersPage implements OnInit {
   }
 
   async presentToast(message) {
-    const toast = await this.toastController.create({
+    await this.toastController.create({
       message: message,
       position: 'top',
       duration: 2500,
