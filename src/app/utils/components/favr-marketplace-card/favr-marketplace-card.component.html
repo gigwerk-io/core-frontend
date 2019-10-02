@@ -50,56 +50,70 @@
     <div id="taskDescription" [innerHTML]="mainMarketplaceTask.description"></div>
   </ion-card-content>
 
-  <ion-row *ngIf="userRole == 'Verified Freelancer' && mainMarketplaceTask.customer_id != userID"
+  <ion-row *ngIf="userRole == Role.VERIFIED_FREELANCER && !isOwner"
            class="ion-no-padding ion-justify-content-center">
-    <ion-col size="4" class="ion-text-left">
-      <ion-button (click)="freelancerAcceptTask()"
-                  fill="clear" size="small" color="primary">
+    <ion-col class="ion-text-left">
+      <ion-button *ngIf="mainMarketplaceTask.status == TaskStatus.REQUESTED && !isFreelancer"
+                  (click)="freelancerAcceptTask()"
+                  fill="outline"
+                  size="small"
+                  color="primary">
         <ion-icon name="thumbs-up" slot="start"></ion-icon>
         Accept
       </ion-button>
+
+      <ion-button *ngIf="mainMarketplaceTask.status == TaskStatus.PENDING_APPROVAL && isFreelancer"
+                  fill="outline"
+                  size="small"
+                  color="primary">
+        <ion-icon name="thumbs-down" slot="start"></ion-icon>
+        Withdraw
+      </ion-button>
     </ion-col>
-    <ion-col size="4" class="ion-text-center">
-      <ion-button fill="clear" size="small" color="primary" (click)="loadMarketplaceDetail(mainMarketplaceTask.id)" routerDirection="forward">
+
+    <ion-col class="ion-text-center">
+      <ion-button fill="outline" size="small" color="primary" (click)="loadMarketplaceDetail(mainMarketplaceTask.id)" routerDirection="forward">
         <ion-icon name="eye" slot="start"></ion-icon>
         View
       </ion-button>
     </ion-col>
-    <ion-col size="4" class="ion-text-right">
-      <ion-button fill="clear" size="small" color="primary" (click)="startChat(mainMarketplaceTask.customer.username)">
+
+    <ion-col *ngIf="mainMarketplaceTask.status == TaskStatus.PENDING_APPROVAL && isFreelancer"
+             class="ion-text-right">
+      <ion-button fill="outline" size="small" color="primary" (click)="startChat(mainMarketplaceTask.customer.username)">
         <ion-icon name="chatbubbles" slot="start"></ion-icon>
         Contact
       </ion-button>
     </ion-col>
   </ion-row>
 
-  <ion-row *ngIf="mainMarketplaceTask.customer_id == userID"
+  <ion-row *ngIf="isOwner"
            class="ion-no-padding ion-justify-content-center">
     <ion-col size="4" class="ion-text-left">
       <ion-button (click)="customerCancelTask()"
-                  fill="clear" size="small" color="primary">
+                  fill="outline" size="small" color="primary">
         <ion-icon name="close" slot="start" size="large" style="margin-right: 0"></ion-icon>
         Cancel
       </ion-button>
     </ion-col>
     <ion-col size="4" class="ion-text-center">
-      <ion-button fill="clear" size="small" color="primary" (click)="loadMarketplaceDetail(mainMarketplaceTask.id)" routerDirection="forward">
+      <ion-button fill="outline" size="small" color="primary" (click)="loadMarketplaceDetail(mainMarketplaceTask.id)" routerDirection="forward">
         <ion-icon name="eye" slot="start"></ion-icon>
         View
       </ion-button>
     </ion-col>
     <ion-col size="4" class="ion-text-right">
-      <ion-button fill="clear" size="small" color="primary">
+      <ion-button fill="outline" size="small" color="primary">
         <ion-icon name="create" slot="start"></ion-icon>
         Edit
       </ion-button>
     </ion-col>
   </ion-row>
 
-  <ion-row *ngIf="userRole != 'Verified Freelancer' && mainMarketplaceTask.customer_id != userID"
+  <ion-row *ngIf="userRole != Role.VERIFIED_FREELANCER && !isOwner"
            class="ion-no-padding ion-justify-content-center">
     <ion-col size="12" class="ion-text-center">
-      <ion-button fill="clear" size="small" color="primary" (click)="loadMarketplaceDetail(mainMarketplaceTask.id)" routerDirection="forward">
+      <ion-button fill="outline" size="small" color="primary" (click)="loadMarketplaceDetail(mainMarketplaceTask.id)" routerDirection="forward">
         <ion-icon name="eye" slot="start"></ion-icon>
         View
       </ion-button>

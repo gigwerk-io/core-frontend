@@ -1,3 +1,6 @@
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/core.css";
+
 ion-card-content {
   padding: 1em!important;
 }
@@ -230,4 +233,21 @@ ion-textarea.ios {
 
 ion-textarea.md {
   --background: none!important;
+}
+
+.md {
+  --inner-padding-end: 16px;
+}
+
+.ios {
+  --inner-padding-end: 8px;
+}
+
+.form-submit-button {
+  padding-left: var(--padding-start);
+  padding-right: calc(var(--ion-safe-area-right, 0px) + var(--inner-padding-end));
+}
+
+.no-inner-border-width {
+  --inner-border-width: 0!important;
 }

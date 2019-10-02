@@ -1,6 +1,7 @@
 import {City} from '../interfaces/locations/city';
 import {STATES} from './states.mock';
 
+// tslint:disable
 export const CITIES: City[] = [
   {
     id: 1,

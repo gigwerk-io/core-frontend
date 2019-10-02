@@ -1,6 +1,6 @@
 {
   "name": "favr-frontend",
-  "version": "3.0.0",
+  "version": "2.0.0",
   "description": "ios, android and web\n",
   "author": "FAVR Team <contact@askfavr.com>",
   "license": "Apache-2.0",
@@ -114,7 +114,6 @@
       "cordova-plugin-ionic-webview": {
         "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
       },
-      "cordova-plugin-statusbar": {},
       "cordova-plugin-ionic-keyboard": {},
       "com-sarriaroman-photoviewer": {},
       "cordova-plugin-telerik-imagepicker": {
@@ -127,7 +126,8 @@
       "cordova-plugin-x-socialsharing": {
         "ANDROID_SUPPORT_V4_VERSION": "24.1.1+"
       },
-      "cordova-plugin-contacts": {}
+      "cordova-plugin-contacts": {},
+      "cordova-plugin-statusbar": {}
     }
   }
 }

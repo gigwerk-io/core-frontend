@@ -14,7 +14,7 @@ import {Validators} from '@angular/forms';
 })
 export class SetUpPaymentsPage implements OnInit {
   form: FormGroup;
-  submitted: boolean = false;
+  submitted = false;
   constructor(private stripe: Stripe,
               private financeService: FinanceService,
               private toastController: ToastController,
@@ -52,24 +52,20 @@ export class SetUpPaymentsPage implements OnInit {
 
 
   async presentToast(message) {
-    const toast = await this.toastController.create({
+    await this.toastController.create({
       message: message,
       position: 'top',
       duration: 2500,
       color: 'dark',
       showCloseButton: true
-    }).then(toast => {
-      toast.present();
-    });
+    }).then(toast => toast.present());
   }
 
   async presentAlert() {
-    const alert = await this.alertController.create({
+    await this.alertController.create({
       header: 'Missing Field(s)',
       message: 'Please fill out all form inputs.',
       buttons: ['OK']
-    });
-
-    await alert.present();
+    }).then(alert => alert.present());
   }
 }

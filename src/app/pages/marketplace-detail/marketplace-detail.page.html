@@ -68,20 +68,29 @@
     <ion-grid padding-start padding-end>
 
       <ion-row *ngIf="userRole == Role.VERIFIED_FREELANCER && !isOwner"
-               class="ion-no-padding ion-justify-content-center" padding-bottom>
-        <ion-col size="6" class="ion-text-center">
-          <ion-button *ngIf="mainMarketplaceTask.status == TaskStatus.REQUESTED && !isFreelancer" fill="clear" size="small" color="primary">
+               class="ion-no-padding ion-justify-content-center">
+        <ion-col class="ion-text-center">
+          <ion-button *ngIf="mainMarketplaceTask.status == TaskStatus.REQUESTED && !isFreelancer"
+                      (click)="freelancerAcceptTask()"
+                      fill="outline"
+                      size="small"
+                      color="primary">
             <ion-icon name="thumbs-up" slot="start"></ion-icon>
             Accept
           </ion-button>
 
-          <ion-button *ngIf="mainMarketplaceTask.status == TaskStatus.PENDING_APPROVAL && isFreelancer" fill="clear" size="small" color="primary">
+          <ion-button *ngIf="mainMarketplaceTask.status == TaskStatus.PENDING_APPROVAL && isFreelancer"
+                      fill="outline"
+                      size="small"
+                      color="primary">
             <ion-icon name="thumbs-down" slot="start"></ion-icon>
             Withdraw
           </ion-button>
         </ion-col>
-        <ion-col size="6" class="ion-text-center">
-          <ion-button fill="clear" size="small" color="primary" (click)="startChat(mainMarketplaceTask.customer.username)">
+
+        <ion-col *ngIf="mainMarketplaceTask.status == TaskStatus.PENDING_APPROVAL && isFreelancer"
+                 class="ion-text-center">
+          <ion-button fill="outline" size="small" color="primary" (click)="startChat(mainMarketplaceTask.customer.username)">
             <ion-icon name="chatbubbles" slot="start"></ion-icon>
             Contact
           </ion-button>
@@ -90,15 +99,15 @@
 
       <ion-row *ngIf="isOwner"
                class="ion-no-padding ion-justify-content-center" padding-bottom>
-        <ion-col size="6" class="ion-text-center">
+        <ion-col class="ion-text-center">
           <ion-button (click)="customerCancelTask()"
-                      fill="clear" size="small" color="primary">
+                      fill="outline" size="small" color="primary">
             <ion-icon name="close" slot="start" size="large" style="margin-right: 0"></ion-icon>
             Cancel
           </ion-button>
         </ion-col>
-        <ion-col size="6" class="ion-text-center">
-          <ion-button fill="clear" size="small" color="primary">
+        <ion-col class="ion-text-center">
+          <ion-button fill="outline" size="small" color="primary">
             <ion-icon name="create" slot="start"></ion-icon>
             Edit
           </ion-button>
