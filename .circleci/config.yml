@@ -49,6 +49,7 @@ jobs:
           at: /tmp/workspace
 #      - run: npm run test -- --watch=false --progress=false
   deploy:
+    <<: *defaults
     steps:
       - run: *install-aws
 workflows:
