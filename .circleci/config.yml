@@ -52,15 +52,9 @@ jobs:
     <<: *defaults
     steps:
       - run: *install-aws
-      - run:
-        name: Configure AWS Access Key ID
-        command: aws configure set aws_access_key_id AWS_ACCESS_KEY_ID
-      - run:
-        name: Configure AWS Secret Access Key
-        command: aws configure set aws_secret_access_key AWS_ACCESS_KEY_ID
-      - run:
-        name: Configure AWS default region
-        command: aws configure set region AWS_DEFAULT_REGION
+      - run: aws configure set aws_access_key_id AWS_ACCESS_KEY_ID
+      - run: aws configure set aws_secret_access_key AWS_ACCESS_KEY_ID
+      - run: aws configure set region AWS_DEFAULT_REGION
       - run: pwd
 workflows:
   version: 2
@@ -70,4 +64,6 @@ workflows:
       - test:
           requires:
             - build
-      - deploy
+      - deploy:
+          requires:
+            - build
