@@ -58,9 +58,9 @@ jobs:
     steps:
       - run: *install-pip
       - run: pip install awscli; aws --version;
-#      - run: aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-#      - run: aws configure set aws_secret_access_key $AWS_ACCESS_KEY_ID
-#      - run: aws configure set region $AWS_DEFAULT_REGION
+      - run: aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+      - run: aws configure set aws_secret_access_key $AWS_ACCESS_KEY_ID
+      - run: aws configure set region $AWS_DEFAULT_REGION
       - run: pwd
       - run: ls
 workflows:
