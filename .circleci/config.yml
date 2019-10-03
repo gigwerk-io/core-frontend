@@ -10,9 +10,14 @@ aliases:
         sudo sed -i 's|HERE/chrome\"|HERE/chrome\" --disable-setuid-sandbox|g' /opt/google/chrome/google-chrome
         rm google-chrome.deb
 
-  - &install-aws
-      name: Install AWS Cli
+  - &install-pip
+      name: Install Python Pip
       command: sudo apt install python3-pip
+
+  - $install-aws
+      name: Install AWS Cli
+      command: pip3 install awscli
+
 
   - &restore-cache-src
       key: dependency-cache-{{ checksum "package.json" }}
@@ -59,7 +64,7 @@ jobs:
       - run: ls
 workflows:
   version: 2
-  build:
+  build-and-deploy:
     jobs:
       - build
       - test:
