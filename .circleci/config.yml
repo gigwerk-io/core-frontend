@@ -14,9 +14,9 @@ aliases:
       name: Install Python Pip
       command: sudo apt-get update; sudo apt install python-pip; python --version; pip --version;
 
-#  - $install-aws
-#      name: Install AWS Cli
-#      command: pip3 install awscli
+  - $install-aws
+      name: Install AWS Cli
+      command: pip install awscli; awscli --version;
 
 
   - &restore-cache-src
@@ -57,7 +57,7 @@ jobs:
     <<: *defaults
     steps:
       - run: *install-pip
-#      - run: *install-aws
+      - run: *install-aws
 #      - run: aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
 #      - run: aws configure set aws_secret_access_key $AWS_ACCESS_KEY_ID
 #      - run: aws configure set region $AWS_DEFAULT_REGION
