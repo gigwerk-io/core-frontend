@@ -10,6 +10,15 @@ aliases:
         sudo sed -i 's|HERE/chrome\"|HERE/chrome\" --disable-setuid-sandbox|g' /opt/google/chrome/google-chrome
         rm google-chrome.deb
 
+  - &install-pip
+      name: Install Python Pip
+      command: sudo apt-get update; sudo apt install python-pip; python --version; pip --version;
+
+#  - $install-aws
+#      name: Install AWS Cli
+#      command: pip install awscli; awscli --version;
+
+
   - &restore-cache-src
       key: dependency-cache-{{ checksum "package.json" }}
 
@@ -31,26 +40,45 @@ jobs:
       - restore_cache: *restore-cache-src
       - run: npm install
       - save_cache: *save-cache-src
-      - run: npm run lint
-      - run: npm run build
-      - run: npm run build -- --prod
+#      - run: npm run lint
+      - run: npm run build --prod
+      - run: ls -l
       - persist_to_workspace:
           root: /tmp/workspace
           paths:
             - "*"
+      - persist_to_workspace:
+          root: .
+          paths: www/
   test:
     <<: *defaults
     steps:
       - run: *install-chrome
       - attach_workspace:
           at: /tmp/workspace
-      - run: npm run test -- --watch=false --progress=false
-
+#      - run: npm run test -- --watch=false --progress=false
+  deploy:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - run: *install-pip
+      - run: pip install awscli; aws --version;
+      - run: aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+      - run: aws configure set aws_secret_access_key $AWS_ACCESS_KEY_ID
+      - run: aws configure set region $AWS_DEFAULT_REGION
+      - run: aws s3 sync www/ s3://favr-ionic-staging
 workflows:
   version: 2
-  build:
+  build-and-deploy:
     jobs:
       - build
       - test:
           requires:
             - build
+      - deploy:
+          requires:
+            - test
+          filters:
+            branches:
+              only: master
