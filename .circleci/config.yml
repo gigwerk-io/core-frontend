@@ -34,10 +34,9 @@ jobs:
       - checkout
       - restore_cache: *restore-cache-src
       - run: npm install
-      - run: npm run ionic:build --prod
       - save_cache: *save-cache-src
 #      - run: npm run lint
-#      - run: npm run build -- --prod
+      - run: npm run build --prod
       - persist_to_workspace:
           root: /tmp/workspace
           paths:
