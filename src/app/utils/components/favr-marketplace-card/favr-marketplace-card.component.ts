@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {
   MainMarketplaceTask
 } from '../../interfaces/main-marketplace/main-marketplace-task';
@@ -33,19 +33,21 @@ export class FavrMarketplaceCardComponent implements OnInit {
               private marketplaceService: MarketplaceService,
               private chatService: ChatService,
               private toastCtrl: ToastController,
-              private storage: Storage) { }
+              private storage: Storage,
+              private changeRef: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.marketplaceService.getSingleMainMarketplaceRequest(this.mainMarketplaceTask.id)
-      .subscribe((task: MainMarketplaceTask) => {
+      .then((task: MainMarketplaceTask) => {
         this.storage.get(StorageConsts.PROFILE)
           .then((prof: Profile) => {
             this.userID = prof.user_id;
             this.userRole = prof.user.role;
             this.isOwner = prof.user_id === task.customer_id;
             this.isFreelancer = (this.userRole === Role.VERIFIED_FREELANCER)
-              ? this.marketplaceService.checkTaskFreelancer(prof.user_id, task)
+              ? this.marketplaceService.checkIsTaskFreelancer(prof.user_id, task)
               : false;
+            this.changeRef.detectChanges();
           });
       });
   }

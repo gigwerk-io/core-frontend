@@ -39,7 +39,7 @@ export class MarketplaceDetailPage implements OnInit {
     this.activatedRoute.paramMap.subscribe(data => {
       const id: number = parseInt(data.get('id'), 10);
       this.marketplaceService.getSingleMainMarketplaceRequest(id)
-        .subscribe((task: MainMarketplaceTask) => {
+        .then((task: MainMarketplaceTask) => {
           this.mainMarketplaceTask = task;
           this.taskStatusDisplay = (this.mainMarketplaceTask.status === 'Paid') ? 'Freelancer En-Route' : this.mainMarketplaceTask.status;
           this.storage.get(StorageConsts.PROFILE)
@@ -47,7 +47,7 @@ export class MarketplaceDetailPage implements OnInit {
               this.userRole = prof.user.role;
               this.isOwner = prof.user_id === task.customer_id;
               this.isFreelancer = (this.userRole === Role.VERIFIED_FREELANCER)
-                ? this.marketplaceService.checkTaskFreelancer(prof.user_id, this.mainMarketplaceTask)
+                ? this.marketplaceService.checkIsTaskFreelancer(prof.user_id, this.mainMarketplaceTask)
                 : false;
             });
         });

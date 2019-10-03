@@ -22,9 +22,8 @@ export class MarketplaceService {
               private storage: Storage) {
   }
 
-  public getSingleMainMarketplaceRequest(id: number): Observable<MainMarketplaceTask> {
-    return from(
-      this.storage.get(StorageConsts.ACCESS_TOKEN)
+  public getSingleMainMarketplaceRequest(id: number): Promise<MainMarketplaceTask> {
+    return this.storage.get(StorageConsts.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {
@@ -34,8 +33,7 @@ export class MarketplaceService {
           return this.httpClient.get<MainMarketplaceTask>(`${API_ADDRESS}/marketplace/main/request/${id}`, authHeader)
             .toPromise()
             .then((res: MainMarketplaceTask) => res);
-        })
-    );
+        });
   }
 
   public getMainMarketplaceRequests(filter?: string): Observable<MainMarketplaceTask[]> {
@@ -129,7 +127,7 @@ export class MarketplaceService {
       });
   }
 
-  public checkTaskFreelancer(userID: number, task: MainMarketplaceTask): boolean {
+  public checkIsTaskFreelancer(userID: number, task: MainMarketplaceTask): boolean {
     const proposals: MainProposal[] = task.proposals;
     return proposals.find((proposal: MainProposal) => proposal.user_id === userID) !== undefined;
   }

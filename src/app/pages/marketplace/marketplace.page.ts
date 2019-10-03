@@ -1,45 +1,57 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {MainMarketplaceTask} from '../../utils/interfaces/main-marketplace/main-marketplace-task';
 import {MarketplaceService} from '../../utils/services/marketplace.service';
 import {LoadingController, ModalController} from '@ionic/angular';
 import {RequestPage} from '../request/request.page';
+import {Observable, Subscription} from 'rxjs';
 
 @Component({
   selector: 'marketplace',
   templateUrl: './marketplace.page.html',
-  styleUrls: ['./marketplace.page.scss'],
+  styleUrls: ['./marketplace.page.scss']
 })
-export class MarketplacePage implements OnInit {
+export class MarketplacePage implements OnInit, OnDestroy {
 
-  requests: MainMarketplaceTask[];
+  marketplaceTaskSubscription: Subscription;
+  myTaskSubscription: Subscription;
+  marketplaceTasks: MainMarketplaceTask[];
+  myTasks: MainMarketplaceTask[];
   filterInputs: any;
-  filterDefault = 'all';
+  filterDefault: string;
 
   constructor(private marketplaceService: MarketplaceService,
               private modalCtrl: ModalController,
-              private loadingCtrl: LoadingController) { }
+              private loadingCtrl: LoadingController,
+              private changeRef: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.getRequests();
-    this.filterInputs = [
-      {
-        type: 'radio',
-        label: 'All',
-        value: 'all',
-        checked: true
-      },
-      {
-        type: 'radio',
-        label: 'Just Me',
-        value: 'me',
-        checked: false
-      }
-    ];
+    this.marketplaceTaskSubscription = this.marketplaceService.getMainMarketplaceRequests('all')
+      .subscribe(tasks => this.marketplaceTasks = tasks);
+    this.myTaskSubscription = this.marketplaceService.getMainMarketplaceRequests('me')
+      .subscribe(tasks => {
+        this.myTasks = tasks;
+        this.filterInputs = [
+          {
+            type: 'radio',
+            label: 'All',
+            value: 'all',
+            checked: (this.myTasks.length === 0)
+          },
+          {
+            type: 'radio',
+            label: 'Just Me',
+            value: 'me',
+            checked: (this.myTasks.length > 0)
+          }
+        ];
+
+        this.filterDefault = (this.myTasks.length > 0) ? 'me' : 'all';
+      });
   }
 
-  getRequests(filter: string = this.filterDefault): void {
-    this.marketplaceService.getMainMarketplaceRequests(filter)
-      .subscribe(requests => this.requests = requests);
+  ngOnDestroy(): void {
+    this.marketplaceTaskSubscription.unsubscribe();
+    this.myTaskSubscription.unsubscribe();
   }
 
   async openRequestPage(): Promise<boolean> {
@@ -61,7 +73,6 @@ export class MarketplacePage implements OnInit {
 
   async doRefresh(event) {
     console.log('Begin async operation');
-    await this.getRequests();
     setTimeout(() => {
       console.log('Async operation has ended');
       event.target.complete();
@@ -70,6 +81,6 @@ export class MarketplacePage implements OnInit {
 
   setFilterOption(option: string) {
     this.filterDefault = option;
-    this.getRequests(option);
+    this.changeRef.detectChanges();
   }
 }
