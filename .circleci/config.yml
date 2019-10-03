@@ -12,7 +12,7 @@ aliases:
 
   - &install-pip
       name: Install Python Pip
-      command: sudo apt-get update; sudo apt-get install python3.6; sudo apt install python3-pip; python --version;
+      command: sudo apt-get update; sudo apt install python-pip; python --version; pip --version;
 
 #  - $install-aws
 #      name: Install AWS Cli
