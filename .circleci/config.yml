@@ -44,13 +44,13 @@ jobs:
       - run: *install-chrome
       - attach_workspace:
           at: /tmp/workspace
-      - run: npm run test -- --watch=false --progress=false
+#      - run: npm run test -- --watch=false --progress=false
 
 workflows:
   version: 2
   build:
     jobs:
       - build
-#      - test:
+      - test:
           requires:
             - build
