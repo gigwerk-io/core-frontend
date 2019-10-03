@@ -10,6 +10,10 @@ aliases:
         sudo sed -i 's|HERE/chrome\"|HERE/chrome\" --disable-setuid-sandbox|g' /opt/google/chrome/google-chrome
         rm google-chrome.deb
 
+  - &install-aws
+      name: Install AWS Cli
+      command: sudo apt install python3-pip
+
   - &restore-cache-src
       key: dependency-cache-{{ checksum "package.json" }}
 
@@ -29,11 +33,13 @@ jobs:
     steps:
       - checkout
       - restore_cache: *restore-cache-src
+      - run: npm install -g ionic cordova
       - run: npm install
+      - run: ionic cordova platform add browser
+      - run: ionic cordova build browser --prod
       - save_cache: *save-cache-src
 #      - run: npm run lint
-      - run: npm run build
-      - run: npm run build -- --prod
+#      - run: npm run build -- --prod
       - persist_to_workspace:
           root: /tmp/workspace
           paths:
