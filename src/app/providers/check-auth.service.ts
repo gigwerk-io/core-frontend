@@ -29,11 +29,15 @@ export class CheckAuth implements CanActivate {
             case '/signup':
               this.router.navigateByUrl('/app/tabs/marketplace');
               break;
+            case '/forgot-password':
+              this.router.navigateByUrl('/app/tabs/marketplace');
+              break;
           }
         } else {
           if (!(state.url === '/login'
             || state.url === '/signup'
-            || state.url === '/welcome')) {
+            || state.url === '/welcome'
+            || state.url === '/forgot-password')) {
             this.router.navigateByUrl('/welcome');
           }
         }

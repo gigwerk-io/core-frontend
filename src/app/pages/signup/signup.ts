@@ -2,7 +2,7 @@ import {Component, ViewChild} from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { UserRegistrationOptions } from '../../utils/interfaces/user-options';
 import {AuthService} from '../../utils/services/auth.service';
-import {IonContent, IonSlides, NavController} from '@ionic/angular';
+import {IonContent, IonSlides, NavController, ToastController} from '@ionic/angular';
 import {State} from '../../utils/interfaces/locations/state';
 import {STATES} from '../../utils/mocks/states.mock';
 import {setProgress} from '../request/request.page';
@@ -41,7 +41,8 @@ export class SignupPage {
 
   constructor(
     private authService: AuthService,
-    public navCtrl: NavController
+    public navCtrl: NavController,
+    private toastController: ToastController
   ) { }
 
   onSignup(form: NgForm) {
@@ -49,8 +50,22 @@ export class SignupPage {
 
     if (form.valid) {
       this.authService.register(this.signup)
-        .subscribe(() => this.navCtrl.navigateRoot('/app/tabs/marketplace'));
+        .subscribe(() => this.navCtrl.navigateRoot('/app/tabs/marketplace'), error => {
+          this.presentToast(error.error.message);
+        });
     }
+  }
+
+  async presentToast(message) {
+    await this.toastController.create({
+      message: message,
+      position: 'top',
+      duration: 2500,
+      color: 'dark',
+      showCloseButton: true
+    }).then(toast => {
+      toast.present();
+    });
   }
 
   onSlideChange() {

@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 import { UserOptions } from '../../utils/interfaces/user-options';
 import {AuthService} from '../../utils/services/auth.service';
-import {NavController, Platform} from '@ionic/angular';
+import {NavController, Platform, ToastController} from '@ionic/angular';
 import { Push, PushObject, PushOptions } from '@ionic-native/push/ngx';
 import {NotificationService} from '../../utils/services/notification.service';
 import {GCM_KEY} from '../../providers/constants';
@@ -26,7 +26,8 @@ export class LoginPage {
     public navCtrl: NavController,
     private push: Push,
     private notficationService: NotificationService,
-    private platform: Platform
+    private platform: Platform,
+    private toastController: ToastController
   ) { }
 
   onLogin(form: NgForm) {
@@ -42,8 +43,22 @@ export class LoginPage {
               console.warn(e);
             }
           });
+        }, error => {
+          this.presentToast(error.error.message);
         });
     }
+  }
+
+  async presentToast(message) {
+    await this.toastController.create({
+      message: message,
+      position: 'top',
+      duration: 2500,
+      color: 'dark',
+      showCloseButton: true
+    }).then(toast => {
+      toast.present();
+    });
   }
 
   initPushNotification() {
