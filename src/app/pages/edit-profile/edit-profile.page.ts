@@ -20,6 +20,7 @@ export class EditProfilePage implements OnInit {
   birthday;
   image;
   user_id;
+  new_image: boolean = false;
   constructor(private storage: Storage,
               private preferences: PreferencesService,
               private toastController: ToastController,
@@ -53,6 +54,9 @@ export class EditProfilePage implements OnInit {
       last_name: this.last_name,
       birthday: this.birthday
     };
+    if (this.new_image) {
+      body['image'] = this.image.split(',')[1];
+    }
     this.preferences.updateProfile(body).subscribe(res => {
       // Get Update Profile Info
       this.profileService.getProfile(this.user_id).subscribe(result => {
@@ -65,7 +69,7 @@ export class EditProfilePage implements OnInit {
   }
 
   async presentToast(message) {
-    const toast = await this.toastController.create({
+    await this.toastController.create({
       message: message,
       position: 'top',
       duration: 2500,
@@ -74,5 +78,17 @@ export class EditProfilePage implements OnInit {
     }).then(toast => {
       toast.present();
     });
+  }
+
+  uploadImage(event: any) {
+    this.new_image = true;
+    if (event.target.files && event.target.files[0]) {
+      const reader = new FileReader();
+
+      reader.onload = (e: ProgressEvent) => {
+        this.image = (<FileReader>e.target).result;
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    }
   }
 }
