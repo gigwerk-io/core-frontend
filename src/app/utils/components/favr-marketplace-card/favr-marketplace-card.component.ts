@@ -1,6 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {
-  FreelancerAcceptMainMarketplaceTaskRouteResponse,
   MainMarketplaceTask
 } from '../../interfaces/main-marketplace/main-marketplace-task';
 import {PhotoViewer} from '@ionic-native/photo-viewer/ngx';
@@ -8,10 +7,9 @@ import {LoadingController, ToastController} from '@ionic/angular';
 import {Router} from '@angular/router';
 import {ChatService} from '../../services/chat.service';
 import {Storage} from '@ionic/storage';
-import {StorageConsts} from '../../../providers/constants';
+import {Role, StorageConsts, TaskStatus} from '../../../providers/constants';
 import {Profile} from '../../interfaces/user';
 import {MarketplaceService} from '../../services/marketplace.service';
-import {ProfileService} from '../../services/profile.service';
 
 @Component({
   selector: 'favr-marketplace-card',
@@ -24,22 +22,33 @@ export class FavrMarketplaceCardComponent implements OnInit {
   @Input() mainMarketplaceTask: MainMarketplaceTask;
   userRole: string;
   userID: number;
-
-  // TODO: define types of Roles there's already storage constants for this
+  isOwner: boolean;
+  isFreelancer: boolean;
+  TaskStatus = TaskStatus;
+  Role = Role;
 
   constructor(private photoViewer: PhotoViewer,
               private loadingCtrl: LoadingController,
               private router: Router,
               private marketplaceService: MarketplaceService,
               private chatService: ChatService,
-              private toastController: ToastController,
-              private storage: Storage) { }
+              private toastCtrl: ToastController,
+              private storage: Storage,
+              private changeRef: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.storage.get(StorageConsts.PROFILE)
-      .then((profile: Profile) => {
-        this.userID = profile.user_id;
-        this.userRole = profile.user.role;
+    this.marketplaceService.getSingleMainMarketplaceRequest(this.mainMarketplaceTask.id)
+      .then((task: MainMarketplaceTask) => {
+        this.storage.get(StorageConsts.PROFILE)
+          .then((prof: Profile) => {
+            this.userID = prof.user_id;
+            this.userRole = prof.user.role;
+            this.isOwner = prof.user_id === task.customer_id;
+            this.isFreelancer = (this.userRole === Role.VERIFIED_FREELANCER)
+              ? this.marketplaceService.checkIsTaskFreelancer(prof.user_id, task)
+              : false;
+            this.changeRef.detectChanges();
+          });
       });
   }
 
@@ -68,7 +77,7 @@ export class FavrMarketplaceCardComponent implements OnInit {
   }
 
   async presentToast(message) {
-    await this.toastController.create({
+    await this.toastCtrl.create({
       message: message,
       position: 'top',
       duration: 2500,
@@ -90,7 +99,7 @@ export class FavrMarketplaceCardComponent implements OnInit {
       .then((res: string) => res)
       .catch((err: any) => err.error.message);
 
-    await this.toastController.create({
+    await this.toastCtrl.create({
       message: freelancerAcceptedTask,
       position: 'top',
       duration: 2500,
@@ -113,7 +122,7 @@ export class FavrMarketplaceCardComponent implements OnInit {
       .then((res: string) => res)
       .catch((err: any) => err.error.message);
 
-    await this.toastController.create({
+    await this.toastCtrl.create({
       message: cancelTask,
       position: 'top',
       duration: 2500,

@@ -55,7 +55,7 @@ export class FriendsPage implements OnInit {
   }
 
   async presentToast(message) {
-    const toast = await this.toastController.create({
+    await this.toastController.create({
       message: message,
       position: 'top',
       duration: 2500,

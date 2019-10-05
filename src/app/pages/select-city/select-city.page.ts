@@ -11,5 +11,4 @@ export class SelectCityPage implements OnInit {
 
   ngOnInit() {
   }
-
 }

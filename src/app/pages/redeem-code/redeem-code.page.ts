@@ -18,9 +18,9 @@ export class RedeemCodePage implements OnInit {
   }
 
   redeem() {
-    if(this.code === undefined) {
+    if (this.code === undefined) {
       this.presentAlert('Please fill out the code field.');
-    }else{
+    } else {
       const body = {code: this.code};
       this.financeService.redeemCredit(body).subscribe(res => {
         this.presentToast(res.message);
@@ -31,7 +31,7 @@ export class RedeemCodePage implements OnInit {
   }
 
   async presentToast(message) {
-    const toast = await this.toastController.create({
+    await this.toastController.create({
       message: message,
       position: 'top',
       duration: 2500,

@@ -12,17 +12,25 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <div class="request-task-button-area">
+  <ng-template [ngIf]="myTasks && marketplaceTasks && filterDefault">
+    <div [ngClass]="((myTasks.length === 0 && filterDefault === 'me') || (marketplaceTasks.length === 0 && filterDefault === 'all')) ? 'center-request-task-button-area' : 'request-task-button-area'">
+      <ion-button class="request-task-button" (click)="openRequestPage()">
+        <ion-icon name="create" slot="start"></ion-icon>
+        Request a Task
+      </ion-button>
+    </div>
+  </ng-template>
 
-    <ion-button class="request-task-button" (click)="openRequestPage()">
-      <ion-icon name="create" slot="start"></ion-icon>
-      Request a Task
-    </ion-button>
-  </div>
 
-  <favr-marketplace-card *ngFor="let task of requests"
-                         [mainMarketplaceTask]="task"
-  ></favr-marketplace-card>
+  <ng-container [ngSwitch]="filterDefault">
+    <div *ngSwitchCase="'me'">
+      <favr-marketplace-card *ngFor="let task of myTasks" [mainMarketplaceTask]="task"></favr-marketplace-card>
+    </div>
+
+    <div *ngSwitchCase="'all'">
+      <favr-marketplace-card *ngFor="let task of marketplaceTasks" [mainMarketplaceTask]="task"></favr-marketplace-card>
+    </div>
+  </ng-container>
 
   <!--<ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">-->
     <!--<ion-infinite-scroll-content-->

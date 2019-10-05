@@ -37,7 +37,7 @@ export class SavedLocationsPage implements OnInit {
             this.presentToast(res.message);
           });
         }
-      },{
+      }, {
         text: 'Cancel',
         icon: 'close',
         role: 'cancel',
@@ -48,7 +48,7 @@ export class SavedLocationsPage implements OnInit {
   }
 
   async presentToast(message) {
-    const toast = await this.toastController.create({
+    await this.toastController.create({
       message: message,
       position: 'top',
       duration: 2500,

@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { PusherServiceProvider } from './pusher.service';
+import { PreviousRouteService } from './previous-route.service';
 
-describe('PusherService', () => {
+describe('PreviousRouteService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: PusherServiceProvider = TestBed.get(PusherServiceProvider);
+    const service: PreviousRouteService = TestBed.get(PreviousRouteService);
     expect(service).toBeTruthy();
   });
 });

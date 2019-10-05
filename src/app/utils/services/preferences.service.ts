@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Storage} from '@ionic/storage';
 import {API_ADDRESS, StorageConsts} from '../../providers/constants';
 import {AuthorizationToken} from '../interfaces/user-options';
-import {from} from 'rxjs/index';
+import {from} from 'rxjs';
 import {UpdateResponse, Settings, MyLocationsResponse} from '../interfaces/settings/preferences';
 
 @Injectable({
@@ -103,7 +103,7 @@ export class PreferencesService {
               Authorization: (token) ? token : ''
             }
           };
-          return this.httpClient.put<UpdateResponse>(`${API_ADDRESS}/location/${id}`,null , authHeader)
+          return this.httpClient.put<UpdateResponse>(`${API_ADDRESS}/location/${id}`, null , authHeader)
             .toPromise()
             .then((res: UpdateResponse) => res);
         })
@@ -141,6 +141,4 @@ export class PreferencesService {
         })
     );
   }
-
-
 }
