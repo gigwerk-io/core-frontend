@@ -3,9 +3,10 @@ import { NgForm } from '@angular/forms';
 
 import { UserOptions } from '../../utils/interfaces/user-options';
 import {AuthService} from '../../utils/services/auth.service';
-import {NavController, Platform} from '@ionic/angular';
+import {NavController, Platform, ToastController} from '@ionic/angular';
 import { Push, PushObject, PushOptions } from '@ionic-native/push/ngx';
 import {NotificationService} from '../../utils/services/notification.service';
+import {GCM_KEY} from '../../providers/constants';
 
 @Component({
   selector: 'page-login',
@@ -24,7 +25,8 @@ export class LoginPage {
     public navCtrl: NavController,
     private push: Push,
     private notficationService: NotificationService,
-    private platform: Platform
+    private platform: Platform,
+    private toastController: ToastController
   ) { }
 
   onLogin(form: NgForm) {
@@ -40,8 +42,22 @@ export class LoginPage {
               console.warn(e);
             }
           });
+        }, error => {
+          this.presentToast(error.error.message);
         });
     }
+  }
+
+  async presentToast(message) {
+    await this.toastController.create({
+      message: message,
+      position: 'top',
+      duration: 2500,
+      color: 'dark',
+      showCloseButton: true
+    }).then(toast => {
+      toast.present();
+    });
   }
 
   initPushNotification() {
@@ -51,24 +67,36 @@ export class LoginPage {
     }
 
     const options: PushOptions = {
+      android: {
+        sound: true
+      },
       ios: {
         alert: true,
         badge: true,
-        sound: true,
-      }
+        sound: true
+      },
+      // windows: {},
+      // browser: {
+      //   pushServiceURL: 'http://push.api.phonegap.com/v1/push',
+      //   applicationServerKey: GCM_KEY
+      // }
     };
-    const pushObject: PushObject = this.push.init(options);
-    pushObject.on('registration').subscribe((data: any) => {
-      console.log(data.registrationId);
-      if (this.platform.is('ios')) {
-        this.notficationService.saveAPNToken({'device_token': data.registrationId}).subscribe(res => {
-          console.log(res);
-        });
-      } else {
-        this.notficationService.saveFCMToken({'device_token': data.registrationId}).subscribe(res => {
-          console.log(res);
-        });
-      }
-    });
+    if (!(this.platform.is('pwa') && this.platform.is('ios'))) {
+      const pushObject: PushObject = this.push.init(options);
+      pushObject.on('registration').subscribe((data: any) => {
+        console.log('Token: ' + data.registrationId);
+        if (this.platform.is('ios')) {
+          this.notficationService.saveAPNToken({'device_token': data.registrationId}).subscribe(res => {
+            console.log(res);
+          });
+        } else if (this.platform.is('android')) {
+          this.notficationService.saveFCMToken({'device_token': data.registrationId}).subscribe(res => {
+            console.log(res);
+          });
+        }
+      }, error1 => {
+        console.log(error1);
+      });
+    }
   }
 }

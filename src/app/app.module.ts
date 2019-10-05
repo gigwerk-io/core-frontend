@@ -22,6 +22,7 @@ import { IntercomModule } from 'ng-intercom';
 import { Push } from '@ionic-native/push/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Contacts} from '@ionic-native/contacts/ngx';
+import { GoogleAnalytics } from '@ionic-native/google-analytics/ngx';
 
 
 @NgModule({
@@ -55,7 +56,8 @@ import { Contacts} from '@ionic-native/contacts/ngx';
     FormBuilder,
     Intercom,
     SocialSharing,
-    Contacts
+    Contacts,
+    GoogleAnalytics
   ],
   bootstrap: [AppComponent]
 })

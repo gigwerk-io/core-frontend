@@ -10,8 +10,9 @@
 <ion-content>
   <ion-list class="ion-padding">
     <ion-item class="no-inner-border-width">
+      <input type="file" accept="image/*" (change)="uploadImage($event)" #file style="display:none">
       <ion-avatar class="image-center">
-        <img [src]="image" alt="Edit your profile image.">
+        <img [src]="image" (click)="file.click()" alt="Edit your profile image.">
       </ion-avatar>
     </ion-item>
 

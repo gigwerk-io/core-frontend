@@ -7,7 +7,8 @@ import {Storage} from '@ionic/storage';
 import {ActionSheetController, ToastController} from '@ionic/angular';
 import {ChatService} from '../../utils/services/chat.service';
 import {FriendsService} from '../../utils/services/friends.service';
-import {StorageConsts} from '../../providers/constants';
+import {GA_ID, StorageConsts} from '../../providers/constants';
+import {GoogleAnalytics} from '@ionic-native/google-analytics/ngx';
 
 @Component({
   selector: 'profile',
@@ -31,7 +32,8 @@ export class ProfilePage implements OnInit {
               private router: Router,
               private photoViewer: PhotoViewer,
               public toastController: ToastController,
-              private actionSheetCtrl: ActionSheetController) {}
+              private actionSheetCtrl: ActionSheetController,
+              private ga: GoogleAnalytics) {}
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe(data => {
@@ -47,10 +49,23 @@ export class ProfilePage implements OnInit {
             });
         });
     });
+    this.trackWithGoogle();
   }
 
   private viewAttachedPhoto(url: string, photoTitle?: string): void {
     this.photoViewer.show(url, (photoTitle) ? photoTitle : '');
+  }
+
+  trackWithGoogle() {
+    this.storage.get(StorageConsts.PROFILE).then(profile => {
+      this.ga.startTrackerWithId(GA_ID)
+        .then(() => {
+          console.log('Google analytics is ready now');
+          this.ga.trackView('profile');
+          this.ga.setUserId(profile.user.username);
+        })
+        .catch(e => console.log('Error starting GoogleAnalytics', e));
+    });
   }
 
   async presentOwnerActionSheet() {

@@ -4,6 +4,9 @@ import {MarketplaceService} from '../../utils/services/marketplace.service';
 import {LoadingController, ModalController} from '@ionic/angular';
 import {RequestPage} from '../request/request.page';
 import {Observable, Subscription} from 'rxjs';
+import {GoogleAnalytics} from '@ionic-native/google-analytics/ngx';
+import {GA_ID, StorageConsts} from '../../providers/constants';
+import {Storage} from '@ionic/storage';
 
 @Component({
   selector: 'marketplace',
@@ -22,7 +25,9 @@ export class MarketplacePage implements OnInit, OnDestroy {
   constructor(private marketplaceService: MarketplaceService,
               private modalCtrl: ModalController,
               private loadingCtrl: LoadingController,
-              private changeRef: ChangeDetectorRef) { }
+              private changeRef: ChangeDetectorRef,
+              private ga: GoogleAnalytics,
+              private storage: Storage) { }
 
   ngOnInit() {
     this.marketplaceTaskSubscription = this.marketplaceService.getMainMarketplaceRequests('all')
@@ -47,11 +52,25 @@ export class MarketplacePage implements OnInit, OnDestroy {
 
         this.filterDefault = (this.myTasks.length > 0) ? 'me' : 'all';
       });
+
+    this.trackWithGoogle();
   }
 
   ngOnDestroy(): void {
     this.marketplaceTaskSubscription.unsubscribe();
     this.myTaskSubscription.unsubscribe();
+  }
+
+  trackWithGoogle() {
+    this.storage.get(StorageConsts.PROFILE).then(profile => {
+      this.ga.startTrackerWithId(GA_ID)
+        .then(() => {
+          console.log('Google analytics is ready now');
+          this.ga.trackView('marketplace');
+          this.ga.setUserId(profile.user.username);
+        })
+        .catch(e => console.log('Error starting GoogleAnalytics', e));
+    });
   }
 
   async openRequestPage(): Promise<boolean> {

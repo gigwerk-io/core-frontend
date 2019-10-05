@@ -20,6 +20,11 @@ const routes: Routes = [
     canActivate: [CheckAuth]
   },
   {
+    path: 'forgot-password',
+    loadChildren: () => import('./pages/forgot-password/forgot-password.module').then(m => m.ForgotPasswordPageModule),
+    canActivate: [CheckAuth]
+  },
+  {
     path: 'app',
     loadChildren: () => import('./pages/tabs-page/tabs-page.module').then(m => m.TabsModule),
     canActivate: [CheckAuth]
@@ -38,6 +43,7 @@ const routes: Routes = [
     path: '**',
     redirectTo: '/tutorial'
   }
+
   // {
   //   path: 'select-city',
   //   loadChildren: () => import('./pages/select-city/select-city.module').then(m => m.SelectCityPageModule)

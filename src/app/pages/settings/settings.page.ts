@@ -33,9 +33,17 @@ export class SettingsPage implements OnInit {
 
   ngOnInit() {
     this.storage.get(StorageConsts.PROFILE).then(profile => {
-      this.seeTransfers = profile.user.role === 'Verified Freelancer';
+      if (profile.user.role === 'Verified Freelancer') {
+        this.seeTransfers = true;
+      } else {
+        this.seeTransfers = false;
+      }
 
-      this.seeCredit = profile.user.organization_id === null;
+      if (profile.user.organization_id === null) {
+        this.seeCredit = true;
+      } else {
+        this.seeCredit = false;
+      }
     });
 
     console.log(this.platform.platforms());
@@ -58,27 +66,22 @@ export class SettingsPage implements OnInit {
   }
 
   openSupport() {
-    if (this.platform.is('ios') || this.platform.is('android')) {
-      this.intercom.registerForPush();
-    } else {
-      this.storage.get(StorageConsts.PROFILE).then(profile => {
-        this.webIntercom.boot({
-          app_id: INTERCOM_ID,
-          email: profile.user.email,
-          name: profile.user.first_name + ' ' + profile.user.last_name,
-          // Supports all optional configuration.
-          widget: {
-            'activator': '#intercom'
-          }
-        });
-        this.webIntercom.show();
+    this.storage.get(StorageConsts.PROFILE).then(profile => {
+      this.webIntercom.boot({
+        app_id: INTERCOM_ID,
+        email: profile.user.email,
+        name: profile.user.first_name + " " + profile.user.last_name,
+        // Supports all optional configuration.
+        widget: {
+          "activator": "#intercom"
+        }
       });
-
-    }
+      this.webIntercom.show();
+    });
   }
 
   openTerms() {
-    if (this.platform.is('ios') || this.platform.is('android')) {
+    if (this.platform.is('ios') || this.platform.is('android')){
       this.iab.create('https://askfavr.com/terms.html');
     } else {
       window.open('https://askfavr.com/terms.html');
@@ -101,53 +104,25 @@ export class SettingsPage implements OnInit {
         text: 'Share via Facebook',
         icon: 'logo-facebook',
         handler: () => {
-          if (this.platform.is('desktop')) {
-            window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`);
-          } else {
-            this.socialSharing.shareViaFacebook(message, '', url).then(res => {
-              console.log(res);
-            }).catch(err => {
-              console.warn(err);
-            });
-          }
+          window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`);
         }
-      }, !this.platform.is('mobile') ?  {
+      },  {
         text: 'Share via Text',
         icon: 'text',
         handler: () => {
-          this.contacts.pickContact().then(contact => {
-            const phone = contact.phoneNumbers[0].value;
-            console.log(phone);
-            this.socialSharing.shareViaSMS(message, phone).then(res => {
-              console.log(res);
-            }).catch(err => {
-              console.warn(err);
-            });
-          });
+          window.open(`sms://?&body=${message + ' ' + url}`);
         }
-      } : null, {
+      }, {
         text: 'Share via Twitter',
         icon: 'logo-twitter',
         handler: () => {
-          if (this.platform.is('desktop')) {
-            window.open(`https://twitter.com/intent/tweet?url=${url}&text=${message}`);
-          } else {
-            this.socialSharing.shareViaTwitter(message, '', url).then(res => {
-              console.log(res);
-            }).catch(err => {
-              console.warn(err);
-            });
-          }
+          window.open(`https://twitter.com/intent/tweet?url=${url}&text=${message + ' ' + url}`);
         }
       }, {
-        text: 'Share via WhatsApp',
-        icon: 'logo-whatsapp',
+        text: 'Share via Email',
+        icon: 'mail',
         handler: () => {
-          this.socialSharing.shareViaWhatsApp(message).then(res => {
-            console.log(res);
-          }).catch(err => {
-            console.warn(err);
-          });
+          window.open(`mailto:?&subject=${'Invitation To FAVR!'}&body=${message + ' ' + url}`);
         }
       }, {
         text: 'Cancel',
@@ -158,8 +133,7 @@ export class SettingsPage implements OnInit {
         }
       }];
     if (!this.platform.is('mobile')) {
-      buttons.splice(1, 1);
-      buttons.splice(2, 1);
+      buttons.splice(1, 1); // remove text option if not mobile
     }
     const actionSheet = await this.actionSheetController.create({
       header: 'Earn $5 For Each Friend You Invite To FAVR!',

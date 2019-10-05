@@ -54,4 +54,8 @@ export class AuthService {
   isLoggedIn() {
     return this.authSubject.asObservable();
   }
+
+  forgotPassword(email): Observable<SignOutResponse> {
+    return this.httpClient.post<SignOutResponse>(`${API_ADDRESS}/forgot-password`, {email: email});
+  }
 }

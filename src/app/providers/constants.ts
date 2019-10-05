@@ -24,3 +24,4 @@ export const PUSHER_ID = environment.pusherId;
 export const STRIPE_PUBLIC = environment.stripeKey;
 export const GA_ID = environment.googleAnalyticsId;
 export const INTERCOM_ID = environment.intercomId;
+export const GCM_KEY = environment.gcmKey;
