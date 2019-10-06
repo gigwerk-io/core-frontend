@@ -7,6 +7,7 @@ import {MarketplaceService} from '../../utils/services/marketplace.service';
 import {Storage} from '@ionic/storage';
 import {Role, StorageConsts, TaskStatus} from '../../providers/constants';
 import {ChatService} from '../../utils/services/chat.service';
+import {TASK_CATEGORIES} from '../../utils/mocks/mock-categories.mock';
 
 @Component({
   selector: 'marketplace-detail',
@@ -16,6 +17,7 @@ import {ChatService} from '../../utils/services/chat.service';
 })
 export class MarketplaceDetailPage implements OnInit {
 
+  taskID: number;
   mainMarketplaceTask: MainMarketplaceTask;
   page = 'main';
   taskStatusDisplay: string;
@@ -24,6 +26,7 @@ export class MarketplaceDetailPage implements OnInit {
   userRole: string;
   TaskStatus = TaskStatus;
   Role = Role;
+  Categories = TASK_CATEGORIES;
 
   constructor(private modalCtrl: ModalController,
               private loadingCtrl: LoadingController,
@@ -37,8 +40,8 @@ export class MarketplaceDetailPage implements OnInit {
               private actionSheetCtrl: ActionSheetController,
               private chatService: ChatService) {
     this.activatedRoute.paramMap.subscribe(data => {
-      const id: number = parseInt(data.get('id'), 10);
-      this.marketplaceService.getSingleMainMarketplaceRequest(id)
+      this.taskID = parseInt(data.get('id'), 10);
+      this.marketplaceService.getSingleMainMarketplaceRequest(this.taskID)
         .then((task: MainMarketplaceTask) => {
           this.mainMarketplaceTask = task;
           this.taskStatusDisplay = (this.mainMarketplaceTask.status === 'Paid') ? 'Freelancer En-Route' : this.mainMarketplaceTask.status;
@@ -136,48 +139,44 @@ export class MarketplaceDetailPage implements OnInit {
   }
 
   async freelancerAcceptTask() {
-    const freelancerAcceptingRequest = await this.loadingCtrl.create({
-      message: 'Please wait...',
-      translucent: true
-    });
-
-    await freelancerAcceptingRequest.present();
     const freelancerAcceptedTask = await this.marketplaceService.freelancerAcceptMainMarketplaceRequest(this.mainMarketplaceTask.id)
       .then((res: string) => res)
       .catch((err: any) => err.error.message);
+    this.presentToast(freelancerAcceptedTask);
+  }
 
-    await this.toastCtrl.create({
-      message: freelancerAcceptedTask,
-      position: 'top',
-      duration: 2500,
-      color: 'dark',
-      showCloseButton: true
-    }).then(toast => {
-      freelancerAcceptingRequest.dismiss();
-      toast.present();
-    });
+  async freelancerWithdrawTask() {
+    const freelancerWithdrawTask = await this.marketplaceService.freelancerWithdrawMainMarketplaceRequest(this.mainMarketplaceTask.id)
+      .then((res: string) => res)
+      .catch((err: any) => err.error.message);
+    this.presentToast(freelancerWithdrawTask);
   }
 
   async customerCancelTask() {
-    const customerCancel = await this.loadingCtrl.create({
-      message: 'Please wait...',
-      translucent: true
-    });
-
-    await customerCancel.present();
     const cancelTask = await this.marketplaceService.customerCancelMainMarketplaceRequeset(this.mainMarketplaceTask.id)
       .then((res: string) => res)
       .catch((err: any) => err.error.message);
+    this.presentToast(cancelTask);
+  }
 
-    await this.toastCtrl.create({
-      message: cancelTask,
-      position: 'top',
-      duration: 2500,
-      color: 'dark',
-      showCloseButton: true
-    }).then(toast => {
-      customerCancel.dismiss();
-      toast.present();
-    });
+  async doRefresh(event?) {
+    setTimeout(() => {
+      this.marketplaceService.getSingleMainMarketplaceRequest(this.taskID)
+        .then((task: MainMarketplaceTask) => {
+          this.mainMarketplaceTask = task;
+          this.taskStatusDisplay = (this.mainMarketplaceTask.status === 'Paid') ? 'Freelancer En-Route' : this.mainMarketplaceTask.status;
+          this.storage.get(StorageConsts.PROFILE)
+            .then(prof => {
+              this.userRole = prof.user.role;
+              this.isOwner = prof.user_id === task.customer_id;
+              this.isFreelancer = (this.userRole === Role.VERIFIED_FREELANCER)
+                ? this.marketplaceService.checkIsTaskFreelancer(prof.user_id, this.mainMarketplaceTask)
+                : false;
+            });
+        });
+      if (event) {
+        event.target.complete();
+      }
+    }, 1000);
   }
 }

@@ -86,16 +86,53 @@ export class MarketplacePage implements OnInit, OnDestroy {
 
     await loadingRequestPage.present();
 
+    modal.onDidDismiss().then(async () => {
+      const loadingMarketplacePage = await this.loadingCtrl.create({
+        message: 'Please wait...',
+        translucent: true
+      });
+
+      await loadingMarketplacePage.present();
+
+      this.marketplaceTaskSubscription = this.marketplaceService.getMainMarketplaceRequests('all')
+        .subscribe(tasks => this.marketplaceTasks = tasks);
+      this.myTaskSubscription = this.marketplaceService.getMainMarketplaceRequests('me')
+        .subscribe(tasks => this.myTasks = tasks);
+
+      loadingMarketplacePage.dismiss();
+    });
+
     return await modal.present()
-      .then(() => loadingRequestPage.dismiss());
+      .then(() => {
+        this.marketplaceTaskSubscription.unsubscribe();
+        this.myTaskSubscription.unsubscribe();
+        return loadingRequestPage.dismiss();
+      });
   }
 
-  async doRefresh(event) {
-    console.log('Begin async operation');
+  async doRefresh(event?) {
+    this.marketplaceTaskSubscription.unsubscribe();
+    this.myTaskSubscription.unsubscribe();
+
+    const loadingMarketplacePage = await this.loadingCtrl.create({
+      message: 'Please wait...',
+      translucent: true
+    });
+
+    if (typeof event === 'string') {
+      await loadingMarketplacePage.present();
+    }
     setTimeout(() => {
-      console.log('Async operation has ended');
-      event.target.complete();
-    }, 2000);
+      this.marketplaceTaskSubscription = this.marketplaceService.getMainMarketplaceRequests('all')
+        .subscribe(tasks => this.marketplaceTasks = tasks);
+      this.myTaskSubscription = this.marketplaceService.getMainMarketplaceRequests('me')
+        .subscribe(tasks => this.myTasks = tasks);
+      if (typeof event === 'string') {
+        loadingMarketplacePage.dismiss();
+      } else {
+        event.target.complete();
+      }
+    }, 1000);
   }
 
   setFilterOption(option: string) {

@@ -27,7 +27,6 @@ export class FriendsPage implements OnInit {
   }
 
   handleSearch(query) {
-    this.title = 'Results';
     this.btnClass = 'arrow-forward';
     this.secondButton = false;
     this.clickType = 'search';
@@ -67,7 +66,6 @@ export class FriendsPage implements OnInit {
   }
 
   showRecommendedFriends() {
-    this.title = 'Recommended';
     this.btnClass = 'person-add';
     this.secondButton = false;
     this.friendService.getRecommendedFriends().subscribe(res => {
@@ -76,7 +74,6 @@ export class FriendsPage implements OnInit {
   }
 
   showMyFriends() {
-    this.title = 'Friends';
     this.btnClass = 'chatbubbles';
     this.secondButton = false;
     this.friendService.getMyFriends().subscribe(res => {
@@ -85,7 +82,6 @@ export class FriendsPage implements OnInit {
   }
 
   showMyFriendRequests() {
-    this.title = 'Friend Requests';
     this.btnClass = 'add-circle';
     this.secondButton = true;
     this.friendService.getFriendRequests().subscribe(res => {

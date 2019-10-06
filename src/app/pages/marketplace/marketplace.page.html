@@ -24,11 +24,12 @@
 
   <ng-container [ngSwitch]="filterDefault">
     <div *ngSwitchCase="'me'">
-      <favr-marketplace-card *ngFor="let task of myTasks" [mainMarketplaceTask]="task"></favr-marketplace-card>
+      <favr-marketplace-card *ngFor="let task of myTasks" [mainMarketplaceTask]="task" (taskActionTaken)="doRefresh($event)"></favr-marketplace-card>
     </div>
 
     <div *ngSwitchCase="'all'">
-      <favr-marketplace-card *ngFor="let task of marketplaceTasks" [mainMarketplaceTask]="task"></favr-marketplace-card>
+      <favr-marketplace-card *ngFor="let task of marketplaceTasks" [mainMarketplaceTask]="task"
+                             (taskActionTaken)="doRefresh($event)"></favr-marketplace-card>
     </div>
   </ng-container>
 

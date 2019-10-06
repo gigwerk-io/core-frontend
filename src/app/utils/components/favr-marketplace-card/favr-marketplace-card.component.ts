@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {
   MainMarketplaceTask
 } from '../../interfaces/main-marketplace/main-marketplace-task';
@@ -20,6 +20,8 @@ import {MarketplaceService} from '../../services/marketplace.service';
 export class FavrMarketplaceCardComponent implements OnInit {
 
   @Input() mainMarketplaceTask: MainMarketplaceTask;
+  @Output() taskActionTaken: EventEmitter<string> = new EventEmitter();
+
   userRole: string;
   userID: number;
   isOwner: boolean;
@@ -68,14 +70,6 @@ export class FavrMarketplaceCardComponent implements OnInit {
       .then(() => loadingMarketplaceDetail.dismiss());
   }
 
-  startChat(username) {
-    this.chatService.startChat(username).subscribe(res => {
-      this.router.navigate(['/app/room', res.id]);
-    }, error => {
-      this.presentToast(error.error.message);
-    });
-  }
-
   async presentToast(message) {
     await this.toastCtrl.create({
       message: message,
@@ -88,49 +82,35 @@ export class FavrMarketplaceCardComponent implements OnInit {
     });
   }
 
-  async freelancerAcceptTask() {
-    const freelancerAcceptingRequest = await this.loadingCtrl.create({
-      message: 'Please wait...',
-      translucent: true
-    });
-
-    await freelancerAcceptingRequest.present();
-    const freelancerAcceptedTask = await this.marketplaceService.freelancerAcceptMainMarketplaceRequest(this.mainMarketplaceTask.id)
-      .then((res: string) => res)
-      .catch((err: any) => err.error.message);
-
-    await this.toastCtrl.create({
-      message: freelancerAcceptedTask,
-      position: 'top',
-      duration: 2500,
-      color: 'dark',
-      showCloseButton: true
-    }).then(toast => {
-      freelancerAcceptingRequest.dismiss();
-      toast.present();
+  startChat(username) {
+    this.chatService.startChat(username).subscribe(res => {
+      this.router.navigate(['/app/room', res.id]);
+    }, error => {
+      this.presentToast(error.error.message);
     });
   }
 
-  async customerCancelTask() {
-    const customerCancel = await this.loadingCtrl.create({
-      message: 'Please wait...',
-      translucent: true
-    });
+  async freelancerAcceptTask() {
+    const freelancerAcceptedTask = await this.marketplaceService.freelancerAcceptMainMarketplaceRequest(this.mainMarketplaceTask.id)
+      .then((res: string) => res)
+      .catch((err: any) => err.error.message);
+    this.presentToast(freelancerAcceptedTask)
+      .then(() => this.taskActionTaken.emit('freelancerAcceptTask'));
+  }
 
-    await customerCancel.present();
+  async freelancerWithdrawTask() {
+    const freelancerWithdrawTask = await this.marketplaceService.freelancerWithdrawMainMarketplaceRequest(this.mainMarketplaceTask.id)
+      .then((res: string) => res)
+      .catch((err: any) => err.error.message);
+    this.presentToast(freelancerWithdrawTask)
+      .then(() => this.taskActionTaken.emit('freelancerWithdrawTask'));
+  }
+
+  async customerCancelTask() {
     const cancelTask = await this.marketplaceService.customerCancelMainMarketplaceRequeset(this.mainMarketplaceTask.id)
       .then((res: string) => res)
       .catch((err: any) => err.error.message);
-
-    await this.toastCtrl.create({
-      message: cancelTask,
-      position: 'top',
-      duration: 2500,
-      color: 'dark',
-      showCloseButton: true
-    }).then(toast => {
-      customerCancel.dismiss();
-      toast.present();
-    });
+    this.presentToast(cancelTask)
+      .then(() => this.taskActionTaken.emit('customerCancelTask'));
   }
 }
