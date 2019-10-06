@@ -52,7 +52,7 @@
 
   <ion-row *ngIf="userRole == Role.VERIFIED_FREELANCER && !isOwner"
            class="ion-no-padding ion-justify-content-center">
-    <ion-col class="ion-text-left">
+    <ion-col class="ion-text-center">
       <ion-button *ngIf="mainMarketplaceTask.status == TaskStatus.REQUESTED && !isFreelancer"
                   (click)="freelancerAcceptTask()"
                   fill="outline"
@@ -63,6 +63,7 @@
       </ion-button>
 
       <ion-button *ngIf="mainMarketplaceTask.status == TaskStatus.PENDING_APPROVAL && isFreelancer"
+                  (click)="freelancerWithdrawTask()"
                   fill="outline"
                   size="small"
                   color="primary">
@@ -78,8 +79,10 @@
       </ion-button>
     </ion-col>
 
-    <ion-col *ngIf="mainMarketplaceTask.status == TaskStatus.PENDING_APPROVAL && isFreelancer"
-             class="ion-text-right">
+    <ion-col *ngIf="mainMarketplaceTask.status != TaskStatus.REQUESTED
+                    && mainMarketplaceTask.status != TaskStatus.PENDING_APPROVAL
+                    && isFreelancer"
+             class="ion-text-center">
       <ion-button fill="outline" size="small" color="primary" (click)="startChat(mainMarketplaceTask.customer.username)">
         <ion-icon name="chatbubbles" slot="start"></ion-icon>
         Contact
@@ -89,20 +92,20 @@
 
   <ion-row *ngIf="isOwner"
            class="ion-no-padding ion-justify-content-center">
-    <ion-col size="4" class="ion-text-left">
+    <ion-col class="ion-text-center">
       <ion-button (click)="customerCancelTask()"
                   fill="outline" size="small" color="primary">
         <ion-icon name="close" slot="start" size="large" style="margin-right: 0"></ion-icon>
         Cancel
       </ion-button>
     </ion-col>
-    <ion-col size="4" class="ion-text-center">
+    <ion-col class="ion-text-center">
       <ion-button fill="outline" size="small" color="primary" (click)="loadMarketplaceDetail(mainMarketplaceTask.id)" routerDirection="forward">
         <ion-icon name="eye" slot="start"></ion-icon>
         View
       </ion-button>
     </ion-col>
-    <ion-col size="4" class="ion-text-right">
+    <ion-col class="ion-text-center">
       <ion-button fill="outline" size="small" color="primary">
         <ion-icon name="create" slot="start"></ion-icon>
         Edit

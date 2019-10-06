@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   CustomerCancelTaskResponse,
-  FreelancerAcceptMainMarketplaceTaskRouteResponse,
+  FreelancerAcceptMainMarketplaceTaskRouteResponse, FreelancerWithdrawMainMarketplaceTaskRouteResponse,
   MainMarketplaceRequestRouteResponse,
   MainMarketplaceRouteResponse,
   MainMarketplaceTask
@@ -109,6 +109,21 @@ export class MarketplaceService {
         return this.httpClient.get<FreelancerAcceptMainMarketplaceTaskRouteResponse>(`${API_ADDRESS}/marketplace/main/accept/${id}`, authHeader)
           .toPromise()
           .then((res: FreelancerAcceptMainMarketplaceTaskRouteResponse) => res.message);
+      });
+  }
+
+  public freelancerWithdrawMainMarketplaceRequest(id: number): Promise<string> {
+    return this.storage.get(StorageConsts.ACCESS_TOKEN)
+      .then(token => {
+        const authHeader: AuthorizationToken = {
+          headers: {
+            Authorization: (token) ? token : ''
+          }
+        };
+        // tslint:disable-next-line
+        return this.httpClient.get<FreelancerWithdrawMainMarketplaceTaskRouteResponse>(`${API_ADDRESS}/marketplace/main/freelancer/withdraw/${id}`, authHeader)
+          .toPromise()
+          .then((res: FreelancerWithdrawMainMarketplaceTaskRouteResponse) => res.message);
       });
   }
 

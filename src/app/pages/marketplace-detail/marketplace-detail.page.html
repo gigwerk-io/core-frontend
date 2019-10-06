@@ -20,7 +20,10 @@
 </ion-header>
 
 <ion-content>
-  <ion-list *ngIf="mainMarketplaceTask" >
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-list *ngIf="mainMarketplaceTask">
     <ion-slides [pager]="true">
       <ion-slide (click)="viewAttachedPhoto(mainMarketplaceTask.image_one, 'Image 1')" class="marketplace-slide-image" *ngIf="mainMarketplaceTask.image_one">
         <img [src]="mainMarketplaceTask.image_one" alt="image one">
@@ -80,6 +83,7 @@
           </ion-button>
 
           <ion-button *ngIf="mainMarketplaceTask.status == TaskStatus.PENDING_APPROVAL && isFreelancer"
+                      (click)="freelancerWithdrawTask()"
                       fill="outline"
                       size="small"
                       color="primary">
@@ -88,7 +92,9 @@
           </ion-button>
         </ion-col>
 
-        <ion-col *ngIf="mainMarketplaceTask.status == TaskStatus.PENDING_APPROVAL && isFreelancer"
+        <ion-col *ngIf="mainMarketplaceTask.status != TaskStatus.REQUESTED
+                    && mainMarketplaceTask.status != TaskStatus.PENDING_APPROVAL
+                    && isFreelancer"
                  class="ion-text-center">
           <ion-button fill="outline" size="small" color="primary" (click)="startChat(mainMarketplaceTask.customer.username)">
             <ion-icon name="chatbubbles" slot="start"></ion-icon>
@@ -116,13 +122,23 @@
 
       <ion-row padding-bottom>
         <ion-col size="3">
-          <img src="../../../assets/img/lawnmower.png" class="marketplace-detail-icons">
+          <img src="../../../assets/img/stopwatch.png" class="marketplace-detail-icons">
+        </ion-col>
+        <ion-col size="9">
+          <b>Current Status:</b>
+          <br>
+          Task {{taskStatusDisplay}}
+        </ion-col>
+      </ion-row>
+
+      <ion-row padding-bottom>
+        <ion-col size="3">
+          <img src="../../../assets/img/{{Categories[mainMarketplaceTask.category_id - 1].icon}}" class="marketplace-detail-icons">
         </ion-col>
         <ion-col size="9">
           <b>Task Category:</b>
           <br>
-          Lawn Mowing
-          <!--{{mainMarketplaceTask.category}}-->
+          {{Categories[mainMarketplaceTask.category_id - 1].name}}
         </ion-col>
       </ion-row>
 
@@ -136,6 +152,7 @@
           <div id="taskDescription" [innerHTML]="mainMarketplaceTask.description"></div>
         </ion-col>
       </ion-row>
+
       <ion-row padding-bottom>
         <ion-col size="3">
           <img src="../../../assets/img/bank.png" class="marketplace-detail-icons">
@@ -147,6 +164,7 @@
           ${{mainMarketplaceTask.price}}
         </ion-col>
       </ion-row>
+
       <ion-row padding-bottom>
         <ion-col size="3">
           <img src="../../../assets/img/group.png" class="marketplace-detail-icons">
@@ -158,6 +176,7 @@
           task needs {{mainMarketplaceTask.freelancer_count - mainMarketplaceTask.freelancer_accepted}} more
         </ion-col>
       </ion-row>
+
       <ion-row padding-bottom>
         <ion-col size="3">
           <img src="../../../assets/img/map.png" class="marketplace-detail-icons">
@@ -176,6 +195,7 @@
           </ng-template>
         </ion-col>
       </ion-row>
+
       <ion-row padding-bottom>
         <ion-col size="3">
           <img src="../../../assets/img/calendar.png" class="marketplace-detail-icons">
@@ -186,6 +206,7 @@
           {{mainMarketplaceTask.isoFormat | date: 'MMM dd, yyyy h:mm a'}}
         </ion-col>
       </ion-row>
+
       <ion-row padding-bottom>
         <ion-col size="3">
           <img src="../../../assets/img/tools.png" class="marketplace-detail-icons">
@@ -202,16 +223,6 @@
           <div *ngIf="mainMarketplaceTask.intensity == 'Hard'"
                id="hard-button">Hard 🔥
           </div>
-        </ion-col>
-      </ion-row>
-      <ion-row padding-bottom>
-        <ion-col size="3">
-          <img src="../../../assets/img/stopwatch.png" class="marketplace-detail-icons">
-        </ion-col>
-        <ion-col size="9">
-          <b>Current Status:</b>
-          <br>
-          Task {{taskStatusDisplay}}
         </ion-col>
       </ion-row>
     </ion-grid>

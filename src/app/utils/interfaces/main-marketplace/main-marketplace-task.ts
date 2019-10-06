@@ -47,6 +47,10 @@ export interface FreelancerAcceptMainMarketplaceTaskRouteResponse {
   message: string;
 }
 
+export interface FreelancerWithdrawMainMarketplaceTaskRouteResponse {
+  message: string;
+}
+
 export interface CustomerCancelTaskResponse {
   message: string;
 }
