@@ -28,20 +28,20 @@ export class ForgotPasswordPage implements OnInit {
         });
       }, error => {
         if (error.status === 422) {
-          this.presentToast(error.error.email[0]);
+          this.presentToast(error.error.email[0], 'danger');
         } else {
-          this.presentToast(error.error.message);
+          this.presentToast(error.error.message, 'danger');
         }
       });
     }
   }
 
-  async presentToast(message) {
+  async presentToast(message, color = 'dark') {
     await this.toastController.create({
       message: message,
       position: 'top',
       duration: 3000,
-      color: 'dark',
+      color: color,
       showCloseButton: true
     }).then(toast => {
       toast.present();
