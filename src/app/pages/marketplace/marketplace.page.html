@@ -21,22 +21,22 @@
     </div>
   </ng-template>
 
+  <!-- Default Segment -->
+  <!-- Icon end -->
+  <ion-segment (ionChange)="segmentChanged($event.target.value)" [(ngModel)]="segment">
+    <ion-segment-button checked value="all">
+      <ion-label>Feed</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="me">
+      <ion-label>My Tasks</ion-label>
+    </ion-segment-button>
+    <ion-segment-button *ngIf="role === 'Verified Freelancer'" value="jobs">
+      <ion-label>My Jobs</ion-label>
+    </ion-segment-button>
+  </ion-segment>
 
-  <ng-container [ngSwitch]="filterDefault">
-    <div *ngSwitchCase="'me'">
-      <favr-marketplace-card *ngFor="let task of myTasks" [mainMarketplaceTask]="task" (taskActionTaken)="doRefresh($event)"></favr-marketplace-card>
-    </div>
-
-    <div *ngSwitchCase="'all'">
-      <favr-marketplace-card *ngFor="let task of marketplaceTasks" [mainMarketplaceTask]="task"
-                             (taskActionTaken)="doRefresh($event)"></favr-marketplace-card>
-    </div>
+  <ng-container>
+    <favr-marketplace-card *ngFor="let task of marketplaceTasks" [mainMarketplaceTask]="task" (taskActionTaken)="doRefresh($event)"></favr-marketplace-card>
   </ng-container>
 
-  <!--<ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">-->
-    <!--<ion-infinite-scroll-content-->
-      <!--loadingSpinner="bubbles"-->
-      <!--loadingText="Loading more data...">-->
-    <!--</ion-infinite-scroll-content>-->
-  <!--</ion-infinite-scroll>-->
 </ion-content>

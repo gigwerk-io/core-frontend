@@ -16,4 +16,13 @@ export class PusherServiceProvider {
     this.channel = pusher.subscribe(uuid);
     return this.channel;
   }
+
+  public marketplace() {
+    const pusher = new Pusher(PUSHER_ID, {
+      cluster: 'us2',
+      encrypted: true,
+    });
+    this.channel = pusher.subscribe('marketplace');
+    return this.channel;
+  }
 }
