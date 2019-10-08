@@ -9,6 +9,7 @@ import {FriendsPageModule} from '../friends/friends.module';
 import {RequestPageModule} from '../request/request.module';
 import {SettingsPageModule} from '../settings/settings.module';
 import {MarketplaceDetailPageModule} from '../marketplace-detail/marketplace-detail.module';
+import {SearchPageModule} from '../search/search.module';
 
 const MODULES = [
   CommonModule,
@@ -18,6 +19,7 @@ const MODULES = [
   MarketplaceDetailPageModule,
   RequestPageModule,
   SettingsPageModule,
+  SearchPageModule,
   TabsPageRoutingModule,
 ];
 

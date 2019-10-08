@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes, CanActivate } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { CheckTutorial } from './providers/check-tutorial.service';
 import {CheckAuth} from './providers/check-auth.service';
 
