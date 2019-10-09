@@ -50,15 +50,11 @@ export class NotificationsPage implements OnInit {
     }
   }
 
-  markRead(id, index) {
-    this.notifications.splice(index, 1);
-    this.notificationService.markNotificationAsRead(id).subscribe();
-  }
-
   view(index, notification: Notification) {
-    this.markRead(notification.id, index);
+    this.router.navigate([notification.action.page, notification.action.params]);
     setTimeout(() => {
-      this.router.navigate([notification.action.page, notification.action.params]);
-    }, 100);
+      this.notifications.splice(index, 1);
+      this.notificationService.markNotificationAsRead(notification.id).subscribe();
+    }, 1000);
   }
 }
