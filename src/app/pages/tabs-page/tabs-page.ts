@@ -1,7 +1,11 @@
 import {Component} from '@angular/core';
 import {RequestPage} from '../request/request.page';
-import {LoadingController, ModalController} from '@ionic/angular';
+import {LoadingController, ModalController, ToastController} from '@ionic/angular';
 import {NotificationService} from '../../utils/services/notification.service';
+import {PusherServiceProvider} from '../../providers/pusher.service';
+import {Storage} from '@ionic/storage';
+import {StorageConsts} from '../../providers/constants';
+import {Router} from '@angular/router';
 
 @Component({
   templateUrl: 'tabs-page.html'
@@ -14,7 +18,11 @@ export class TabsPage {
 
   constructor(private modalCtrl: ModalController,
               private loadingCtrl: LoadingController,
-              private notificationService: NotificationService) {
+              private notificationService: NotificationService,
+              private pusher: PusherServiceProvider,
+              private toastController: ToastController,
+              private storage: Storage,
+              private router: Router) {
     if (window.innerWidth >= 500) {
       this.tabSlot = 'top';
     } else {
@@ -28,6 +36,21 @@ export class TabsPage {
       this.notificationService.getBadgeCount().subscribe(res => {
         this.notificationCount = res.notifications;
         this.friendCount = res.friends;
+        // Listen To Pusher User Channel
+        this.storage.get(StorageConsts.PROFILE).then(profile => {
+          const channel = this.pusher.user(profile.user.id);
+          // Bind Notification Channel
+          channel.bind('notification', data => {
+            this.presentToast(data.message);
+            this.notificationCount = data.badges.notifications;
+            this.friendCount = data.badges.friends;
+          });
+          // Bind Badge Channel
+          channel.bind('badges', data => {
+            this.notificationCount = data.badges.notifications;
+            this.friendCount = data.badges.friends;
+          });
+        });
       });
     }, 1000);
   }
@@ -47,5 +70,24 @@ export class TabsPage {
 
     return await modal.present()
       .then(() => loadingRequestPage.dismiss());
+  }
+
+  async presentToast(message) {
+    await this.toastController.create({
+      message: message,
+      position: 'top',
+      duration: 4000,
+      color: 'dark',
+      buttons: [
+        {
+          text: 'View',
+          handler: () => {
+            this.router.navigateByUrl('/app/tabs/notifications');
+          }
+        }
+      ]
+    }).then(toast => {
+      toast.present();
+    });
   }
 }
