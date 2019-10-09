@@ -7,6 +7,7 @@ import {Observable, Subscription} from 'rxjs';
 import {GoogleAnalytics} from '@ionic-native/google-analytics/ngx';
 import {GA_ID, StorageConsts} from '../../providers/constants';
 import {Storage} from '@ionic/storage';
+import {PusherServiceProvider} from '../../providers/pusher.service';
 
 @Component({
   selector: 'marketplace',
@@ -21,48 +22,72 @@ export class MarketplacePage implements OnInit, OnDestroy {
   myTasks: MainMarketplaceTask[];
   filterInputs: any;
   filterDefault: string;
+  segment: string = 'all';
+  role;
 
   constructor(private marketplaceService: MarketplaceService,
               private modalCtrl: ModalController,
               private loadingCtrl: LoadingController,
               private changeRef: ChangeDetectorRef,
               private ga: GoogleAnalytics,
-              private storage: Storage) { }
+              private storage: Storage,
+              private pusher: PusherServiceProvider) {  }
 
   ngOnInit() {
-    this.marketplaceTaskSubscription = this.marketplaceService.getMainMarketplaceRequests('all')
-      .subscribe(tasks => this.marketplaceTasks = tasks);
-    this.myTaskSubscription = this.marketplaceService.getMainMarketplaceRequests('me')
-      .subscribe(tasks => {
-        this.myTasks = tasks;
-        this.filterInputs = [
-          {
-            type: 'radio',
-            label: 'All',
-            value: 'all',
-            checked: (this.myTasks.length === 0)
-          },
-          {
-            type: 'radio',
-            label: 'Just Me',
-            value: 'me',
-            checked: (this.myTasks.length > 0)
-          }
-        ];
-
-        this.filterDefault = (this.myTasks.length > 0) ? 'me' : 'all';
-      });
-
+    this.segmentChanged(this.segment);
     this.trackWithGoogle();
   }
 
   ngOnDestroy(): void {
-    this.marketplaceTaskSubscription.unsubscribe();
-    this.myTaskSubscription.unsubscribe();
+
+  }
+
+  getAllMarketplaceRequests() {
+    this.marketplaceService.getMainMarketplaceRequests('all')
+      .subscribe(tasks => {
+        this.marketplaceTasks = tasks;
+        const channel = this.pusher.marketplace();
+        channel.bind('new-request', data => {
+          this.marketplaceTasks.push(data.marketplace);
+          // console.log(data.marketplace);
+        });
+      });
+  }
+
+  getMyMarketplaceRequests() {
+    this.marketplaceService.getMainMarketplaceRequests('me')
+      .subscribe(tasks => {
+        this.marketplaceTasks = tasks;
+      });
+  }
+
+  getMyJobs() {
+    this.marketplaceService.getMainMarketplaceRequests('proposals')
+      .subscribe(tasks => {
+        this.marketplaceTasks = tasks;
+      });
+  }
+
+  segmentChanged(value) {
+    switch (value) {
+      case 'all':
+        this.segment = 'all';
+        this.getAllMarketplaceRequests();
+        break;
+      case 'me':
+        this.segment = 'me';
+        this.getMyMarketplaceRequests();
+        break;
+      case 'jobs':
+        this.segment = 'jobs';
+        this.getMyJobs();
+        break;
+    }
   }
 
   trackWithGoogle() {
     this.storage.get(StorageConsts.PROFILE).then(profile => {
+      this.role = profile.user.role;
       this.ga.startTrackerWithId(GA_ID)
         .then(() => {
           console.log('Google analytics is ready now');
@@ -94,44 +119,40 @@ export class MarketplacePage implements OnInit, OnDestroy {
 
       await loadingMarketplacePage.present();
 
-      this.marketplaceTaskSubscription = this.marketplaceService.getMainMarketplaceRequests('all')
+      this.marketplaceService.getMainMarketplaceRequests('all')
         .subscribe(tasks => this.marketplaceTasks = tasks);
-      this.myTaskSubscription = this.marketplaceService.getMainMarketplaceRequests('me')
-        .subscribe(tasks => this.myTasks = tasks);
+      this.marketplaceService.getMainMarketplaceRequests('me')
+        .subscribe(tasks => this.marketplaceTasks = tasks);
 
       loadingMarketplacePage.dismiss();
     });
 
     return await modal.present()
       .then(() => {
-        this.marketplaceTaskSubscription.unsubscribe();
-        this.myTaskSubscription.unsubscribe();
+
         return loadingRequestPage.dismiss();
       });
   }
 
   async doRefresh(event?) {
-    this.marketplaceTaskSubscription.unsubscribe();
-    this.myTaskSubscription.unsubscribe();
-
     const loadingMarketplacePage = await this.loadingCtrl.create({
       message: 'Please wait...',
       translucent: true
     });
 
-    if (typeof event === 'string') {
-      await loadingMarketplacePage.present();
-    }
+    // if (typeof event.target.value === 'string') {
+    //   await loadingMarketplacePage.present();
+    // }
     setTimeout(() => {
-      this.marketplaceTaskSubscription = this.marketplaceService.getMainMarketplaceRequests('all')
-        .subscribe(tasks => this.marketplaceTasks = tasks);
-      this.myTaskSubscription = this.marketplaceService.getMainMarketplaceRequests('me')
-        .subscribe(tasks => this.myTasks = tasks);
-      if (typeof event === 'string') {
-        loadingMarketplacePage.dismiss();
-      } else {
-        event.target.complete();
+      switch (this.segment) {
+        case 'all':
+          this.getAllMarketplaceRequests();
+          break;
+        case 'me':
+          this.getMyMarketplaceRequests();
+          break;
       }
+      event.target.complete();
     }, 1000);
   }
 

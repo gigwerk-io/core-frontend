@@ -21,6 +21,7 @@ export interface MainMarketplaceTask {
   image_one?: string;
   image_two?: string;
   image_three?: string;
+  action?: number;
   created_at?: number;
   updated_at?: number;
   deleted_at?: number;

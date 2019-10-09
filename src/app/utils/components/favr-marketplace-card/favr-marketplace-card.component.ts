@@ -39,19 +39,19 @@ export class FavrMarketplaceCardComponent implements OnInit {
               private changeRef: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.marketplaceService.getSingleMainMarketplaceRequest(this.mainMarketplaceTask.id)
-      .then((task: MainMarketplaceTask) => {
-        this.storage.get(StorageConsts.PROFILE)
-          .then((prof: Profile) => {
-            this.userID = prof.user_id;
-            this.userRole = prof.user.role;
-            this.isOwner = prof.user_id === task.customer_id;
-            this.isFreelancer = (this.userRole === Role.VERIFIED_FREELANCER)
-              ? this.marketplaceService.checkIsTaskFreelancer(prof.user_id, task)
-              : false;
-            this.changeRef.detectChanges();
-          });
-      });
+    // this.marketplaceService.getSingleMainMarketplaceRequest(this.mainMarketplaceTask.id)
+    //   .then((task: MainMarketplaceTask) => {
+    //     this.storage.get(StorageConsts.PROFILE)
+    //       .then((prof: Profile) => {
+    //         this.userID = prof.user_id;
+    //         this.userRole = prof.user.role;
+    //         this.isOwner = prof.user_id === task.customer_id;
+    //         this.isFreelancer = (this.userRole === Role.VERIFIED_FREELANCER)
+    //           ? this.marketplaceService.checkIsTaskFreelancer(prof.user_id, task)
+    //           : false;
+    //         this.changeRef.detectChanges();
+    //       });
+    //   });
   }
 
   private viewAttachedPhoto(url: string, photoTitle?: string): void {

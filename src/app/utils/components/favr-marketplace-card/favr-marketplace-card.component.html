@@ -50,10 +50,12 @@
     <div id="taskDescription" [innerHTML]="mainMarketplaceTask.description"></div>
   </ion-card-content>
 
-  <ion-row *ngIf="userRole == Role.VERIFIED_FREELANCER && !isOwner"
+
+
+  <ion-row *ngIf="mainMarketplaceTask.action == 2 || mainMarketplaceTask.action == 3"
            class="ion-no-padding ion-justify-content-center">
     <ion-col class="ion-text-center">
-      <ion-button *ngIf="mainMarketplaceTask.status == TaskStatus.REQUESTED && !isFreelancer"
+      <ion-button *ngIf="mainMarketplaceTask.action == 2"
                   (click)="freelancerAcceptTask()"
                   fill="outline"
                   size="small"
@@ -62,7 +64,7 @@
         Accept
       </ion-button>
 
-      <ion-button *ngIf="mainMarketplaceTask.status == TaskStatus.PENDING_APPROVAL && isFreelancer"
+      <ion-button *ngIf="mainMarketplaceTask.action == 3"
                   (click)="freelancerWithdrawTask()"
                   fill="outline"
                   size="small"
@@ -79,24 +81,23 @@
       </ion-button>
     </ion-col>
 
-    <ion-col *ngIf="mainMarketplaceTask.status != TaskStatus.REQUESTED
-                    && mainMarketplaceTask.status != TaskStatus.PENDING_APPROVAL
-                    && isFreelancer"
-             class="ion-text-center">
-      <ion-button fill="outline" size="small" color="primary" (click)="startChat(mainMarketplaceTask.customer.username)">
-        <ion-icon name="chatbubbles" slot="start"></ion-icon>
-        Contact
-      </ion-button>
-    </ion-col>
+    <!--<ion-col *ngIf="mainMarketplaceTask.status != TaskStatus.REQUESTED-->
+                    <!--&& mainMarketplaceTask.status != TaskStatus.PENDING_APPROVAL-->
+                    <!--&& isFreelancer"-->
+             <!--class="ion-text-center">-->
+      <!--<ion-button fill="outline" size="small" color="primary" (click)="startChat(mainMarketplaceTask.customer.username)">-->
+        <!--<ion-icon name="chatbubbles" slot="start"></ion-icon>-->
+        <!--Contact-->
+      <!--</ion-button>-->
+    <!--</ion-col>-->
   </ion-row>
 
-  <ion-row *ngIf="isOwner"
+  <ion-row *ngIf="mainMarketplaceTask.action == 1"
            class="ion-no-padding ion-justify-content-center">
     <ion-col class="ion-text-center">
-      <ion-button (click)="customerCancelTask()"
-                  fill="outline" size="small" color="primary">
-        <ion-icon name="close" slot="start" size="large" style="margin-right: 0"></ion-icon>
-        Cancel
+      <ion-button fill="outline" size="small" color="primary">
+        <ion-icon name="create" slot="start"></ion-icon>
+        Edit
       </ion-button>
     </ion-col>
     <ion-col class="ion-text-center">
@@ -106,14 +107,15 @@
       </ion-button>
     </ion-col>
     <ion-col class="ion-text-center">
-      <ion-button fill="outline" size="small" color="primary">
-        <ion-icon name="create" slot="start"></ion-icon>
-        Edit
+      <ion-button (click)="customerCancelTask()"
+                  fill="outline" size="small" color="primary">
+        <ion-icon name="close" slot="start" size="large" style="margin-right: 0"></ion-icon>
+        Cancel
       </ion-button>
     </ion-col>
   </ion-row>
 
-  <ion-row *ngIf="userRole != Role.VERIFIED_FREELANCER && !isOwner"
+  <ion-row *ngIf="mainMarketplaceTask.action == 4 || mainMarketplaceTask.action == undefined"
            class="ion-no-padding ion-justify-content-center">
     <ion-col size="12" class="ion-text-center">
       <ion-button fill="outline" size="small" color="primary" (click)="loadMarketplaceDetail(mainMarketplaceTask.id)" routerDirection="forward">

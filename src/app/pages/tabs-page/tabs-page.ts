@@ -20,14 +20,16 @@ export class TabsPage {
     } else {
       this.tabSlot = 'bottom';
     }
-    // this.getBadges();
+    this.getBadges();
   }
 
   getBadges() {
-    this.notificationService.getBadgeCount().subscribe(res => {
-      this.notificationCount = res.notifications;
-      this.friendCount = res.friends;
-    });
+    setTimeout(() => {
+      this.notificationService.getBadgeCount().subscribe(res => {
+        this.notificationCount = res.notifications;
+        this.friendCount = res.friends;
+      });
+    }, 1000);
   }
 
   async openRequestPage(): Promise<boolean> {
@@ -46,5 +48,4 @@ export class TabsPage {
     return await modal.present()
       .then(() => loadingRequestPage.dismiss());
   }
-
 }

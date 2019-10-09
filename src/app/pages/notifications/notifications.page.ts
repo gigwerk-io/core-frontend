@@ -37,6 +37,7 @@ export class NotificationsPage implements OnInit {
     this.clickType = event.target.value;
     switch (event.target.value) {
       case 'unread':
+        this.notificationClass = '';
         this.getNewNotifications();
         break;
       case 'all':
@@ -49,12 +50,11 @@ export class NotificationsPage implements OnInit {
     }
   }
 
-  markRead(id, index) {
-    this.notifications.splice(index, 1);
-    this.notificationService.markNotificationAsRead(id).subscribe();
-  }
-
-  view(action) {
-    this.router.navigate([action.page, action.params]);
+  view(index, notification: Notification) {
+    this.router.navigate([notification.action.page, notification.action.params]);
+    setTimeout(() => {
+      this.notifications.splice(index, 1);
+      this.notificationService.markNotificationAsRead(notification.id).subscribe();
+    }, 1000);
   }
 }

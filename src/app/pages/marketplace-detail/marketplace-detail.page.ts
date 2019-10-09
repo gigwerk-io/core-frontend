@@ -44,7 +44,7 @@ export class MarketplaceDetailPage implements OnInit {
       this.marketplaceService.getSingleMainMarketplaceRequest(this.taskID)
         .then((task: MainMarketplaceTask) => {
           this.mainMarketplaceTask = task;
-          this.taskStatusDisplay = (this.mainMarketplaceTask.status === 'Paid') ? 'Freelancer En-Route' : this.mainMarketplaceTask.status;
+          this.taskStatusDisplay = (this.mainMarketplaceTask.action === 5) ? 'Freelancer En-Route' : this.mainMarketplaceTask.status;
           this.storage.get(StorageConsts.PROFILE)
             .then(prof => {
               this.userRole = prof.user.role;
@@ -78,7 +78,7 @@ export class MarketplaceDetailPage implements OnInit {
         icon: 'close',
         role: 'destructive',
         handler: () => {
-          console.log('Delete clicked');
+          this.customerCancelTask();
         }
       }, {
         text: 'Edit',
