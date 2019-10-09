@@ -219,11 +219,11 @@ ion-select.icon {
 }
 
 .nav-button {
-  background-color: var(--ion-color-primary-tint);
+  --background: var(--ion-color-primary-tint)!important;
   color: white;
   height: 32px;
   width: 32px;
-  border-radius: 50%;
+  --border-radius: 50%!important;
 }
 
 ion-textarea.ios {
