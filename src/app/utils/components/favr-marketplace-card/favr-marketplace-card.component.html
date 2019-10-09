@@ -115,7 +115,7 @@
     </ion-col>
   </ion-row>
 
-  <ion-row *ngIf="mainMarketplaceTask.action == 4"
+  <ion-row *ngIf="mainMarketplaceTask.action == 4 || mainMarketplaceTask.action == undefined"
            class="ion-no-padding ion-justify-content-center">
     <ion-col size="12" class="ion-text-center">
       <ion-button fill="outline" size="small" color="primary" (click)="loadMarketplaceDetail(mainMarketplaceTask.id)" routerDirection="forward">
