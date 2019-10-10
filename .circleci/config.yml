@@ -38,10 +38,14 @@ jobs:
     steps:
       - checkout
       - restore_cache: *restore-cache-src
+      - run: sudo npm install -g ionic cordova
+      - run: ionic -v
+#      - run: ionic cordova platform add browser
+#      - run: ionic cordova build browser --prod
       - run: npm install
       - save_cache: *save-cache-src
 #      - run: npm run lint
-      - run: npm run build --prod
+      - run: npm run build --prodK
       - run: ls -l
       - persist_to_workspace:
           root: /tmp/workspace
