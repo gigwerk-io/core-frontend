@@ -144,6 +144,6 @@ export class MarketplaceService {
 
   public checkIsTaskFreelancer(userID: number, task: MainMarketplaceTask): boolean {
     const proposals: MainProposal[] = task.proposals;
-    return proposals.find((proposal: MainProposal) => proposal.user_id === userID) !== undefined;
+    return (proposals) ? proposals.find((proposal: MainProposal) => proposal.user_id === userID) !== undefined : false;
   }
 }

@@ -19,6 +19,12 @@ export const TaskStatus = {
   COMPLETE: 'Complete'
 };
 
+export const TaskActions = {
+  FREELANCER_ACCEPT_TASK: 'freelancerAcceptTask',
+  FREELANCER_WITHDRAW_TASK: 'freelancerWithdrawTask',
+  CUSTOMER_CANCEL_TASK: 'customerCancelTask'
+};
+
 export const API_ADDRESS =  environment.apiUrl;
 export const PUSHER_ID = environment.pusherId;
 export const STRIPE_PUBLIC = environment.stripeKey;

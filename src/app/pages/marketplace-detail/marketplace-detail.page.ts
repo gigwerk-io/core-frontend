@@ -5,9 +5,10 @@ import {PhotoViewer} from '@ionic-native/photo-viewer/ngx';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MarketplaceService} from '../../utils/services/marketplace.service';
 import {Storage} from '@ionic/storage';
-import {Role, StorageConsts, TaskStatus} from '../../providers/constants';
+import {Role, StorageConsts, TaskActions, TaskStatus} from '../../providers/constants';
 import {ChatService} from '../../utils/services/chat.service';
 import {TASK_CATEGORIES} from '../../utils/mocks/mock-categories.mock';
+import {Events} from '@ionic/angular';
 
 @Component({
   selector: 'marketplace-detail',
@@ -24,8 +25,6 @@ export class MarketplaceDetailPage implements OnInit {
   isOwner: boolean;
   isFreelancer: boolean;
   userRole: string;
-  TaskStatus = TaskStatus;
-  Role = Role;
   Categories = TASK_CATEGORIES;
 
   constructor(private modalCtrl: ModalController,
@@ -38,7 +37,8 @@ export class MarketplaceDetailPage implements OnInit {
               private navCtrl: NavController,
               private marketplaceService: MarketplaceService,
               private actionSheetCtrl: ActionSheetController,
-              private chatService: ChatService) {
+              private chatService: ChatService,
+              private events: Events) {
     this.activatedRoute.paramMap.subscribe(data => {
       this.taskID = parseInt(data.get('id'), 10);
       this.marketplaceService.getSingleMainMarketplaceRequest(this.taskID)
@@ -57,14 +57,7 @@ export class MarketplaceDetailPage implements OnInit {
     });
   }
 
-  ngOnInit() {
-    switch (this.page) {
-      case 'main':
-        break;
-      case 'task-description':
-        break;
-    }
-  }
+  ngOnInit() {}
 
   private viewAttachedPhoto(url: string, photoTitle?: string): void {
     this.photoViewer.show(url, (photoTitle) ? photoTitle : '');
@@ -127,6 +120,11 @@ export class MarketplaceDetailPage implements OnInit {
       showCloseButton: true
     }).then(toast => {
       toast.present();
+      this.marketplaceService.getSingleMainMarketplaceRequest(this.mainMarketplaceTask.id)
+        .then((task) => {
+          this.mainMarketplaceTask = task;
+          this.taskStatusDisplay = (this.mainMarketplaceTask.status === 'Paid') ? 'Freelancer En-Route' : this.mainMarketplaceTask.status;
+        });
     });
   }
 
@@ -142,21 +140,27 @@ export class MarketplaceDetailPage implements OnInit {
     const freelancerAcceptedTask = await this.marketplaceService.freelancerAcceptMainMarketplaceRequest(this.mainMarketplaceTask.id)
       .then((res: string) => res)
       .catch((err: any) => err.error.message);
-    this.presentToast(freelancerAcceptedTask);
+    this.presentToast(freelancerAcceptedTask)
+      .then(() => this.events.publish('task-action', TaskActions.FREELANCER_ACCEPT_TASK, this.mainMarketplaceTask.id));
   }
 
   async freelancerWithdrawTask() {
     const freelancerWithdrawTask = await this.marketplaceService.freelancerWithdrawMainMarketplaceRequest(this.mainMarketplaceTask.id)
       .then((res: string) => res)
       .catch((err: any) => err.error.message);
-    this.presentToast(freelancerWithdrawTask);
+    this.presentToast(freelancerWithdrawTask)
+      .then(() => this.events.publish('task-action', TaskActions.FREELANCER_WITHDRAW_TASK, this.mainMarketplaceTask.id));
   }
 
   async customerCancelTask() {
     const cancelTask = await this.marketplaceService.customerCancelMainMarketplaceRequeset(this.mainMarketplaceTask.id)
       .then((res: string) => res)
       .catch((err: any) => err.error.message);
-    this.presentToast(cancelTask);
+    this.presentToast(cancelTask)
+      .then(() => {
+        this.events.publish('task-action', TaskActions.CUSTOMER_CANCEL_TASK, this.mainMarketplaceTask.id);
+        this.navCtrl.back();
+      });
   }
 
   async doRefresh(event?) {
