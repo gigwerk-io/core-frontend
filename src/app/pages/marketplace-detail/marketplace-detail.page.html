@@ -71,8 +71,8 @@
     <ion-grid padding-start padding-end>
 
       <ion-row class="ion-no-padding ion-justify-content-center">
-        <ion-col class="ion-text-center">
-          <ion-button *ngIf="mainMarketplaceTask.action == 2"
+        <ion-col *ngIf="mainMarketplaceTask.action == 2" class="ion-text-center">
+          <ion-button
                       (click)="freelancerAcceptTask()"
                       fill="outline"
                       size="small"
@@ -82,9 +82,8 @@
           </ion-button>
         </ion-col>
 
-        <ion-col class="ion-text-center">
-          <ion-button *ngIf="mainMarketplaceTask.action == 3 || mainMarketplaceTask.action == 5"
-                      (click)="freelancerWithdrawTask()"
+        <ion-col *ngIf="mainMarketplaceTask.action == 3 || mainMarketplaceTask.action == 5" class="ion-text-center">
+          <ion-button (click)="freelancerWithdrawTask()"
                       fill="outline"
                       size="small"
                       color="primary">
@@ -92,9 +91,9 @@
             Withdraw
           </ion-button>
         </ion-col>
-        <ion-col class="ion-text-center">
-          <ion-button *ngIf="mainMarketplaceTask.action == 5 || mainMarketplaceTask.action == 6"
-                      fill="outline"
+
+        <ion-col *ngIf="mainMarketplaceTask.action == 5 || mainMarketplaceTask.action == 6" class="ion-text-center">
+          <ion-button fill="outline"
                       size="small"
                       color="primary"
                       (click)="startChat(mainMarketplaceTask.customer.username)">
@@ -102,18 +101,18 @@
             Contact
           </ion-button>
         </ion-col>
-        <ion-col class="ion-text-center">
-          <ion-button *ngIf="mainMarketplaceTask.action == 5"
-                      fill="outline"
+
+        <ion-col *ngIf="mainMarketplaceTask.action == 5" class="ion-text-center">
+          <ion-button fill="outline"
                       size="small"
                       color="primary">
             <ion-icon name="chatbubbles" slot="start"></ion-icon>
             Arrive
           </ion-button>
         </ion-col>
-        <ion-col class="ion-text-center">
-          <ion-button *ngIf="mainMarketplaceTask.action == 6"
-                      fill="outline"
+
+        <ion-col *ngIf="mainMarketplaceTask.action == 6" class="ion-text-center">
+          <ion-button fill="outline"
                       size="small"
                       color="primary">
             <ion-icon name="checkmark" slot="start"></ion-icon>
@@ -121,38 +120,36 @@
           </ion-button>
         </ion-col>
 
-
-        <ion-col class="ion-text-center">
-          <ion-button *ngIf="mainMarketplaceTask.action == 1" fill="outline" size="small" color="primary">
+        <ion-col *ngIf="mainMarketplaceTask.action == 1" class="ion-text-center">
+          <ion-button fill="outline" size="small" color="primary">
             <ion-icon name="create" slot="start"></ion-icon>
             Edit
           </ion-button>
         </ion-col>
 
-        <ion-col class="ion-text-center">
-          <ion-button *ngIf="mainMarketplaceTask.action == 7" fill="outline" size="small" color="primary">
+        <ion-col *ngIf="mainMarketplaceTask.action == 7" class="ion-text-center">
+          <ion-button fill="outline" size="small" color="primary">
             <ion-icon name="create" slot="start"></ion-icon>
             Approve
           </ion-button>
         </ion-col>
 
-        <ion-col class="ion-text-center">
-          <ion-button *ngIf="mainMarketplaceTask.action == 7" fill="outline" size="small" color="primary">
+        <ion-col *ngIf="mainMarketplaceTask.action == 7" class="ion-text-center">
+          <ion-button fill="outline" size="small" color="primary">
             <ion-icon name="create" slot="start"></ion-icon>
             Reject
           </ion-button>
         </ion-col>
 
-        <ion-col class="ion-text-center">
-          <ion-button *ngIf="mainMarketplaceTask.action == 10" fill="outline" size="small" color="primary">
+        <ion-col *ngIf="mainMarketplaceTask.action == 10" class="ion-text-center">
+          <ion-button fill="outline" size="small" color="primary">
             <ion-icon name="create"  size="large" slot="start"></ion-icon>
             Review
           </ion-button>
         </ion-col>
 
-        <ion-col class="ion-text-center">
-          <ion-button *ngIf="mainMarketplaceTask.action == 1 || mainMarketplaceTask.action == 7"
-                      (click)="customerCancelTask()"
+        <ion-col *ngIf="mainMarketplaceTask.action == 1 || mainMarketplaceTask.action == 7" class="ion-text-center">
+          <ion-button (click)="customerCancelTask()"
                       fill="outline" size="small" color="primary">
             <ion-icon name="close" slot="start" size="large" style="margin-right: 0"></ion-icon>
             Cancel

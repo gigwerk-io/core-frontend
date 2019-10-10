@@ -140,6 +140,10 @@ const routes: Routes = [
   {
     path: 'past-payments',
     loadChildren: () => import('../past-payments/past-payments.module').then(m => m.PastPaymentsPageModule),
+  },
+  {
+    path: 'search',
+    loadChildren: () => import('../search/search.module').then(m => m.SearchPageModule),
   }
 ];
 

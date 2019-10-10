@@ -1,7 +1,10 @@
 import {Component, EventEmitter, Input, Output, OnInit} from '@angular/core';
-import {AlertController, NavController} from '@ionic/angular';
+import {AlertController, ModalController, NavController} from '@ionic/angular';
 import {Storage} from '@ionic/storage';
 import {StorageConsts} from '../../../providers/constants';
+import {popInAnimation} from '../../animations/enter.animation';
+import {popOutAnimation} from '../../animations/leave.animation';
+import {SearchPage} from '../../../pages/search/search.page';
 
 @Component({
   selector: 'favr-page-header',
@@ -28,6 +31,7 @@ export class FavrPageHeaderComponent implements OnInit {
   profileId: number;
 
   constructor(private alertCtrl: AlertController,
+              private modalCtrl: ModalController,
               private navCtrl: NavController,
               private storage: Storage) { }
 
@@ -89,5 +93,17 @@ export class FavrPageHeaderComponent implements OnInit {
   navigateToProfile() {
     this.navCtrl.navigateForward(`/app/profile/${this.profileId}`);
     this.navigateForward.emit(true);
+  }
+
+  async openSearchModal() {
+    const modal = await this.modalCtrl.create({
+      component: SearchPage,
+      componentProps: {'isModal': true},
+      cssClass: 'transparent-modal',
+      enterAnimation: popInAnimation,
+      leaveAnimation: popOutAnimation
+    });
+
+    modal.present();
   }
 }

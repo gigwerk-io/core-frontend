@@ -5,7 +5,7 @@ import {LoadingController, ModalController} from '@ionic/angular';
 import {RequestPage} from '../request/request.page';
 import {Observable, Subscription} from 'rxjs';
 import {GoogleAnalytics} from '@ionic-native/google-analytics/ngx';
-import {GA_ID, StorageConsts} from '../../providers/constants';
+import {GA_ID, Role, StorageConsts} from '../../providers/constants';
 import {Storage} from '@ionic/storage';
 import {PusherServiceProvider} from '../../providers/pusher.service';
 
@@ -22,8 +22,9 @@ export class MarketplacePage implements OnInit, OnDestroy {
   myTasks: MainMarketplaceTask[];
   filterInputs: any;
   filterDefault: string;
-  segment: string = 'all';
-  role;
+  segment = 'all';
+  userRole;
+  Role = Role;
 
   constructor(private marketplaceService: MarketplaceService,
               private modalCtrl: ModalController,
@@ -38,9 +39,7 @@ export class MarketplacePage implements OnInit, OnDestroy {
     this.trackWithGoogle();
   }
 
-  ngOnDestroy(): void {
-
-  }
+  ngOnDestroy(): void {}
 
   getAllMarketplaceRequests() {
     this.marketplaceService.getMainMarketplaceRequests('all')
@@ -51,6 +50,7 @@ export class MarketplacePage implements OnInit, OnDestroy {
           this.marketplaceTasks.push(data.marketplace);
           // console.log(data.marketplace);
         });
+        this.changeRef.detectChanges();
       });
   }
 
@@ -58,6 +58,7 @@ export class MarketplacePage implements OnInit, OnDestroy {
     this.marketplaceService.getMainMarketplaceRequests('me')
       .subscribe(tasks => {
         this.marketplaceTasks = tasks;
+        this.changeRef.detectChanges();
       });
   }
 
@@ -65,6 +66,7 @@ export class MarketplacePage implements OnInit, OnDestroy {
     this.marketplaceService.getMainMarketplaceRequests('proposals')
       .subscribe(tasks => {
         this.marketplaceTasks = tasks;
+        this.changeRef.detectChanges();
       });
   }
 
@@ -87,7 +89,7 @@ export class MarketplacePage implements OnInit, OnDestroy {
 
   trackWithGoogle() {
     this.storage.get(StorageConsts.PROFILE).then(profile => {
-      this.role = profile.user.role;
+      this.userRole = profile.user.role;
       this.ga.startTrackerWithId(GA_ID)
         .then(() => {
           console.log('Google analytics is ready now');
@@ -119,11 +121,11 @@ export class MarketplacePage implements OnInit, OnDestroy {
 
       await loadingMarketplacePage.present();
 
-      this.marketplaceService.getMainMarketplaceRequests('all')
-        .subscribe(tasks => this.marketplaceTasks = tasks);
-      this.marketplaceService.getMainMarketplaceRequests('me')
-        .subscribe(tasks => this.marketplaceTasks = tasks);
-
+      // this.marketplaceService.getMainMarketplaceRequests('all')
+      //   .then(tasks => this.marketplaceTasks = tasks);
+      // this.marketplaceService.getMainMarketplaceRequests('me')
+      //   .then(tasks => this.marketplaceTasks = tasks);
+      this.doRefresh();
       loadingMarketplacePage.dismiss();
     });
 
@@ -135,11 +137,6 @@ export class MarketplacePage implements OnInit, OnDestroy {
   }
 
   async doRefresh(event?) {
-    const loadingMarketplacePage = await this.loadingCtrl.create({
-      message: 'Please wait...',
-      translucent: true
-    });
-
     // if (typeof event.target.value === 'string') {
     //   await loadingMarketplacePage.present();
     // }
@@ -151,8 +148,16 @@ export class MarketplacePage implements OnInit, OnDestroy {
         case 'me':
           this.getMyMarketplaceRequests();
           break;
+        case 'jobs':
+          this.getMyJobs();
+          break;
       }
-      event.target.complete();
+
+      if (event) {
+        if (event.target) {
+          event.target.complete();
+        }
+      }
     }, 1000);
   }
 

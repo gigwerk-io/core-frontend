@@ -251,3 +251,7 @@ ion-textarea.md {
 .no-inner-border-width {
   --inner-border-width: 0!important;
 }
+
+ion-modal.transparent-modal {
+  --background: transparent!important;
+}
