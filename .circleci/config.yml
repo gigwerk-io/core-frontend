@@ -39,17 +39,22 @@ jobs:
       - checkout
       - restore_cache: *restore-cache-src
       - run: npm install
+      - run: sudo npm install -g ionic cordova
+      - run: ionic -v
+      - run: ionic cordova platform add browser
+      - run: ionic cordova build browser --prod
+      - run: cd platforms/browser
+      - run: ls -l
       - save_cache: *save-cache-src
 #      - run: npm run lint
-      - run: npm run build --prod
-      - run: ls -l
+#      - run: npm run build --prodK
       - persist_to_workspace:
           root: /tmp/workspace
           paths:
             - "*"
       - persist_to_workspace:
           root: .
-          paths: www/
+          paths: platforms/browser/www
   test:
     <<: *defaults
     steps:
@@ -67,7 +72,7 @@ jobs:
       - run: aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
       - run: aws configure set aws_secret_access_key $AWS_ACCESS_KEY_ID
       - run: aws configure set region $AWS_DEFAULT_REGION
-      - run: aws s3 sync www/ s3://favr-ionic-staging
+      - run: aws s3 sync platforms/browser/www s3://favr-ionic-staging
 workflows:
   version: 2
   build-and-deploy:
