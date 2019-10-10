@@ -43,7 +43,7 @@ jobs:
       - run: ionic -v
       - run: ionic cordova platform add browser
       - run: ionic cordova build browser --prod
-      - run: cd platforms/browsers
+      - run: cd platforms/browser
       - run: ls -l
       - save_cache: *save-cache-src
 #      - run: npm run lint
@@ -54,7 +54,7 @@ jobs:
             - "*"
       - persist_to_workspace:
           root: .
-          paths: platforms/browsers/www
+          paths: platforms/browser/www
   test:
     <<: *defaults
     steps:
