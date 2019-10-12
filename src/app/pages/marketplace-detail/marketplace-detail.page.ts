@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActionSheetController, LoadingController, ModalController, NavController, ToastController} from '@ionic/angular';
 import {MainMarketplaceTask} from '../../utils/interfaces/main-marketplace/main-marketplace-task';
 import {PhotoViewer} from '@ionic-native/photo-viewer/ngx';
@@ -9,6 +9,9 @@ import {Role, StorageConsts, TaskActions, TaskStatus} from '../../providers/cons
 import {ChatService} from '../../utils/services/chat.service';
 import {TASK_CATEGORIES} from '../../utils/mocks/mock-categories.mock';
 import {Events} from '@ionic/angular';
+import {CompleteTaskPage} from '../complete-task/complete-task.page';
+import {Task} from 'protractor/built/taskScheduler';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'marketplace-detail',
@@ -16,8 +19,9 @@ import {Events} from '@ionic/angular';
   styleUrls: ['./marketplace-detail.page.scss'],
   providers: [PhotoViewer]
 })
-export class MarketplaceDetailPage implements OnInit {
+export class MarketplaceDetailPage implements OnInit, OnDestroy {
 
+  taskCompleteSubscription: Subscription;
   taskID: number;
   mainMarketplaceTask: MainMarketplaceTask;
   page = 'main';
@@ -39,12 +43,22 @@ export class MarketplaceDetailPage implements OnInit {
               private actionSheetCtrl: ActionSheetController,
               private chatService: ChatService,
               private events: Events) {
+    this.events.subscribe('task-action', (action, taskID) => {
+      if (action === TaskActions.FREELANCER_COMPLETE_TASK || action === TaskActions.CUSTOMER_COMPLETE_TASK) {
+        this.doRefresh();
+      }
+    });
+  }
+
+  ngOnInit() {
     this.activatedRoute.paramMap.subscribe(data => {
       this.taskID = parseInt(data.get('id'), 10);
       this.marketplaceService.getSingleMainMarketplaceRequest(this.taskID)
         .then((task: MainMarketplaceTask) => {
           this.mainMarketplaceTask = task;
-          this.taskStatusDisplay = (this.mainMarketplaceTask.action === 5) ? 'Freelancer En-Route' : this.mainMarketplaceTask.status;
+          this.taskStatusDisplay = (this.mainMarketplaceTask.status === TaskStatus.PAID)
+            ? 'Freelancer En-Route'
+            : this.mainMarketplaceTask.status;
           this.storage.get(StorageConsts.PROFILE)
             .then(prof => {
               this.userRole = prof.user.role;
@@ -57,7 +71,9 @@ export class MarketplaceDetailPage implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnDestroy(): void {
+    this.events.unsubscribe('task-action');
+  }
 
   private viewAttachedPhoto(url: string, photoTitle?: string): void {
     this.photoViewer.show(url, (photoTitle) ? photoTitle : '');
@@ -123,7 +139,9 @@ export class MarketplaceDetailPage implements OnInit {
       this.marketplaceService.getSingleMainMarketplaceRequest(this.mainMarketplaceTask.id)
         .then((task) => {
           this.mainMarketplaceTask = task;
-          this.taskStatusDisplay = (this.mainMarketplaceTask.status === 'Paid') ? 'Freelancer En-Route' : this.mainMarketplaceTask.status;
+          this.taskStatusDisplay = (this.mainMarketplaceTask.status === TaskStatus.PAID) ?
+            'Freelancer En-Route'
+            : this.mainMarketplaceTask.status;
         });
     });
   }
@@ -152,8 +170,25 @@ export class MarketplaceDetailPage implements OnInit {
       .then(() => this.events.publish('task-action', TaskActions.FREELANCER_WITHDRAW_TASK, this.mainMarketplaceTask.id));
   }
 
+  async freelancerArriveTask() {
+    const freelancerArriveTask = await this.marketplaceService.freelancerArrivedAtTaskSite(this.mainMarketplaceTask.id)
+      .then((res: string) => res)
+      .catch((err: any) => err.error.message);
+    this.presentToast(freelancerArriveTask)
+      .then(() => this.events.publish('task-action', TaskActions.FREELANCER_ARRIVE_TASK, this.mainMarketplaceTask.id));
+  }
+
+  async completeTask(isFreelancer: boolean) {
+    const modal = await this.modalCtrl.create({
+      component: CompleteTaskPage,
+      componentProps: {'taskID': this.mainMarketplaceTask.id, 'isFreelancer': isFreelancer},
+    });
+
+    modal.present();
+  }
+
   async customerCancelTask() {
-    const cancelTask = await this.marketplaceService.customerCancelMainMarketplaceRequeset(this.mainMarketplaceTask.id)
+    const cancelTask = await this.marketplaceService.customerCancelMainMarketplaceRequest(this.mainMarketplaceTask.id)
       .then((res: string) => res)
       .catch((err: any) => err.error.message);
     this.presentToast(cancelTask)
@@ -161,6 +196,34 @@ export class MarketplaceDetailPage implements OnInit {
         this.events.publish('task-action', TaskActions.CUSTOMER_CANCEL_TASK, this.mainMarketplaceTask.id);
         this.navCtrl.back();
       });
+  }
+
+  async customerApproveFreelancer(freelancerID: number) {
+    const customerApproveFreelancer = await this.marketplaceService.customerApproveFreelancer(this.mainMarketplaceTask.id, freelancerID)
+      .then((res: string) => {
+        console.log('success -> ' + res);
+        return res;
+      })
+      .catch((err: any) => {
+        console.log('fail -> ' + JSON.stringify(err.error));
+        return err.error.message;
+      });
+    this.presentToast(customerApproveFreelancer)
+      .then(() => this.events.publish('task-action', TaskActions.FREELANCER_ACCEPT_TASK, this.mainMarketplaceTask.id));
+  }
+
+  async customerRejectFreelancer(freelancerID: number) {
+    const customerDenyFreelancer = await this.marketplaceService.customerDenyFreelancer(this.mainMarketplaceTask.id, freelancerID)
+      .then((res: string) => {
+        console.log('success -> ' + res);
+        return res;
+      })
+      .catch((err: any) => {
+        console.log('fail -> ' + err);
+        return err.error.message;
+      });
+    this.presentToast(customerDenyFreelancer)
+      .then(() => this.events.publish('task-action', TaskActions.FREELANCER_ACCEPT_TASK, this.mainMarketplaceTask.id));
   }
 
   async doRefresh(event?) {

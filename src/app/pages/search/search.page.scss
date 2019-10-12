@@ -5,6 +5,8 @@ ion-item.ios {
   margin-right: 1rem;
 }
 
-::ng-deep .searchbar-input.sc-ion-searchbar-ios {
-  border-radius: 50px!important;
+.searchbar {
+  ::ng-deep .searchbar-input.sc-ion-searchbar-ios {
+    border-radius: 50px!important;
+  }
 }

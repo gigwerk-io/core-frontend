@@ -22,7 +22,12 @@ export const TaskStatus = {
 export const TaskActions = {
   FREELANCER_ACCEPT_TASK: 'freelancerAcceptTask',
   FREELANCER_WITHDRAW_TASK: 'freelancerWithdrawTask',
-  CUSTOMER_CANCEL_TASK: 'customerCancelTask'
+  FREELANCER_ARRIVE_TASK: 'freelancerArriveTask',
+  FREELANCER_COMPLETE_TASK: 'completeTask',
+  CUSTOMER_ACCEPT_FREELANCER: 'customerAcceptFreelancer',
+  CUSTOMER_REJECT_FREELANCER: 'customerRejectFreelancer',
+  CUSTOMER_CANCEL_TASK: 'customerCancelTask',
+  CUSTOMER_COMPLETE_TASK: 'customerCompleteTask'
 };
 
 export const API_ADDRESS =  environment.apiUrl;

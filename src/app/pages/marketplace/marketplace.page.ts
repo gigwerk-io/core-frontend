@@ -137,9 +137,6 @@ export class MarketplacePage implements OnInit, OnDestroy {
   }
 
   async doRefresh(event?) {
-    // if (typeof event.target.value === 'string') {
-    //   await loadingMarketplacePage.present();
-    // }
     setTimeout(() => {
       switch (this.segment) {
         case 'all':
