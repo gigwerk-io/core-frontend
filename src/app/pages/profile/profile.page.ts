@@ -25,6 +25,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   status: object;
   showFriendButton = true;
   friendButton: object;
+  rating;
 
   constructor(private activatedRoute: ActivatedRoute,
               private storage: Storage,
@@ -43,6 +44,12 @@ export class ProfilePage implements OnInit, OnDestroy {
       this.profileSubscription = this.profileService.getProfile(id)
         .subscribe((profile: ProfileRouteResponse) => {
           this.profile = profile;
+          if (profile.user.customer_rating != null) {
+            this.rating = profile.user.customer_rating;
+          } else if (profile.user.rating != null) {
+            this.rating = profile.user.rating;
+          }
+          console.log([profile.user.rating, profile.user.customer_rating]);
           this.status = this.showBadge(profile.user.friend_status);
           this.friendButton = this.defineFriendButton(profile.user.friend_status);
           this.storage.get(StorageConsts.PROFILE)
