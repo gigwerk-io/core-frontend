@@ -1,10 +1,15 @@
 import { Injectable } from '@angular/core';
 import {
-  CustomerCancelTaskResponse,
-  FreelancerAcceptMainMarketplaceTaskRouteResponse, FreelancerWithdrawMainMarketplaceTaskRouteResponse,
+  CustomerApproveFreelancerResponse,
+  CustomerCancelTaskResponse, CustomerCompleteTaskResponse,
+  CustomerDenyFreelancerResponse,
+  FreelancerAcceptMainMarketplaceTaskRouteResponse,
+  FreelancerArrivedResponse,
+  FreelancerCompleteTaskResponse,
+  FreelancerWithdrawMainMarketplaceTaskRouteResponse,
   MainMarketplaceRequestRouteResponse,
   MainMarketplaceRouteResponse,
-  MainMarketplaceTask
+  MainMarketplaceTask, ReportTaskResponse
 } from '../interfaces/main-marketplace/main-marketplace-task';
 import {Observable, from} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
@@ -127,7 +132,7 @@ export class MarketplaceService {
       });
   }
 
-  public customerCancelMainMarketplaceRequeset(id: number): Promise<string> {
+  public customerCancelMainMarketplaceRequest(id: number): Promise<string> {
     return this.storage.get(StorageConsts.ACCESS_TOKEN)
       .then(token => {
         const authHeader: AuthorizationToken = {
@@ -139,6 +144,101 @@ export class MarketplaceService {
         return this.httpClient.get<CustomerCancelTaskResponse>(`${API_ADDRESS}/marketplace/main/request/cancel/${id}`, authHeader)
           .toPromise()
           .then((res: CustomerCancelTaskResponse) => res.message);
+      });
+  }
+
+  public customerApproveFreelancer(taskID: number, freelancerID: number): Promise<string> {
+    return this.storage.get(StorageConsts.ACCESS_TOKEN)
+      .then(token => {
+        const authHeader: AuthorizationToken = {
+          headers: {
+            Authorization: (token) ? token : ''
+          }
+        };
+
+        // tslint:disable-next-line
+        return this.httpClient.get<CustomerApproveFreelancerResponse>(`${API_ADDRESS}/marketplace/main/${taskID}/accept/${freelancerID}`, authHeader)
+          .toPromise()
+          .then((res: CustomerApproveFreelancerResponse) => res.message);
+      });
+  }
+
+  public customerDenyFreelancer(taskID: number, freelancerID: number): Promise<string> {
+    return this.storage.get(StorageConsts.ACCESS_TOKEN)
+      .then(token => {
+        const authHeader: AuthorizationToken = {
+          headers: {
+            Authorization: (token) ? token : ''
+          }
+        };
+
+        // tslint:disable-next-line
+        return this.httpClient.get<CustomerDenyFreelancerResponse>(`${API_ADDRESS}/marketplace/main/${taskID}/deny/${freelancerID}`, authHeader)
+          .toPromise()
+          .then((res: CustomerDenyFreelancerResponse) => res.message);
+      });
+  }
+
+  public freelancerArrivedAtTaskSite(id: number): Promise<string> {
+    return this.storage.get(StorageConsts.ACCESS_TOKEN)
+      .then(token => {
+        const authHeader: AuthorizationToken = {
+          headers: {
+            Authorization: (token) ? token : ''
+          }
+        };
+
+        // tslint:disable-next-line
+        return this.httpClient.get<FreelancerArrivedResponse>(`${API_ADDRESS}/marketplace/main/freelancer/arrive/${id}`, authHeader)
+          .toPromise()
+          .then((res: FreelancerArrivedResponse) => res.message);
+      });
+  }
+
+  public freelancerCompleteTask(id: number, ratingAndReview: {rating: number, review: string}): Promise<string> {
+    return this.storage.get(StorageConsts.ACCESS_TOKEN)
+      .then(token => {
+        const authHeader: AuthorizationToken = {
+          headers: {
+            Authorization: (token) ? token : ''
+          }
+        };
+
+        // tslint:disable-next-line
+        return this.httpClient.post<FreelancerCompleteTaskResponse>(`${API_ADDRESS}/marketplace/main/freelancer/complete/${id}`, ratingAndReview, authHeader)
+          .toPromise()
+          .then((res: FreelancerCompleteTaskResponse) => res.message);
+      });
+  }
+
+  public customerCompleteTask(id: number, ratingAndReview: {rating: number, review: string}): Promise<string> {
+    return this.storage.get(StorageConsts.ACCESS_TOKEN)
+      .then(token => {
+        const authHeader: AuthorizationToken = {
+          headers: {
+            Authorization: (token) ? token : ''
+          }
+        };
+
+        // tslint:disable-next-line
+        return this.httpClient.post<CustomerCompleteTaskResponse>(`${API_ADDRESS}/marketplace/main/request/complete/${id}`, ratingAndReview, authHeader)
+          .toPromise()
+          .then((res: CustomerCompleteTaskResponse) => res.message);
+      });
+  }
+
+  public mainMarketplaceReportTask(id: number, message: string): Promise<string> {
+    return this.storage.get(StorageConsts.ACCESS_TOKEN)
+      .then(token => {
+        const authHeader: AuthorizationToken = {
+          headers: {
+            Authorization: (token) ? token : ''
+          }
+        };
+
+        return this.httpClient.post<ReportTaskResponse>(`${API_ADDRESS}/report/main/marketplace/${id}`, {message}, authHeader)
+          .toPromise()
+          .then((res: ReportTaskResponse) => res.message);
       });
   }
 

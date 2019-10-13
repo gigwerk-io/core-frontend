@@ -31,6 +31,9 @@
 </ion-header>
 
 <ion-content *ngIf="profile">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <div text-center padding>
     <div class="img-container">
       <img [src]="(profile.user.image) ? profile.user.image : '../../assets/img/user.png'"

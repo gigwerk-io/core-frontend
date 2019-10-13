@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ProfileRouteResponse} from '../../utils/interfaces/user';
 import {ProfileService} from '../../utils/services/profile.service';
@@ -9,6 +9,7 @@ import {ChatService} from '../../utils/services/chat.service';
 import {FriendsService} from '../../utils/services/friends.service';
 import {GA_ID, StorageConsts} from '../../providers/constants';
 import {GoogleAnalytics} from '@ionic-native/google-analytics/ngx';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'profile',
@@ -16,8 +17,9 @@ import {GoogleAnalytics} from '@ionic-native/google-analytics/ngx';
   styleUrls: ['./profile.page.scss'],
   providers: [PhotoViewer]
 })
-export class ProfilePage implements OnInit {
+export class ProfilePage implements OnInit, OnDestroy {
 
+  profileSubscription: Subscription;
   profile: ProfileRouteResponse;
   isOwner: boolean;
   status: object;
@@ -38,7 +40,7 @@ export class ProfilePage implements OnInit {
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe(data => {
       const id: number = parseInt(data.get('id'), 10);
-      this.profileService.getProfile(id)
+      this.profileSubscription = this.profileService.getProfile(id)
         .subscribe((profile: ProfileRouteResponse) => {
           this.profile = profile;
           this.status = this.showBadge(profile.user.friend_status);
@@ -50,6 +52,10 @@ export class ProfilePage implements OnInit {
         });
     });
     this.trackWithGoogle();
+  }
+
+  ngOnDestroy(): void {
+    this.profileSubscription.unsubscribe();
   }
 
   private viewAttachedPhoto(url: string, photoTitle?: string): void {
@@ -192,5 +198,26 @@ export class ProfilePage implements OnInit {
           });
         break;
     }
+  }
+
+  async doRefresh(event?) {
+    this.profileSubscription.unsubscribe();
+    setTimeout(() => {
+      this.profileSubscription = this.profileService.getProfile(this.profile.user.user_id)
+        .subscribe((profile: ProfileRouteResponse) => {
+          this.profile = profile;
+          this.status = this.showBadge(profile.user.friend_status);
+          this.friendButton = this.defineFriendButton(profile.user.friend_status);
+          this.storage.get(StorageConsts.PROFILE)
+            .then((prof: any) => {
+              this.isOwner = (prof.user_id === this.profile.user.user_id);
+            });
+        });
+      if (event) {
+        if (event.target) {
+          event.target.complete();
+        }
+      }
+    }, 1000);
   }
 }

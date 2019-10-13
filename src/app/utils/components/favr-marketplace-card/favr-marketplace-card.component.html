@@ -15,7 +15,7 @@
   </ion-slides>
 
   <ion-card-header>
-    <ion-item detail="false" lines="isNone" routerLink="/app/profile/{{mainMarketplaceTask.customer.id}}">
+    <ion-item detail="false" lines="isNone" routerLink="/app/profile/{{mainMarketplaceTask.customer.id}}" routerDirection="forward">
       <ion-avatar slot="start">
         <img [src]="(mainMarketplaceTask.customer.profile.image) ? mainMarketplaceTask.customer.profile.image : '../../../../assets/img/user.png'" alt="profile picture">
       </ion-avatar>

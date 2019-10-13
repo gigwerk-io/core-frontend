@@ -18,6 +18,10 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: () => import('../marketplace/marketplace.module').then(m => m.MarketplacePageModule)
+          },
+          {
+            path: 'task-complete/:id',
+            loadChildren: () => import('../complete-task/complete-task.module').then(m => m.CompleteTaskPageModule)
           }
         ]
       },

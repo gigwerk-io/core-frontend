@@ -111,7 +111,7 @@ export class FavrMarketplaceCardComponent implements OnInit, OnDestroy {
   }
 
   async customerCancelTask() {
-    const cancelTask = await this.marketplaceService.customerCancelMainMarketplaceRequeset(this.mainMarketplaceTask.id)
+    const cancelTask = await this.marketplaceService.customerCancelMainMarketplaceRequest(this.mainMarketplaceTask.id)
       .then((res: string) => res)
       .catch((err: any) => err.error.message);
     this.presentToast(cancelTask)

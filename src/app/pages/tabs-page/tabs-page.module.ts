@@ -10,9 +10,11 @@ import {RequestPageModule} from '../request/request.module';
 import {SettingsPageModule} from '../settings/settings.module';
 import {MarketplaceDetailPageModule} from '../marketplace-detail/marketplace-detail.module';
 import {SearchPageModule} from '../search/search.module';
+import {CompleteTaskPageModule} from '../complete-task/complete-task.module';
 
 const MODULES = [
   CommonModule,
+  CompleteTaskPageModule,
   FriendsPageModule,
   IonicModule,
   MarketplacePageModule,

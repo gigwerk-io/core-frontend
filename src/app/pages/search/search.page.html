@@ -1,6 +1,13 @@
 <ion-header>
   <ion-toolbar>
-    <ion-searchbar [(ngModel)]="query" #searchBar placeholder="Search People" (keyup.enter)="handleSearch()" autocomplete autocorrect animated></ion-searchbar>
+    <ion-searchbar [(ngModel)]="query"
+                   class="searchbar"
+                   placeholder="Search People"
+                   (keyup.enter)="handleSearch()"
+                   autocomplete
+                   autocorrect
+                   animated>
+    </ion-searchbar>
     <ion-buttons slot="end">
       <ion-button (click)="closeSearchPage()">
         Cancel

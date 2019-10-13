@@ -66,8 +66,7 @@ export class RequestPage implements OnInit {
               private camera: Camera,
               private marketplaceService: MarketplaceService) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   async closeRequestPage(): Promise<boolean> {
     return await this.modalCtrl.dismiss();
