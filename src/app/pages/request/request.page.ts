@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {IonContent, IonSlides, ModalController} from '@ionic/angular';
+import {IonContent, IonSlides, ModalController, ToastController} from '@ionic/angular';
 import {MainCategory} from '../../utils/interfaces/main-marketplace/main-category';
 import {TASK_CATEGORIES} from '../../utils/mocks/mock-categories.mock';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -11,6 +11,7 @@ import {ImagePicker, ImagePickerOptions} from '@ionic-native/image-picker/ngx';
 import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
 import {MarketplaceService} from '../../utils/services/marketplace.service';
 import {NgForm} from '@angular/forms';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'request',
@@ -64,7 +65,9 @@ export class RequestPage implements OnInit {
   constructor(private modalCtrl: ModalController,
               private imagePicker: ImagePicker,
               private camera: Camera,
-              private marketplaceService: MarketplaceService) { }
+              private marketplaceService: MarketplaceService,
+              private toastController: ToastController,
+              private router: Router) { }
 
   ngOnInit() { }
 
@@ -206,13 +209,30 @@ export class RequestPage implements OnInit {
 
     if (form.valid) {
       this.marketplaceService.createMainMarketplaceRequest(this.taskRequest)
-        .then((res) => this.closeRequestPage());
+        .then((res) => this.closeRequestPage()).catch(error => {
+        this.closeRequestPage()
+          this.presentToast(error.error.message).then(() => {
+            this.router.navigateByUrl('app/set-up-payments');
+          });
+      });
     }
   }
 
   setDifficulty(intensity: string) {
     this.taskRequest.intensity = intensity;
     this.updateProgress();
+  }
+
+  async presentToast(message) {
+    await this.toastController.create({
+      message: message,
+      position: 'top',
+      duration: 2500,
+      color: 'dark',
+      showCloseButton: true
+    }).then(toast => {
+      toast.present();
+    });
   }
 }
 
