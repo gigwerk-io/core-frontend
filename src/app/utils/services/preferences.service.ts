@@ -4,7 +4,7 @@ import {Storage} from '@ionic/storage';
 import {API_ADDRESS, StorageConsts} from '../../providers/constants';
 import {AuthorizationToken} from '../interfaces/user-options';
 import {from} from 'rxjs';
-import {UpdateResponse, Settings, MyLocationsResponse} from '../interfaces/settings/preferences';
+import {UpdateResponse, Settings, MyLocationsResponse, CurrentCityResponse} from '../interfaces/settings/preferences';
 
 @Injectable({
   providedIn: 'root'
@@ -138,6 +138,38 @@ export class PreferencesService {
           return this.httpClient.post<UpdateResponse>(`${API_ADDRESS}/profile`, body, authHeader)
             .toPromise()
             .then((res: UpdateResponse) => res);
+        })
+    );
+  }
+
+  public selectCity(id) {
+    return from(
+      this.storage.get(StorageConsts.ACCESS_TOKEN)
+        .then(token => {
+          const authHeader: AuthorizationToken = {
+            headers: {
+              Authorization: (token) ? token : ''
+            }
+          };
+          return this.httpClient.post<UpdateResponse>(`${API_ADDRESS}/select-city`, {city_id: id}, authHeader)
+            .toPromise()
+            .then((res: UpdateResponse) => res);
+        })
+    );
+  }
+
+  public currentCity() {
+    return from(
+      this.storage.get(StorageConsts.ACCESS_TOKEN)
+        .then(token => {
+          const authHeader: AuthorizationToken = {
+            headers: {
+              Authorization: (token) ? token : ''
+            }
+          };
+          return this.httpClient.get<CurrentCityResponse>(`${API_ADDRESS}/current-city`, authHeader)
+            .toPromise()
+            .then((res: CurrentCityResponse) => res);
         })
     );
   }
