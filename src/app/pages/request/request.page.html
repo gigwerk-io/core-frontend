@@ -11,9 +11,9 @@
   <form action="." #requestForm="ngForm">
     <ion-slides (ionSlideDidChange)="onSlideChange()">
       <ion-slide>
-        <ion-toolbar class="search-categories-area">
-          <ion-searchbar placeholder="Search categories..." class="search-categories"></ion-searchbar>
-        </ion-toolbar>
+        <!--<ion-toolbar class="search-categories-area">-->
+          <!--<ion-searchbar placeholder="Search categories..." class="search-categories"></ion-searchbar>-->
+        <!--</ion-toolbar>-->
         <favr-category-card-buttons
           (selectedCategory)="selectCategory($event)"
           [categories]="categories"
