@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {NotificationService} from '../../utils/services/notification.service';
 import {Notification} from '../../utils/interfaces/notification/notification';
 import {Router} from '@angular/router';
@@ -15,7 +15,8 @@ export class NotificationsPage implements OnInit {
   notificationClass = '';
   readable = true;
   constructor(private notificationService: NotificationService,
-              private router: Router) { }
+              private router: Router,
+              private changeRef: ChangeDetectorRef) { }
 
   ngOnInit() {
 
@@ -24,12 +25,14 @@ export class NotificationsPage implements OnInit {
   getNewNotifications() {
     this.notificationService.getNewNotifications().subscribe(res => {
       this.notifications = res.notifications;
+      this.changeRef.detectChanges();
     });
   }
 
   getAllNotifications() {
     this.notificationService.getAllNotifications().subscribe(res => {
       this.notifications = res.notifications;
+      this.changeRef.detectChanges();
     });
   }
 

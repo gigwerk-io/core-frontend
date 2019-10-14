@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {Searchable} from '../../utils/interfaces/searchable';
 import {FriendsService} from '../../utils/services/friends.service';
 import {Router} from '@angular/router';
@@ -19,7 +19,8 @@ export class FriendsPage implements OnInit {
   constructor(private friendService: FriendsService,
               private chatService: ChatService,
               private router: Router,
-              public toastController: ToastController
+              public toastController: ToastController,
+              private changeRef: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
@@ -70,6 +71,7 @@ export class FriendsPage implements OnInit {
     this.secondButton = false;
     this.friendService.getRecommendedFriends().subscribe(res => {
       this.users = res;
+      this.changeRef.detectChanges();
     });
   }
 
@@ -78,6 +80,7 @@ export class FriendsPage implements OnInit {
     this.secondButton = false;
     this.friendService.getMyFriends().subscribe(res => {
       this.users = res;
+      this.changeRef.detectChanges();
     });
   }
 
@@ -86,6 +89,7 @@ export class FriendsPage implements OnInit {
     this.secondButton = true;
     this.friendService.getFriendRequests().subscribe(res => {
       this.users = res;
+      this.changeRef.detectChanges();
     });
   }
 

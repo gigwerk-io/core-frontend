@@ -20,6 +20,7 @@ export class SettingsPage implements OnInit {
 
   seeCredit: boolean;
   seeTransfers: boolean;
+  intercomActive: boolean = false;
   constructor(private authService: AuthService,
               private storage: Storage,
               private  navCtrl: NavController,
@@ -67,6 +68,7 @@ export class SettingsPage implements OnInit {
 
   openSupport() {
     this.storage.get(StorageConsts.PROFILE).then(profile => {
+      this.intercomActive = true;
       this.webIntercom.boot({
         app_id: INTERCOM_ID,
         email: profile.user.email,
@@ -78,6 +80,12 @@ export class SettingsPage implements OnInit {
       });
       this.webIntercom.show();
     });
+  }
+
+  ionViewDidLeave() {
+    if (this.intercomActive) {
+      this.webIntercom.shutdown();
+    }
   }
 
   openTerms() {
