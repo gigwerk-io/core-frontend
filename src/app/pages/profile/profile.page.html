@@ -40,6 +40,9 @@
            (click)="viewAttachedPhoto(profile.user.image, profile.user.user.first_name + ' ' + profile.user.user.last_name)"
            alt="Profile Picture of {{profile.user.user.first_name}} {{profile.user.user.last_name}}">
     </div>
+    <div style="text-align: center;" *ngIf="rating != undefined">
+      <rating [rate]="rating" readonly="true"></rating>
+    </div>
     <ion-note>
       <p>
         <ion-chip [color]="status.class">

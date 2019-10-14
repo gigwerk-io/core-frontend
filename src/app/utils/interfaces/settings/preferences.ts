@@ -32,3 +32,7 @@ export interface Locations {
 export interface MyLocationsResponse {
   locations: Locations[];
 }
+
+export interface CurrentCityResponse {
+  id: number;
+}

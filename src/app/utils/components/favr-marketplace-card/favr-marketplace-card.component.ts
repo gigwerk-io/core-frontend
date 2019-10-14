@@ -86,6 +86,18 @@ export class FavrMarketplaceCardComponent implements OnInit, OnDestroy {
     });
   }
 
+  async errorMessage(message) {
+    await this.toastCtrl.create({
+      message: message,
+      position: 'top',
+      duration: 2500,
+      color: 'danger',
+      showCloseButton: true
+    }).then(toast => {
+      toast.present();
+    });
+  }
+
   startChat(username) {
     this.chatService.startChat(username).subscribe(res => {
       this.router.navigate(['/app/room', res.id]);
@@ -96,10 +108,15 @@ export class FavrMarketplaceCardComponent implements OnInit, OnDestroy {
 
   async freelancerAcceptTask() {
     const freelancerAcceptedTask = await this.marketplaceService.freelancerAcceptMainMarketplaceRequest(this.mainMarketplaceTask.id)
-      .then((res: string) => res)
-      .catch((err: any) => err.error.message);
-    this.presentToast(freelancerAcceptedTask)
-      .then(() => this.taskActionTaken.emit('freelancerAcceptTask'));
+      .then((res: string) => {
+        this.presentToast(freelancerAcceptedTask)
+          .then(() => this.taskActionTaken.emit('freelancerAcceptTask'));
+      })
+      .catch((err) => {
+        this.errorMessage(err.error.message).then(() => {
+          this.router.navigateByUrl('app/connect-bank-account');
+        });
+      });
   }
 
   async freelancerWithdrawTask() {
