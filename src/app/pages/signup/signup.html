@@ -192,100 +192,43 @@
       </ion-slide>
 
       <ion-slide>
-        <ion-list>
-          <ion-item class="input-item">
-            <ion-label position="stacked">
-              Enter Street Address
-            </ion-label>
-            <ion-input
-              #street_address="ngModel"
-              (ionChange)="updateProgress()"
-              [(ngModel)]="signup.street_address"
-              name="street_address"
-              [autocorrect]="true"
-              [autocomplete]="true"
-              class="icon"
-              required>
-              <ion-icon name="pin" color="primary" slot="start"></ion-icon>
-            </ion-input>
+        <ion-card *ngFor="let city of cities" style="border-radius: 2rem!important;">
+          <ion-item style="padding-right: 0!important;">
+            <h2>
+              {{city.name}}, {{city.state.abbrev}}
+            </h2>
           </ion-item>
-          <ion-text color="danger">
-            <p [hidden]="street_address.valid || submitted == false" class="ion-padding-start">
-              Street Address is required
-            </p>
-          </ion-text>
 
-          <ion-item class="input-item">
-            <ion-label position="stacked">
-              Enter City
-            </ion-label>
-            <ion-input
-              #city="ngModel"
-              (ionChange)="updateProgress()"
-              [(ngModel)]="signup.city"
-              name="city"
-              [autocorrect]="true"
-              [autocomplete]="true"
-              class="icon"
-              required>
-              <ion-icon name="business" color="primary" slot="start"></ion-icon>
-            </ion-input>
-          </ion-item>
-          <ion-text color="danger">
-            <p [hidden]="city.valid || submitted == false" class="ion-padding-start">
-              City is required
-            </p>
-          </ion-text>
+          <ion-slides>
+            <ion-slide style="max-height: 200px;overflow-y: hidden;overflow-x: hidden;">
+              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" data-src="{{city.src}}">
+            </ion-slide>
+          </ion-slides>
 
-          <ion-item class="select-item">
-            <ion-label position="stacked">
-              Select State
-            </ion-label>
-            <ion-select
-              #state="ngModel"
-              (ionChange)="updateProgress()"
-              [(ngModel)]="signup.state"
-              name="state"
-              required>
-              <ion-select-option *ngFor="let state of states"
-                                 value="{{state.abbrev}}">{{state.name}}</ion-select-option>
-            </ion-select>
-          </ion-item>
-          <ion-text color="danger">
-            <p [hidden]="state.valid || submitted == false" class="ion-padding-start">
-              State is required
-            </p>
-          </ion-text>
+          <ion-card-content>
+            <p>{{city.description}}</p>
+          </ion-card-content>
 
-          <ion-item class="input-item">
-            <ion-label position="stacked">
-              Enter Zip
-            </ion-label>
-            <ion-input
-              #zip="ngModel"
-              (ionChange)="updateProgress()"
-              [(ngModel)]="signup.zip"
-              name="zip"
-              type="tel"
-              class="icon"
-              required>
-              <ion-icon name="globe" color="primary" slot="start"></ion-icon>
-            </ion-input>
-          </ion-item>
-          <ion-text color="danger">
-            <p [hidden]="zip.valid || submitted == false" class="ion-padding-start">
-              Zipcode is required
-            </p>
-          </ion-text>
-
-          <div class="ion-padding-top form-submit-button">
-            <ion-button (click)="onSignup(signupForm)"
-                        [disabled]="!signupForm.valid || progress < 1"
-                        type="submit"
-                        expand="block">Create Account
-            </ion-button>
-          </div>
-        </ion-list>
+          <ion-row padding>
+            <ion-col text-center>
+              <ion-button  *ngIf="signup.city_id == city.id" color="success" expand="block" shape="round" disabled>
+                <ion-icon name="checkmark" style="font-size: x-large;font-weight: bolder;"></ion-icon>
+                Selected
+              </ion-button>
+              <ion-button  *ngIf="signup.city_id  != city.id" color="success" expand="block" shape="round" (click)="selectCity(city)">
+                <ion-icon name="checkmark" style="font-size: x-large;font-weight: bolder;"></ion-icon>
+                Select City
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-card>
+        <div class="ion-padding-top form-submit-button">
+          <ion-button (click)="onSignup(signupForm)"
+                      [disabled]="!signupForm.valid || progress < 1"
+                      type="submit"
+                      expand="block">Create Account
+          </ion-button>
+        </div>
       </ion-slide>
     </ion-slides>
 

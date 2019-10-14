@@ -17,8 +17,8 @@ export class SelectCityPage implements OnInit {
               private toastController: ToastController) { }
 
   ngOnInit() {
-    this.cities = CITIES;
     this.getCurrentCity();
+    this.cities = CITIES;
   }
 
   selectCity(city: City) {

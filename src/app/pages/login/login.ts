@@ -74,12 +74,7 @@ export class LoginPage {
         alert: true,
         badge: true,
         sound: true
-      },
-      // windows: {},
-      // browser: {
-      //   pushServiceURL: 'http://push.api.phonegap.com/v1/push',
-      //   applicationServerKey: GCM_KEY
-      // }
+      }
     };
     if (!(this.platform.is('pwa') && this.platform.is('ios'))) {
       const pushObject: PushObject = this.push.init(options);
