@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
 import {from, Observable} from 'rxjs';
 import {ProfileRouteResponse} from '../interfaces/user';
-import {API_ADDRESS, StorageConsts} from '../../providers/constants';
+import {API_ADDRESS, StorageKeys} from '../../providers/constants';
 import {AuthorizationToken} from '../interfaces/user-options';
 import {MainProposal} from '../interfaces/main-marketplace/main-proposal';
 import {MainMarketplaceTask} from '../interfaces/main-marketplace/main-marketplace-task';
@@ -18,7 +18,7 @@ export class ProfileService {
 
   public getProfile(id: number): Observable<ProfileRouteResponse> {
     return from(
-      this.storage.get(StorageConsts.ACCESS_TOKEN)
+      this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {
@@ -34,7 +34,7 @@ export class ProfileService {
 
   public getFreelancerProposals(): Observable<MainProposal[]> {
     return from(
-      this.storage.get(StorageConsts.ACCESS_TOKEN)
+      this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {

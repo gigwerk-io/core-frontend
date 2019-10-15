@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ChatService} from '../../utils/services/chat.service';
 import {Room} from '../../utils/interfaces/chat/room';
-import {StorageConsts} from '../../providers/constants';
+import {StorageKeys} from '../../providers/constants';
 import {Storage} from '@ionic/storage';
 import {PusherServiceProvider} from '../../providers/pusher.service';
 import {ActionSheetController, IonContent} from '@ionic/angular';
@@ -37,7 +37,7 @@ export class MessagesPage implements OnInit {
       // Initial Messages
       this.getMessages();
     });
-    this.storage.get(StorageConsts.PROFILE)
+    this.storage.get(StorageKeys.PROFILE)
       .then(profile => {
         this.user_id = profile.user_id;
       });

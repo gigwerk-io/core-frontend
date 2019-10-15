@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, Output, OnInit} from '@angular/core';
 import {AlertController, ModalController, NavController} from '@ionic/angular';
 import {Storage} from '@ionic/storage';
-import {StorageConsts} from '../../../providers/constants';
+import {StorageKeys} from '../../../providers/constants';
 import {popInAnimation} from '../../animations/enter.animation';
 import {popOutAnimation} from '../../animations/leave.animation';
 import {SearchPage} from '../../../pages/search/search.page';
@@ -36,7 +36,7 @@ export class FavrPageHeaderComponent implements OnInit {
               private storage: Storage) { }
 
   ngOnInit() {
-    this.storage.get(StorageConsts.PROFILE)
+    this.storage.get(StorageKeys.PROFILE)
       .then(profile => {
         if (profile) {
           this.profileId = profile.user_id;

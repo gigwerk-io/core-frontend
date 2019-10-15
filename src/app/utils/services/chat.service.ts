@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
-import {API_ADDRESS, StorageConsts} from '../../providers/constants';
+import {API_ADDRESS, StorageKeys} from '../../providers/constants';
 import {from} from 'rxjs/index';
 import {Storage} from '@ionic/storage';
 import {AuthorizationToken} from '../interfaces/user-options';
@@ -15,7 +15,7 @@ export class ChatService {
 
   public getChatRooms(): Observable<Room[]> {
     return from(
-      this.storage.get(StorageConsts.ACCESS_TOKEN)
+      this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {
@@ -31,7 +31,7 @@ export class ChatService {
 
   public getChatRoom(uuid): Observable<Room> {
     return from(
-      this.storage.get(StorageConsts.ACCESS_TOKEN)
+      this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {
@@ -47,7 +47,7 @@ export class ChatService {
 
   public sendMessage(uuid, text) {
     return from(
-      this.storage.get(StorageConsts.ACCESS_TOKEN)
+      this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {
@@ -63,7 +63,7 @@ export class ChatService {
 
   public startChat(username) {
     return from(
-      this.storage.get(StorageConsts.ACCESS_TOKEN)
+      this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {

@@ -10,6 +10,8 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Storage } from '@ionic/storage';
 
 import { UserData } from './providers/user-data';
+import {StorageKeys} from './providers/constants';
+import {toggleDarkTheme} from './pages/settings/settings.page';
 
 @Component({
   selector: 'app-root',
@@ -55,8 +57,19 @@ export class AppComponent implements OnInit {
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.overlaysWebView(false);
-      this.statusBar.backgroundColorByHexString('#ff6500');
       this.splashScreen.hide();
+      this.storage.get(StorageKeys.THEME_PREFERENCE)
+        .then((prefersDark: boolean) => {
+          if (prefersDark) {
+            this.statusBar.backgroundColorByHexString('#222428');
+            toggleDarkTheme(prefersDark);
+          } else {
+            this.statusBar.backgroundColorByHexString('#ff6500');
+            toggleDarkTheme(false);
+          }
+          // const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+          // prefersDark.addEventListener('dark-theme-listener', (mediaQuery: MediaQueryListEvent) => toggleDarkTheme(mediaQuery.matches));
+        });
     });
   }
 }

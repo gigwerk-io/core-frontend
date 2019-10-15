@@ -1,8 +1,9 @@
 import {environment} from '../../environments/environment';
 
-export const StorageConsts = {
+export const StorageKeys = {
   ACCESS_TOKEN: 'ACCESS_TOKEN',
-  PROFILE: 'PROFILE'
+  PROFILE: 'PROFILE',
+  THEME_PREFERENCE: 'THEME_PREFERENCE'
 };
 
 export const Role = {

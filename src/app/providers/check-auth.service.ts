@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import { Storage } from '@ionic/storage';
-import {StorageConsts} from './constants';
+import {StorageKeys} from './constants';
 @Injectable({
   providedIn: 'root'
 })
@@ -13,7 +13,7 @@ export class CheckAuth implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Promise<boolean> {
-    return this.storage.get(StorageConsts.ACCESS_TOKEN)
+    return this.storage.get(StorageKeys.ACCESS_TOKEN)
       .then(token => {
         if (token) {
           switch (state.url) {

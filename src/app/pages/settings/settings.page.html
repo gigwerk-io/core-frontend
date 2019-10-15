@@ -33,6 +33,12 @@
       <ion-icon slot="start" name="pin"></ion-icon>
       <ion-label> Select City </ion-label>
     </ion-item>
+
+    <ion-item>
+      <ion-icon slot="start" name="moon"></ion-icon>
+      Dark Mode
+      <ion-toggle slot="end" color="primary" [(ngModel)]="darkMode" (click)="setDarkMode()"></ion-toggle>
+    </ion-item>
   </ion-list>
 
   <!--SECURITY SECTION-->
@@ -131,7 +137,7 @@
     </ion-list-header>
 
     <ion-item href (click)="openSupport()">
-      <ion-icon slot="start" name="help"></ion-icon>
+      <ion-icon slot="start" class="help-icon" name="help"></ion-icon>
       <ion-label> Help </ion-label>
     </ion-item>
 

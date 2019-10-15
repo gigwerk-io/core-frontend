@@ -5,7 +5,7 @@ import {LoadingController, ModalController} from '@ionic/angular';
 import {RequestPage} from '../request/request.page';
 import {Observable, Subscription} from 'rxjs';
 import {GoogleAnalytics} from '@ionic-native/google-analytics/ngx';
-import {GA_ID, Role, StorageConsts} from '../../providers/constants';
+import {GA_ID, Role, StorageKeys} from '../../providers/constants';
 import {Storage} from '@ionic/storage';
 import {PusherServiceProvider} from '../../providers/pusher.service';
 
@@ -88,7 +88,7 @@ export class MarketplacePage implements OnInit, OnDestroy {
   }
 
   trackWithGoogle() {
-    this.storage.get(StorageConsts.PROFILE).then(profile => {
+    this.storage.get(StorageKeys.PROFILE).then(profile => {
       this.userRole = profile.user.role;
       this.ga.startTrackerWithId(GA_ID)
         .then(() => {

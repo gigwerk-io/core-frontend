@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from '../../utils/services/auth.service';
 import { Storage } from '@ionic/storage';
-import {INTERCOM_ID, StorageConsts} from '../../providers/constants';
+import {INTERCOM_ID, StorageKeys} from '../../providers/constants';
 import {AuthorizationToken} from '../../utils/interfaces/user-options';
 import {ActionSheetController, NavController, Platform} from '@ionic/angular';
 import {Intercom} from '@ionic-native/intercom/ngx';
@@ -9,6 +9,8 @@ import {Intercom as WebIntercom} from 'ng-intercom';
 import {InAppBrowser} from '@ionic-native/in-app-browser/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Contacts, Contact, ContactField, ContactName } from '@ionic-native/contacts/ngx';
+import {error} from 'selenium-webdriver';
+import {StatusBar} from '@ionic-native/status-bar/ngx';
 
 
 @Component({
@@ -20,7 +22,9 @@ export class SettingsPage implements OnInit {
 
   seeCredit: boolean;
   seeTransfers: boolean;
-  intercomActive: boolean = false;
+  intercomActive = false;
+  darkMode: boolean;
+
   constructor(private authService: AuthService,
               private storage: Storage,
               private  navCtrl: NavController,
@@ -28,30 +32,27 @@ export class SettingsPage implements OnInit {
               private platform: Platform,
               private webIntercom: WebIntercom,
               private iab: InAppBrowser,
+              private statusBar: StatusBar,
               private socialSharing: SocialSharing,
               public actionSheetController: ActionSheetController,
-              private contacts: Contacts) { }
+              private contacts: Contacts) {
+    this.storage.get(StorageKeys.THEME_PREFERENCE)
+      .then((prefersDark: boolean) => this.darkMode = (prefersDark) ? prefersDark : false)
+      .catch(() => this.darkMode = false);
+  }
 
   ngOnInit() {
-    this.storage.get(StorageConsts.PROFILE).then(profile => {
-      if (profile.user.role === 'Verified Freelancer') {
-        this.seeTransfers = true;
-      } else {
-        this.seeTransfers = false;
-      }
+    this.storage.get(StorageKeys.PROFILE).then(profile => {
+      this.seeTransfers = profile.user.role === 'Verified Freelancer';
 
-      if (profile.user.organization_id === null) {
-        this.seeCredit = true;
-      } else {
-        this.seeCredit = false;
-      }
+      this.seeCredit = profile.user.organization_id === null;
     });
 
     console.log(this.platform.platforms());
   }
 
   onLogout() {
-    this.storage.get(StorageConsts.ACCESS_TOKEN)
+    this.storage.get(StorageKeys.ACCESS_TOKEN)
       .then(token => {
         const authHeaders: AuthorizationToken = {
           headers: {
@@ -67,7 +68,7 @@ export class SettingsPage implements OnInit {
   }
 
   openSupport() {
-    this.storage.get(StorageConsts.PROFILE).then(profile => {
+    this.storage.get(StorageKeys.PROFILE).then(profile => {
       this.intercomActive = true;
       this.webIntercom.boot({
         app_id: INTERCOM_ID,
@@ -75,7 +76,7 @@ export class SettingsPage implements OnInit {
         name: profile.user.first_name + " " + profile.user.last_name,
         // Supports all optional configuration.
         widget: {
-          "activator": "#intercom"
+          'activator': '#intercom'
         }
       });
       this.webIntercom.show();
@@ -149,4 +150,27 @@ export class SettingsPage implements OnInit {
     });
     await actionSheet.present();
   }
+
+  setDarkMode() {
+    console.log(this.darkMode);
+    switch (this.darkMode) {
+      case true:
+        this.statusBar.backgroundColorByHexString('#ff6500');
+        toggleDarkTheme(false);
+        break;
+      case false:
+        this.statusBar.backgroundColorByHexString('#222428');
+        toggleDarkTheme(true);
+        break;
+    }
+    this.storage.set(StorageKeys.THEME_PREFERENCE, !this.darkMode)
+      .then(() => {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+        prefersDark.addEventListener('dark-theme-listener', (mediaQuery: MediaQueryListEvent) => toggleDarkTheme(mediaQuery.matches));
+      });
+  }
+}
+
+export function toggleDarkTheme(shouldAdd) {
+  document.body.classList.toggle('dark', shouldAdd);
 }

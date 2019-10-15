@@ -5,7 +5,7 @@ import {PhotoViewer} from '@ionic-native/photo-viewer/ngx';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MarketplaceService} from '../../utils/services/marketplace.service';
 import {Storage} from '@ionic/storage';
-import {Role, StorageConsts, TaskActions, TaskStatus} from '../../providers/constants';
+import {Role, StorageKeys, TaskActions, TaskStatus} from '../../providers/constants';
 import {ChatService} from '../../utils/services/chat.service';
 import {TASK_CATEGORIES} from '../../utils/mocks/mock-categories.mock';
 import {Events} from '@ionic/angular';
@@ -59,7 +59,7 @@ export class MarketplaceDetailPage implements OnInit, OnDestroy {
           this.taskStatusDisplay = (this.mainMarketplaceTask.status === TaskStatus.PAID)
             ? 'Freelancer En-Route'
             : this.mainMarketplaceTask.status;
-          this.storage.get(StorageConsts.PROFILE)
+          this.storage.get(StorageKeys.PROFILE)
             .then(prof => {
               this.userRole = prof.user.role;
               this.isOwner = prof.user_id === task.customer_id;
@@ -232,7 +232,7 @@ export class MarketplaceDetailPage implements OnInit, OnDestroy {
         .then((task: MainMarketplaceTask) => {
           this.mainMarketplaceTask = task;
           this.taskStatusDisplay = (this.mainMarketplaceTask.status === 'Paid') ? 'Freelancer En-Route' : this.mainMarketplaceTask.status;
-          this.storage.get(StorageConsts.PROFILE)
+          this.storage.get(StorageKeys.PROFILE)
             .then(prof => {
               this.userRole = prof.user.role;
               this.isOwner = prof.user_id === task.customer_id;

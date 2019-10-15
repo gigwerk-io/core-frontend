@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Storage} from '@ionic/storage';
-import {API_ADDRESS, StorageConsts} from '../../providers/constants';
+import {API_ADDRESS, StorageKeys} from '../../providers/constants';
 import {AuthorizationToken} from '../interfaces/user-options';
 import {from} from 'rxjs/index';
 import {BalanceResponse, OAuthResponse, PayoutsResponse} from '../interfaces/finance/transfers';
@@ -19,7 +19,7 @@ export class FinanceService {
 
   getFreelancerBalance() {
     return from(
-      this.storage.get(StorageConsts.ACCESS_TOKEN)
+      this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {
@@ -35,7 +35,7 @@ export class FinanceService {
 
   getTransfers() {
     return from(
-      this.storage.get(StorageConsts.ACCESS_TOKEN)
+      this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {
@@ -51,7 +51,7 @@ export class FinanceService {
 
   saveCreditCard(body) {
     return from(
-      this.storage.get(StorageConsts.ACCESS_TOKEN)
+      this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {
@@ -67,7 +67,7 @@ export class FinanceService {
 
   getPayments() {
     return from(
-      this.storage.get(StorageConsts.ACCESS_TOKEN)
+      this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {
@@ -83,7 +83,7 @@ export class FinanceService {
 
   saveBankAccount() {
     return from(
-      this.storage.get(StorageConsts.ACCESS_TOKEN)
+      this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {
@@ -99,7 +99,7 @@ export class FinanceService {
 
   getCreditBalance() {
     return from(
-      this.storage.get(StorageConsts.ACCESS_TOKEN)
+      this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {
@@ -115,7 +115,7 @@ export class FinanceService {
 
   redeemCredit(body) {
     return from(
-      this.storage.get(StorageConsts.ACCESS_TOKEN)
+      this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {

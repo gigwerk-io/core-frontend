@@ -7,7 +7,7 @@ import {Storage} from '@ionic/storage';
 import {ActionSheetController, ToastController} from '@ionic/angular';
 import {ChatService} from '../../utils/services/chat.service';
 import {FriendsService} from '../../utils/services/friends.service';
-import {GA_ID, StorageConsts} from '../../providers/constants';
+import {GA_ID, StorageKeys} from '../../providers/constants';
 import {GoogleAnalytics} from '@ionic-native/google-analytics/ngx';
 import {Subscription} from 'rxjs';
 
@@ -52,7 +52,7 @@ export class ProfilePage implements OnInit, OnDestroy {
           console.log([profile.user.rating, profile.user.customer_rating]);
           this.status = this.showBadge(profile.user.friend_status);
           this.friendButton = this.defineFriendButton(profile.user.friend_status);
-          this.storage.get(StorageConsts.PROFILE)
+          this.storage.get(StorageKeys.PROFILE)
             .then((prof: any) => {
               this.isOwner = (prof.user_id === this.profile.user.user_id);
             });
@@ -70,7 +70,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   }
 
   trackWithGoogle() {
-    this.storage.get(StorageConsts.PROFILE).then(profile => {
+    this.storage.get(StorageKeys.PROFILE).then(profile => {
       this.ga.startTrackerWithId(GA_ID)
         .then(() => {
           console.log('Google analytics is ready now');
@@ -215,7 +215,7 @@ export class ProfilePage implements OnInit, OnDestroy {
           this.profile = profile;
           this.status = this.showBadge(profile.user.friend_status);
           this.friendButton = this.defineFriendButton(profile.user.friend_status);
-          this.storage.get(StorageConsts.PROFILE)
+          this.storage.get(StorageKeys.PROFILE)
             .then((prof: any) => {
               this.isOwner = (prof.user_id === this.profile.user.user_id);
             });

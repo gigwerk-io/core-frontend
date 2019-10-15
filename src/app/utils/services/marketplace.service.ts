@@ -14,7 +14,7 @@ import {
 import {Observable, from} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {Storage} from '@ionic/storage';
-import {API_ADDRESS, StorageConsts} from '../../providers/constants';
+import {API_ADDRESS, StorageKeys} from '../../providers/constants';
 import {AuthorizationToken} from '../interfaces/user-options';
 import {MainProposal} from '../interfaces/main-marketplace/main-proposal';
 
@@ -28,7 +28,7 @@ export class MarketplaceService {
   }
 
   public getSingleMainMarketplaceRequest(id: number): Promise<MainMarketplaceTask> {
-    return this.storage.get(StorageConsts.ACCESS_TOKEN)
+    return this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {
@@ -45,7 +45,7 @@ export class MarketplaceService {
     switch (filter) {
       case 'all':
         return from(
-          this.storage.get(StorageConsts.ACCESS_TOKEN)
+          this.storage.get(StorageKeys.ACCESS_TOKEN)
             .then(token => {
               const authHeader: AuthorizationToken = {
                 headers: {
@@ -59,7 +59,7 @@ export class MarketplaceService {
         );
       case 'me':
         return from(
-          this.storage.get(StorageConsts.ACCESS_TOKEN)
+          this.storage.get(StorageKeys.ACCESS_TOKEN)
             .then(token => {
               const authHeader: AuthorizationToken = {
                 headers: {
@@ -73,7 +73,7 @@ export class MarketplaceService {
         );
       case 'proposals':
         return from(
-          this.storage.get(StorageConsts.ACCESS_TOKEN)
+          this.storage.get(StorageKeys.ACCESS_TOKEN)
             .then(token => {
               const authHeader: AuthorizationToken = {
                 headers: {
@@ -89,7 +89,7 @@ export class MarketplaceService {
   }
 
   public createMainMarketplaceRequest(req: MainMarketplaceTask): Promise<string> {
-    return this.storage.get(StorageConsts.ACCESS_TOKEN)
+    return this.storage.get(StorageKeys.ACCESS_TOKEN)
       .then(token => {
         const authHeader: AuthorizationToken = {
           headers: {
@@ -103,7 +103,7 @@ export class MarketplaceService {
   }
 
   public freelancerAcceptMainMarketplaceRequest(id: number): Promise<string> {
-    return this.storage.get(StorageConsts.ACCESS_TOKEN)
+    return this.storage.get(StorageKeys.ACCESS_TOKEN)
       .then(token => {
         const authHeader: AuthorizationToken = {
           headers: {
@@ -118,7 +118,7 @@ export class MarketplaceService {
   }
 
   public freelancerWithdrawMainMarketplaceRequest(id: number): Promise<string> {
-    return this.storage.get(StorageConsts.ACCESS_TOKEN)
+    return this.storage.get(StorageKeys.ACCESS_TOKEN)
       .then(token => {
         const authHeader: AuthorizationToken = {
           headers: {
@@ -133,7 +133,7 @@ export class MarketplaceService {
   }
 
   public customerCancelMainMarketplaceRequest(id: number): Promise<string> {
-    return this.storage.get(StorageConsts.ACCESS_TOKEN)
+    return this.storage.get(StorageKeys.ACCESS_TOKEN)
       .then(token => {
         const authHeader: AuthorizationToken = {
           headers: {
@@ -148,7 +148,7 @@ export class MarketplaceService {
   }
 
   public customerApproveFreelancer(taskID: number, freelancerID: number): Promise<string> {
-    return this.storage.get(StorageConsts.ACCESS_TOKEN)
+    return this.storage.get(StorageKeys.ACCESS_TOKEN)
       .then(token => {
         const authHeader: AuthorizationToken = {
           headers: {
@@ -164,7 +164,7 @@ export class MarketplaceService {
   }
 
   public customerDenyFreelancer(taskID: number, freelancerID: number): Promise<string> {
-    return this.storage.get(StorageConsts.ACCESS_TOKEN)
+    return this.storage.get(StorageKeys.ACCESS_TOKEN)
       .then(token => {
         const authHeader: AuthorizationToken = {
           headers: {
@@ -180,7 +180,7 @@ export class MarketplaceService {
   }
 
   public freelancerArrivedAtTaskSite(id: number): Promise<string> {
-    return this.storage.get(StorageConsts.ACCESS_TOKEN)
+    return this.storage.get(StorageKeys.ACCESS_TOKEN)
       .then(token => {
         const authHeader: AuthorizationToken = {
           headers: {
@@ -196,7 +196,7 @@ export class MarketplaceService {
   }
 
   public freelancerCompleteTask(id: number, ratingAndReview: {rating: number, review: string}): Promise<string> {
-    return this.storage.get(StorageConsts.ACCESS_TOKEN)
+    return this.storage.get(StorageKeys.ACCESS_TOKEN)
       .then(token => {
         const authHeader: AuthorizationToken = {
           headers: {
@@ -212,7 +212,7 @@ export class MarketplaceService {
   }
 
   public customerCompleteTask(id: number, ratingAndReview: {rating: number, review: string}): Promise<string> {
-    return this.storage.get(StorageConsts.ACCESS_TOKEN)
+    return this.storage.get(StorageKeys.ACCESS_TOKEN)
       .then(token => {
         const authHeader: AuthorizationToken = {
           headers: {
@@ -228,7 +228,7 @@ export class MarketplaceService {
   }
 
   public mainMarketplaceReportTask(id: number, message: string): Promise<string> {
-    return this.storage.get(StorageConsts.ACCESS_TOKEN)
+    return this.storage.get(StorageKeys.ACCESS_TOKEN)
       .then(token => {
         const authHeader: AuthorizationToken = {
           headers: {

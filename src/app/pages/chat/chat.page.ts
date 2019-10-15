@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Room} from '../../utils/interfaces/chat/room';
 import {ChatService} from '../../utils/services/chat.service';
 import {Storage} from '@ionic/storage';
-import {StorageConsts} from '../../providers/constants';
+import {StorageKeys} from '../../providers/constants';
 import {Router} from '@angular/router';
 
 @Component({
@@ -17,7 +17,7 @@ export class ChatPage implements OnInit {
 
   ngOnInit() {
     this.getRooms();
-    this.storage.get(StorageConsts.PROFILE)
+    this.storage.get(StorageKeys.PROFILE)
       .then(profile => {
         this.user_id = profile.user_id;
       });
