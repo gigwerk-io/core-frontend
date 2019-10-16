@@ -34,34 +34,40 @@
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <div text-center padding>
-    <div class="img-container">
+  <div text-center padding-top>
+    <div margin-bottom class="img-container">
       <img [src]="(profile.user.image) ? profile.user.image : '../../assets/img/user.png'"
            (click)="viewAttachedPhoto(profile.user.image, profile.user.user.first_name + ' ' + profile.user.user.last_name)"
            alt="Profile Picture of {{profile.user.user.first_name}} {{profile.user.user.last_name}}">
     </div>
-    <div style="text-align: center;" *ngIf="rating != undefined">
-      <rating [rate]="rating" readonly="true"></rating>
-    </div>
     <ion-note>
-      <p>
-        <ion-chip [color]="status.class">
-          <ion-label>{{status.text}}</ion-label>
-        </ion-chip>
-      </p>
       @{{profile.user.user.username}}
       <img *ngIf="profile.user.user.role == 'Verified Freelancer'"
            class="badge"
            src="../../../assets/img/verified.png" alt="This user is a Verified Freelancer">
     </ion-note>
+    <p>
+      <ion-chip [color]="status.class">
+        <ion-label>{{status.text}}</ion-label>
+      </ion-chip>
+    </p>
+    <div style="text-align: center;" *ngIf="rating != undefined">
+      <rating [rate]="rating" readonly="true"></rating>
+    </div>
   </div>
-  <div text-center padding>
-    <section style="margin-top: -20px;" *ngIf="!isOwner">
-      <ion-button *ngIf="showFriendButton" size="small" [disabled]="friendButton.disable" (click)="handleFriendButtonClick()">
-        <ion-icon [name]="friendButton.class"></ion-icon>
+  <div text-center>
+    <section *ngIf="!isOwner">
+      <ion-button *ngIf="showFriendButton" size="small" style="font-size: 16px;" [disabled]="friendButton.disable" (click)="handleFriendButtonClick()">
+        <ion-icon slot="start" mode="md" [name]="friendButton.class"></ion-icon>
+        <p slot="end" *ngIf="!friendButton.disable; else invitationSent">Send Friend Invite</p>
+        <ng-template #invitationSent>
+          <p slot="end">Friend Invite Sent</p>
+        </ng-template>
       </ion-button>
     </section>
-    {{profile.user.description}}
+    <section [ngClass]="profile.user.description ? 'ion-padding-top' : ''">
+      {{profile.user.description}}
+    </section>
   </div>
   <hr>
   <ng-container text-center *ngIf="profile.user.user.main_marketplace.length === 0; else customerTasks">

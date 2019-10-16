@@ -8,7 +8,7 @@ import {
 } from '../interfaces/searchable';
 import {from, Observable} from 'rxjs/index';
 import {Storage} from '@ionic/storage';
-import {API_ADDRESS, StorageConsts} from '../../providers/constants';
+import {API_ADDRESS, StorageKeys} from '../../providers/constants';
 import {AuthorizationToken} from '../interfaces/user-options';
 
 @Injectable({
@@ -24,7 +24,7 @@ export class FriendsService {
    */
   public getMyFriends(): Observable<Searchable[]> {
     return from(
-      this.storage.get(StorageConsts.ACCESS_TOKEN)
+      this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {
@@ -40,7 +40,7 @@ export class FriendsService {
 
   public searchUsers(query): Observable<Searchable[]> {
     return from(
-      this.storage.get(StorageConsts.ACCESS_TOKEN)
+      this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const options = {
             headers: {
@@ -64,7 +64,7 @@ export class FriendsService {
    */
   public getRecommendedFriends(): Observable<Searchable[]> {
     return from(
-      this.storage.get(StorageConsts.ACCESS_TOKEN)
+      this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {
@@ -85,7 +85,7 @@ export class FriendsService {
    */
   public getFriendRequests() {
     return from(
-      this.storage.get(StorageConsts.ACCESS_TOKEN)
+      this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {
@@ -101,7 +101,7 @@ export class FriendsService {
 
   public sendFriendRequest(id) {
     return from(
-      this.storage.get(StorageConsts.ACCESS_TOKEN)
+      this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {
@@ -117,7 +117,7 @@ export class FriendsService {
 
   public acceptFriendRequest(id) {
     return from(
-      this.storage.get(StorageConsts.ACCESS_TOKEN)
+      this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {
@@ -133,7 +133,7 @@ export class FriendsService {
 
   public rejectFriendRequest(id) {
     return from(
-      this.storage.get(StorageConsts.ACCESS_TOKEN)
+      this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {
@@ -149,7 +149,7 @@ export class FriendsService {
 
   public unfriend(id) {
     return from(
-      this.storage.get(StorageConsts.ACCESS_TOKEN)
+      this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Storage} from '@ionic/storage';
-import {StorageConsts} from '../../providers/constants';
+import {StorageKeys} from '../../providers/constants';
 import {PreferencesService} from '../../utils/services/preferences.service';
 import {ToastController} from '@ionic/angular';
 import {ProfileService} from '../../utils/services/profile.service';
@@ -31,7 +31,7 @@ export class EditProfilePage implements OnInit {
   }
 
   getProfileInfo() {
-    this.storage.get(StorageConsts.PROFILE).then(profile => {
+    this.storage.get(StorageKeys.PROFILE).then(profile => {
       this.first_name = profile.user.first_name;
       this.last_name = profile.user.last_name;
       this.username = profile.user.username;
@@ -61,7 +61,7 @@ export class EditProfilePage implements OnInit {
       // Get Update Profile Info
       this.profileService.getProfile(this.user_id).subscribe(result => {
         // Update Storage Info
-        this.storage.set(StorageConsts.PROFILE, result.user).then(response => {
+        this.storage.set(StorageKeys.PROFILE, result.user).then(response => {
           this.presentToast(res.message);
         });
       });

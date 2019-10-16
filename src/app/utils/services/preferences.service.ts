@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Storage} from '@ionic/storage';
-import {API_ADDRESS, StorageConsts} from '../../providers/constants';
+import {API_ADDRESS, StorageKeys} from '../../providers/constants';
 import {AuthorizationToken} from '../interfaces/user-options';
 import {from} from 'rxjs';
 import {UpdateResponse, Settings, MyLocationsResponse, CurrentCityResponse} from '../interfaces/settings/preferences';
@@ -16,7 +16,7 @@ export class PreferencesService {
 
   public updateNotificationPreferences(body) {
     return from(
-      this.storage.get(StorageConsts.ACCESS_TOKEN)
+      this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {
@@ -32,7 +32,7 @@ export class PreferencesService {
 
   public getSettings() {
     return from(
-      this.storage.get(StorageConsts.ACCESS_TOKEN)
+      this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {
@@ -48,7 +48,7 @@ export class PreferencesService {
 
   public updatePrivacyPreferences(body) {
     return from(
-      this.storage.get(StorageConsts.ACCESS_TOKEN)
+      this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {
@@ -64,7 +64,7 @@ export class PreferencesService {
 
   public addLocation(body) {
     return from(
-      this.storage.get(StorageConsts.ACCESS_TOKEN)
+      this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {
@@ -80,7 +80,7 @@ export class PreferencesService {
 
   public getMyLocations() {
     return from(
-      this.storage.get(StorageConsts.ACCESS_TOKEN)
+      this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {
@@ -96,7 +96,7 @@ export class PreferencesService {
 
   public makeDefaultLocation(id) {
     return from(
-      this.storage.get(StorageConsts.ACCESS_TOKEN)
+      this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {
@@ -112,7 +112,7 @@ export class PreferencesService {
 
   public deleteLocation(id) {
     return from(
-      this.storage.get(StorageConsts.ACCESS_TOKEN)
+      this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {
@@ -128,7 +128,7 @@ export class PreferencesService {
 
   public updateProfile(body) {
     return from(
-      this.storage.get(StorageConsts.ACCESS_TOKEN)
+      this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {
@@ -144,7 +144,7 @@ export class PreferencesService {
 
   public selectCity(id) {
     return from(
-      this.storage.get(StorageConsts.ACCESS_TOKEN)
+      this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {
@@ -160,7 +160,7 @@ export class PreferencesService {
 
   public currentCity() {
     return from(
-      this.storage.get(StorageConsts.ACCESS_TOKEN)
+      this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {

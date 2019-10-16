@@ -4,7 +4,7 @@ import {LoadingController, ModalController, ToastController} from '@ionic/angula
 import {NotificationService} from '../../utils/services/notification.service';
 import {PusherServiceProvider} from '../../providers/pusher.service';
 import {Storage} from '@ionic/storage';
-import {StorageConsts} from '../../providers/constants';
+import {StorageKeys} from '../../providers/constants';
 import {Router} from '@angular/router';
 
 @Component({
@@ -37,7 +37,7 @@ export class TabsPage {
         this.notificationCount = res.notifications;
         this.friendCount = res.friends;
         // Listen To Pusher User Channel
-        this.storage.get(StorageConsts.PROFILE).then(profile => {
+        this.storage.get(StorageKeys.PROFILE).then(profile => {
           const channel = this.pusher.user(profile.user.id);
           // Bind Notification Channel
           channel.bind('notification', data => {

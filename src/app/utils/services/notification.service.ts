@@ -3,7 +3,7 @@ import {Storage} from '@ionic/storage';
 import {HttpClient} from '@angular/common/http';
 import {AuthorizationToken} from '../interfaces/user-options';
 import {from} from 'rxjs/index';
-import {API_ADDRESS, StorageConsts} from '../../providers/constants';
+import {API_ADDRESS, StorageKeys} from '../../providers/constants';
 import {Badge, NotificationsResponse} from '../interfaces/notification/notification';
 import {UpdateResponse} from '../interfaces/settings/preferences';
 
@@ -18,7 +18,7 @@ export class NotificationService {
 
   public getBadgeCount() {
     return from(
-      this.storage.get(StorageConsts.ACCESS_TOKEN)
+      this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {
@@ -34,7 +34,7 @@ export class NotificationService {
 
   public getNewNotifications() {
     return from(
-      this.storage.get(StorageConsts.ACCESS_TOKEN)
+      this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {
@@ -50,7 +50,7 @@ export class NotificationService {
 
   public getAllNotifications() {
     return from(
-      this.storage.get(StorageConsts.ACCESS_TOKEN)
+      this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {
@@ -66,7 +66,7 @@ export class NotificationService {
 
   public markNotificationAsRead(id) {
     return from(
-      this.storage.get(StorageConsts.ACCESS_TOKEN)
+      this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {
@@ -82,7 +82,7 @@ export class NotificationService {
 
   public saveFCMToken(body) {
     return from(
-      this.storage.get(StorageConsts.ACCESS_TOKEN)
+      this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {
@@ -98,7 +98,7 @@ export class NotificationService {
 
   public saveAPNToken(body) {
     return from(
-      this.storage.get(StorageConsts.ACCESS_TOKEN)
+      this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {

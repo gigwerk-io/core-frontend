@@ -5,7 +5,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { Storage } from '@ionic/storage';
 import {AuthResponse, SignOutResponse} from '../interfaces/auth/auth-response';
 import {AuthorizationToken, UserOptions, UserRegistrationOptions} from '../interfaces/user-options';
-import {API_ADDRESS, StorageConsts} from '../../providers/constants';
+import {API_ADDRESS, StorageKeys} from '../../providers/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +21,7 @@ export class AuthService {
       tap(async (res:  AuthResponse ) => {
 
         if (res) {
-          await this.storage.set(StorageConsts.ACCESS_TOKEN, res.token);
+          await this.storage.set(StorageKeys.ACCESS_TOKEN, res.token);
           this.authSubject.next(true);
         }
       })
@@ -32,8 +32,8 @@ export class AuthService {
     return this.httpClient.post<AuthResponse>(`${API_ADDRESS}/login`, user).pipe(
       tap(async (res: AuthResponse) => {
         if (res) {
-          await this.storage.set(StorageConsts.ACCESS_TOKEN, res.token);
-          await this.storage.set(StorageConsts.PROFILE, res.profile);
+          await this.storage.set(StorageKeys.ACCESS_TOKEN, res.token);
+          await this.storage.set(StorageKeys.PROFILE, res.profile);
           this.authSubject.next(true);
         }
       })
@@ -44,7 +44,7 @@ export class AuthService {
     return this.httpClient.get<SignOutResponse>(`${API_ADDRESS}/logout`, token).pipe(
       tap(async (res: SignOutResponse) => {
         if (res) {
-          await this.storage.remove(StorageConsts.ACCESS_TOKEN);
+          await this.storage.remove(StorageKeys.ACCESS_TOKEN);
           this.authSubject.next(false);
         }
       })

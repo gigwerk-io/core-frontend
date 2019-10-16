@@ -85,7 +85,7 @@ export class FriendsPage implements OnInit {
   }
 
   showMyFriendRequests() {
-    this.btnClass = 'add-circle';
+    this.btnClass = 'checkmark';
     this.secondButton = true;
     this.friendService.getFriendRequests().subscribe(res => {
       this.users = res;
