@@ -40,20 +40,6 @@ export class MarketplacePage implements OnInit, OnDestroy {
               private navCtrl: NavController) { }
 
   ngOnInit() {
-    this.storage.get(StorageKeys.ACCESS_TOKEN)
-      .then((token: string) => {
-        const authHeaders: AuthorizationToken = {
-          headers: {
-            Authorization: token
-          }
-        };
-        this.authService.isLoggedIn(authHeaders)
-          .subscribe((res: AuthResponse) => {
-            if (!res.response) {
-              this.navCtrl.navigateRoot('/login');
-            }
-          });
-      });
     this.segmentChanged(this.segment);
     this.trackWithGoogle();
   }
