@@ -8,7 +8,7 @@
 </favr-page-header>
 
 <ion-content>
-  <form action="." #requestForm="ngForm">
+  <!--<form #requestForm="ngForm">-->
     <ion-slides (ionSlideDidChange)="onSlideChange()">
       <ion-slide>
         <!--<ion-toolbar class="search-categories-area">-->
@@ -259,14 +259,14 @@
           </h1>
         </div>
 
-        <ion-button (click)="onSubmitTaskRequest(requestForm)"
-                    [disabled]="progress < 1"
-                    type="submit"
-                    class="long-button">
-          Submit
-        </ion-button>
+        <!--<ion-button (click)="onSubmitTaskRequest(requestForm)"-->
+                    <!--[disabled]="progress < 1"-->
+                    <!--type="submit"-->
+                    <!--class="long-button">-->
+          <!--Submit-->
+        <!--</ion-button>-->
       </ion-slide>
 
     </ion-slides>
-  </form>
+  <!--</form>-->
 </ion-content>

@@ -11,6 +11,7 @@ export interface AuthResponse {
     user_id?: number
   };
   token?: string;
+  response?: boolean;
 }
 
 export interface SignOutResponse {

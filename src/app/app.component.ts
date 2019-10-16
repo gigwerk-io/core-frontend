@@ -12,11 +12,13 @@ import { Storage } from '@ionic/storage';
 import { UserData } from './providers/user-data';
 import {StorageKeys} from './providers/constants';
 import {toggleDarkTheme} from './pages/settings/settings.page';
+import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  providers: [ScreenOrientation],
   encapsulation: ViewEncapsulation.None
 })
 export class AppComponent implements OnInit {
@@ -32,6 +34,7 @@ export class AppComponent implements OnInit {
     private userData: UserData,
     private swUpdate: SwUpdate,
     private toastCtrl: ToastController,
+    private screenOrientation: ScreenOrientation,
   ) {
     this.initializeApp();
   }
@@ -70,6 +73,7 @@ export class AppComponent implements OnInit {
           // const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
           // prefersDark.addEventListener('dark-theme-listener', (mediaQuery: MediaQueryListEvent) => toggleDarkTheme(mediaQuery.matches));
         });
+      this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
     });
   }
 }

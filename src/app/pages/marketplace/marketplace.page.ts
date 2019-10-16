@@ -1,13 +1,16 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {MainMarketplaceTask} from '../../utils/interfaces/main-marketplace/main-marketplace-task';
 import {MarketplaceService} from '../../utils/services/marketplace.service';
-import {LoadingController, ModalController} from '@ionic/angular';
+import {LoadingController, ModalController, NavController} from '@ionic/angular';
 import {RequestPage} from '../request/request.page';
 import {Observable, Subscription} from 'rxjs';
 import {GoogleAnalytics} from '@ionic-native/google-analytics/ngx';
 import {GA_ID, Role, StorageKeys} from '../../providers/constants';
 import {Storage} from '@ionic/storage';
 import {PusherServiceProvider} from '../../providers/pusher.service';
+import {AuthorizationToken} from '../../utils/interfaces/user-options';
+import {AuthResponse} from '../../utils/interfaces/auth/auth-response';
+import {AuthService} from '../../utils/services/auth.service';
 
 @Component({
   selector: 'marketplace',
@@ -32,9 +35,25 @@ export class MarketplacePage implements OnInit, OnDestroy {
               private changeRef: ChangeDetectorRef,
               private ga: GoogleAnalytics,
               private storage: Storage,
-              private pusher: PusherServiceProvider) {  }
+              private pusher: PusherServiceProvider,
+              private authService: AuthService,
+              private navCtrl: NavController) { }
 
   ngOnInit() {
+    this.storage.get(StorageKeys.ACCESS_TOKEN)
+      .then((token: string) => {
+        const authHeaders: AuthorizationToken = {
+          headers: {
+            Authorization: token
+          }
+        };
+        this.authService.isLoggedIn(authHeaders)
+          .subscribe((res: AuthResponse) => {
+            if (!res.response) {
+              this.navCtrl.navigateRoot('/login');
+            }
+          });
+      });
     this.segmentChanged(this.segment);
     this.trackWithGoogle();
   }

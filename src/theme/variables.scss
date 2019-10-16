@@ -269,4 +269,7 @@ body.dark {
   --ion-color-step-850: #dcdcdc;
   --ion-color-step-900: #e8e8e8;
   --ion-color-step-950: #f3f3f3;
+  ion-textarea {
+    --background: rgba(var(--ion-text-color-rgb,0,0,0),0.07)!important;
+  }
 }

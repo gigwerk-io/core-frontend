@@ -3,6 +3,10 @@
   margin-top: 20px;
 }
 
+.checkmark-btn {
+  --background: var(--ion-color-success)!important;
+}
+
 ion-item.ios {
   --border: 0;
   --inner-border-width: 0 0 0.55px 0;
