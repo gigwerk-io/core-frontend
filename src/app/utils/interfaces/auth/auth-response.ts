@@ -17,3 +17,7 @@ export interface AuthResponse {
 export interface SignOutResponse {
   message?: string;
 }
+
+export interface ValidateTokenResponse {
+  response: boolean;
+}

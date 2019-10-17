@@ -3,9 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Storage } from '@ionic/storage';
-import {AuthResponse, SignOutResponse} from '../interfaces/auth/auth-response';
+import {AuthResponse, SignOutResponse, ValidateTokenResponse} from '../interfaces/auth/auth-response';
 import {AuthorizationToken, UserOptions, UserRegistrationOptions} from '../interfaces/user-options';
 import {API_ADDRESS, StorageKeys} from '../../providers/constants';
+import {from} from 'rxjs/index';
+import {Room} from '../interfaces/chat/room';
 
 @Injectable({
   providedIn: 'root'
@@ -53,6 +55,22 @@ export class AuthService {
 
   isLoggedIn() {
     return this.authSubject.asObservable();
+  }
+
+  isValidToken() {
+    return from(
+      this.storage.get(StorageKeys.ACCESS_TOKEN)
+        .then(token => {
+          const authHeader: AuthorizationToken = {
+            headers: {
+              Authorization: (token) ? token : ''
+            }
+          };
+          return this.httpClient.get<ValidateTokenResponse>(API_ADDRESS + '/validate', authHeader)
+            .toPromise()
+            .then((res) => res);
+        })
+    );
   }
 
   forgotPassword(email): Observable<SignOutResponse> {

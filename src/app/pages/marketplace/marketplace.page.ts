@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {MainMarketplaceTask} from '../../utils/interfaces/main-marketplace/main-marketplace-task';
 import {MarketplaceService} from '../../utils/services/marketplace.service';
-import {LoadingController, ModalController, NavController} from '@ionic/angular';
+import {LoadingController, ModalController, NavController, ToastController} from '@ionic/angular';
 import {RequestPage} from '../request/request.page';
 import {Observable, Subscription} from 'rxjs';
 import {GoogleAnalytics} from '@ionic-native/google-analytics/ngx';
@@ -11,6 +11,7 @@ import {PusherServiceProvider} from '../../providers/pusher.service';
 import {AuthorizationToken} from '../../utils/interfaces/user-options';
 import {AuthResponse} from '../../utils/interfaces/auth/auth-response';
 import {AuthService} from '../../utils/services/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'marketplace',
@@ -37,7 +38,9 @@ export class MarketplacePage implements OnInit, OnDestroy {
               private storage: Storage,
               private pusher: PusherServiceProvider,
               private authService: AuthService,
-              private navCtrl: NavController) { }
+              private navCtrl: NavController,
+              private router: Router,
+              private toastController: ToastController) { }
 
   ngOnInit() {
     this.segmentChanged(this.segment);
@@ -56,7 +59,29 @@ export class MarketplacePage implements OnInit, OnDestroy {
           // console.log(data.marketplace);
         });
         this.changeRef.detectChanges();
+      }, error => {
+        if (error.status === 401) {
+          this.authService.isValidToken().subscribe(res => {
+            if (!res.response) {
+              this.presentToast('You have been logged out.');
+              this.storage.clear();
+              this.router.navigateByUrl('welcome');
+            }
+          });
+        }
       });
+  }
+
+  async presentToast(message) {
+    await this.toastController.create({
+      message: message,
+      position: 'top',
+      duration: 2500,
+      color: 'dark',
+      showCloseButton: true
+    }).then(toast => {
+      toast.present();
+    });
   }
 
   getMyMarketplaceRequests() {
@@ -64,6 +89,16 @@ export class MarketplacePage implements OnInit, OnDestroy {
       .subscribe(tasks => {
         this.marketplaceTasks = tasks;
         this.changeRef.detectChanges();
+      }, error => {
+        if (error.status === 401) {
+          this.authService.isValidToken().subscribe(res => {
+            if (!res.response) {
+              this.presentToast('You have been logged out.');
+              this.storage.clear();
+              this.router.navigateByUrl('welcome');
+            }
+          });
+        }
       });
   }
 
@@ -72,6 +107,16 @@ export class MarketplacePage implements OnInit, OnDestroy {
       .subscribe(tasks => {
         this.marketplaceTasks = tasks;
         this.changeRef.detectChanges();
+      }, error => {
+        if (error.status === 401) {
+          this.authService.isValidToken().subscribe(res => {
+            if (!res.response) {
+              this.presentToast('You have been logged out.');
+              this.storage.clear();
+              this.router.navigateByUrl('welcome');
+            }
+          });
+        }
       });
   }
 

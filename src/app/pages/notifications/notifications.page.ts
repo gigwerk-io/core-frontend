@@ -2,6 +2,9 @@ import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {NotificationService} from '../../utils/services/notification.service';
 import {Notification} from '../../utils/interfaces/notification/notification';
 import {Router} from '@angular/router';
+import {AuthService} from '../../utils/services/auth.service';
+import {ToastController} from '@ionic/angular';
+import {Storage} from '@ionic/storage';
 
 @Component({
   selector: 'notifications',
@@ -16,7 +19,10 @@ export class NotificationsPage implements OnInit {
   readable = true;
   constructor(private notificationService: NotificationService,
               private router: Router,
-              private changeRef: ChangeDetectorRef) { }
+              private changeRef: ChangeDetectorRef,
+              private authService: AuthService,
+              private storage: Storage,
+              public toastController: ToastController) { }
 
   ngOnInit() {
 
@@ -26,6 +32,16 @@ export class NotificationsPage implements OnInit {
     this.notificationService.getNewNotifications().subscribe(res => {
       this.notifications = res.notifications;
       this.changeRef.detectChanges();
+    }, error => {
+      if (error.status === 401) {
+        this.authService.isValidToken().subscribe(res => {
+          if (!res.response) {
+            this.presentToast('You have been logged out.');
+            this.storage.clear();
+            this.router.navigateByUrl('welcome');
+          }
+        });
+      }
     });
   }
 
@@ -33,6 +49,16 @@ export class NotificationsPage implements OnInit {
     this.notificationService.getAllNotifications().subscribe(res => {
       this.notifications = res.notifications;
       this.changeRef.detectChanges();
+    }, error => {
+      if (error.status === 401) {
+        this.authService.isValidToken().subscribe(res => {
+          if (!res.response) {
+            this.presentToast('You have been logged out.');
+            this.storage.clear();
+            this.router.navigateByUrl('welcome');
+          }
+        });
+      }
     });
   }
 
@@ -59,5 +85,17 @@ export class NotificationsPage implements OnInit {
       this.notifications.splice(index, 1);
       this.notificationService.markNotificationAsRead(notification.id).subscribe();
     }, 1000);
+  }
+
+  async presentToast(message) {
+    await this.toastController.create({
+      message: message,
+      position: 'top',
+      duration: 2500,
+      color: 'dark',
+      showCloseButton: true
+    }).then(toast => {
+      toast.present();
+    });
   }
 }
