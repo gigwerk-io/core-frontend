@@ -21,11 +21,8 @@
       </ion-slide>
 
       <ion-slide>
-        <ckeditor *ngIf="!isMobileWebOrDesktop" tagName="textarea" (change)="onEditorChange($event)" [editor]="Editor" [config]="editorConfig"></ckeditor>
-        <ion-textarea *ngIf="isMobileWebOrDesktop"
-                      placeholder="Please Describe Your Job"
-                      (ionChange)="onTextboxChange($event)"
-        ></ion-textarea>
+        <!--<ckeditor *ngIf="!isMobileWebOrDesktop" tagName="textarea" (change)="onEditorChange($event)" [editor]="Editor" [config]="editorConfig"></ckeditor>-->
+        <ion-textarea class="ion-margin-top" placeholder="Please Describe Your Job" (ionChange)="onTextboxChange($event)" rows="5"></ion-textarea>
         <ion-button *ngIf="taskRequest.description" (click)="slides.slideNext()" class="long-button">
           Swipe or Tap to Continue
           <ion-icon name="arrow-forward" slot="end"></ion-icon>
