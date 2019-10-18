@@ -47,8 +47,6 @@ export class SettingsPage implements OnInit {
 
       this.seeCredit = profile.user.organization_id === null;
     });
-
-    console.log(this.platform.platforms());
   }
 
   onLogout() {
@@ -152,7 +150,6 @@ export class SettingsPage implements OnInit {
   }
 
   setDarkMode() {
-    console.log(this.darkMode);
     switch (this.darkMode) {
       case true:
         this.statusBar.backgroundColorByHexString('#ff6500');

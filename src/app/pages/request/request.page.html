@@ -21,7 +21,12 @@
       </ion-slide>
 
       <ion-slide>
-        <ckeditor tagName="textarea" (change)="onEditorChange($event)" [editor]="Editor" [config]="editorConfig"></ckeditor>
+        <ckeditor *ngIf="!isMobileWebOrDesktop" tagName="textarea" (change)="onEditorChange($event)" [editor]="Editor" [config]="editorConfig"></ckeditor>
+        <ion-textarea *ngIf="isMobileWebOrDesktop"
+                      [(ngModel)]="taskRequest.description"
+                      placeholder="Please Describe Your Job"
+                      (ionChange)="updateProgress()"
+        ></ion-textarea>
         <ion-button *ngIf="taskRequest.description" (click)="slides.slideNext()" class="long-button">
           Swipe or Tap to Continue
           <ion-icon name="arrow-forward" slot="end"></ion-icon>

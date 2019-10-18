@@ -4,6 +4,8 @@ import {FriendsService} from '../../utils/services/friends.service';
 import {Router} from '@angular/router';
 import {ChatService} from '../../utils/services/chat.service';
 import {ToastController} from '@ionic/angular';
+import {AuthService} from '../../utils/services/auth.service';
+import {Storage} from '@ionic/storage';
 
 @Component({
   selector: 'friends',
@@ -21,6 +23,8 @@ export class FriendsPage implements OnInit {
               private router: Router,
               public toastController: ToastController,
               private changeRef: ChangeDetectorRef,
+              private authService: AuthService,
+              private storage: Storage
   ) { }
 
   ngOnInit() {
@@ -33,6 +37,16 @@ export class FriendsPage implements OnInit {
     this.clickType = 'search';
     this.friendService.searchUsers(query).subscribe(res => {
       this.users = res;
+    }, error => {
+      if (error.status === 401) {
+        this.authService.isValidToken().subscribe(res => {
+          if (!res.response) {
+            this.presentToast('You have been logged out.');
+            this.storage.clear();
+            this.router.navigateByUrl('welcome');
+          }
+        });
+      }
     });
   }
 
@@ -72,6 +86,16 @@ export class FriendsPage implements OnInit {
     this.friendService.getRecommendedFriends().subscribe(res => {
       this.users = res;
       this.changeRef.detectChanges();
+    }, error => {
+      if (error.status === 401) {
+        this.authService.isValidToken().subscribe(res => {
+          if (!res.response) {
+            this.presentToast('You have been logged out.');
+            this.storage.clear();
+            this.router.navigateByUrl('welcome');
+          }
+        });
+      }
     });
   }
 
@@ -81,6 +105,16 @@ export class FriendsPage implements OnInit {
     this.friendService.getMyFriends().subscribe(res => {
       this.users = res;
       this.changeRef.detectChanges();
+    }, error => {
+      if (error.status === 401) {
+        this.authService.isValidToken().subscribe(res => {
+          if (!res.response) {
+            this.presentToast('You have been logged out.');
+            this.storage.clear();
+            this.router.navigateByUrl('welcome');
+          }
+        });
+      }
     });
   }
 
@@ -90,6 +124,16 @@ export class FriendsPage implements OnInit {
     this.friendService.getFriendRequests().subscribe(res => {
       this.users = res;
       this.changeRef.detectChanges();
+    }, error => {
+      if (error.status === 401) {
+        this.authService.isValidToken().subscribe(res => {
+          if (!res.response) {
+            this.presentToast('You have been logged out.');
+            this.storage.clear();
+            this.router.navigateByUrl('welcome');
+          }
+        });
+      }
     });
   }
 
