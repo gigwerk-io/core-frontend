@@ -7,6 +7,7 @@ import {NavController, Platform, ToastController} from '@ionic/angular';
 import { Push, PushObject, PushOptions } from '@ionic-native/push/ngx';
 import {NotificationService} from '../../utils/services/notification.service';
 import {GCM_KEY} from '../../providers/constants';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'page-login',
@@ -26,7 +27,8 @@ export class LoginPage {
     private push: Push,
     private notficationService: NotificationService,
     private platform: Platform,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private router: Router
   ) { }
 
   onLogin(form: NgForm) {
@@ -92,6 +94,17 @@ export class LoginPage {
       }, error1 => {
         console.log(error1);
       });
+
+      pushObject.on('notification').subscribe((data: any) => {
+        console.log(data);
+        if (!data.additionalData.foreground) {
+          if (data.custom !== undefined) {
+            this.router.navigate(data.custom.action.page, data.custom.action.params);
+          }
+        }
+      });
+
+      pushObject.on('error').subscribe(error => console.warn(error));
     }
   }
 }

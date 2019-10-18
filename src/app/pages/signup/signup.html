@@ -134,14 +134,14 @@
                           name="birthday"
                           [max]="maxYear"
                           [displayFormat]="'MMM DD, YYYY'"
-                          required>
+                          >
             </ion-datetime>
           </ion-item>
-          <ion-text color="danger">
-            <p [hidden]="birthday.valid || submitted == false" class="ion-padding-start">
-              Birthday is required: user must be older than 13 years old
-            </p>
-          </ion-text>
+          <!--<ion-text color="danger">-->
+            <!--<p [hidden]="birthday.valid || submitted == false" class="ion-padding-start">-->
+              <!--Birthday is required: user must be older than 13 years old-->
+            <!--</p>-->
+          <!--</ion-text>-->
 
           <ion-item>
             <ion-label position="stacked">Password</ion-label>
