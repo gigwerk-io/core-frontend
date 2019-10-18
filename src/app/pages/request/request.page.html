@@ -8,7 +8,7 @@
 </favr-page-header>
 
 <ion-content>
-  <!--<form #requestForm="ngForm">-->
+  <form #requestForm="ngForm">
     <ion-slides (ionSlideDidChange)="onSlideChange()">
       <ion-slide>
         <!--<ion-toolbar class="search-categories-area">-->
@@ -23,9 +23,8 @@
       <ion-slide>
         <ckeditor *ngIf="!isMobileWebOrDesktop" tagName="textarea" (change)="onEditorChange($event)" [editor]="Editor" [config]="editorConfig"></ckeditor>
         <ion-textarea *ngIf="isMobileWebOrDesktop"
-                      [(ngModel)]="taskRequest.description"
                       placeholder="Please Describe Your Job"
-                      (ionChange)="updateProgress()"
+                      (ionChange)="onTextboxChange($event)"
         ></ion-textarea>
         <ion-button *ngIf="taskRequest.description" (click)="slides.slideNext()" class="long-button">
           Swipe or Tap to Continue
@@ -273,5 +272,5 @@
       </ion-slide>
 
     </ion-slides>
-  <!--</form>-->
+  </form>
 </ion-content>

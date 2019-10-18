@@ -138,6 +138,11 @@ export class RequestPage implements OnInit {
     this.updateProgress();
   }
 
+  onTextboxChange(event) {
+    this.taskRequest.description = event.target.value;
+    this.updateProgress();
+  }
+
   updateProgress() {
     this.progress = setProgress([
       this.taskRequest.category_id,
