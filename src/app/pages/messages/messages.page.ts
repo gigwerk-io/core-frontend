@@ -80,7 +80,7 @@ export class MessagesPage implements OnInit {
       this.messages = this.room.messages;
       this.toUser = this.getToUser();
       const channel = this.pusher.init(this.uuid);
-      console.log(channel);
+      console.log('Pusher: ' + channel);
       channel.bind('new-message', data => {
         this.messages.push(data.message);
         this.scrollToBottomOnInit();
