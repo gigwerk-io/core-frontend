@@ -10,6 +10,7 @@ import {FriendsService} from '../../utils/services/friends.service';
 import {GA_ID, StorageKeys} from '../../providers/constants';
 import {GoogleAnalytics} from '@ionic-native/google-analytics/ngx';
 import {Subscription} from 'rxjs';
+import {AuthService} from '../../utils/services/auth.service';
 
 @Component({
   selector: 'profile',
@@ -36,7 +37,8 @@ export class ProfilePage implements OnInit, OnDestroy {
               private photoViewer: PhotoViewer,
               public toastController: ToastController,
               private actionSheetCtrl: ActionSheetController,
-              private ga: GoogleAnalytics) {}
+              private ga: GoogleAnalytics,
+              private authService: AuthService) {}
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe(data => {
@@ -56,6 +58,16 @@ export class ProfilePage implements OnInit, OnDestroy {
             .then((prof: any) => {
               this.isOwner = (prof.user_id === this.profile.user.user_id);
             });
+        }, error => {
+          if (error.status === 401) {
+            this.authService.isValidToken().subscribe(res => {
+              if (!res.response) {
+                this.presentToast('You have been logged out.');
+                this.storage.clear();
+                this.router.navigateByUrl('welcome');
+              }
+            });
+          }
         });
     });
     this.trackWithGoogle();

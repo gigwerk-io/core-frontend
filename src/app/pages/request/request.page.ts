@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {IonContent, IonSlides, ModalController, ToastController} from '@ionic/angular';
+import {IonContent, IonSlides, ModalController, Platform, ToastController} from '@ionic/angular';
 import {MainCategory} from '../../utils/interfaces/main-marketplace/main-category';
 import {TASK_CATEGORIES} from '../../utils/mocks/mock-categories.mock';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -38,6 +38,7 @@ export class RequestPage implements OnInit {
     image_two: undefined,
     image_three: undefined
   };
+  isMobileWebOrDesktop: boolean = false;
 
   minYear: number = (new Date()).getFullYear();
   maxYear: number = this.minYear + 1;
@@ -67,9 +68,14 @@ export class RequestPage implements OnInit {
               private camera: Camera,
               private marketplaceService: MarketplaceService,
               private toastController: ToastController,
-              private router: Router) { }
+              private router: Router,
+              public platform: Platform) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    if (this.platform.is('mobileweb') || this.platform.is('desktop') || this.platform.is('pwa')) {
+      this.isMobileWebOrDesktop = true;
+    }
+  }
 
   async closeRequestPage(): Promise<boolean> {
     return await this.modalCtrl.dismiss();
@@ -129,6 +135,11 @@ export class RequestPage implements OnInit {
 
   onEditorChange( { editor }: ChangeEvent ) {
     this.taskRequest.description = editor.getData();
+    this.updateProgress();
+  }
+
+  onTextboxChange(event) {
+    this.taskRequest.description = event.target.value;
     this.updateProgress();
   }
 

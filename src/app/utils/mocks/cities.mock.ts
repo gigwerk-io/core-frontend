@@ -38,4 +38,11 @@ export const CITIES: City[] = [
     description: 'A bustling small town in Minnesota home to the great Mankato State University. Let FAVR help you find help tasks on tasks here.',
     src: 'assets/img/mankato.jpg'
   },
+  {
+    id: 6,
+    name: 'Fargo',
+    state: STATES[0],
+    description: 'Fargo is a cultural and industrial center for North Dakota. The city is also home to North Dakota State University. Let FAVR help you find help tasks on tasks here.',
+    src: 'assets/img/fargo.jpg'
+  }
 ];
