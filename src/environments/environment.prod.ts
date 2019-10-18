@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   apiUrl: 'https://api.askfavr.com',
-  pusherId: '0af29fcbc7a5e3873c2e',
+  pusherId: '3e1e4ea4e682c0c4bad7',
   stripeKey: 'pk_live_YAI3p9uIkvjj6fRIs8sWxBXH',
   googleAnalyticsId: 'UA-122971401-1',
   intercomId: 'yvoar9nd',
