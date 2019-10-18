@@ -17,7 +17,7 @@ export interface Settings {
   };
 }
 
-export interface Locations {
+export interface LocationAddress {
   id: number;
   user_id: number;
   street_address: string;
@@ -30,7 +30,7 @@ export interface Locations {
 }
 
 export interface MyLocationsResponse {
-  locations: Locations[];
+  locations: LocationAddress[];
 }
 
 export interface CurrentCityResponse {

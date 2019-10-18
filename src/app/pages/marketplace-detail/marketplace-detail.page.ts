@@ -79,33 +79,6 @@ export class MarketplaceDetailPage implements OnInit, OnDestroy {
     this.photoViewer.show(url, (photoTitle) ? photoTitle : '');
   }
 
-  async presentOwnerActionSheet() {
-    const actionSheet = await this.actionSheetCtrl.create({
-      header: 'Task Actions',
-      buttons: [{
-        text: 'Cancel Task',
-        icon: 'close',
-        role: 'destructive',
-        handler: () => {
-          this.customerCancelTask();
-        }
-      }, {
-        text: 'Edit',
-        icon: 'create',
-        handler: () => {
-          console.log('Edit clicked');
-        }
-      }, {
-        text: 'Close',
-        role: 'cancel',
-        handler: () => {
-          console.log('Cancel clicked');
-        }
-      }]
-    });
-    await actionSheet.present();
-  }
-
   async presentActionSheet() {
     const actionSheet = await this.actionSheetCtrl.create({
       header: 'Task Actions',

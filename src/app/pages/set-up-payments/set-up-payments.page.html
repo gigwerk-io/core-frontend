@@ -17,7 +17,7 @@
 
       <ion-item>
         <ion-label position="stacked">Card Number<ion-text color="danger">*</ion-text></ion-label>
-        <ion-input id="cc-number" formControlName="creditCard" type="tel" autocomplete="cc-number" ccNumber class="ion-input" required></ion-input>
+        <ion-input id="cc-number" formControlName="creditCard" type="tel" autocomplete="cc-number" ccNumber [maxlength]="19" class="ion-input" required></ion-input>
       </ion-item>
 
       <ion-item>

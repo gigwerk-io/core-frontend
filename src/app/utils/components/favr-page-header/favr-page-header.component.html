@@ -23,7 +23,8 @@
       <ion-col>
         <ion-buttons class="page-header-buttons">
           <ion-button *ngIf="showProfile"
-                      (click)="navigateToProfile()" routerDirection="forward">
+                      (click)="navigateToProfile()" routerDirection="forward"
+                      class="mobile-only">
             <ion-avatar class="page-title-header-profile">
               <img [src]="profileImage ? profileImage : '../../../../assets/img/user.png'" alt="profile picture">
             </ion-avatar>

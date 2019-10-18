@@ -32,6 +32,20 @@ export class ProfileService {
     );
   }
 
+  public getProfileImage(id: number): Promise<string> {
+    return this.storage.get(StorageKeys.ACCESS_TOKEN)
+      .then(token => {
+        const authHeader: AuthorizationToken = {
+          headers: {
+            Authorization: (token) ? token : ''
+          }
+        };
+        return this.httpClient.get<ProfileRouteResponse>(`${API_ADDRESS}/profile/${id}`, authHeader)
+          .toPromise()
+          .then((res: ProfileRouteResponse) => res.user.image);
+      });
+  }
+
   public getFreelancerProposals(): Observable<MainProposal[]> {
     return from(
       this.storage.get(StorageKeys.ACCESS_TOKEN)

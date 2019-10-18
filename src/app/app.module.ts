@@ -32,7 +32,9 @@ import { GoogleAnalytics } from '@ionic-native/google-analytics/ngx';
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    IonicModule.forRoot(),
+    IonicModule.forRoot({
+      mode: 'ios'
+    }),
     IonicStorageModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production

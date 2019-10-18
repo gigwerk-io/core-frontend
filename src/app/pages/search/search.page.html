@@ -2,6 +2,7 @@
   <ion-toolbar>
     <form action=".">
       <ion-searchbar [(ngModel)]="query"
+                     [ngModelOptions]="{standalone: true}"
                      class="searchbar"
                      placeholder="Search People"
                      (keyup.enter)="handleSearch()"

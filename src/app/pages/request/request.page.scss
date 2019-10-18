@@ -53,3 +53,13 @@ ckeditor {
   top: 1rem;
   right: 2rem;
 }
+
+::ng-deep request {
+  ::ng-deep ion-card {
+    max-width: 182.5px;
+  }
+}
+
+ion-textarea {
+  --background: rgb(245, 245, 245);
+}

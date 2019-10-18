@@ -5,6 +5,7 @@ import {StorageKeys} from '../../../providers/constants';
 import {popInAnimation} from '../../animations/enter.animation';
 import {popOutAnimation} from '../../animations/leave.animation';
 import {SearchPage} from '../../../pages/search/search.page';
+import {ProfileService} from '../../services/profile.service';
 
 @Component({
   selector: 'favr-page-header',
@@ -33,6 +34,7 @@ export class FavrPageHeaderComponent implements OnInit {
   constructor(private alertCtrl: AlertController,
               private modalCtrl: ModalController,
               private navCtrl: NavController,
+              private profileService: ProfileService,
               private storage: Storage) { }
 
   ngOnInit() {
@@ -40,7 +42,8 @@ export class FavrPageHeaderComponent implements OnInit {
       .then(profile => {
         if (profile) {
           this.profileId = profile.user_id;
-          this.profileImage = profile.image;
+          this.profileService.getProfileImage(this.profileId)
+            .then((profileImage) => this.profileImage = profileImage);
         }
       });
   }
@@ -51,34 +54,6 @@ export class FavrPageHeaderComponent implements OnInit {
     } else {
       return this.close.emit(false);
     }
-  }
-
-  async presentFilterOptions() {
-    this.filterInputs.forEach(input => {
-      input.checked = this.filterDefault === input.value;
-    });
-
-    const alertFilter = await this.alertCtrl.create(
-      {
-        header: 'Filter Marketplace',
-        inputs: [...this.filterInputs],
-        buttons: [
-          {
-            text: 'Cancel',
-            role: 'cancel',
-            cssClass: 'secondary',
-            handler: () => {}
-          }, {
-            text: 'Ok',
-            handler: (filterOption) => {
-              this.filterDefault = filterOption;
-              this.filterOption.emit(filterOption);
-            }
-          }
-        ]
-      });
-
-    await alertFilter.present();
   }
 
   onKeyEnter(event) {

@@ -20,7 +20,8 @@ export class EditProfilePage implements OnInit {
   birthday;
   image;
   user_id;
-  new_image: boolean = false;
+  new_image = false;
+
   constructor(private storage: Storage,
               private preferences: PreferencesService,
               private toastController: ToastController,

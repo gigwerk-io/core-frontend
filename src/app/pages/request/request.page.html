@@ -22,18 +22,33 @@
 
       <ion-slide>
         <ckeditor *ngIf="!isMobileWebOrDesktop" tagName="textarea" (change)="onEditorChange($event)" [editor]="Editor" [config]="editorConfig"></ckeditor>
-        <ion-textarea *ngIf="isMobileWebOrDesktop"
-                      placeholder="Please Describe Your Job"
-                      (ionChange)="onTextboxChange($event)"
-        ></ion-textarea>
-        <ion-button *ngIf="taskRequest.description" (click)="slides.slideNext()" class="long-button">
-          Swipe or Tap to Continue
-          <ion-icon name="arrow-forward" slot="end"></ion-icon>
-        </ion-button>
+        <ion-item *ngIf="isMobileWebOrDesktop" padding-top>
+          <ion-textarea
+                        placeholder="Please Describe Your Job"
+                        (ionChange)="onTextboxChange($event)"
+          ></ion-textarea>
+        </ion-item>
+        <div class="mobile-only ion-padding-start ion-padding-top form-submit-button">
+          <ion-button *ngIf="taskRequest.description" (click)="slides.slideNext()" expand="block">
+            Swipe or Tap to Continue
+            <ion-icon name="arrow-forward" slot="end"></ion-icon>
+          </ion-button>
+        </div>
+
+        <div class="web-only ion-padding-start ion-padding-top form-submit-button">
+          <ion-button slot="end" *ngIf="taskRequest.description" (click)="slides.slideNext()" expand="block">
+            Continue
+            <ion-icon name="arrow-forward" slot="end"></ion-icon>
+          </ion-button>
+          <ion-button slot="start" color="tertiary" (click)="slides.slidePrev()" expand="block">
+            Back
+            <ion-icon name="arrow-back" slot="start"></ion-icon>
+          </ion-button>
+        </div>
       </ion-slide>
 
       <ion-slide>
-        <ion-list>
+        <ion-list no-margin>
           <ion-item class="datetime-item">
             <ion-label position="stacked">
               Complete Task By
@@ -56,14 +71,41 @@
           </ion-text>
         </ion-list>
 
-        <ion-button *ngIf="taskRequest.date" (click)="slides.slideNext()" class="long-button">
-          Swipe or Tap to Continue
-          <ion-icon name="arrow-forward" slot="end"></ion-icon>
-        </ion-button>
+        <div class="mobile-only ion-padding-start form-submit-button">
+          <ion-button *ngIf="taskRequest.date" (click)="slides.slideNext()" expand="block">
+            Swipe or Tap to Continue
+            <ion-icon name="arrow-forward" slot="end"></ion-icon>
+          </ion-button>
+        </div>
+
+        <div class="web-only ion-padding-start ion-padding-top form-submit-button">
+          <ion-button *ngIf="taskRequest.date" (click)="slides.slideNext()" expand="block">
+            Continue
+            <ion-icon name="arrow-forward" slot="end"></ion-icon>
+          </ion-button>
+          <ion-button slot="start" color="tertiary" (click)="slides.slidePrev()" expand="block">
+            Back
+            <ion-icon name="arrow-back" slot="start"></ion-icon>
+          </ion-button>
+        </div>
+
       </ion-slide>
 
       <ion-slide>
-        <ion-list>
+        <ion-list no-margin *ngIf="locations.length != 0">
+          <ion-list-header>
+            SAVED LOCATIONS
+          </ion-list-header>
+          <ion-item *ngFor="let location of locations" (click)="presentActionSheet(location)">
+            <ion-chip color="secondary" slot="end">Tap Here</ion-chip>
+            <ion-label>
+              <h3>{{location.street_address}}</h3>
+              <p>{{location.city}}, {{location.state}} {{location.zip}}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+
+        <ion-list no-margin>
           <ion-item class="input-item">
             <ion-label position="stacked">
               Enter Street Address
@@ -115,8 +157,8 @@
             <ion-select
               #state="ngModel"
               [(ngModel)]="taskRequest.state"
-              name="state"
               (ionChange)="updateProgress()"
+              name="state"
               required>
               <ion-select-option *ngFor="let state of states" value="{{state.abbrev}}">{{state.name}}</ion-select-option>
             </ion-select>
@@ -149,14 +191,32 @@
           </ion-text>
         </ion-list>
 
-        <ion-button *ngIf="taskRequest.street_address
+        <div class="mobile-only ion-padding-start form-submit-button">
+          <ion-button *ngIf="taskRequest.street_address
                         && taskRequest.city
                         && taskRequest.state
                         && taskRequest.zip"
-                    (click)="slides.slideNext()" class="long-button">
-          Swipe or Tap to Continue
-          <ion-icon name="arrow-forward" slot="end"></ion-icon>
-        </ion-button>
+                      (click)="slides.slideNext()" expand="block">
+            Swipe or Tap to Continue
+            <ion-icon name="arrow-forward" slot="end"></ion-icon>
+          </ion-button>
+        </div>
+
+        <div class="web-only ion-padding-start ion-padding-top form-submit-button">
+          <ion-button *ngIf="taskRequest.street_address
+                        && taskRequest.city
+                        && taskRequest.state
+                        && taskRequest.zip"
+                      (click)="slides.slideNext()" expand="block">
+            Continue
+            <ion-icon name="arrow-forward" slot="end"></ion-icon>
+          </ion-button>
+          <ion-button slot="start" color="tertiary" (click)="slides.slidePrev()" expand="block">
+            Back
+            <ion-icon name="arrow-back" slot="start"></ion-icon>
+          </ion-button>
+        </div>
+
       </ion-slide>
 
       <ion-slide>
@@ -177,19 +237,32 @@
           </ion-slide>
         </ion-slides>
 
-        <ion-button (click)="openPhotoGallery()" class="long-button">
-          <ion-icon name="images" slot="start"></ion-icon>
-          Attach Photos (Optional)
-        </ion-button>
-        <ion-button (click)="openCamera()" class="long-button camera-button">
-          <ion-icon name="camera" slot="start"></ion-icon>
-          Take Photo (Optional)
-        </ion-button>
+        <div class="ion-padding-start form-submit-button">
+          <ion-button (click)="openPhotoGallery()" expand="block">
+            <ion-icon name="images" slot="start"></ion-icon>
+            Attach Photos (Optional)
+          </ion-button>
+          <ion-button (click)="openCamera()" class="camera-button" expand="block">
+            <ion-icon name="camera" slot="start"></ion-icon>
+            Take Photo (Optional)
+          </ion-button>
 
-        <ion-button (click)="slides.slideNext()" class="long-button">
-          Swipe or Tap to Continue
-          <ion-icon name="arrow-forward" slot="end"></ion-icon>
-        </ion-button>
+          <ion-button class="mobile-only" margin-top (click)="slides.slideNext()" expand="block">
+            Swipe or Tap to Continue
+            <ion-icon name="arrow-forward" slot="end"></ion-icon>
+          </ion-button>
+        </div>
+
+        <div class="web-only ion-padding-start ion-padding-top form-submit-button">
+          <ion-button margin-top (click)="slides.slideNext()" expand="block">
+            Continue
+            <ion-icon name="arrow-forward" slot="end"></ion-icon>
+          </ion-button>
+          <ion-button slot="start" color="tertiary" (click)="slides.slidePrev()" expand="block">
+            Back
+            <ion-icon name="arrow-back" slot="start"></ion-icon>
+          </ion-button>
+        </div>
       </ion-slide>
 
       <ion-slide>
@@ -222,10 +295,23 @@
             </small>
           </ion-note>
         </div>
-        <ion-button *ngIf="taskRequest.intensity" (click)="slides.slideNext()" class="long-button">
-          Swipe or Tap to Continue
-          <ion-icon name="arrow-forward" slot="end"></ion-icon>
-        </ion-button>
+        <div class="mobile-only ion-padding-start form-submit-button">
+          <ion-button *ngIf="taskRequest.intensity" (click)="slides.slideNext()" expand="block">
+            Swipe or Tap to Continue
+            <ion-icon name="arrow-forward" slot="end"></ion-icon>
+          </ion-button>
+        </div>
+
+        <div class="web-only ion-padding-start ion-padding-top form-submit-button">
+          <ion-button *ngIf="taskRequest.intensity" (click)="slides.slideNext()" expand="block">
+            Continue
+            <ion-icon name="arrow-forward" slot="end"></ion-icon>
+          </ion-button>
+          <ion-button slot="start" color="tertiary" (click)="slides.slidePrev()" expand="block">
+            Back
+            <ion-icon name="arrow-back" slot="start"></ion-icon>
+          </ion-button>
+        </div>
       </ion-slide>
 
       <ion-slide>
@@ -242,6 +328,7 @@
               step="0.01"
               min="5.00"
               max="1999.99"
+              maxlength="7"
               pattern="[0-9]*"
               class="icon"
               (ionChange)="updateProgress()"
@@ -263,12 +350,22 @@
           </h1>
         </div>
 
-        <ion-button (click)="onSubmitTaskRequest(requestForm)"
-                    [disabled]="progress < 1"
-                    type="submit"
-                    class="long-button">
-          Submit
-        </ion-button>
+        <div class="web-only ion-padding-start ion-padding-top form-submit-button">
+          <ion-button slot="start" color="tertiary" (click)="slides.slidePrev()" expand="block">
+            Back
+            <ion-icon name="arrow-back" slot="start"></ion-icon>
+          </ion-button>
+        </div>
+
+        <div class="ion-padding-start form-submit-button">
+          <ion-button (click)="onSubmitTaskRequest(requestForm)"
+                      [disabled]="progress < 1"
+                      type="submit"
+                      expand="block">
+            Submit
+          </ion-button>
+        </div>
+
       </ion-slide>
 
     </ion-slides>
