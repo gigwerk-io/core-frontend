@@ -21,8 +21,8 @@
       </ion-slide>
 
       <ion-slide>
-        <ckeditor *ngIf="!isMobileWebOrDesktop" tagName="textarea" (change)="onEditorChange($event)" [editor]="Editor" [config]="editorConfig"></ckeditor>
-        <ion-item *ngIf="isMobileWebOrDesktop" padding-top>
+        <!--<ckeditor *ngIf="!isMobileWebOrDesktop" tagName="textarea" (change)="onEditorChange($event)" [editor]="Editor" [config]="editorConfig"></ckeditor>-->
+        <ion-item padding-top>
           <ion-textarea
                         placeholder="Please Describe Your Job"
                         (ionChange)="onTextboxChange($event)"

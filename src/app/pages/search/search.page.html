@@ -1,6 +1,5 @@
 <ion-header>
   <ion-toolbar>
-    <form action=".">
       <ion-searchbar [(ngModel)]="query"
                      [ngModelOptions]="{standalone: true}"
                      class="searchbar"
@@ -10,7 +9,6 @@
                      autocorrect
                      animated>
       </ion-searchbar>
-    </form>
     <ion-buttons slot="end">
       <ion-button (click)="closeSearchPage()">
         Cancel

@@ -25,6 +25,7 @@ export interface MainMarketplaceTask {
   created_at?: number;
   updated_at?: number;
   deleted_at?: number;
+  distance_away?: number;
   proposals?: MainProposal[];
   customer?: User;
   street_address?: string;

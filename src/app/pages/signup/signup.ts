@@ -11,6 +11,7 @@ import {NotificationService} from '../../utils/services/notification.service';
 import {PreferencesService} from '../../utils/services/preferences.service';
 import {City} from '../../utils/interfaces/locations/city';
 import {CITIES} from '../../utils/mocks/cities.mock';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'page-signup',
@@ -52,7 +53,8 @@ export class SignupPage {
     private push: Push,
     private notficationService: NotificationService,
     private platform: Platform,
-    private perferencesService: PreferencesService
+    private perferencesService: PreferencesService,
+    private router: Router
   ) { }
 
   onSignup(form: NgForm) {
@@ -113,7 +115,7 @@ export class SignupPage {
       this.signup.password,
       this.signup.confirm_password,
       this.signup.phone,
-      this.signup.birthday,
+      // this.signup.birthday,
       this.signup.city_id
     ]);
   }
@@ -156,6 +158,17 @@ export class SignupPage {
       }, error1 => {
         console.log(error1);
       });
+
+      pushObject.on('notification').subscribe((data: any) => {
+        console.log(data);
+        if (!data.additionalData.foreground) {
+          if (data.custom !== undefined) {
+            this.router.navigate(data.custom.action.page, data.custom.action.params);
+          }
+        }
+      });
+
+      pushObject.on('error').subscribe(error => console.warn(error));
     }
   }
 }
