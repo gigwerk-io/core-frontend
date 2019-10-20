@@ -3,9 +3,10 @@ import {NotificationService} from '../../utils/services/notification.service';
 import {Notification} from '../../utils/interfaces/notification/notification';
 import {Router} from '@angular/router';
 import {AuthService} from '../../utils/services/auth.service';
-import {Platform, ToastController} from '@ionic/angular';
+import {NavController, Platform, ToastController} from '@ionic/angular';
 import {Storage} from '@ionic/storage';
 import {Badge} from '@ionic-native/badge/ngx';
+import {StorageKeys} from '../../providers/constants';
 
 @Component({
   selector: 'notifications',
@@ -25,7 +26,8 @@ export class NotificationsPage implements OnInit {
               private storage: Storage,
               public toastController: ToastController,
               private platform: Platform,
-              private badge: Badge) { }
+              private badge: Badge,
+              private navCtrl: NavController) { }
 
   ngOnInit() {
     this.clearBadge();
@@ -48,8 +50,9 @@ export class NotificationsPage implements OnInit {
         this.authService.isValidToken().subscribe(res => {
           if (!res.response) {
             this.presentToast('You have been logged out.');
-            this.storage.clear();
-            this.router.navigateByUrl('welcome');
+            this.storage.remove(StorageKeys.PROFILE);
+            this.storage.remove(StorageKeys.ACCESS_TOKEN);
+            this.navCtrl.navigateRoot('/welcome');
           }
         });
       }
@@ -65,8 +68,9 @@ export class NotificationsPage implements OnInit {
         this.authService.isValidToken().subscribe(res => {
           if (!res.response) {
             this.presentToast('You have been logged out.');
-            this.storage.clear();
-            this.router.navigateByUrl('welcome');
+            this.storage.remove(StorageKeys.PROFILE);
+            this.storage.remove(StorageKeys.ACCESS_TOKEN);
+            this.navCtrl.navigateRoot('/welcome');
           }
         });
       }
