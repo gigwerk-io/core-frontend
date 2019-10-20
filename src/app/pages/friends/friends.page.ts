@@ -158,12 +158,14 @@ export class FriendsPage implements OnInit {
   acceptFriendRequest(id) {
     this.friendService.acceptFriendRequest(id).subscribe(res => {
       this.presentToast(res);
+      this.showMyFriendRequests();
     });
   }
 
   rejectFriendRequest(id) {
     this.friendService.rejectFriendRequest(id).subscribe(res => {
       this.presentToast(res);
+      this.showMyFriendRequests();
     });
   }
 
