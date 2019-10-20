@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {PreferencesService} from '../../utils/services/preferences.service';
 import {LocationAddress} from '../../utils/interfaces/settings/preferences';
 import {ActionSheetController, ToastController} from '@ionic/angular';
@@ -13,7 +13,8 @@ export class SavedLocationsPage implements OnInit {
   locations: LocationAddress[];
   constructor(private preferences: PreferencesService,
               public actionSheetCtrl: ActionSheetController,
-              private toastCtrl: ToastController) { }
+              private toastCtrl: ToastController,
+              private changeRef: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.getLocations();
@@ -67,5 +68,17 @@ export class SavedLocationsPage implements OnInit {
       this.locations = res.locations;
       console.log(this.locations);
     });
+  }
+
+  async doRefresh(event?) {
+    setTimeout(() => {
+      this.getLocations();
+
+      if (event) {
+        if (event.target) {
+          event.target.complete();
+        }
+      }
+    }, 1000);
   }
 }
