@@ -8,7 +8,7 @@ import { Push, PushObject, PushOptions } from '@ionic-native/push/ngx';
 import {NotificationService} from '../../utils/services/notification.service';
 import {GCM_KEY} from '../../providers/constants';
 import {Router} from '@angular/router';
-import {Badge} from '@ionic-native/badge';
+import {Badge} from '@ionic-native/badge/ngx';
 
 @Component({
   selector: 'page-login',
