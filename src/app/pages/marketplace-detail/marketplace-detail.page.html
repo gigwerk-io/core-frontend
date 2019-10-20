@@ -52,13 +52,13 @@
         <small>
           <div class="complete-by-time">Needs Complete by {{mainMarketplaceTask.isoFormat | date}}</div>
           <ion-note class="note posted-time">
-            Posted {{mainMarketplaceTask.created_at | date}}
+            Posted {{mainMarketplaceTask.postedFormat | date}}
           </ion-note>
         </small>
       </div>
       <div slot="end" class="marketplace-card-distance-away">
-        <small>
-          <!--4 min away-->
+        <small *ngIf="mainMarketplaceTask.status == 'Complete'">
+          <ion-icon size="large" color="success" name="checkmark-circle" ariaLabel="task completed"></ion-icon>
         </small>
       </div>
     </ion-item>
@@ -118,7 +118,7 @@
         </ion-col>
 
         <ion-col *ngIf="mainMarketplaceTask.action == 1" class="ion-text-center">
-          <ion-button fill="outline" size="small" color="primary">
+          <ion-button (click)="editTaskRequest(mainMarketplaceTask)" fill="outline" size="small" color="primary">
             <ion-icon name="create" slot="start"></ion-icon>
             Edit
           </ion-button>
@@ -212,22 +212,19 @@
         </ion-col>
       </ion-row>
 
-      <ion-row padding-bottom>
+      <ion-row *ngIf="mainMarketplaceTask.locations" padding-bottom>
         <ion-col size="3">
           <img src="../../../assets/img/map.png" class="marketplace-detail-icons">
         </ion-col>
         <ion-col size="9">
           <b>Location:</b>
           <br>
-          <div *ngIf="mainMarketplaceTask.locations; else timeAway">
+          <div (click)="openLocation()" style="text-decoration: underline;">
             {{mainMarketplaceTask.locations[0].street_address}},
             {{mainMarketplaceTask.locations[0].city}},
             {{mainMarketplaceTask.locations[0].state}},
             {{mainMarketplaceTask.locations[0].zip}}
           </div>
-          <ng-template #timeAway>
-            4 min away
-          </ng-template>
         </ion-col>
       </ion-row>
 

@@ -23,7 +23,7 @@ export interface LocationAddress {
   street_address: string;
   city: string;
   state: string;
-  zip: string;
+  zip: number;
   lat: number;
   long: number;
   default: boolean;

@@ -1,4 +1,4 @@
-<favr-page-header
+<favr-page-header *ngIf="isModal; else pageHeader"
   [pageTitle]="pageTitle"
   [isModal]="isModal"
   [showProfile]="!isModal"
@@ -6,6 +6,19 @@
   (close)="closeRequestPage()"
 >
 </favr-page-header>
+
+<ng-template #pageHeader>
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref></ion-back-button>
+      </ion-buttons>
+      <ion-title>
+        {{pageTitle}}
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+</ng-template>
 
 <ion-content>
   <form #requestForm="ngForm">
@@ -26,6 +39,8 @@
           <ion-textarea
                         placeholder="Please Describe Your Job"
                         (ionChange)="onTextboxChange($event)"
+                        [(ngModel)]="taskRequest.description"
+                        name="description"
           ></ion-textarea>
         </ion-item>
         <div class="mobile-only ion-padding-start ion-padding-top form-submit-button">
@@ -219,7 +234,7 @@
 
       </ion-slide>
 
-      <ion-slide>
+      <ion-slide *ngIf="!isTaskEdit">
         <ion-slides [pager]="true" *ngIf="taskRequest.image_one || taskRequest.image_two || taskRequest.image_three" class="photo-gallery">
           <ion-slide *ngIf="taskRequest.image_one" class="marketplace-slide-image">
             <img src="data:image/jpeg;base64,{{taskRequest.image_one}}" alt="Attached Image 1">
@@ -242,7 +257,7 @@
             <ion-icon name="images" slot="start"></ion-icon>
             Attach Photos (Optional)
           </ion-button>
-          <ion-button (click)="openCamera()" class="camera-button" expand="block">
+          <ion-button (click)="openCamera()" class="mobile-only camera-button" expand="block">
             <ion-icon name="camera" slot="start"></ion-icon>
             Take Photo (Optional)
           </ion-button>
@@ -265,7 +280,7 @@
         </div>
       </ion-slide>
 
-      <ion-slide>
+      <ion-slide *ngIf="!isTaskEdit">
         <ul>
           <li><b>Easy</b> tasks take 1 hour or less to complete.</li>
           <li><b>Medium</b> tasks take about 2 - 3 hours to complete.</li>
@@ -315,7 +330,7 @@
       </ion-slide>
 
       <ion-slide>
-        <ion-list>
+        <ion-list *ngIf="!isTaskEdit">
           <ion-item class="input-item">
             <ion-label position="stacked">
               Set Your Price
@@ -323,6 +338,7 @@
             <ion-input
               #price="ngModel"
               [(ngModel)]="taskRequest.price"
+              [disabled]="isTaskEdit"
               name="price"
               type="tel"
               step="0.01"
@@ -358,12 +374,21 @@
         </div>
 
         <div class="ion-padding-start form-submit-button">
-          <ion-button (click)="onSubmitTaskRequest(requestForm)"
+          <ion-button *ngIf="!isTaskEdit; else taskEditSubmit" (click)="onSubmitTaskRequest(requestForm)"
                       [disabled]="progress < 1"
                       type="submit"
                       expand="block">
             Submit
           </ion-button>
+
+          <ng-template #taskEditSubmit>
+            <ion-button (click)="onUpdateTaskRequest()"
+                        [disabled]="progress < 1"
+                        type="submit"
+                        expand="block">
+              Update Task
+            </ion-button>
+          </ng-template>
         </div>
 
       </ion-slide>

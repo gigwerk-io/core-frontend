@@ -1,5 +1,14 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {ActionSheetController, Events, IonContent, IonSlides, ModalController, Platform, ToastController} from '@ionic/angular';
+import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {
+  ActionSheetController,
+  Events,
+  IonContent,
+  IonSlides,
+  ModalController,
+  NavController,
+  Platform,
+  ToastController
+} from '@ionic/angular';
 import {MainCategory} from '../../utils/interfaces/main-marketplace/main-category';
 import {TASK_CATEGORIES} from '../../utils/mocks/mock-categories.mock';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -15,14 +24,14 @@ import {Router} from '@angular/router';
 import {LocationAddress} from '../../utils/interfaces/settings/preferences';
 import {PreferencesService} from '../../utils/services/preferences.service';
 import {PreviousRouteService} from '../../providers/previous-route.service';
-import {type} from 'os';
+import {TaskActions} from '../../providers/constants';
 
 @Component({
   selector: 'request',
   templateUrl: './request.page.html',
   styleUrls: ['./request.page.scss']
 })
-export class RequestPage implements OnInit {
+export class RequestPage implements OnInit, OnDestroy {
   @Input() isModal = false;
   @ViewChild(IonSlides, {static: false}) slides: IonSlides;
   @ViewChild(IonContent, {static: false}) content: IonContent;
@@ -43,6 +52,7 @@ export class RequestPage implements OnInit {
     image_three: undefined
   };
   isMobileWebOrDesktop = false;
+  isTaskEdit = false;
 
   minYear: number = (new Date()).getFullYear();
   maxYear: number = this.minYear + 1;
@@ -78,13 +88,32 @@ export class RequestPage implements OnInit {
               private preferences: PreferencesService,
               private actionSheetCtrl: ActionSheetController,
               private previousRoute: PreviousRouteService,
-              public platform: Platform) { }
+              private navCtrl: NavController,
+              public platform: Platform) {
+    this.events.subscribe('task-edit', (taskRequest: MainMarketplaceTask) => {
+      if (taskRequest) {
+        this.taskRequest = taskRequest;
+        this.taskRequest.date = taskRequest.isoFormat;
+        taskRequest.locations.forEach((location) => {
+          this.taskRequest.street_address = location.street_address;
+          this.taskRequest.city = location.city;
+          this.taskRequest.state = location.state;
+          this.taskRequest.zip = location.zip;
+        });
+        this.isTaskEdit = true;
+      }
+    });
+  }
 
   ngOnInit() {
     if (this.platform.is('mobileweb') || this.platform.is('desktop') || this.platform.is('pwa')) {
       this.isMobileWebOrDesktop = true;
     }
     this.getLocations();
+  }
+
+  ngOnDestroy(): void {
+    this.events.unsubscribe('task-edit');
   }
 
   async closeRequestPage(): Promise<boolean> {
@@ -94,7 +123,6 @@ export class RequestPage implements OnInit {
   getLocations() {
     this.preferences.getMyLocations().subscribe(res => {
       this.locations = res.locations;
-      console.log(this.locations);
     });
   }
 
@@ -181,7 +209,6 @@ export class RequestPage implements OnInit {
   }
 
   onTextboxChange(event) {
-    this.taskRequest.description = event.target.value;
     this.updateProgress();
   }
 
@@ -300,6 +327,20 @@ export class RequestPage implements OnInit {
     }).then(toast => {
       toast.present();
     });
+  }
+
+  onUpdateTaskRequest() {
+    this.submitted = true;
+
+    this.marketplaceService.editMainMarketplaceRequest(this.taskRequest)
+      .then((res) => {
+        this.presentToast(res);
+        this.navCtrl.navigateBack(`app/marketplace-detail/${this.taskRequest.id}`);
+        this.events.publish('task-action', TaskActions.CUSTOMER_UPDATE_TASK);
+      })
+      .catch(error => {
+        this.presentToast(error.error.message);
+      });
   }
 }
 

@@ -31,7 +31,7 @@ export interface MainMarketplaceTask {
   street_address?: string;
   city?: string;
   state?: string;
-  zip?: string;
+  zip?: number;
   date?: number;
   locations?: Location[];
 }

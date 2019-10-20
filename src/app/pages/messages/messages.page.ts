@@ -92,7 +92,7 @@ export class MessagesPage implements OnInit {
 
   public sendMessage() {
     this.sending = true;
-    this.chatService.sendMessage(this.uuid, this.pendingMessage).subscribe(res => {  });
+    this.chatService.sendMessage(this.uuid, this.pendingMessage);
     this.pendingMessage = '';
   }
 
@@ -121,8 +121,7 @@ export class MessagesPage implements OnInit {
           console.log('Report clicked');
         }
       }, {
-        text: 'Cancel',
-        icon: 'close',
+        text: 'Close',
         role: 'cancel',
         handler: () => {
           console.log('Cancel clicked');

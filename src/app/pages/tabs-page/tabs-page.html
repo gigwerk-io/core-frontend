@@ -2,9 +2,9 @@
 
   <ion-tab-bar *ngIf="tabSlot === 'top'" slot="top">
     <ion-buttons>
-      <ion-button (click)="navigateToProfile()">
-        <ion-avatar style="height: 32px;width: 32px;">
-          <img [src]="profileImage ? profileImage : '../../../../assets/img/user.png'" alt="profile picture">
+      <ion-button href="https://askfavr.com">
+        <ion-avatar style="--border-radius: none">
+          <img [src]="'../../../../assets/brand/favicon.ico'" alt="favr logo">
         </ion-avatar>
       </ion-button>
     </ion-buttons>
@@ -35,6 +35,11 @@
       <ion-label>Settings</ion-label>
     </ion-tab-button>
 
+    <ion-buttons>
+      <ion-avatar (click)="navigateToProfile()" style="height: 32px;width: 32px;cursor: pointer">
+        <img [src]="profileImage ? profileImage : '../../../../assets/img/user.png'" alt="profile picture">
+      </ion-avatar>
+    </ion-buttons>
   </ion-tab-bar>
 
   <ion-tab-bar *ngIf="tabSlot === 'bottom'" slot="bottom">

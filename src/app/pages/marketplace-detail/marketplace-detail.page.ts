@@ -10,18 +10,16 @@ import {ChatService} from '../../utils/services/chat.service';
 import {TASK_CATEGORIES} from '../../utils/mocks/mock-categories.mock';
 import {Events} from '@ionic/angular';
 import {CompleteTaskPage} from '../complete-task/complete-task.page';
-import {Task} from 'protractor/built/taskScheduler';
-import {Subscription} from 'rxjs';
+import {LaunchNavigator, LaunchNavigatorOptions} from '@ionic-native/launch-navigator/ngx';
 
 @Component({
   selector: 'marketplace-detail',
   templateUrl: './marketplace-detail.page.html',
   styleUrls: ['./marketplace-detail.page.scss'],
-  providers: [PhotoViewer]
+  providers: [PhotoViewer, LaunchNavigator]
 })
 export class MarketplaceDetailPage implements OnInit, OnDestroy {
 
-  taskCompleteSubscription: Subscription;
   taskID: number;
   mainMarketplaceTask: MainMarketplaceTask;
   page = 'main';
@@ -42,9 +40,12 @@ export class MarketplaceDetailPage implements OnInit, OnDestroy {
               private marketplaceService: MarketplaceService,
               private actionSheetCtrl: ActionSheetController,
               private chatService: ChatService,
-              private events: Events) {
-    this.events.subscribe('task-action', (action, taskID) => {
-      if (action === TaskActions.FREELANCER_COMPLETE_TASK || action === TaskActions.CUSTOMER_COMPLETE_TASK) {
+              private events: Events,
+              private launchNavigator: LaunchNavigator) {
+    this.events.subscribe('task-action', (action) => {
+      if (action === TaskActions.FREELANCER_COMPLETE_TASK ||
+          action === TaskActions.CUSTOMER_COMPLETE_TASK ||
+          action === TaskActions.CUSTOMER_UPDATE_TASK) {
         this.doRefresh();
       }
     });
@@ -218,5 +219,23 @@ export class MarketplaceDetailPage implements OnInit, OnDestroy {
         event.target.complete();
       }
     }, 1000);
+  }
+
+  editTaskRequest(task: MainMarketplaceTask) {
+    this.navCtrl.navigateForward('/app/edit-task')
+      .then(() => this.events.publish('task-edit', task));
+  }
+
+  openLocation() {
+   const locationAddress = this.mainMarketplaceTask.locations[0].street_address + ', '
+      + this.mainMarketplaceTask.locations[0].city + ', '
+      + this.mainMarketplaceTask.locations[0].state + ', '
+      + this.mainMarketplaceTask.locations[0].zip;
+
+    const options: LaunchNavigatorOptions = {};
+
+    this.launchNavigator.navigate(locationAddress, options)
+      .then(success => console.log('Launched navigator'))
+      .catch(error => console.log('Error launching navigator', error));
   }
 }

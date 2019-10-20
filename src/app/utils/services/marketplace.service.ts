@@ -102,6 +102,20 @@ export class MarketplaceService {
       });
   }
 
+  public editMainMarketplaceRequest(req: MainMarketplaceTask): Promise<string> {
+    return this.storage.get(StorageKeys.ACCESS_TOKEN)
+      .then(token => {
+        const authHeader: AuthorizationToken = {
+          headers: {
+            Authorization: (token) ? token : ''
+          }
+        };
+        return this.httpClient.post<MainMarketplaceRequestRouteResponse>(`${API_ADDRESS}/marketplace/main/edit/${req.id}`, req, authHeader)
+          .toPromise()
+          .then((res: MainMarketplaceRequestRouteResponse) => res.message);
+      });
+  }
+
   public freelancerAcceptMainMarketplaceRequest(id: number): Promise<string> {
     return this.storage.get(StorageKeys.ACCESS_TOKEN)
       .then(token => {
