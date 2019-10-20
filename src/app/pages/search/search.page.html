@@ -1,10 +1,10 @@
 <ion-header>
   <ion-toolbar>
       <ion-searchbar [(ngModel)]="query"
+                     (ngModelChange)="onSearchInputChange($event)"
                      [ngModelOptions]="{standalone: true}"
                      class="searchbar"
                      placeholder="Search People"
-                     (keyup.enter)="handleSearch()"
                      autocomplete
                      autocorrect
                      animated>
