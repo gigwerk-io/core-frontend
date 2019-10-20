@@ -5,7 +5,7 @@ import {Router} from '@angular/router';
 import {AuthService} from '../../utils/services/auth.service';
 import {ToastController} from '@ionic/angular';
 import {Storage} from '@ionic/storage';
-import {Badge} from '@ionic-native/badge';
+import {Badge} from '@ionic-native/badge/ngx';
 
 @Component({
   selector: 'notifications',
