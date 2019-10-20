@@ -2,10 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Stripe } from '@ionic-native/stripe/ngx';
 import {STRIPE_PUBLIC} from '../../providers/constants';
 import {FinanceService} from '../../utils/services/finance.service';
-import {AlertController, ToastController} from '@ionic/angular';
+import {AlertController, Events, ToastController} from '@ionic/angular';
 import {FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CreditCardValidator } from 'angular-cc-library';
 import {Validators} from '@angular/forms';
+import {MainMarketplaceTask} from '../../utils/interfaces/main-marketplace/main-marketplace-task';
+import {MarketplaceService} from '../../utils/services/marketplace.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'set-up-payments',
@@ -15,11 +18,20 @@ import {Validators} from '@angular/forms';
 export class SetUpPaymentsPage implements OnInit {
   form: FormGroup;
   submitted = false;
+  task: MainMarketplaceTask = undefined;
+
   constructor(private stripe: Stripe,
               private financeService: FinanceService,
               private toastController: ToastController,
               private alertController: AlertController,
-              private fb: FormBuilder) { }
+              private marketplaceService: MarketplaceService,
+              private router: Router,
+              private fb: FormBuilder,
+              private events: Events) {
+    this.events.subscribe('task-request', (taskRequest) => {
+      this.task = taskRequest;
+    });
+  }
 
   ngOnInit() {
     this.stripe.setPublishableKey(STRIPE_PUBLIC);
@@ -45,7 +57,14 @@ export class SetUpPaymentsPage implements OnInit {
     this.stripe.createCardToken(card).then(token => {
       const body = {stripeToken: token.id};
       this.financeService.saveCreditCard(body).subscribe(res => {
-        this.presentToast(res.message);
+        if (this.task) {
+          this.marketplaceService.createMainMarketplaceRequest(this.task)
+            .then(resp => this.presentToast(resp));
+          this.router.navigateByUrl('app/tabs/marketplace');
+          this.events.unsubscribe('task-request');
+        } else {
+          this.presentToast(res.message);
+        }
       });
     }).catch(error => this.presentToast(error));
   }

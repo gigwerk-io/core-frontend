@@ -11,12 +11,17 @@ ion-footer {
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.11);
   background-color: #fff;
   height: inherit;
+  @media (min-width: $iphone678) {
+    padding-bottom: .5rem;
+  }
   @media (max-width: $iphoneSe) {
     height: 55px!important;
   }
 }
 
 .send-button.ios {
+  height: 2rem;
+  margin-bottom: .5rem;
   --background: transparent;
   ion-spinner {
     color: #f00;
@@ -31,18 +36,12 @@ ion-footer {
 }
 
 .input-wrap {
-  padding-top: 1rem;
   padding: 5px;
   display: flex;
   ion-textarea {
     flex: 1;
     border: 0;
-    //border-bottom: 1px $userBackgroundColor;
-    //border-style: solid;
-    ::ng-deep textarea.sc-ion-textarea-ios {
-      padding-top: 1rem!important;
-      --padding-start: 1rem!important;
-    }
+    height: 2.5rem;
     ::ng-deep textarea.sc-ion-textarea-md {
       padding-top: 0.3em;
     }

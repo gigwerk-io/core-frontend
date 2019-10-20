@@ -40,7 +40,7 @@
       </div>
       <div slot="end" class="marketplace-card-distance-away">
         <small *ngIf="mainMarketplaceTask.status == 'Complete'">
-          <ion-badge color="success">Completed</ion-badge>
+          <ion-icon size="large" color="success" name="checkmark-circle" ariaLabel="task completed"></ion-icon>
         </small>
       </div>
     </ion-item>
@@ -95,7 +95,7 @@
   <ion-row *ngIf="mainMarketplaceTask.action == 1"
            class="ion-no-padding ion-justify-content-center">
     <ion-col class="ion-text-center">
-      <ion-button fill="outline" size="small" color="primary">
+      <ion-button (click)="customerEditTask(mainMarketplaceTask)" fill="outline" size="small" color="primary">
         <ion-icon name="create" slot="start"></ion-icon>
         Edit
       </ion-button>

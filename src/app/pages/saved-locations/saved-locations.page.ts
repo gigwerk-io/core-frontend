@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {PreferencesService} from '../../utils/services/preferences.service';
-import {Locations} from '../../utils/interfaces/settings/preferences';
+import {LocationAddress} from '../../utils/interfaces/settings/preferences';
 import {ActionSheetController, ToastController} from '@ionic/angular';
 
 @Component({
@@ -10,14 +10,18 @@ import {ActionSheetController, ToastController} from '@ionic/angular';
 })
 export class SavedLocationsPage implements OnInit {
 
-  locations: Locations[];
+  locations: LocationAddress[];
   constructor(private preferences: PreferencesService,
-              public actionSheetController: ActionSheetController,
-              private toastController: ToastController) { }
+              public actionSheetCtrl: ActionSheetController,
+              private toastCtrl: ToastController) { }
+
+  ngOnInit() {
+    this.getLocations();
+  }
 
   async presentActionSheet(id) {
-    const actionSheet = await this.actionSheetController.create({
-      header: 'Albums',
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: 'Manage Locations',
       buttons: [{
         text: 'Make Default',
         icon: 'checkmark',
@@ -38,8 +42,7 @@ export class SavedLocationsPage implements OnInit {
           });
         }
       }, {
-        text: 'Cancel',
-        icon: 'close',
+        text: 'Close',
         role: 'cancel',
         handler: () => {}
       }]
@@ -48,7 +51,7 @@ export class SavedLocationsPage implements OnInit {
   }
 
   async presentToast(message) {
-    await this.toastController.create({
+    await this.toastCtrl.create({
       message: message,
       position: 'top',
       duration: 2500,
@@ -57,10 +60,6 @@ export class SavedLocationsPage implements OnInit {
     }).then(toast => {
       toast.present();
     });
-  }
-
-  ngOnInit() {
-    this.getLocations();
   }
 
   getLocations() {

@@ -33,7 +33,9 @@ import { Badge } from '@ionic-native/badge/ngx';
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    IonicModule.forRoot(),
+    IonicModule.forRoot({
+      mode: 'ios'
+    }),
     IonicStorageModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production

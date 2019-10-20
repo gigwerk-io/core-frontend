@@ -73,7 +73,10 @@ export class AppComponent implements OnInit {
           // const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
           // prefersDark.addEventListener('dark-theme-listener', (mediaQuery: MediaQueryListEvent) => toggleDarkTheme(mediaQuery.matches));
         });
-      this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
+
+      if (this.platform.is('cordova')) {
+        this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
+      }
     });
   }
 }

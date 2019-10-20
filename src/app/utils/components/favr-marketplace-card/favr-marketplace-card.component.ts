@@ -3,7 +3,7 @@ import {
   MainMarketplaceTask
 } from '../../interfaces/main-marketplace/main-marketplace-task';
 import {PhotoViewer} from '@ionic-native/photo-viewer/ngx';
-import {Events, LoadingController, ToastController} from '@ionic/angular';
+import {Events, LoadingController, NavController, ToastController} from '@ionic/angular';
 import {Router} from '@angular/router';
 import {ChatService} from '../../services/chat.service';
 import {MarketplaceService} from '../../services/marketplace.service';
@@ -27,6 +27,7 @@ export class FavrMarketplaceCardComponent implements OnInit, OnDestroy {
               private chatService: ChatService,
               private toastCtrl: ToastController,
               private changeRef: ChangeDetectorRef,
+              private navCtrl: NavController,
               private events: Events) {
     this.events.subscribe('task-action', (action, taskID) => {
       if (this.mainMarketplaceTask.id === taskID) {
@@ -133,5 +134,10 @@ export class FavrMarketplaceCardComponent implements OnInit, OnDestroy {
       .catch((err: any) => err.error.message);
     this.presentToast(cancelTask)
       .then(() => this.taskActionTaken.emit('customerCancelTask'));
+  }
+
+  async customerEditTask(task: MainMarketplaceTask) {
+    this.navCtrl.navigateForward('/app/edit-task')
+      .then(() => this.events.publish('task-edit', task));
   }
 }

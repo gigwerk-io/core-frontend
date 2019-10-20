@@ -4,7 +4,7 @@ import {ProfileRouteResponse} from '../../utils/interfaces/user';
 import {ProfileService} from '../../utils/services/profile.service';
 import {PhotoViewer} from '@ionic-native/photo-viewer/ngx';
 import {Storage} from '@ionic/storage';
-import {ActionSheetController, ToastController} from '@ionic/angular';
+import {ActionSheetController, NavController, ToastController} from '@ionic/angular';
 import {ChatService} from '../../utils/services/chat.service';
 import {FriendsService} from '../../utils/services/friends.service';
 import {GA_ID, StorageKeys} from '../../providers/constants';
@@ -37,6 +37,7 @@ export class ProfilePage implements OnInit, OnDestroy {
               private photoViewer: PhotoViewer,
               public toastController: ToastController,
               private actionSheetCtrl: ActionSheetController,
+              private navCtrl: NavController,
               private ga: GoogleAnalytics,
               private authService: AuthService) {}
 
@@ -51,7 +52,7 @@ export class ProfilePage implements OnInit, OnDestroy {
           } else if (profile.user.rating != null) {
             this.rating = profile.user.rating;
           }
-          console.log([profile.user.rating, profile.user.customer_rating]);
+
           this.status = this.showBadge(profile.user.friend_status);
           this.friendButton = this.defineFriendButton(profile.user.friend_status);
           this.storage.get(StorageKeys.PROFILE)
@@ -65,6 +66,7 @@ export class ProfilePage implements OnInit, OnDestroy {
                 this.presentToast('You have been logged out.');
                 this.storage.clear();
                 this.router.navigateByUrl('welcome');
+                this.navCtrl.setDirection('root');
               }
             });
           }
@@ -100,13 +102,13 @@ export class ProfilePage implements OnInit, OnDestroy {
         text: 'Edit Profile',
         icon: 'create',
         handler: () => {
-          console.log('Edit clicked');
+          this.router.navigateByUrl('app/edit-profile');
         }
       }, {
         text: 'Go to User Settings',
         icon: 'settings',
         handler: () => {
-          console.log('Settings clicked');
+          this.router.navigateByUrl('app/tabs/settings');
         }
       }, {
         text: 'Close',

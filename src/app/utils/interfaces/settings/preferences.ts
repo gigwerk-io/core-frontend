@@ -17,20 +17,20 @@ export interface Settings {
   };
 }
 
-export interface Locations {
+export interface LocationAddress {
   id: number;
   user_id: number;
   street_address: string;
   city: string;
   state: string;
-  zip: string;
+  zip: number;
   lat: number;
   long: number;
   default: boolean;
 }
 
 export interface MyLocationsResponse {
-  locations: Locations[];
+  locations: LocationAddress[];
 }
 
 export interface CurrentCityResponse {

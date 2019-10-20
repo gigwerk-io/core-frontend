@@ -26,7 +26,7 @@
 
     <ion-item routerLink="/app/saved-locations">
       <ion-icon slot="start" name="home"></ion-icon>
-      <ion-label> Locations </ion-label>
+      <ion-label> Location </ion-label>
     </ion-item>
 
     <ion-item routerLink="/app/select-city">
@@ -37,7 +37,7 @@
     <ion-item>
       <ion-icon slot="start" name="moon"></ion-icon>
       Dark Mode
-      <ion-toggle slot="end" color="primary" [(ngModel)]="darkMode" (click)="setDarkMode()"></ion-toggle>
+      <ion-toggle slot="end" color="primary" [(ngModel)]="darkMode" [checked]="darkMode" (click)="setDarkMode()"></ion-toggle>
     </ion-item>
   </ion-list>
 

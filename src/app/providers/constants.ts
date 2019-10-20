@@ -27,6 +27,7 @@ export const TaskActions = {
   FREELANCER_COMPLETE_TASK: 'completeTask',
   CUSTOMER_ACCEPT_FREELANCER: 'customerAcceptFreelancer',
   CUSTOMER_REJECT_FREELANCER: 'customerRejectFreelancer',
+  CUSTOMER_UPDATE_TASK: 'customerUpdateTask',
   CUSTOMER_CANCEL_TASK: 'customerCancelTask',
   CUSTOMER_COMPLETE_TASK: 'customerCompleteTask'
 };
