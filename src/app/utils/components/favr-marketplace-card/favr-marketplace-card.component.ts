@@ -136,7 +136,8 @@ export class FavrMarketplaceCardComponent implements OnInit, OnDestroy {
       .then(() => this.taskActionTaken.emit('customerCancelTask'));
   }
 
-  async customerEditTask(task: MainMarketplaceTask) {
+  customerEditTask(task: MainMarketplaceTask) {
+    console.log(task);
     this.navCtrl.navigateForward('/app/edit-task')
       .then(() => this.events.publish('task-edit', task));
   }
