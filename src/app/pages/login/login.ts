@@ -8,7 +8,6 @@ import { Push, PushObject, PushOptions } from '@ionic-native/push/ngx';
 import {NotificationService} from '../../utils/services/notification.service';
 import {GCM_KEY} from '../../providers/constants';
 import {Router} from '@angular/router';
-import {Badge} from '@ionic-native/badge/ngx';
 
 @Component({
   selector: 'page-login',
@@ -29,8 +28,7 @@ export class LoginPage {
     private notficationService: NotificationService,
     private platform: Platform,
     private toastController: ToastController,
-    private router: Router,
-    private badge: Badge
+    private router: Router
   ) { }
 
   onLogin(form: NgForm) {
@@ -99,7 +97,6 @@ export class LoginPage {
 
       pushObject.on('notification').subscribe((data: any) => {
         console.log(data);
-        this.badge.increase(1);
         if (!data.additionalData.foreground) {
           if (data.custom !== undefined) {
             this.router.navigate(data.custom.action.page, data.custom.action.params);
