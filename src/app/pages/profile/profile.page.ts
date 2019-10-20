@@ -57,11 +57,11 @@ export class ProfilePage implements OnInit, OnDestroy {
             this.rating = profile.user.rating;
           }
 
-          if (profile.user.user.role === Role.VERIFIED_FREELANCER) {
-            // TODO: fix this show freelancer tasks
-          } else {
-            this.tasks = profile.user.user.main_marketplace;
-          }
+          // if (profile.user.user.role === Role.VERIFIED_FREELANCER) {
+          //   // TODO: fix this show freelancer tasks
+          // } else {
+          //   this.tasks = profile.user.user.main_marketplace;
+          // }
 
           this.status = this.showBadge(profile.user.friend_status);
           this.friendButton = this.defineFriendButton(profile.user.friend_status);

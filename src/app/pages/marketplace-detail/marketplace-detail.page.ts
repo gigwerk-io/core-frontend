@@ -237,6 +237,6 @@ export class MarketplaceDetailPage implements OnInit, OnDestroy {
 
     this.launchNavigator.navigate(locationAddress, options)
       .then(success => console.log('Launched navigator'))
-      .catch(error => console.log('Error launching navigator', error));
+      .catch(error => window.open('https://maps.google.com/?q=' + locationAddress));
   }
 }
