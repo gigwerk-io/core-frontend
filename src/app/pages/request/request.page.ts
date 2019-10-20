@@ -92,6 +92,7 @@ export class RequestPage implements OnInit, OnDestroy {
               public platform: Platform) {
     this.events.subscribe('task-edit', (taskRequest: MainMarketplaceTask) => {
       if (taskRequest) {
+        this.isTaskEdit = true;
         this.taskRequest = taskRequest;
         this.taskRequest.date = taskRequest.isoFormat;
         taskRequest.locations.forEach((location) => {
@@ -100,7 +101,6 @@ export class RequestPage implements OnInit, OnDestroy {
           this.taskRequest.state = location.state;
           this.taskRequest.zip = location.zip;
         });
-        this.isTaskEdit = true;
       }
     });
   }

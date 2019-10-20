@@ -6,7 +6,6 @@ import {AuthService} from '../../utils/services/auth.service';
 import {NavController, Platform, ToastController} from '@ionic/angular';
 import { Push, PushObject, PushOptions } from '@ionic-native/push/ngx';
 import {NotificationService} from '../../utils/services/notification.service';
-import {GCM_KEY} from '../../providers/constants';
 import {Router} from '@angular/router';
 import {Badge} from '@ionic-native/badge/ngx';
 

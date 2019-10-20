@@ -3,7 +3,7 @@ import {NotificationService} from '../../utils/services/notification.service';
 import {Notification} from '../../utils/interfaces/notification/notification';
 import {Router} from '@angular/router';
 import {AuthService} from '../../utils/services/auth.service';
-import {ToastController} from '@ionic/angular';
+import {Platform, ToastController} from '@ionic/angular';
 import {Storage} from '@ionic/storage';
 import {Badge} from '@ionic-native/badge/ngx';
 
@@ -24,12 +24,19 @@ export class NotificationsPage implements OnInit {
               private authService: AuthService,
               private storage: Storage,
               public toastController: ToastController,
+              private platform: Platform,
               private badge: Badge) { }
 
   ngOnInit() {
-    this.badge.hasPermission().then(() => {
-      this.badge.clear();
-    });
+    this.clearBadge();
+  }
+
+  clearBadge() {
+    if (this.platform.is('cordova')) {
+      this.badge.hasPermission().then(() => {
+        this.badge.clear();
+      });
+    }
   }
 
   getNewNotifications() {

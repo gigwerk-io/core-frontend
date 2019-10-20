@@ -1,4 +1,7 @@
+import {User} from '../user';
+
 export interface MainProposal {
+  user?: User;
   marketplace_id?: number;
   user_id?: number;
   approved?: boolean;

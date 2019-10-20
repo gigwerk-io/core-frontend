@@ -7,10 +7,12 @@ import {Storage} from '@ionic/storage';
 import {ActionSheetController, NavController, ToastController} from '@ionic/angular';
 import {ChatService} from '../../utils/services/chat.service';
 import {FriendsService} from '../../utils/services/friends.service';
-import {GA_ID, StorageKeys} from '../../providers/constants';
+import {GA_ID, Role, StorageKeys} from '../../providers/constants';
 import {GoogleAnalytics} from '@ionic-native/google-analytics/ngx';
 import {Subscription} from 'rxjs';
 import {AuthService} from '../../utils/services/auth.service';
+import {MainMarketplaceTask} from '../../utils/interfaces/main-marketplace/main-marketplace-task';
+import {MarketplaceService} from '../../utils/services/marketplace.service';
 
 @Component({
   selector: 'profile',
@@ -27,12 +29,14 @@ export class ProfilePage implements OnInit, OnDestroy {
   showFriendButton = true;
   friendButton: object;
   rating;
+  tasks: MainMarketplaceTask[];
 
   constructor(private activatedRoute: ActivatedRoute,
               private storage: Storage,
               private profileService: ProfileService,
               private chatService: ChatService,
               private friendService: FriendsService,
+              private marketplaceService: MarketplaceService,
               private router: Router,
               private photoViewer: PhotoViewer,
               public toastController: ToastController,
@@ -51,6 +55,12 @@ export class ProfilePage implements OnInit, OnDestroy {
             this.rating = profile.user.customer_rating;
           } else if (profile.user.rating != null) {
             this.rating = profile.user.rating;
+          }
+
+          if (profile.user.user.role === Role.VERIFIED_FREELANCER) {
+            // TODO: fix this show freelancer tasks
+          } else {
+            this.tasks = profile.user.user.main_marketplace;
           }
 
           this.status = this.showBadge(profile.user.friend_status);

@@ -46,7 +46,8 @@ export class AuthService {
     return this.httpClient.get<SignOutResponse>(`${API_ADDRESS}/logout`, token).pipe(
       tap(async (res: SignOutResponse) => {
         if (res) {
-          await this.storage.remove(StorageKeys.ACCESS_TOKEN);
+          this.storage.remove(StorageKeys.PROFILE);
+          this.storage.remove(StorageKeys.ACCESS_TOKEN);
           this.authSubject.next(false);
         }
       })

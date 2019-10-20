@@ -70,14 +70,14 @@
     </section>
   </div>
   <hr>
-  <ng-container text-center *ngIf="profile.user.user.main_marketplace.length === 0; else customerTasks">
+  <ng-container text-center *ngIf="profile.user.user.main_marketplace.length === 0 || profile.user.user.main_proposals.length === 0; else tasks">
     <ion-title color="medium" class="no-tasks">
       No Tasks To Display
     </ion-title>
   </ng-container>
 
-  <ng-template #customerTasks>
-    <favr-marketplace-card *ngFor="let task of profile.user.user.main_marketplace"
+  <ng-template #tasks>
+    <favr-marketplace-card *ngFor="let task of tasks"
                            [mainMarketplaceTask]="task"
     ></favr-marketplace-card>
   </ng-template>

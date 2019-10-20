@@ -57,7 +57,7 @@
         </small>
       </div>
       <div slot="end" class="marketplace-card-distance-away">
-        <small *ngIf="mainMarketplaceTask.status == 'Complete'">
+        <small *ngIf="mainMarketplaceTask.status == TaskStatus.COMPLETE">
           <ion-icon size="large" color="success" name="checkmark-circle" ariaLabel="task completed"></ion-icon>
         </small>
       </div>
@@ -65,7 +65,28 @@
 
     <ion-grid padding-start padding-end>
 
-      <ion-row class="ion-no-padding ion-justify-content-center">
+      <ion-row *ngIf="mainMarketplaceTask.status == TaskStatus.COMPLETE || mainMarketplaceTask.status != TaskStatus.REQUESTED && isOwner" routerLink="/app/profile/{{mainMarketplaceTask.proposals[0].user_id}}" routerDirection="forward">
+        <ion-col size="3">
+          <ion-avatar>
+            <img [src]="mainMarketplaceTask.proposals[0].user.profile.image ? mainMarketplaceTask.proposals[0].user.profile.image : '../../../assets/img/user.png'" alt="profile picture">
+          </ion-avatar>
+        </ion-col>
+        <ion-col size="9" padding-top>
+          <ng-container *ngIf="mainMarketplaceTask.status == TaskStatus.COMPLETE; else proposedBy">
+            <b>Completed By:</b>
+            <br>
+            {{mainMarketplaceTask.proposals[0].user.first_name}}
+          </ng-container>
+
+          <ng-template #proposedBy>
+            <b>{{mainMarketplaceTask.proposals[0].user.first_name}}</b>
+            <br>
+            Has Accepted!
+          </ng-template>
+        </ion-col>
+      </ion-row>
+
+      <ion-row padding-bottom>
         <ion-col *ngIf="mainMarketplaceTask.action == 2" class="ion-text-center">
           <ion-button
                       (click)="freelancerAcceptTask()"

@@ -28,6 +28,7 @@ export class MarketplaceDetailPage implements OnInit, OnDestroy {
   isFreelancer: boolean;
   userRole: string;
   Categories = TASK_CATEGORIES;
+  TaskStatus = TaskStatus;
 
   constructor(private modalCtrl: ModalController,
               private loadingCtrl: LoadingController,
