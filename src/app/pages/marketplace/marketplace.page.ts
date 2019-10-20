@@ -61,9 +61,9 @@ export class MarketplacePage implements OnInit, OnDestroy {
           this.authService.isValidToken().subscribe(res => {
             if (!res.response) {
               this.presentToast('You have been logged out.');
-              this.storage.clear();
-              this.router.navigateByUrl('welcome');
-              this.navCtrl.setDirection('root');
+              this.storage.remove(StorageKeys.PROFILE);
+              this.storage.remove(StorageKeys.ACCESS_TOKEN);
+              this.navCtrl.navigateRoot('/welcome');
             }
           });
         }
@@ -92,8 +92,9 @@ export class MarketplacePage implements OnInit, OnDestroy {
           this.authService.isValidToken().subscribe(res => {
             if (!res.response) {
               this.presentToast('You have been logged out.');
-              this.storage.clear();
-              this.router.navigateByUrl('welcome');
+              this.storage.remove(StorageKeys.PROFILE);
+              this.storage.remove(StorageKeys.ACCESS_TOKEN);
+              this.navCtrl.navigateRoot('/welcome');
             }
           });
         }
@@ -110,8 +111,9 @@ export class MarketplacePage implements OnInit, OnDestroy {
           this.authService.isValidToken().subscribe(res => {
             if (!res.response) {
               this.presentToast('You have been logged out.');
-              this.storage.clear();
-              this.router.navigateByUrl('welcome');
+              this.storage.remove(StorageKeys.PROFILE);
+              this.storage.remove(StorageKeys.ACCESS_TOKEN);
+              this.navCtrl.navigateRoot('/welcome');
             }
           });
         }
