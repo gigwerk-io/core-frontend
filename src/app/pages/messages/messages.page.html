@@ -47,6 +47,7 @@
                   [(ngModel)]="pendingMessage"
                   (focusin)="onFocus()"
                   required
+                  autoGrow
                   clearOnEdit="true"
     ></ion-textarea>
     <ion-button class="send-button" (click)="sendMessage()">
