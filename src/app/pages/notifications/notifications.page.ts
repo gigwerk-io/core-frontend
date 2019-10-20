@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {AuthService} from '../../utils/services/auth.service';
 import {ToastController} from '@ionic/angular';
 import {Storage} from '@ionic/storage';
+import {Badge} from '@ionic-native/badge/ngx';
 
 @Component({
   selector: 'notifications',
@@ -22,10 +23,13 @@ export class NotificationsPage implements OnInit {
               private changeRef: ChangeDetectorRef,
               private authService: AuthService,
               private storage: Storage,
-              public toastController: ToastController) { }
+              public toastController: ToastController,
+              private badge: Badge) { }
 
   ngOnInit() {
-
+    this.badge.hasPermission().then(() => {
+      this.badge.clear();
+    });
   }
 
   getNewNotifications() {
