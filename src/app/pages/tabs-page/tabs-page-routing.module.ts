@@ -79,6 +79,10 @@ const routes: Routes = [
     loadChildren: () => import('../edit-profile/edit-profile.module').then(m => m.EditProfilePageModule),
   },
   {
+    path: 'edit-task',
+    loadChildren: () => import('../request/request.module').then(m => m.RequestPageModule),
+  },
+  {
     path: 'notification-preferences',
     // tslint:disable-next-line:max-line-length
     loadChildren: () => import('../notification-preferences/notification-preferences.module').then(m => m.NotificationPreferencesPageModule),
@@ -152,6 +156,14 @@ const routes: Routes = [
   {
     path: 'select-city',
     loadChildren: () => import('../select-city/select-city.module').then(m => m.SelectCityPageModule),
+  },
+  {
+    path: 'report',
+    loadChildren: () => import('../report/report.module').then(m => m.ReportPageModule),
+  },
+  {
+    path: 'customer-tutorial',
+    loadChildren: () => import('../customer-tutorial/customer-tutorial.module').then(m => m.CustomerTutorialPageModule),
   }
 ];
 

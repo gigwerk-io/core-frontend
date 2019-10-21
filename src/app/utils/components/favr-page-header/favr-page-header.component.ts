@@ -1,10 +1,11 @@
 import {Component, EventEmitter, Input, Output, OnInit} from '@angular/core';
-import {AlertController, ModalController, NavController} from '@ionic/angular';
+import {AlertController, ModalController, NavController, Platform} from '@ionic/angular';
 import {Storage} from '@ionic/storage';
 import {StorageKeys} from '../../../providers/constants';
 import {popInAnimation} from '../../animations/enter.animation';
 import {popOutAnimation} from '../../animations/leave.animation';
 import {SearchPage} from '../../../pages/search/search.page';
+import {ProfileService} from '../../services/profile.service';
 
 @Component({
   selector: 'favr-page-header',
@@ -33,14 +34,17 @@ export class FavrPageHeaderComponent implements OnInit {
   constructor(private alertCtrl: AlertController,
               private modalCtrl: ModalController,
               private navCtrl: NavController,
-              private storage: Storage) { }
+              private profileService: ProfileService,
+              private storage: Storage,
+              private platform: Platform) { }
 
   ngOnInit() {
     this.storage.get(StorageKeys.PROFILE)
       .then(profile => {
         if (profile) {
           this.profileId = profile.user_id;
-          this.profileImage = profile.image;
+          this.profileService.getProfileImage(this.profileId)
+            .then((profileImage) => this.profileImage = profileImage);
         }
       });
   }
@@ -51,34 +55,6 @@ export class FavrPageHeaderComponent implements OnInit {
     } else {
       return this.close.emit(false);
     }
-  }
-
-  async presentFilterOptions() {
-    this.filterInputs.forEach(input => {
-      input.checked = this.filterDefault === input.value;
-    });
-
-    const alertFilter = await this.alertCtrl.create(
-      {
-        header: 'Filter Marketplace',
-        inputs: [...this.filterInputs],
-        buttons: [
-          {
-            text: 'Cancel',
-            role: 'cancel',
-            cssClass: 'secondary',
-            handler: () => {}
-          }, {
-            text: 'Ok',
-            handler: (filterOption) => {
-              this.filterDefault = filterOption;
-              this.filterOption.emit(filterOption);
-            }
-          }
-        ]
-      });
-
-    await alertFilter.present();
   }
 
   onKeyEnter(event) {
@@ -100,8 +76,8 @@ export class FavrPageHeaderComponent implements OnInit {
       component: SearchPage,
       componentProps: {'isModal': true},
       cssClass: 'transparent-modal',
-      enterAnimation: popInAnimation,
-      leaveAnimation: popOutAnimation
+      enterAnimation: (this.platform.is('mobile') || this.platform.is('pwa')) ? popInAnimation : undefined,
+      leaveAnimation: (this.platform.is('mobile') || this.platform.is('pwa')) ? popOutAnimation : undefined
     });
 
     modal.present();

@@ -1,5 +1,14 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {IonContent, IonSlides, ModalController, Platform, ToastController} from '@ionic/angular';
+import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {
+  ActionSheetController,
+  Events,
+  IonContent,
+  IonSlides,
+  ModalController,
+  NavController,
+  Platform,
+  ToastController
+} from '@ionic/angular';
 import {MainCategory} from '../../utils/interfaces/main-marketplace/main-category';
 import {TASK_CATEGORIES} from '../../utils/mocks/mock-categories.mock';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -12,13 +21,17 @@ import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
 import {MarketplaceService} from '../../utils/services/marketplace.service';
 import {NgForm} from '@angular/forms';
 import {Router} from '@angular/router';
+import {LocationAddress} from '../../utils/interfaces/settings/preferences';
+import {PreferencesService} from '../../utils/services/preferences.service';
+import {PreviousRouteService} from '../../providers/previous-route.service';
+import {TaskActions} from '../../providers/constants';
 
 @Component({
   selector: 'request',
   templateUrl: './request.page.html',
   styleUrls: ['./request.page.scss']
 })
-export class RequestPage implements OnInit {
+export class RequestPage implements OnInit, OnDestroy {
   @Input() isModal = false;
   @ViewChild(IonSlides, {static: false}) slides: IonSlides;
   @ViewChild(IonContent, {static: false}) content: IonContent;
@@ -38,7 +51,8 @@ export class RequestPage implements OnInit {
     image_two: undefined,
     image_three: undefined
   };
-  isMobileWebOrDesktop: boolean = false;
+  isMobileWebOrDesktop = false;
+  isTaskEdit = false;
 
   minYear: number = (new Date()).getFullYear();
   maxYear: number = this.minYear + 1;
@@ -62,6 +76,7 @@ export class RequestPage implements OnInit {
   states: State[] = STATES;
   progress = 0;
   submitted = false;
+  locations: LocationAddress[] = [];
 
   constructor(private modalCtrl: ModalController,
               private imagePicker: ImagePicker,
@@ -69,24 +84,79 @@ export class RequestPage implements OnInit {
               private marketplaceService: MarketplaceService,
               private toastController: ToastController,
               private router: Router,
-              public platform: Platform) { }
+              private events: Events,
+              private preferences: PreferencesService,
+              private actionSheetCtrl: ActionSheetController,
+              private previousRoute: PreviousRouteService,
+              private navCtrl: NavController,
+              public platform: Platform) {
+    this.events.subscribe('task-edit', (taskRequest: MainMarketplaceTask) => {
+      if (taskRequest) {
+        this.isTaskEdit = true;
+        this.taskRequest = taskRequest;
+        this.taskRequest.date = taskRequest.isoFormat;
+        taskRequest.locations.forEach((location) => {
+          this.taskRequest.street_address = location.street_address;
+          this.taskRequest.city = location.city;
+          this.taskRequest.state = location.state;
+          this.taskRequest.zip = location.zip;
+        });
+      }
+    });
+  }
 
   ngOnInit() {
     if (this.platform.is('mobileweb') || this.platform.is('desktop') || this.platform.is('pwa')) {
       this.isMobileWebOrDesktop = true;
     }
+    this.getLocations();
+  }
+
+  ngOnDestroy(): void {
+    this.events.unsubscribe('task-edit');
   }
 
   async closeRequestPage(): Promise<boolean> {
     return await this.modalCtrl.dismiss();
   }
 
-  searchGetItems($event) {
-    return;
+  getLocations() {
+    this.preferences.getMyLocations().subscribe(res => {
+      this.locations = res.locations;
+    });
   }
 
-  getItems($event) {
-    return;
+  async presentActionSheet(location?: LocationAddress) {
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: 'Set Location',
+      buttons: [{
+        text: 'Use Location',
+        icon: 'checkmark',
+        handler: () => {
+          this.taskRequest.street_address = location.street_address;
+          this.taskRequest.city = location.city;
+          this.taskRequest.state = location.state;
+          this.taskRequest.zip = location.zip;
+
+          this.presentToast('Location set!');
+        }
+      }, {
+        text: 'Remove',
+        role: 'destructive',
+        icon: 'trash',
+        handler: () => {
+          this.preferences.deleteLocation(location.id).subscribe(res => {
+            this.getLocations();
+            this.presentToast(res.message);
+          });
+        }
+      }, {
+        text: 'Close',
+        role: 'cancel',
+        handler: () => {}
+      }]
+    });
+    await actionSheet.present();
   }
 
   onSlideChange() {
@@ -139,7 +209,6 @@ export class RequestPage implements OnInit {
   }
 
   onTextboxChange(event) {
-    this.taskRequest.description = event.target.value;
     this.updateProgress();
   }
 
@@ -154,7 +223,7 @@ export class RequestPage implements OnInit {
       this.taskRequest.state,
       this.taskRequest.zip,
       this.taskRequest.intensity,
-      this.taskRequest.price
+      (this.taskRequest.price >= 5) ? this.taskRequest.price : this.taskRequest.id
     ]);
   }
 
@@ -220,12 +289,26 @@ export class RequestPage implements OnInit {
 
     if (form.valid) {
       this.marketplaceService.createMainMarketplaceRequest(this.taskRequest)
-        .then((res) => this.closeRequestPage()).catch(error => {
-        this.closeRequestPage()
-          this.presentToast(error.error.message).then(() => {
-            this.router.navigateByUrl('app/set-up-payments');
-          });
-      });
+        .then((res) => {
+          this.closeRequestPage()
+            .then(() => {
+              this.presentToast(res);
+              console.log(this.previousRoute.getCurrentUrl());
+              if (this.previousRoute.getCurrentUrl() !== '/app/tabs/marketplace') {
+                this.router.navigateByUrl('app/tabs/marketplace');
+              }
+            });
+        })
+        .catch(error => {
+          this.closeRequestPage()
+            .then(() => {
+              this.router.navigateByUrl('app/set-up-payments')
+                .then(() => {
+                  this.events.publish('task-request', this.taskRequest);
+                  this.presentToast(error.error.message);
+                });
+            });
+        });
     }
   }
 
@@ -244,6 +327,20 @@ export class RequestPage implements OnInit {
     }).then(toast => {
       toast.present();
     });
+  }
+
+  onUpdateTaskRequest() {
+    this.submitted = true;
+
+    this.marketplaceService.editMainMarketplaceRequest(this.taskRequest)
+      .then((res) => {
+        this.presentToast(res);
+        this.navCtrl.navigateBack(`app/marketplace-detail/${this.taskRequest.id}`);
+        this.events.publish('task-action', TaskActions.CUSTOMER_UPDATE_TASK);
+      })
+      .catch(error => {
+        this.presentToast(error.error.message);
+      });
   }
 }
 

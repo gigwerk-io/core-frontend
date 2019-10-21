@@ -1,6 +1,6 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {RequestPage} from '../request/request.page';
-import {LoadingController, ModalController, ToastController} from '@ionic/angular';
+import {LoadingController, ModalController, NavController, ToastController} from '@ionic/angular';
 import {NotificationService} from '../../utils/services/notification.service';
 import {PusherServiceProvider} from '../../providers/pusher.service';
 import {Storage} from '@ionic/storage';
@@ -8,18 +8,22 @@ import {StorageKeys} from '../../providers/constants';
 import {Router} from '@angular/router';
 
 @Component({
-  templateUrl: 'tabs-page.html'
+  templateUrl: './tabs-page.html',
+  styleUrls: ['./tabs-page.scss']
 })
-export class TabsPage {
+export class TabsPage implements OnInit {
 
   tabSlot: string;
   notificationCount = 0;
   friendCount = 0;
+  profileImage: string;
+  profileId: number;
 
   constructor(private modalCtrl: ModalController,
               private loadingCtrl: LoadingController,
               private notificationService: NotificationService,
               private pusher: PusherServiceProvider,
+              private navCtrl: NavController,
               private toastController: ToastController,
               private storage: Storage,
               private router: Router) {
@@ -29,6 +33,16 @@ export class TabsPage {
       this.tabSlot = 'bottom';
     }
     this.getBadges();
+  }
+
+  ngOnInit(): void {
+    this.storage.get(StorageKeys.PROFILE)
+      .then(profile => {
+        if (profile) {
+          this.profileId = profile.user_id;
+          this.profileImage = profile.image;
+        }
+      });
   }
 
   getBadges() {
@@ -56,6 +70,14 @@ export class TabsPage {
   }
 
   async openRequestPage(): Promise<boolean> {
+    let hasDoneTutorial;
+    this.storage.get(StorageKeys.CUSTOMER_TUTORIAL).then(res => {
+      hasDoneTutorial = res;
+    });
+    if (!hasDoneTutorial) {
+      this.router.navigateByUrl('/app/customer-tutorial');
+      return await Promise.resolve(false);
+    }
     const modal = await this.modalCtrl.create({
       component: RequestPage,
       componentProps: {'isModal': true}
@@ -89,5 +111,9 @@ export class TabsPage {
     }).then(toast => {
       toast.present();
     });
+  }
+
+  navigateToProfile() {
+    this.navCtrl.navigateForward(`/app/profile/${this.profileId}`);
   }
 }

@@ -11,6 +11,7 @@ import {SettingsPageModule} from '../settings/settings.module';
 import {MarketplaceDetailPageModule} from '../marketplace-detail/marketplace-detail.module';
 import {SearchPageModule} from '../search/search.module';
 import {CompleteTaskPageModule} from '../complete-task/complete-task.module';
+import {ReportPageModule} from '../report/report.module';
 
 const MODULES = [
   CommonModule,
@@ -20,6 +21,7 @@ const MODULES = [
   MarketplacePageModule,
   MarketplaceDetailPageModule,
   RequestPageModule,
+  ReportPageModule,
   SettingsPageModule,
   SearchPageModule,
   TabsPageRoutingModule,

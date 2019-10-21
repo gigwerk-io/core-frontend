@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {AuthService} from '../../utils/services/auth.service';
 import { Storage } from '@ionic/storage';
-import {INTERCOM_ID, StorageKeys} from '../../providers/constants';
+import {INTERCOM_ID, Role, StorageKeys} from '../../providers/constants';
 import {AuthorizationToken} from '../../utils/interfaces/user-options';
 import {ActionSheetController, NavController, Platform} from '@ionic/angular';
 import {Intercom} from '@ionic-native/intercom/ngx';
@@ -33,18 +33,18 @@ export class SettingsPage implements OnInit {
               private webIntercom: WebIntercom,
               private iab: InAppBrowser,
               private statusBar: StatusBar,
-              private socialSharing: SocialSharing,
-              public actionSheetController: ActionSheetController,
-              private contacts: Contacts) {
-    this.storage.get(StorageKeys.THEME_PREFERENCE)
-      .then((prefersDark: boolean) => this.darkMode = (prefersDark) ? prefersDark : false)
-      .catch(() => this.darkMode = false);
-  }
+              private changeRef: ChangeDetectorRef,
+              public actionSheetController: ActionSheetController) {}
 
   ngOnInit() {
-    this.storage.get(StorageKeys.PROFILE).then(profile => {
-      this.seeTransfers = profile.user.role === 'Verified Freelancer';
+    this.storage.get(StorageKeys.THEME_PREFERENCE)
+      .then((prefersDark: boolean) => {
+        this.darkMode = prefersDark;
+        this.changeRef.detectChanges();
+      });
 
+    this.storage.get(StorageKeys.PROFILE).then(profile => {
+      this.seeTransfers = profile.user.role === Role.VERIFIED_FREELANCER;
       this.seeCredit = profile.user.organization_id === null;
     });
   }
@@ -132,8 +132,7 @@ export class SettingsPage implements OnInit {
           window.open(`mailto:?&subject=${'Invitation To FAVR!'}&body=${message + ' ' + url}`);
         }
       }, {
-        text: 'Cancel',
-        icon: 'close',
+        text: 'Close',
         role: 'cancel',
         handler: () => {
           // console.log('Cancel clicked');

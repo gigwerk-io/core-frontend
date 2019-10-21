@@ -23,6 +23,7 @@ import { Push } from '@ionic-native/push/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Contacts} from '@ionic-native/contacts/ngx';
 import { GoogleAnalytics } from '@ionic-native/google-analytics/ngx';
+import { Badge } from '@ionic-native/badge/ngx';
 
 
 @NgModule({
@@ -32,7 +33,9 @@ import { GoogleAnalytics } from '@ionic-native/google-analytics/ngx';
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    IonicModule.forRoot(),
+    IonicModule.forRoot({
+      mode: 'ios'
+    }),
     IonicStorageModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production
@@ -57,7 +60,8 @@ import { GoogleAnalytics } from '@ionic-native/google-analytics/ngx';
     Intercom,
     SocialSharing,
     Contacts,
-    GoogleAnalytics
+    GoogleAnalytics,
+    Badge
   ],
   bootstrap: [AppComponent]
 })

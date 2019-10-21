@@ -4,13 +4,16 @@ import {ProfileRouteResponse} from '../../utils/interfaces/user';
 import {ProfileService} from '../../utils/services/profile.service';
 import {PhotoViewer} from '@ionic-native/photo-viewer/ngx';
 import {Storage} from '@ionic/storage';
-import {ActionSheetController, ToastController} from '@ionic/angular';
+import {ActionSheetController, ModalController, NavController, ToastController} from '@ionic/angular';
 import {ChatService} from '../../utils/services/chat.service';
 import {FriendsService} from '../../utils/services/friends.service';
 import {GA_ID, StorageKeys} from '../../providers/constants';
 import {GoogleAnalytics} from '@ionic-native/google-analytics/ngx';
 import {Subscription} from 'rxjs';
 import {AuthService} from '../../utils/services/auth.service';
+import {MainMarketplaceTask} from '../../utils/interfaces/main-marketplace/main-marketplace-task';
+import {MarketplaceService} from '../../utils/services/marketplace.service';
+import {ReportPage} from '../report/report.page';
 
 @Component({
   selector: 'profile',
@@ -27,16 +30,20 @@ export class ProfilePage implements OnInit, OnDestroy {
   showFriendButton = true;
   friendButton: object;
   rating;
+  tasks: MainMarketplaceTask[];
 
   constructor(private activatedRoute: ActivatedRoute,
               private storage: Storage,
               private profileService: ProfileService,
               private chatService: ChatService,
               private friendService: FriendsService,
+              private marketplaceService: MarketplaceService,
               private router: Router,
               private photoViewer: PhotoViewer,
               public toastController: ToastController,
               private actionSheetCtrl: ActionSheetController,
+              private modalCtrl: ModalController,
+              private navCtrl: NavController,
               private ga: GoogleAnalytics,
               private authService: AuthService) {}
 
@@ -51,7 +58,13 @@ export class ProfilePage implements OnInit, OnDestroy {
           } else if (profile.user.rating != null) {
             this.rating = profile.user.rating;
           }
-          console.log([profile.user.rating, profile.user.customer_rating]);
+
+          // if (profile.user.user.role === Role.VERIFIED_FREELANCER) {
+          //   // TODO: fix this show freelancer tasks
+          // } else {
+          //   this.tasks = profile.user.user.main_marketplace;
+          // }
+
           this.status = this.showBadge(profile.user.friend_status);
           this.friendButton = this.defineFriendButton(profile.user.friend_status);
           this.storage.get(StorageKeys.PROFILE)
@@ -65,6 +78,7 @@ export class ProfilePage implements OnInit, OnDestroy {
                 this.presentToast('You have been logged out.');
                 this.storage.clear();
                 this.router.navigateByUrl('welcome');
+                this.navCtrl.setDirection('root');
               }
             });
           }
@@ -100,13 +114,13 @@ export class ProfilePage implements OnInit, OnDestroy {
         text: 'Edit Profile',
         icon: 'create',
         handler: () => {
-          console.log('Edit clicked');
+          this.router.navigateByUrl('app/edit-profile');
         }
       }, {
         text: 'Go to User Settings',
         icon: 'settings',
         handler: () => {
-          console.log('Settings clicked');
+          this.router.navigateByUrl('app/tabs/settings');
         }
       }, {
         text: 'Close',
@@ -127,15 +141,22 @@ export class ProfilePage implements OnInit, OnDestroy {
         role: 'destructive',
         icon: 'flag',
         handler: () => {
-          console.log('Report clicked');
+          setTimeout(async () => {
+            const reportUserModal = await this.modalCtrl.create({
+              component: ReportPage,
+              componentProps: {type: 'User', extra: this.profile}
+            });
+
+            reportUserModal.present();
+          }, 0);
         }
-      }, {
-        text: 'Block User',
-        role: 'destructive',
-        icon: 'trash',
-        handler: () => {
-          console.log('Block clicked');
-        }
+      // }, {
+        // text: 'Block User',
+        // role: 'destructive',
+        // icon: 'trash',
+        // handler: () => {
+        //   console.log('Block clicked');
+        // }
       }, {
         text: 'Close',
         role: 'cancel',

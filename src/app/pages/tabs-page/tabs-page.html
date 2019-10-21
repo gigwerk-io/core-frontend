@@ -1,6 +1,13 @@
 <ion-tabs>
 
   <ion-tab-bar *ngIf="tabSlot === 'top'" slot="top">
+    <ion-buttons>
+      <ion-button href="https://askfavr.com" target="_blank">
+        <ion-avatar style="--border-radius: none">
+          <img [src]="'../../../../assets/brand/favicon.ico'" alt="favr logo">
+        </ion-avatar>
+      </ion-button>
+    </ion-buttons>
 
     <ion-tab-button tab="marketplace">
       <ion-icon name="cart"></ion-icon>
@@ -10,6 +17,11 @@
     <ion-tab-button tab="friends">
       <ion-icon name="contacts"></ion-icon>
       <ion-label>Friends</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button (click)="openRequestPage()">
+      <ion-icon name="add-circle-outline" class="icon-button"></ion-icon>
+      <ion-label color="primary">Request</ion-label>
     </ion-tab-button>
 
     <ion-tab-button tab="notifications">
@@ -23,6 +35,11 @@
       <ion-label>Settings</ion-label>
     </ion-tab-button>
 
+    <ion-buttons>
+      <ion-avatar (click)="navigateToProfile()" style="height: 32px;width: 32px;cursor: pointer">
+        <img [src]="profileImage ? profileImage : '../../../../assets/img/user.png'" alt="profile picture">
+      </ion-avatar>
+    </ion-buttons>
   </ion-tab-bar>
 
   <ion-tab-bar *ngIf="tabSlot === 'bottom'" slot="bottom">
@@ -48,11 +65,6 @@
       <ion-label>Notifications</ion-label>
       <ion-badge *ngIf="notificationCount > 0" color="danger">{{notificationCount}}</ion-badge>
     </ion-tab-button>
-    <!--<ion-tab-button tab="map">-->
-    <!--<ion-icon name="map"></ion-icon>-->
-    <!--<ion-label>Map</ion-label>-->
-    <!--</ion-tab-button>-->
-
 
     <ion-tab-button tab="settings">
       <ion-icon name="settings"></ion-icon>

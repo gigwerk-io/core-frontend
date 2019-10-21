@@ -3,7 +3,9 @@ import {environment} from '../../environments/environment';
 export const StorageKeys = {
   ACCESS_TOKEN: 'ACCESS_TOKEN',
   PROFILE: 'PROFILE',
-  THEME_PREFERENCE: 'THEME_PREFERENCE'
+  THEME_PREFERENCE: 'THEME_PREFERENCE',
+  CUSTOMER_TUTORIAL: 'CUSTOMER_TUTORIAL',
+
 };
 
 export const Role = {
@@ -27,6 +29,7 @@ export const TaskActions = {
   FREELANCER_COMPLETE_TASK: 'completeTask',
   CUSTOMER_ACCEPT_FREELANCER: 'customerAcceptFreelancer',
   CUSTOMER_REJECT_FREELANCER: 'customerRejectFreelancer',
+  CUSTOMER_UPDATE_TASK: 'customerUpdateTask',
   CUSTOMER_CANCEL_TASK: 'customerCancelTask',
   CUSTOMER_COMPLETE_TASK: 'customerCompleteTask'
 };

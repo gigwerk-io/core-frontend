@@ -3,11 +3,14 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/app/tabs/settings"></ion-back-button>
     </ion-buttons>
-    <ion-title>Saved Locations</ion-title>
+    <ion-title>Saved Location</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-list class="ion-padding">
     <ion-list-header>
       ADD LOCATION

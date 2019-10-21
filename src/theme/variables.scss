@@ -204,6 +204,10 @@
   --ion-color-navigation: #6600cc;
 }
 
+ion-button {
+  --background-hover: var(--ion-color-primary-shade)
+}
+
 /*
  * App iOS Variables
  * ----------------------------------------------------------------------------
@@ -271,6 +275,10 @@ body.dark {
   --ion-color-step-950: #f3f3f3;
   ion-textarea {
     --background: rgba(var(--ion-text-color-rgb,0,0,0),0.07)!important;
+  }
+
+  ion-footer {
+    background: var(--ion-color-step-150);
   }
 
   .input-wrap {

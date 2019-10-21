@@ -23,7 +23,8 @@
       <ion-col>
         <ion-buttons class="page-header-buttons">
           <ion-button *ngIf="showProfile"
-                      (click)="navigateToProfile()" routerDirection="forward">
+                      (click)="navigateToProfile()" routerDirection="forward"
+                      class="mobile-only">
             <ion-avatar class="page-title-header-profile">
               <img [src]="profileImage ? profileImage : '../../../../assets/img/user.png'" alt="profile picture">
             </ion-avatar>
@@ -34,7 +35,7 @@
                              || pageTitle == 'Notifications'
                              || pageTitle == 'Settings'"
                       (click)="openSearchModal()"
-                      class="mobile-only nav-button">
+                      class="nav-button">
             <ion-icon name="search"></ion-icon>
           </ion-button>
 
@@ -53,6 +54,6 @@
       </ion-col>
     </ion-row>
     <ion-progress-bar *ngIf="progress" [value]="progress"></ion-progress-bar>
-    <ion-searchbar *ngIf="showSearchBar" class="web-only" (keyup.enter)="onKeyEnter($event)" placeholder="Search"></ion-searchbar>
+    <!--<ion-searchbar *ngIf="showSearchBar" class="web-only" (keyup.enter)="onKeyEnter($event)" placeholder="Search"></ion-searchbar>-->
   </ion-toolbar>
 </ion-header>

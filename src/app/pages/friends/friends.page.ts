@@ -3,9 +3,10 @@ import {Searchable} from '../../utils/interfaces/searchable';
 import {FriendsService} from '../../utils/services/friends.service';
 import {Router} from '@angular/router';
 import {ChatService} from '../../utils/services/chat.service';
-import {ToastController} from '@ionic/angular';
+import {NavController, ToastController} from '@ionic/angular';
 import {AuthService} from '../../utils/services/auth.service';
 import {Storage} from '@ionic/storage';
+import {StorageKeys} from '../../providers/constants';
 
 @Component({
   selector: 'friends',
@@ -24,7 +25,8 @@ export class FriendsPage implements OnInit {
               public toastController: ToastController,
               private changeRef: ChangeDetectorRef,
               private authService: AuthService,
-              private storage: Storage
+              private storage: Storage,
+              private navCtrl: NavController
   ) { }
 
   ngOnInit() {
@@ -42,8 +44,9 @@ export class FriendsPage implements OnInit {
         this.authService.isValidToken().subscribe(res => {
           if (!res.response) {
             this.presentToast('You have been logged out.');
-            this.storage.clear();
-            this.router.navigateByUrl('welcome');
+            this.storage.remove(StorageKeys.PROFILE);
+            this.storage.remove(StorageKeys.ACCESS_TOKEN);
+            this.navCtrl.navigateRoot('/welcome');
           }
         });
       }
@@ -91,8 +94,9 @@ export class FriendsPage implements OnInit {
         this.authService.isValidToken().subscribe(res => {
           if (!res.response) {
             this.presentToast('You have been logged out.');
-            this.storage.clear();
-            this.router.navigateByUrl('welcome');
+            this.storage.remove(StorageKeys.PROFILE);
+            this.storage.remove(StorageKeys.ACCESS_TOKEN);
+            this.navCtrl.navigateRoot('/welcome');
           }
         });
       }
@@ -110,8 +114,9 @@ export class FriendsPage implements OnInit {
         this.authService.isValidToken().subscribe(res => {
           if (!res.response) {
             this.presentToast('You have been logged out.');
-            this.storage.clear();
-            this.router.navigateByUrl('welcome');
+            this.storage.remove(StorageKeys.PROFILE);
+            this.storage.remove(StorageKeys.ACCESS_TOKEN);
+            this.navCtrl.navigateRoot('/welcome');
           }
         });
       }
@@ -129,8 +134,9 @@ export class FriendsPage implements OnInit {
         this.authService.isValidToken().subscribe(res => {
           if (!res.response) {
             this.presentToast('You have been logged out.');
-            this.storage.clear();
-            this.router.navigateByUrl('welcome');
+            this.storage.remove(StorageKeys.PROFILE);
+            this.storage.remove(StorageKeys.ACCESS_TOKEN);
+            this.navCtrl.navigateRoot('/welcome');
           }
         });
       }
@@ -158,12 +164,14 @@ export class FriendsPage implements OnInit {
   acceptFriendRequest(id) {
     this.friendService.acceptFriendRequest(id).subscribe(res => {
       this.presentToast(res);
+      this.showMyFriendRequests();
     });
   }
 
   rejectFriendRequest(id) {
     this.friendService.rejectFriendRequest(id).subscribe(res => {
       this.presentToast(res);
+      this.showMyFriendRequests();
     });
   }
 
