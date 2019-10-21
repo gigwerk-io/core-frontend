@@ -156,6 +156,10 @@ const routes: Routes = [
   {
     path: 'select-city',
     loadChildren: () => import('../select-city/select-city.module').then(m => m.SelectCityPageModule),
+  },
+  {
+    path: 'report',
+    loadChildren: () => import('../report/report.module').then(m => m.ReportPageModule),
   }
 ];
 
