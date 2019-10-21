@@ -150,48 +150,49 @@ export class MarketplacePage implements OnInit, OnDestroy {
     });
   }
 
-  async openRequestPage(): Promise<boolean> {
-    let hasDoneTutorial;
+  async openRequestPage() {
     this.storage.get(StorageKeys.CUSTOMER_TUTORIAL).then(res => {
-      hasDoneTutorial = res;
+      setTimeout(async () => {
+        if (!res) {
+          this.router.navigateByUrl('/app/customer-tutorial');
+          await Promise.resolve(false);
+        } else {
+          const modal = await this.modalCtrl.create({
+            component: RequestPage,
+            componentProps: {'isModal': true}
+          });
+
+          const loadingRequestPage = await this.loadingCtrl.create({
+            message: 'Please wait...',
+            translucent: true
+          });
+
+          await loadingRequestPage.present();
+
+          modal.onDidDismiss().then(async () => {
+            const loadingMarketplacePage = await this.loadingCtrl.create({
+              message: 'Please wait...',
+              translucent: true
+            });
+
+            await loadingMarketplacePage.present();
+
+            // this.marketplaceService.getMainMarketplaceRequests('all')
+            //   .then(tasks => this.marketplaceTasks = tasks);
+            // this.marketplaceService.getMainMarketplaceRequests('me')
+            //   .then(tasks => this.marketplaceTasks = tasks);
+            this.doRefresh();
+            loadingMarketplacePage.dismiss();
+          });
+
+          await modal.present()
+            .then(() => {
+
+              return loadingRequestPage.dismiss();
+            });
+        }
+      }, 0);
     });
-    if (!hasDoneTutorial) {
-      this.router.navigateByUrl('/app/customer-tutorial');
-      return await Promise.resolve(false);
-    }
-    const modal = await this.modalCtrl.create({
-      component: RequestPage,
-      componentProps: {'isModal': true}
-    });
-
-    const loadingRequestPage = await this.loadingCtrl.create({
-      message: 'Please wait...',
-      translucent: true
-    });
-
-    await loadingRequestPage.present();
-
-    modal.onDidDismiss().then(async () => {
-      const loadingMarketplacePage = await this.loadingCtrl.create({
-        message: 'Please wait...',
-        translucent: true
-      });
-
-      await loadingMarketplacePage.present();
-
-      // this.marketplaceService.getMainMarketplaceRequests('all')
-      //   .then(tasks => this.marketplaceTasks = tasks);
-      // this.marketplaceService.getMainMarketplaceRequests('me')
-      //   .then(tasks => this.marketplaceTasks = tasks);
-      this.doRefresh();
-      loadingMarketplacePage.dismiss();
-    });
-
-    return await modal.present()
-      .then(() => {
-
-        return loadingRequestPage.dismiss();
-      });
   }
 
   async doRefresh(event?) {
