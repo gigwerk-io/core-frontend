@@ -71,7 +71,7 @@ export class SettingsPage implements OnInit {
       this.webIntercom.boot({
         app_id: INTERCOM_ID,
         email: profile.user.email,
-        name: profile.user.first_name + " " + profile.user.last_name,
+        name: profile.user.first_name + ' ' + profile.user.last_name,
         // Supports all optional configuration.
         widget: {
           'activator': '#intercom'
@@ -160,10 +160,7 @@ export class SettingsPage implements OnInit {
         break;
     }
     this.storage.set(StorageKeys.THEME_PREFERENCE, !this.darkMode)
-      .then(() => {
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-        prefersDark.addEventListener('dark-theme-listener', (mediaQuery: MediaQueryListEvent) => toggleDarkTheme(mediaQuery.matches));
-      });
+      .then(() => toggleDarkTheme(this.darkMode));
   }
 }
 
