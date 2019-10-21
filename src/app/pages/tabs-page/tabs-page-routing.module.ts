@@ -158,12 +158,12 @@ const routes: Routes = [
     loadChildren: () => import('../select-city/select-city.module').then(m => m.SelectCityPageModule),
   },
   {
-    path: 'customer-tutorial',
-    loadChildren: () => import('../customer-tutorial/customer-tutorial.module').then(m => m.CustomerTutorialPageModule),
-  },
-  {
     path: 'report',
     loadChildren: () => import('../report/report.module').then(m => m.ReportPageModule),
+  },
+  {
+    path: 'customer-tutorial',
+    loadChildren: () => import('../customer-tutorial/customer-tutorial.module').then(m => m.CustomerTutorialPageModule),
   }
 ];
 
