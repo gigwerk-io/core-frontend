@@ -8,6 +8,7 @@ import {Router} from '@angular/router';
 import {ChatService} from '../../services/chat.service';
 import {MarketplaceService} from '../../services/marketplace.service';
 import {TaskActions} from '../../../providers/constants';
+import {error} from 'selenium-webdriver';
 
 @Component({
   selector: 'favr-marketplace-card',
@@ -87,18 +88,6 @@ export class FavrMarketplaceCardComponent implements OnInit, OnDestroy {
     });
   }
 
-  async errorMessage(message) {
-    await this.toastCtrl.create({
-      message: message,
-      position: 'top',
-      duration: 2500,
-      color: 'danger',
-      showCloseButton: true
-    }).then(toast => {
-      toast.present();
-    });
-  }
-
   startChat(username) {
     this.chatService.startChat(username).subscribe(res => {
       this.router.navigate(['/app/room', res.id]);
@@ -112,11 +101,18 @@ export class FavrMarketplaceCardComponent implements OnInit, OnDestroy {
       .then((res: string) => {
         this.presentToast(freelancerAcceptedTask)
           .then(() => this.taskActionTaken.emit('freelancerAcceptTask'));
-      })
+      },
+        (err) => console.log(err))
       .catch((err) => {
-        this.errorMessage(err.error.message).then(() => {
-          this.router.navigateByUrl('app/connect-bank-account');
-        });
+        if (err.error) {
+          this.presentToast(err.error.message).then(() => {
+            this.router.navigateByUrl('app/connect-bank-account');
+          });
+        } else {
+          this.presentToast('Please set up your banking information in order to get paid!').then(() => {
+            this.router.navigateByUrl('app/connect-bank-account');
+          });
+        }
       });
   }
 
