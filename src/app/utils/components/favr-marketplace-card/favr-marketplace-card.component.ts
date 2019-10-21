@@ -8,7 +8,6 @@ import {Router} from '@angular/router';
 import {ChatService} from '../../services/chat.service';
 import {MarketplaceService} from '../../services/marketplace.service';
 import {TaskActions} from '../../../providers/constants';
-import {error} from 'selenium-webdriver';
 
 @Component({
   selector: 'favr-marketplace-card',
@@ -88,6 +87,18 @@ export class FavrMarketplaceCardComponent implements OnInit, OnDestroy {
     });
   }
 
+  async errorMessage(message) {
+    await this.toastCtrl.create({
+      message: message,
+      position: 'top',
+      duration: 2500,
+      color: 'danger',
+      showCloseButton: true
+    }).then(toast => {
+      toast.present();
+    });
+  }
+
   startChat(username) {
     this.chatService.startChat(username).subscribe(res => {
       this.router.navigate(['/app/room', res.id]);
@@ -96,23 +107,16 @@ export class FavrMarketplaceCardComponent implements OnInit, OnDestroy {
     });
   }
 
-  async freelancerAcceptTask() {
-    const freelancerAcceptedTask = await this.marketplaceService.freelancerAcceptMainMarketplaceRequest(this.mainMarketplaceTask.id)
+  freelancerAcceptTask() {
+    this.marketplaceService.freelancerAcceptMainMarketplaceRequest(this.mainMarketplaceTask.id)
       .then((res: string) => {
-        this.presentToast(freelancerAcceptedTask)
+        this.presentToast(res)
           .then(() => this.taskActionTaken.emit('freelancerAcceptTask'));
-      },
-        (err) => console.log(err))
+      })
       .catch((err) => {
-        if (err.error) {
-          this.presentToast(err.error.message).then(() => {
-            this.router.navigateByUrl('app/connect-bank-account');
-          });
-        } else {
-          this.presentToast('Please set up your banking information in order to get paid!').then(() => {
-            this.router.navigateByUrl('app/connect-bank-account');
-          });
-        }
+        this.errorMessage(err.error.message).then(() => {
+          setTimeout(() => this.router.navigateByUrl('app/connect-bank-account'), 550);
+        });
       });
   }
 
