@@ -43,11 +43,6 @@ const routes: Routes = [
     path: '**',
     redirectTo: '/tutorial'
   }
-
-  // {
-  //   path: 'select-city',
-  //   loadChildren: () => import('./pages/select-city/select-city.module').then(m => m.SelectCityPageModule)
-  // }
 ];
 
 @NgModule({

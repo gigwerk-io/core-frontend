@@ -6,7 +6,6 @@ import {ProfileRouteResponse} from '../interfaces/user';
 import {API_ADDRESS, StorageKeys} from '../../providers/constants';
 import {AuthorizationToken} from '../interfaces/user-options';
 import {MainProposal} from '../interfaces/main-marketplace/main-proposal';
-import {MainMarketplaceTask} from '../interfaces/main-marketplace/main-marketplace-task';
 
 @Injectable({
   providedIn: 'root'
@@ -60,5 +59,19 @@ export class ProfileService {
             .then((res: {requests: MainProposal[]}) => res.requests);
         })
     );
+  }
+
+  public reportUser(id: number, description: string): Promise<string> {
+    return this.storage.get(StorageKeys.ACCESS_TOKEN)
+      .then(token => {
+        const authHeader: AuthorizationToken = {
+          headers: {
+            Authorization: (token) ? token : ''
+          }
+        };
+        return this.httpClient.post<{message: string}>(`${API_ADDRESS}/report/user/${id}`, {description: description}, authHeader)
+          .toPromise()
+          .then((res: {message: string}) => res.message);
+      });
   }
 }

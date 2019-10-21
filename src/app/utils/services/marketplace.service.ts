@@ -241,7 +241,7 @@ export class MarketplaceService {
       });
   }
 
-  public mainMarketplaceReportTask(id: number, message: string): Promise<string> {
+  public mainMarketplaceReportTask(id: number, description: string): Promise<string> {
     return this.storage.get(StorageKeys.ACCESS_TOKEN)
       .then(token => {
         const authHeader: AuthorizationToken = {
@@ -250,7 +250,8 @@ export class MarketplaceService {
           }
         };
 
-        return this.httpClient.post<ReportTaskResponse>(`${API_ADDRESS}/report/main/marketplace/${id}`, {message}, authHeader)
+        return this.httpClient.post<ReportTaskResponse>(`${API_ADDRESS}/report/main/marketplace/${id}`,
+          {description: description}, authHeader)
           .toPromise()
           .then((res: ReportTaskResponse) => res.message);
       });

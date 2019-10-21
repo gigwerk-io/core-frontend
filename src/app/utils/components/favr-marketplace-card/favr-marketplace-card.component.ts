@@ -107,15 +107,15 @@ export class FavrMarketplaceCardComponent implements OnInit, OnDestroy {
     });
   }
 
-  async freelancerAcceptTask() {
-    const freelancerAcceptedTask = await this.marketplaceService.freelancerAcceptMainMarketplaceRequest(this.mainMarketplaceTask.id)
+  freelancerAcceptTask() {
+    this.marketplaceService.freelancerAcceptMainMarketplaceRequest(this.mainMarketplaceTask.id)
       .then((res: string) => {
-        this.presentToast(freelancerAcceptedTask)
+        this.presentToast(res)
           .then(() => this.taskActionTaken.emit('freelancerAcceptTask'));
       })
       .catch((err) => {
         this.errorMessage(err.error.message).then(() => {
-          this.router.navigateByUrl('app/connect-bank-account');
+          setTimeout(() => this.router.navigateByUrl('app/connect-bank-account'), 550);
         });
       });
   }

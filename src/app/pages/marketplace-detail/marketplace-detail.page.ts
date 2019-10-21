@@ -11,6 +11,7 @@ import {TASK_CATEGORIES} from '../../utils/mocks/mock-categories.mock';
 import {Events} from '@ionic/angular';
 import {CompleteTaskPage} from '../complete-task/complete-task.page';
 import {LaunchNavigator, LaunchNavigatorOptions} from '@ionic-native/launch-navigator/ngx';
+import {ReportPage} from '../report/report.page';
 
 @Component({
   selector: 'marketplace-detail',
@@ -89,7 +90,14 @@ export class MarketplaceDetailPage implements OnInit, OnDestroy {
         role: 'destructive',
         icon: 'flag',
         handler: () => {
-          console.log('Report clicked');
+          setTimeout(async () => {
+            const reportUserModal = await this.modalCtrl.create({
+              component: ReportPage,
+              componentProps: {type: 'Task', extra: this.mainMarketplaceTask}
+            });
+
+            reportUserModal.present();
+          }, 0);
         }
       }, {
         text: 'Close',
