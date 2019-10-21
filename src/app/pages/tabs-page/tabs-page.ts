@@ -69,29 +69,43 @@ export class TabsPage implements OnInit {
     }, 1000);
   }
 
-  async openRequestPage(): Promise<boolean> {
-    let hasDoneTutorial;
+  async openRequestPage() {
     this.storage.get(StorageKeys.CUSTOMER_TUTORIAL).then(res => {
-      hasDoneTutorial = res;
-    });
-    if (!hasDoneTutorial) {
-      this.router.navigateByUrl('/app/customer-tutorial');
-      return await Promise.resolve(false);
-    }
-    const modal = await this.modalCtrl.create({
-      component: RequestPage,
-      componentProps: {'isModal': true}
-    });
+      setTimeout(async () => {
+        if (!res) {
+          this.router.navigateByUrl('/app/customer-tutorial');
+          await Promise.resolve(false);
+        } else {
+          const modal = await this.modalCtrl.create({
+            component: RequestPage,
+            componentProps: {'isModal': true}
+          });
 
-    const loadingRequestPage = await this.loadingCtrl.create({
-      message: 'Please wait...',
-      translucent: true
+          const loadingRequestPage = await this.loadingCtrl.create({
+            message: 'Please wait...',
+            translucent: true
+          });
+
+          await loadingRequestPage.present();
+
+          modal.onDidDismiss().then(async () => {
+            const loadingMarketplacePage = await this.loadingCtrl.create({
+              message: 'Please wait...',
+              translucent: true
+            });
+
+            await loadingMarketplacePage.present();
+            loadingMarketplacePage.dismiss();
+          });
+
+          await modal.present()
+            .then(() => {
+
+              return loadingRequestPage.dismiss();
+            });
+        }
+      }, 0);
     });
-
-    await loadingRequestPage.present();
-
-    return await modal.present()
-      .then(() => loadingRequestPage.dismiss());
   }
 
   async presentToast(message) {
