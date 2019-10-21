@@ -1,14 +1,17 @@
 <ion-header>
   <ion-toolbar>
+    <form action=".">
       <ion-searchbar [(ngModel)]="query"
                      (ngModelChange)="onSearchInputChange($event)"
                      [ngModelOptions]="{standalone: true}"
+                     name="search"
                      class="searchbar"
                      placeholder="Search People"
                      autocomplete
                      autocorrect
                      animated>
       </ion-searchbar>
+    </form>
     <ion-buttons slot="end">
       <ion-button (click)="closeSearchPage()">
         Cancel

@@ -49,7 +49,13 @@
     <ion-item detail="false" lines="isNone">
       <div slot="start">
         <small>
-          <div class="complete-by-time">Needs Complete by {{mainMarketplaceTask.isoFormat | date}}</div>
+          <ng-container *ngIf="mainMarketplaceTask.status !== TaskStatus.COMPLETE; else completedTime">
+            <div class="complete-by-time">Needs Complete by {{mainMarketplaceTask.isoFormat | date}}</div>
+          </ng-container>
+
+          <ng-template #completedTime>
+            <div class="complete-by-time">Completed on {{mainMarketplaceTask.proposals[0].complete_at | date}}</div>
+          </ng-template>
           <ion-note class="note posted-time">
             Posted {{mainMarketplaceTask.postedFormat | date}}
           </ion-note>
@@ -64,26 +70,28 @@
 
     <ion-grid padding-start padding-end>
 
-      <ion-row *ngIf="mainMarketplaceTask.status === TaskStatus.COMPLETE || mainMarketplaceTask.status != TaskStatus.REQUESTED && isOwner" routerLink="/app/profile/{{mainMarketplaceTask.proposals[0].user_id}}" routerDirection="forward">
-        <ion-col size="3">
-          <ion-avatar>
-            <img [src]="mainMarketplaceTask.proposals[0].user.profile.image ? mainMarketplaceTask.proposals[0].user.profile.image : '../../../assets/img/user.png'" alt="profile picture">
-          </ion-avatar>
-        </ion-col>
-        <ion-col size="9" padding-top>
-          <ng-container *ngIf="mainMarketplaceTask.status === TaskStatus.COMPLETE; else proposedBy">
-            <b>Completed By:</b>
-            <br>
-            {{mainMarketplaceTask.proposals[0].user.first_name}}
-          </ng-container>
+      <ng-container *ngIf="mainMarketplaceTask.proposals">
+        <ion-row *ngIf="mainMarketplaceTask.status === TaskStatus.COMPLETE || mainMarketplaceTask.status != TaskStatus.REQUESTED && isOwner" routerLink="/app/profile/{{mainMarketplaceTask.proposals[0].user_id}}" routerDirection="forward">
+          <ion-col size="3">
+            <ion-avatar>
+              <img [src]="mainMarketplaceTask.proposals[0].user.profile.image ? mainMarketplaceTask.proposals[0].user.profile.image : '../../../assets/img/user.png'" alt="profile picture">
+            </ion-avatar>
+          </ion-col>
+          <ion-col size="9" padding-top>
+            <ng-container *ngIf="mainMarketplaceTask.status === TaskStatus.COMPLETE; else proposedBy">
+              <b>Completed By:</b>
+              <br>
+              {{mainMarketplaceTask.proposals[0].user.first_name}}
+            </ng-container>
 
-          <ng-template #proposedBy>
-            <b>{{mainMarketplaceTask.proposals[0].user.first_name}}</b>
-            <br>
-            {{(mainMarketplaceTask.status === TaskStatus.PENDING_APPROVAL) ? 'Has Accepted!' : 'is working this task.'}}
-          </ng-template>
-        </ion-col>
-      </ion-row>
+            <ng-template #proposedBy>
+              <b>{{mainMarketplaceTask.proposals[0].user.first_name}}</b>
+              <br>
+              {{(mainMarketplaceTask.status === TaskStatus.PENDING_APPROVAL) ? 'Has Accepted!' : 'is working this task.'}}
+            </ng-template>
+          </ion-col>
+        </ion-row>
+      </ng-container>
 
       <ion-row padding-bottom>
         <ion-col *ngIf="mainMarketplaceTask.action === 2" class="ion-text-center">

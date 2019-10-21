@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output, OnInit} from '@angular/core';
-import {AlertController, ModalController, NavController} from '@ionic/angular';
+import {AlertController, ModalController, NavController, Platform} from '@ionic/angular';
 import {Storage} from '@ionic/storage';
 import {StorageKeys} from '../../../providers/constants';
 import {popInAnimation} from '../../animations/enter.animation';
@@ -35,7 +35,8 @@ export class FavrPageHeaderComponent implements OnInit {
               private modalCtrl: ModalController,
               private navCtrl: NavController,
               private profileService: ProfileService,
-              private storage: Storage) { }
+              private storage: Storage,
+              private platform: Platform) { }
 
   ngOnInit() {
     this.storage.get(StorageKeys.PROFILE)
@@ -75,8 +76,8 @@ export class FavrPageHeaderComponent implements OnInit {
       component: SearchPage,
       componentProps: {'isModal': true},
       cssClass: 'transparent-modal',
-      enterAnimation: popInAnimation,
-      leaveAnimation: popOutAnimation
+      enterAnimation: (this.platform.is('mobile') || this.platform.is('pwa')) ? popInAnimation : undefined,
+      leaveAnimation: (this.platform.is('mobile') || this.platform.is('pwa')) ? popOutAnimation : undefined
     });
 
     modal.present();
