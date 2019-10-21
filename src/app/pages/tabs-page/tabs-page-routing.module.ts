@@ -156,6 +156,10 @@ const routes: Routes = [
   {
     path: 'select-city',
     loadChildren: () => import('../select-city/select-city.module').then(m => m.SelectCityPageModule),
+  },
+  {
+    path: 'customer-tutorial',
+    loadChildren: () => import('../customer-tutorial/customer-tutorial.module').then(m => m.CustomerTutorialPageModule),
   }
 ];
 

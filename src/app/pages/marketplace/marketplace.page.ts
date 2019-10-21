@@ -151,6 +151,14 @@ export class MarketplacePage implements OnInit, OnDestroy {
   }
 
   async openRequestPage(): Promise<boolean> {
+    let hasDoneTutorial;
+    this.storage.get(StorageKeys.CUSTOMER_TUTORIAL).then(res => {
+      hasDoneTutorial = res;
+    });
+    if (!hasDoneTutorial) {
+      this.router.navigateByUrl('/app/customer-tutorial');
+      return await Promise.resolve(false);
+    }
     const modal = await this.modalCtrl.create({
       component: RequestPage,
       componentProps: {'isModal': true}
