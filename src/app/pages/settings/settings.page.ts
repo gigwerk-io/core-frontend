@@ -23,7 +23,7 @@ export class SettingsPage implements OnInit {
   seeCredit: boolean;
   seeTransfers: boolean;
   intercomActive = false;
-  darkMode: boolean;
+  darkMode = true;
 
   constructor(private authService: AuthService,
               private storage: Storage,

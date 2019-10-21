@@ -63,15 +63,19 @@ export class AppComponent implements OnInit {
       this.splashScreen.hide();
       this.storage.get(StorageKeys.THEME_PREFERENCE)
         .then((prefersDark: boolean) => {
-          if (prefersDark) {
+          if (prefersDark == null) {
             this.statusBar.backgroundColorByHexString('#222428');
-            toggleDarkTheme(prefersDark);
+            this.storage.set(StorageKeys.THEME_PREFERENCE, true)
+              .then(() => toggleDarkTheme(true));
           } else {
-            this.statusBar.backgroundColorByHexString('#ff6500');
-            toggleDarkTheme(false);
+            if (prefersDark) {
+              this.statusBar.backgroundColorByHexString('#222428');
+              toggleDarkTheme(prefersDark);
+            } else {
+              this.statusBar.backgroundColorByHexString('#ff6500');
+              toggleDarkTheme(false);
+            }
           }
-          // const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-          // prefersDark.addEventListener('dark-theme-listener', (mediaQuery: MediaQueryListEvent) => toggleDarkTheme(mediaQuery.matches));
         });
 
       if (this.platform.is('cordova')) {

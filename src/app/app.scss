@@ -1,12 +1,6 @@
 @import "~@ionic/angular/css/padding.css";
 @import "~@ionic/angular/css/core.css";
 
-ion-content, ion-header, ion-footer {
-  max-width: 800px;
-  margin: 0 auto;
-  align-self: center;
-}
-
 ion-card-content {
   padding: 1em!important;
 }

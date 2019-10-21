@@ -44,4 +44,9 @@
   .mobile-only {
     display: none;
   }
+  ion-content, ion-header, ion-footer {
+    max-width: 80%!important;
+    margin: 0 auto!important;
+    align-self: center!important;
+  }
 }
