@@ -37,7 +37,7 @@
           </ng-container>
 
           <ng-template #completedTime>
-            <div class="complete-by-time">Completed on {{mainMarketplaceTask.proposals[0].complete_at | date}}</div>
+            <div class="complete-by-time">Completed on {{mainMarketplaceTask.proposals[0].complete_at | amFromUtc | amLocal | date: 'MMM dd, yyyy'}}</div>
           </ng-template>
           <ion-note class="note posted-time">
             Posted {{mainMarketplaceTask.postedFormat | date}}

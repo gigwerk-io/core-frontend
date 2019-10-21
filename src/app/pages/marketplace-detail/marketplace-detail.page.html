@@ -54,7 +54,7 @@
           </ng-container>
 
           <ng-template #completedTime>
-            <div class="complete-by-time">Completed on {{mainMarketplaceTask.proposals[0].complete_at | date}}</div>
+            <div class="complete-by-time">Completed on {{mainMarketplaceTask.proposals[0].complete_at | amFromUtc | amLocal | date: 'MMM dd, yyyy'}}</div>
           </ng-template>
           <ion-note class="note posted-time">
             Posted {{mainMarketplaceTask.postedFormat | date}}
@@ -223,7 +223,25 @@
         <ion-col size="9">
           <b>Price:</b>
           <br>
-          You earn
+          <ng-container *ngIf="isOwner; else notOwner">
+            <ng-container *ngIf="mainMarketplaceTask.status !== TaskStatus.COMPLETE; else paid">
+              You pay
+            </ng-container>
+
+            <ng-template #paid>
+              You paid
+            </ng-template>
+          </ng-container>
+
+          <ng-template #notOwner>
+            <ng-container *ngIf="mainMarketplaceTask.status !== TaskStatus.COMPLETE; else earnedPrice">
+              You earn
+            </ng-container>
+            <ng-template #earnedPrice>
+              Earned
+            </ng-template>
+          </ng-template>
+
           ${{mainMarketplaceTask.price}}
         </ion-col>
       </ion-row>
@@ -261,9 +279,17 @@
           <img src="../../../assets/img/calendar.png" class="marketplace-detail-icons">
         </ion-col>
         <ion-col size="9">
-          <b>Complete Before:</b>
-          <br>
-          {{mainMarketplaceTask.isoFormat | date: 'MMM dd, yyyy h:mm a'}}
+            <ng-container *ngIf="mainMarketplaceTask.status !== TaskStatus.COMPLETE; else completedOn">
+              <b>Complete Before:</b>
+              <br>
+              {{mainMarketplaceTask.isoFormat | date: 'MMM dd, yyyy h:mm a'}}
+            </ng-container>
+
+            <ng-template #completedOn>
+              <b>Completed On:</b>
+              <br>
+              {{mainMarketplaceTask.proposals[0].complete_at | amFromUtc | amLocal | date: 'MMM dd, yyyy h:mm a'}}
+            </ng-template>
         </ion-col>
       </ion-row>
 
