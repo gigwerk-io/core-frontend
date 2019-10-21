@@ -160,6 +160,8 @@ const routes: Routes = [
   {
     path: 'report',
     loadChildren: () => import('../report/report.module').then(m => m.ReportPageModule),
+    path: 'customer-tutorial',
+    loadChildren: () => import('../customer-tutorial/customer-tutorial.module').then(m => m.CustomerTutorialPageModule),
   }
 ];
 
