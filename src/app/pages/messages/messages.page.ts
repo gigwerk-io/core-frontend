@@ -42,6 +42,7 @@ export class MessagesPage implements OnInit {
         this.user_id = profile.user_id;
       });
   }
+
   public getUserProfileImage() {
     const members = this.room.members;
     for (const member of members) {
@@ -112,13 +113,6 @@ export class MessagesPage implements OnInit {
         icon: 'person',
         handler: () => {
           this.goToUserProfile();
-        }
-      }, {
-        text: 'Report User',
-        role: 'destructive',
-        icon: 'flag',
-        handler: () => {
-          console.log('Report clicked');
         }
       }, {
         text: 'Close',

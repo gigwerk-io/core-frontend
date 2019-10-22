@@ -32,7 +32,13 @@
     <ion-item detail="false" lines="isNone">
       <div slot="start">
         <small>
-          <div class="complete-by-time">Needs Complete by {{mainMarketplaceTask.isoFormat | date}}</div>
+          <ng-container *ngIf="mainMarketplaceTask.status !== TaskStatus.COMPLETE; else completedTime">
+            <div class="complete-by-time">Needs Complete by {{mainMarketplaceTask.isoFormat | date}}</div>
+          </ng-container>
+
+          <ng-template #completedTime>
+            <div class="complete-by-time">Completed on {{mainMarketplaceTask.proposals[0].complete_at | amFromUtc | amLocal | date: 'MMM dd, yyyy'}}</div>
+          </ng-template>
           <ion-note class="note posted-time">
             Posted {{mainMarketplaceTask.postedFormat | date}}
           </ion-note>

@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { MarketplaceDetailPage } from './marketplace-detail.page';
+import {MomentModule} from 'ngx-moment';
 
 const routes: Routes = [
   {
@@ -19,6 +20,7 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
+    MomentModule,
     RouterModule.forChild(routes)
   ],
   declarations: [MarketplaceDetailPage]

@@ -6,6 +6,7 @@ import {FavrMarketplaceCardComponent} from './favr-marketplace-card/favr-marketp
 import {FavrPageHeaderComponent} from './favr-page-header/favr-page-header.component';
 import {RouterModule} from '@angular/router';
 import {FavrCategoryCardButtonsComponent} from './favr-category-card-buttons/favr-category-card-buttons.component';
+import {MomentModule} from 'ngx-moment';
 
 const COMPONENTS = [
   FavrCategoryCardButtonsComponent,
@@ -17,6 +18,7 @@ const MODULES = [
   CommonModule,
   FormsModule,
   IonicModule,
+  MomentModule,
   RouterModule
 ];
 
