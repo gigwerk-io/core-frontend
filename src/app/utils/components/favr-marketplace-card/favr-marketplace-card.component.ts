@@ -7,7 +7,7 @@ import {Events, LoadingController, NavController, ToastController} from '@ionic/
 import {Router} from '@angular/router';
 import {ChatService} from '../../services/chat.service';
 import {MarketplaceService} from '../../services/marketplace.service';
-import {TaskActions} from '../../../providers/constants';
+import {TaskActions, TaskStatus} from '../../../providers/constants';
 
 @Component({
   selector: 'favr-marketplace-card',
@@ -19,6 +19,7 @@ export class FavrMarketplaceCardComponent implements OnInit, OnDestroy {
 
   @Input() mainMarketplaceTask: MainMarketplaceTask;
   @Output() taskActionTaken: EventEmitter<string> = new EventEmitter();
+  TaskStatus = TaskStatus;
 
   constructor(private photoViewer: PhotoViewer,
               private loadingCtrl: LoadingController,
