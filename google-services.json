@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "838124703227",
+    "firebase_url": "https://favr-6d5ce.firebaseio.com",
+    "project_id": "favr-6d5ce",
+    "storage_bucket": "favr-6d5ce.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:838124703227:android:0aab1f526139b86e",
+        "android_client_info": {
+          "package_name": "com.favrofficial.favr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "838124703227-8tu5e3uihe88ggjredj3d0ia6vivg78s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnISAwjDbPokt4nLta8slrkq0zF0yxMDk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "838124703227-8tu5e3uihe88ggjredj3d0ia6vivg78s.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "838124703227-01q69d44bspn5huvjduk7ek2qd2l6ckv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.favr.favr"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

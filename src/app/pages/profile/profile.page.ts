@@ -8,7 +8,6 @@ import {ActionSheetController, ModalController, NavController, ToastController} 
 import {ChatService} from '../../utils/services/chat.service';
 import {FriendsService} from '../../utils/services/friends.service';
 import {GA_ID, StorageKeys} from '../../providers/constants';
-import {GoogleAnalytics} from '@ionic-native/google-analytics/ngx';
 import {Subscription} from 'rxjs';
 import {AuthService} from '../../utils/services/auth.service';
 import {MainMarketplaceTask} from '../../utils/interfaces/main-marketplace/main-marketplace-task';
@@ -44,7 +43,6 @@ export class ProfilePage implements OnInit, OnDestroy {
               private actionSheetCtrl: ActionSheetController,
               private modalCtrl: ModalController,
               private navCtrl: NavController,
-              private ga: GoogleAnalytics,
               private authService: AuthService) {}
 
   ngOnInit() {
@@ -97,13 +95,13 @@ export class ProfilePage implements OnInit, OnDestroy {
 
   trackWithGoogle() {
     this.storage.get(StorageKeys.PROFILE).then(profile => {
-      this.ga.startTrackerWithId(GA_ID)
-        .then(() => {
-          console.log('Google analytics is ready now');
-          this.ga.trackView('profile');
-          this.ga.setUserId(profile.user.username);
-        })
-        .catch(e => console.log('Error starting GoogleAnalytics', e));
+      // this.ga.startTrackerWithId(GA_ID)
+      //   .then(() => {
+      //     console.log('Google analytics is ready now');
+      //     this.ga.trackView('profile');
+      //     this.ga.setUserId(profile.user.username);
+      //   })
+      //   .catch(e => console.log('Error starting GoogleAnalytics', e));
     });
   }
 
