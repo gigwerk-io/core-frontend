@@ -4,7 +4,6 @@ import { Storage } from '@ionic/storage';
 import {INTERCOM_ID, Role, StorageKeys} from '../../providers/constants';
 import {AuthorizationToken} from '../../utils/interfaces/user-options';
 import {ActionSheetController, NavController, Platform} from '@ionic/angular';
-import {Intercom} from '@ionic-native/intercom/ngx';
 import {Intercom as WebIntercom} from 'ng-intercom';
 import {InAppBrowser} from '@ionic-native/in-app-browser/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
@@ -28,7 +27,6 @@ export class SettingsPage implements OnInit {
   constructor(private authService: AuthService,
               private storage: Storage,
               private  navCtrl: NavController,
-              private intercom: Intercom,
               private platform: Platform,
               private webIntercom: WebIntercom,
               private iab: InAppBrowser,
