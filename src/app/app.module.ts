@@ -17,12 +17,10 @@ import {PusherServiceProvider} from './providers/pusher.service';
 import {MomentModule} from 'ngx-moment';
 import {Stripe} from '@ionic-native/stripe/ngx';
 import { CreditCardDirectivesModule } from 'angular-cc-library';
-import { Intercom } from '@ionic-native/intercom/ngx';
 import { IntercomModule } from 'ng-intercom';
 import { Push } from '@ionic-native/push/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Contacts} from '@ionic-native/contacts/ngx';
-import { GoogleAnalytics } from '@ionic-native/google-analytics/ngx';
 import { Badge } from '@ionic-native/badge/ngx';
 
 
@@ -57,10 +55,8 @@ import { Badge } from '@ionic-native/badge/ngx';
     Stripe,
     Push,
     FormBuilder,
-    Intercom,
     SocialSharing,
     Contacts,
-    GoogleAnalytics,
     Badge
   ],
   bootstrap: [AppComponent]
