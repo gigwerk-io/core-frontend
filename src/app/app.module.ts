@@ -22,6 +22,7 @@ import { Push } from '@ionic-native/push/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Contacts} from '@ionic-native/contacts/ngx';
 import { Badge } from '@ionic-native/badge/ngx';
+import { AnimationService, AnimatesDirective } from 'css-animator';
 
 
 @NgModule({
@@ -46,7 +47,10 @@ import { Badge } from '@ionic-native/badge/ngx';
       updateOnRouterChange: true // will automatically run `update` on router event changes. Default: `false`
     })
   ],
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent,
+    AnimatesDirective
+  ],
   providers: [
     InAppBrowser,
     SplashScreen,
@@ -57,7 +61,8 @@ import { Badge } from '@ionic-native/badge/ngx';
     FormBuilder,
     SocialSharing,
     Contacts,
-    Badge
+    Badge,
+    AnimationService
   ],
   bootstrap: [AppComponent]
 })

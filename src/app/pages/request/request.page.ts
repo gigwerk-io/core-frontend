@@ -77,6 +77,8 @@ export class RequestPage implements OnInit, OnDestroy {
   progress = 0;
   submitted = false;
   locations: LocationAddress[] = [];
+  subPage = 'request-index';
+  subPageTitle: string;
 
   constructor(private modalCtrl: ModalController,
               private imagePicker: ImagePicker,
@@ -160,46 +162,13 @@ export class RequestPage implements OnInit, OnDestroy {
   }
 
   onSlideChange() {
-    this.slides.getActiveIndex()
-      .then((index) => {
-        switch (index) {
-          case 0:
-            this.pageTitle = 'Request';
-            this.content.scrollToTop(500);
-            break;
-          case 1:
-            this.pageTitle = 'Description';
-            this.content.scrollToTop(500);
-            break;
-          case 2:
-            this.pageTitle = 'Time';
-            this.content.scrollToTop(500);
-            break;
-          case 3:
-            this.pageTitle = 'Location';
-            this.content.scrollToTop(500);
-            break;
-          case 4:
-            this.pageTitle = 'Images';
-            this.content.scrollToTop(500);
-            break;
-          case 5:
-            this.pageTitle = 'Difficulty';
-            this.content.scrollToTop(500);
-            break;
-          case 6:
-            this.pageTitle = 'Price';
-            this.content.scrollToTop(500);
-            break;
-        }
-      });
+    this.content.scrollToTop(500);
   }
 
   selectCategory(category: MainCategory) {
     this.taskRequest.category_id = category.id;
     setTimeout(() => {
       this.updateProgress();
-      this.slides.slideNext();
     }, 500);
   }
 
@@ -208,7 +177,7 @@ export class RequestPage implements OnInit, OnDestroy {
     this.updateProgress();
   }
 
-  onTextboxChange(event) {
+  onTextboxChange() {
     this.updateProgress();
   }
 
@@ -284,10 +253,10 @@ export class RequestPage implements OnInit, OnDestroy {
     });
   }
 
-  onSubmitTaskRequest(form: NgForm) {
+  onSubmitTaskRequest() {
     this.submitted = true;
 
-    if (form.valid) {
+    if (this.progress === 1) {
       this.marketplaceService.createMainMarketplaceRequest(this.taskRequest)
         .then((res) => {
           this.closeRequestPage()
@@ -341,6 +310,30 @@ export class RequestPage implements OnInit, OnDestroy {
       .catch(error => {
         this.presentToast(error.error.message);
       });
+  }
+
+  openSubPage(page: string) {
+    this.subPage = page;
+    switch (page) {
+      case 'select-category':
+        this.subPageTitle = 'Select Category';
+        break;
+      case 'task-information':
+        this.subPageTitle = 'Task Information';
+        break;
+      case 'location':
+        this.subPageTitle = 'Location';
+        break;
+      case 'attach-images':
+        this.subPageTitle = 'Attach Images';
+        break;
+      case 'task-intensity':
+        this.subPageTitle = 'Task Difficulty';
+        break;
+      case 'set-price':
+        this.subPageTitle = 'Set Price';
+        break;
+    }
   }
 }
 

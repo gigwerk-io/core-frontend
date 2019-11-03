@@ -63,3 +63,10 @@ ckeditor {
 ion-textarea {
   --background: rgb(245, 245, 245);
 }
+
+.form-submit-button {
+  position: fixed;
+  left: 0;
+  bottom: 25%;
+  right: 0;
+}
