@@ -169,6 +169,7 @@ export class RequestPage implements OnInit, OnDestroy {
     this.taskRequest.category_id = category.id;
     setTimeout(() => {
       this.updateProgress();
+      this.openSubPage('task-information');
     }, 500);
   }
 
@@ -303,11 +304,13 @@ export class RequestPage implements OnInit, OnDestroy {
 
     this.marketplaceService.editMainMarketplaceRequest(this.taskRequest)
       .then((res) => {
+        this.closeRequestPage();
         this.presentToast(res);
         this.navCtrl.navigateBack(`app/marketplace-detail/${this.taskRequest.id}`);
         this.events.publish('task-action', TaskActions.CUSTOMER_UPDATE_TASK);
       })
       .catch(error => {
+        this.closeRequestPage();
         this.presentToast(error.error.message);
       });
   }

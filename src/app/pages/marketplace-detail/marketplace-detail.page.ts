@@ -12,6 +12,7 @@ import {Events} from '@ionic/angular';
 import {CompleteTaskPage} from '../complete-task/complete-task.page';
 import {LaunchNavigator, LaunchNavigatorOptions} from '@ionic-native/launch-navigator/ngx';
 import {ReportPage} from '../report/report.page';
+import {RequestPage} from '../request/request.page';
 
 @Component({
   selector: 'marketplace-detail',
@@ -230,9 +231,34 @@ export class MarketplaceDetailPage implements OnInit, OnDestroy {
     }, 1000);
   }
 
-  editTaskRequest(task: MainMarketplaceTask) {
-    this.navCtrl.navigateForward('/app/edit-task')
-      .then(() => this.events.publish('task-edit', task));
+  async editTaskRequest(task: MainMarketplaceTask) {
+    const modal = await this.modalCtrl.create({
+      component: RequestPage,
+      componentProps: {'isModal': true}
+    });
+
+    const loadingRequestPage = await this.loadingCtrl.create({
+      message: 'Please wait...',
+      translucent: true
+    });
+
+    await loadingRequestPage.present();
+
+    modal.onDidDismiss().then(async () => {
+      const loadingPage = await this.loadingCtrl.create({
+        message: 'Please wait...',
+        translucent: true
+      });
+
+      await loadingPage.present();
+      loadingPage.dismiss();
+    });
+
+    await modal.present()
+      .then(() => {
+        this.events.publish('task-edit', task);
+        return loadingRequestPage.dismiss();
+      });
   }
 
   openLocation() {

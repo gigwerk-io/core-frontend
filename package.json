@@ -155,8 +155,5 @@
       },
       "cordova-plugin-badge": {}
     }
-  },
-  "config": {
-    "ionic_copy": "./config/copy.config.js"
   }
 }
