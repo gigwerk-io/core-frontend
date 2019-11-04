@@ -16,7 +16,7 @@
           <ion-back-button (click)="openSubPage('request-index')" defaultHref></ion-back-button>
         </ng-template>
       </ion-buttons>
-      <ion-title>
+      <ion-title class="animated fadeIn">
         {{subPageTitle}}
       </ion-title>
       <ion-progress-bar *ngIf="progress" [value]="progress" [ngClass]="progress == 1 ? 'green-progress' : ''"></ion-progress-bar>
@@ -106,12 +106,14 @@
       </div>
     </ion-list>
 
-    <ion-list *ngSwitchCase="'select-category'" class="animated faster slideInRight">
-      <favr-category-card-buttons
-        (selectedCategory)="selectCategory($event)"
-        [categories]="categories"
-      ></favr-category-card-buttons>
-    </ion-list>
+    <div *ngSwitchCase="'select-category'" class="sub-page">
+      <ion-list>
+        <favr-category-card-buttons
+          (selectedCategory)="selectCategory($event)"
+          [categories]="categories"
+        ></favr-category-card-buttons>
+      </ion-list>
+    </div>
 
     <div *ngSwitchCase="'task-information'" class="sub-page animated faster slideInRight">
       <ion-list>
@@ -149,7 +151,7 @@
       </div>
     </div>
 
-    <div  *ngSwitchCase="'location'" class="sub-page animated faster slideInRight">
+    <div *ngSwitchCase="'location'" class="sub-page animated faster slideInRight">
       <ion-list>
         <div no-margin *ngIf="locations.length != 0">
           <ion-list-header>
@@ -331,17 +333,17 @@
       <ion-list>
         <ion-slides [pager]="true" *ngIf="taskRequest.image_one || taskRequest.image_two || taskRequest.image_three" class="photo-gallery">
           <ion-slide *ngIf="taskRequest.image_one" class="marketplace-slide-image">
-            <img src="data:image/jpeg;base64,{{taskRequest.image_one}}" alt="Attached Image 1">
+            <img [src]="taskRequest.image_one" alt="Attached Image 1">
             <ion-icon (click)="removeImage(0)" name="close-circle" color="primary" class="remove-attached-image-button"></ion-icon>
           </ion-slide>
 
           <ion-slide *ngIf="taskRequest.image_two" class="marketplace-slide-image">
-            <img src="data:image/jpeg;base64,{{taskRequest.image_two}}" alt="Attached Image 2">
+            <img [src]="(!isTaskEdit) ? 'data:image/jpeg;base64,' + taskRequest.image_two : taskRequest.image_two" alt="Attached Image 2">
             <ion-icon (click)="removeImage(1)" name="close-circle" color="primary" class="remove-attached-image-button"></ion-icon>
           </ion-slide>
 
           <ion-slide *ngIf="taskRequest.image_three" class="marketplace-slide-image">
-            <img src="data:image/jpeg;base64,{{taskRequest.image_three}}" alt="Attached Image 3">
+            <img [src]="(!isTaskEdit) ? 'data:image/jpeg;base64,' + taskRequest.image_three : taskRequest.image_three" alt="Attached Image 3">
             <ion-icon (click)="removeImage(2)" name="close-circle" color="primary" class="remove-attached-image-button"></ion-icon>
           </ion-slide>
         </ion-slides>

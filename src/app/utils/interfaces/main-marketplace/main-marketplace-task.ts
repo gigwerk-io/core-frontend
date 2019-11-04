@@ -18,9 +18,9 @@ export interface MainMarketplaceTask {
   complete_before?: number;
   isoFormat?: number;
   postedFormat?: number;
-  image_one?: string;
-  image_two?: string;
-  image_three?: string;
+  image_one?: any;
+  image_two?: any;
+  image_three?: any;
   action?: number;
   created_at?: number;
   updated_at?: number;

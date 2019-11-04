@@ -22,8 +22,6 @@ import { Push } from '@ionic-native/push/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Contacts} from '@ionic-native/contacts/ngx';
 import { Badge } from '@ionic-native/badge/ngx';
-import { AnimationService, AnimatesDirective } from 'css-animator';
-
 
 @NgModule({
   imports: [
@@ -48,8 +46,7 @@ import { AnimationService, AnimatesDirective } from 'css-animator';
     })
   ],
   declarations: [
-    AppComponent,
-    AnimatesDirective
+    AppComponent
   ],
   providers: [
     InAppBrowser,
@@ -61,8 +58,7 @@ import { AnimationService, AnimatesDirective } from 'css-animator';
     FormBuilder,
     SocialSharing,
     Contacts,
-    Badge,
-    AnimationService
+    Badge
   ],
   bootstrap: [AppComponent]
 })

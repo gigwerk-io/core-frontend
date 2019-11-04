@@ -338,6 +338,18 @@ export class RequestPage implements OnInit, OnDestroy {
         break;
     }
   }
+
+  uploadImage(event: any) {
+    console.log(event.target.files);
+    if (event.target.files && event.target.files[0]) {
+      const reader = new FileReader();
+
+      reader.onload = (e: ProgressEvent) => {
+        this.taskRequest.image_one = (<FileReader>e.target).result;
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  }
 }
 
 export function setProgress(formFields: any[], initProgress: number = 0): number {
