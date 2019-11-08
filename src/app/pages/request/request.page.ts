@@ -19,7 +19,6 @@ import {STATES} from '../../utils/mocks/states.mock';
 import {ImagePicker, ImagePickerOptions} from '@ionic-native/image-picker/ngx';
 import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
 import {MarketplaceService} from '../../utils/services/marketplace.service';
-import {NgForm} from '@angular/forms';
 import {Router} from '@angular/router';
 import {LocationAddress} from '../../utils/interfaces/settings/preferences';
 import {PreferencesService} from '../../utils/services/preferences.service';
@@ -47,6 +46,11 @@ export class RequestPage implements OnInit, OnDestroy {
     category_id: undefined,
     intensity: undefined,
     price: undefined,
+    image_one: undefined,
+    image_two: undefined,
+    image_three: undefined
+  };
+  taskImages = {
     image_one: undefined,
     image_two: undefined,
     image_three: undefined
@@ -103,6 +107,10 @@ export class RequestPage implements OnInit, OnDestroy {
           this.taskRequest.state = location.state;
           this.taskRequest.zip = location.zip;
         });
+
+        this.taskImages.image_one = taskRequest.image_one;
+        this.taskImages.image_two = taskRequest.image_two;
+        this.taskImages.image_three = taskRequest.image_three;
       }
     });
   }
@@ -208,14 +216,17 @@ export class RequestPage implements OnInit, OnDestroy {
 
     this.imagePicker.getPictures(options).then((results) => {
       if (results[0]) {
+        this.taskImages.image_one = 'data:image/jpeg;base64,' + results[0];
         this.taskRequest.image_one = results[0];
       }
 
       if (results[1]) {
+        this.taskImages.image_two = 'data:image/jpeg;base64,' + results[1];
         this.taskRequest.image_two = results[1];
       }
 
       if (results[2]) {
+        this.taskImages.image_three = 'data:image/jpeg;base64,' + results[2];
         this.taskRequest.image_three = results[2];
       }
     }, (err) => { console.log('Error with Image Picker.'); });
@@ -224,12 +235,15 @@ export class RequestPage implements OnInit, OnDestroy {
   removeImage(index: number) {
     switch (index) {
       case 0:
+        this.taskImages.image_one = undefined;
         this.taskRequest.image_one = undefined;
         break;
       case 1:
+        this.taskImages.image_two = undefined;
         this.taskRequest.image_two = undefined;
         break;
       case 2:
+        this.taskImages.image_three = undefined;
         this.taskRequest.image_three = undefined;
         break;
     }
@@ -248,6 +262,16 @@ export class RequestPage implements OnInit, OnDestroy {
       // If it's base64 (DATA_URL):
       const base64Image = 'data:image/jpeg;base64,' + imageData;
       console.log(base64Image);
+      if (!this.taskRequest.image_two) {
+        this.taskImages.image_two = base64Image;
+        this.taskRequest.image_two = imageData;
+      } else if (!this.taskRequest.image_three) {
+        this.taskImages.image_three = base64Image;
+        this.taskRequest.image_three = imageData;
+      } else {
+        this.taskImages.image_one = base64Image;
+        this.taskRequest.image_one = imageData;
+      }
     }, (err) => {
       // Handle error
       console.log('Error something went wrong with camera.');

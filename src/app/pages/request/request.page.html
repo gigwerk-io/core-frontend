@@ -80,7 +80,7 @@
       <ion-item href (click)="openSubPage('attach-images')">
         <ion-icon slot="start" mode="md" name="images"></ion-icon>
         <ion-label>Attach Images (Optional)</ion-label>
-        <div slot="end" *ngIf="taskRequest.image_one">
+        <div slot="end" *ngIf="taskImages.image_one">
           <small>
             <ion-icon size="large" color="success" name="checkmark-circle" ariaLabel="task completed"></ion-icon>
           </small>
@@ -331,36 +331,36 @@
 
     <div *ngSwitchCase="'attach-images'" class="sub-page animated faster slideInRight">
       <ion-list>
-        <ion-slides [pager]="true" *ngIf="taskRequest.image_one || taskRequest.image_two || taskRequest.image_three" class="photo-gallery">
-          <ion-slide *ngIf="taskRequest.image_one" class="marketplace-slide-image">
-            <img [src]="taskRequest.image_one" alt="Attached Image 1">
+        <ion-slides [pager]="true" *ngIf="taskImages.image_one || taskImages.image_two || taskImages.image_three" class="photo-gallery">
+          <ion-slide *ngIf="taskImages.image_one" class="marketplace-slide-image">
+            <img [src]="taskImages.image_one" alt="Attached Image 1">
             <ion-icon (click)="removeImage(0)" name="close-circle" color="primary" class="remove-attached-image-button"></ion-icon>
           </ion-slide>
 
-          <ion-slide *ngIf="taskRequest.image_two" class="marketplace-slide-image">
-            <img [src]="(!isTaskEdit) ? 'data:image/jpeg;base64,' + taskRequest.image_two : taskRequest.image_two" alt="Attached Image 2">
+          <ion-slide *ngIf="taskImages.image_two" class="marketplace-slide-image">
+            <img [src]="taskImages.image_two" alt="Attached Image 2">
             <ion-icon (click)="removeImage(1)" name="close-circle" color="primary" class="remove-attached-image-button"></ion-icon>
           </ion-slide>
 
-          <ion-slide *ngIf="taskRequest.image_three" class="marketplace-slide-image">
-            <img [src]="(!isTaskEdit) ? 'data:image/jpeg;base64,' + taskRequest.image_three : taskRequest.image_three" alt="Attached Image 3">
+          <ion-slide *ngIf="taskImages.image_three" class="marketplace-slide-image">
+            <img [src]="taskImages.image_three" alt="Attached Image 3">
             <ion-icon (click)="removeImage(2)" name="close-circle" color="primary" class="remove-attached-image-button"></ion-icon>
           </ion-slide>
         </ion-slides>
 
-        <div class="ion-padding-start long-button">
+        <div class="ion-padding-start ion-padding-top long-button">
           <ion-button (click)="openPhotoGallery()" expand="block">
             <ion-icon name="images" slot="start"></ion-icon>
             Attach Photos (Optional)
           </ion-button>
-          <ion-button (click)="openCamera()" class="mobile-only camera-button" expand="block">
-            <ion-icon name="camera" slot="start"></ion-icon>
-            Take Photo (Optional)
-          </ion-button>
+          <!--<ion-button (click)="openCamera()" class="mobile-only camera-button" expand="block">-->
+            <!--<ion-icon name="camera" slot="start"></ion-icon>-->
+            <!--Take Photo (Optional)-->
+          <!--</ion-button>-->
         </div>
       </ion-list>
 
-      <div class="ion-padding-start form-submit-button">
+      <div class="ion-padding-start long-button">
         <ion-button *ngIf="!isTaskEdit; else taskEditSubmit" (click)="onSubmitTaskRequest()"
                     [disabled]="progress < 1"
                     type="submit"
