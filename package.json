@@ -33,6 +33,7 @@
     "@ionic-native/core": "5.0.0-beta.15",
     "@ionic-native/image-picker": "^5.12.0",
     "@ionic-native/in-app-browser": "^5.0.0-beta.15",
+    "@ionic-native/keyboard": "^5.16.0",
     "@ionic-native/launch-navigator": "^5.15.1",
     "@ionic-native/photo-viewer": "^5.12.0",
     "@ionic-native/push": "^5.14.0",

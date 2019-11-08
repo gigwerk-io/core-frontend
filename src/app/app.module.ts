@@ -22,6 +22,7 @@ import { Push } from '@ionic-native/push/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Contacts} from '@ionic-native/contacts/ngx';
 import { Badge } from '@ionic-native/badge/ngx';
+import {Keyboard} from '@ionic-native/keyboard/ngx';
 
 
 @NgModule({
@@ -57,7 +58,8 @@ import { Badge } from '@ionic-native/badge/ngx';
     FormBuilder,
     SocialSharing,
     Contacts,
-    Badge
+    Badge,
+    Keyboard,
   ],
   bootstrap: [AppComponent]
 })
