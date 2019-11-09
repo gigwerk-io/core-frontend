@@ -22,6 +22,7 @@ import { Push } from '@ionic-native/push/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Contacts} from '@ionic-native/contacts/ngx';
 import { Badge } from '@ionic-native/badge/ngx';
+import { Angulartics2Module } from 'angulartics2';
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import { Badge } from '@ionic-native/badge/ngx';
     IntercomModule.forRoot({
       appId: 'yvoar9nd', // from your Intercom config
       updateOnRouterChange: true // will automatically run `update` on router event changes. Default: `false`
-    })
+    }),
+    Angulartics2Module.forRoot()
   ],
   declarations: [AppComponent],
   providers: [
