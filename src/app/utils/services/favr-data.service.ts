@@ -17,7 +17,7 @@ export class FavrDataService {
    * @returns {Observable<Object> | Observable<any>}
    */
   public getCategories() {
-    return this.httpClient.get(<CategoryResponse>`${API_ADDRESS}/categories`);
+    return this.httpClient.get<CategoryResponse>(`${API_ADDRESS}/categories`);
   }
 
   /**

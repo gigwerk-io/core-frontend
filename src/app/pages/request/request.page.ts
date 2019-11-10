@@ -10,7 +10,6 @@ import {
   ToastController
 } from '@ionic/angular';
 import {MainCategory} from '../../utils/interfaces/main-marketplace/main-category';
-import {TASK_CATEGORIES} from '../../utils/mocks/mock-categories.mock';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import {ChangeEvent} from '@ckeditor/ckeditor5-angular';
 import {MainMarketplaceTask} from '../../utils/interfaces/main-marketplace/main-marketplace-task';

@@ -10,5 +10,5 @@ export interface City {
 }
 
 export interface CitiesResponse {
-  cities: City;
+  cities: City[];
 }

@@ -7,5 +7,5 @@ export interface MainCategory {
 }
 
 export interface CategoryResponse {
-  categories: MainCategory;
+  categories: MainCategory[];
 }
