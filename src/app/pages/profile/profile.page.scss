@@ -43,3 +43,25 @@ hr {
     margin-top: 10px;
   }
 }
+
+.star {
+  position: relative;
+  display: inline-block;
+  font-size: 2rem;
+  color: #353535;
+}
+
+.full {
+  color: #beab00;
+}
+
+.half {
+  position: absolute;
+  display: inline-block;
+  overflow: hidden;
+  color: gold;
+}
+
+::ng-deep .sr-only {
+  display: none!important;
+}

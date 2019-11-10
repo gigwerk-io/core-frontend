@@ -23,6 +23,7 @@ import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Contacts} from '@ionic-native/contacts/ngx';
 import { Badge } from '@ionic-native/badge/ngx';
 import {Keyboard} from '@ionic-native/keyboard/ngx';
+import { Angulartics2Module } from 'angulartics2';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import {Keyboard} from '@ionic-native/keyboard/ngx';
     IntercomModule.forRoot({
       appId: 'yvoar9nd', // from your Intercom config
       updateOnRouterChange: true // will automatically run `update` on router event changes. Default: `false`
-    })
+    }),
+    Angulartics2Module.forRoot()
   ],
   declarations: [AppComponent],
   providers: [

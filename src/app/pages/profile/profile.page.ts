@@ -82,7 +82,6 @@ export class ProfilePage implements OnInit, OnDestroy {
           }
         });
     });
-    this.trackWithGoogle();
   }
 
   ngOnDestroy(): void {
@@ -93,17 +92,6 @@ export class ProfilePage implements OnInit, OnDestroy {
     this.photoViewer.show(url, (photoTitle) ? photoTitle : '');
   }
 
-  trackWithGoogle() {
-    this.storage.get(StorageKeys.PROFILE).then(profile => {
-      // this.ga.startTrackerWithId(GA_ID)
-      //   .then(() => {
-      //     console.log('Google analytics is ready now');
-      //     this.ga.trackView('profile');
-      //     this.ga.setUserId(profile.user.username);
-      //   })
-      //   .catch(e => console.log('Error starting GoogleAnalytics', e));
-    });
-  }
 
   async presentOwnerActionSheet() {
     const actionSheet = await this.actionSheetCtrl.create({
