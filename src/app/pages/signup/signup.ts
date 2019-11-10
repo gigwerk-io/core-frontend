@@ -41,19 +41,23 @@ export class SignupPage {
   };
   submitted = false;
   maxYear = (new Date()).getFullYear() - 13;
-  states: State[] = STATES;
-  progress = 0;
-  pageTitle = 'Sign Up';
   cities: City[];
+  progress = 0;
+
+  pageTitle = 'Sign Up';
+  subPageTitle = 'Sign Up';
+  subPage = 'signup-index';
+  prevPageTitle: string;
+  prevSubPage: string;
 
   constructor(
     private authService: AuthService,
     public navCtrl: NavController,
     private toastController: ToastController,
     private push: Push,
-    private notficationService: NotificationService,
+    private notificationService: NotificationService,
     private platform: Platform,
-    private perferencesService: PreferencesService,
+    private preferencesService: PreferencesService,
     private router: Router,
     private favrService: FavrDataService
   ) {
@@ -152,11 +156,11 @@ export class SignupPage {
       pushObject.on('registration').subscribe((data: any) => {
         console.log('Token: ' + data.registrationId);
         if (this.platform.is('ios')) {
-          this.notficationService.saveAPNToken({'device_token': data.registrationId}).subscribe(res => {
+          this.notificationService.saveAPNToken({'device_token': data.registrationId}).subscribe(res => {
             console.log(res);
           });
         } else if (this.platform.is('android')) {
-          this.notficationService.saveFCMToken({'device_token': data.registrationId}).subscribe(res => {
+          this.notificationService.saveFCMToken({'device_token': data.registrationId}).subscribe(res => {
             console.log(res);
           });
         }
@@ -174,6 +178,35 @@ export class SignupPage {
       });
 
       pushObject.on('error').subscribe(error => console.warn(error));
+    }
+  }
+
+  openSubPage(page: string) {
+    console.log(this.prevSubPage);
+    switch (page) {
+      case 'signup-index':
+        this.prevPageTitle = this.subPageTitle;
+        this.prevSubPage = this.subPage;
+        this.subPage = page;
+        break;
+      case 'personal-info':
+        this.prevPageTitle = this.subPageTitle;
+        this.prevSubPage = this.subPage;
+        this.subPageTitle = 'Personal Information';
+        this.subPage = page;
+        break;
+      case 'set-up-password':
+        this.prevPageTitle = this.subPageTitle;
+        this.prevSubPage = this.subPage;
+        this.subPageTitle = 'Set Up Password';
+        this.subPage = page;
+        break;
+      case 'select-city':
+        this.prevPageTitle = this.subPageTitle;
+        this.prevSubPage = this.subPage;
+        this.subPageTitle = 'Select City';
+        this.subPage = page;
+        break;
     }
   }
 }
