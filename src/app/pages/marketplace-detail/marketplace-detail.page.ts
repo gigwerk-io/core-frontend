@@ -7,11 +7,11 @@ import {MarketplaceService} from '../../utils/services/marketplace.service';
 import {Storage} from '@ionic/storage';
 import {Role, StorageKeys, TaskActions, TaskStatus} from '../../providers/constants';
 import {ChatService} from '../../utils/services/chat.service';
-import {TASK_CATEGORIES} from '../../utils/mocks/mock-categories.mock';
 import {Events} from '@ionic/angular';
 import {CompleteTaskPage} from '../complete-task/complete-task.page';
 import {LaunchNavigator, LaunchNavigatorOptions} from '@ionic-native/launch-navigator/ngx';
 import {ReportPage} from '../report/report.page';
+import {FavrDataService} from '../../utils/services/favr-data.service';
 
 @Component({
   selector: 'marketplace-detail',
@@ -28,7 +28,7 @@ export class MarketplaceDetailPage implements OnInit, OnDestroy {
   isOwner: boolean;
   isFreelancer: boolean;
   userRole: string;
-  Categories = TASK_CATEGORIES;
+  Categories;
   TaskStatus = TaskStatus;
 
   constructor(private modalCtrl: ModalController,
@@ -43,7 +43,11 @@ export class MarketplaceDetailPage implements OnInit, OnDestroy {
               private actionSheetCtrl: ActionSheetController,
               private chatService: ChatService,
               private events: Events,
-              private launchNavigator: LaunchNavigator) {
+              private launchNavigator: LaunchNavigator,
+              private favrService: FavrDataService) {
+    this.favrService.getCategories().subscribe(res => {
+      this.Categories = res.categories;
+    });
     this.events.subscribe('task-action', (action) => {
       if (action === TaskActions.FREELANCER_COMPLETE_TASK ||
           action === TaskActions.CUSTOMER_COMPLETE_TASK ||
