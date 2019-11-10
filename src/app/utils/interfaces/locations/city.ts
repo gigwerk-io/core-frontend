@@ -1,9 +1,14 @@
-import {State} from './state';
-
 export interface City {
   id?: number;
-  name?: string;
-  state?: State;
-  description?: string;
-  src?: string;
+  city: string;
+  state: string;
+  zip: string;
+  lat: number;
+  long: number;
+  description: string;
+  image: string;
+}
+
+export interface CitiesResponse {
+  cities: City;
 }

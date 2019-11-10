@@ -10,8 +10,8 @@ import {Push, PushObject, PushOptions} from '@ionic-native/push/ngx';
 import {NotificationService} from '../../utils/services/notification.service';
 import {PreferencesService} from '../../utils/services/preferences.service';
 import {City} from '../../utils/interfaces/locations/city';
-import {CITIES} from '../../utils/mocks/cities.mock';
 import {Router} from '@angular/router';
+import {FavrDataService} from '../../utils/services/favr-data.service';
 
 @Component({
   selector: 'page-signup',
@@ -44,7 +44,7 @@ export class SignupPage {
   states: State[] = STATES;
   progress = 0;
   pageTitle = 'Sign Up';
-  cities: City[] = CITIES;
+  cities: City[];
 
   constructor(
     private authService: AuthService,
@@ -54,8 +54,13 @@ export class SignupPage {
     private notficationService: NotificationService,
     private platform: Platform,
     private perferencesService: PreferencesService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private favrService: FavrDataService
+  ) {
+    this.favrService.getCities().subscribe(res => {
+      this.cities = res.cities;
+    });
+  }
 
   onSignup(form: NgForm) {
     this.submitted = true;
