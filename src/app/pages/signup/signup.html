@@ -6,7 +6,7 @@
 ></favr-page-header>
 
 <ng-template #subPageHeader>
-  <ion-header class="animated slideInRight">
+  <ion-header>
     <ion-toolbar>
       <ion-buttons slot="start">
         <ion-button class="back-button" float-left (click)="goBack()">
@@ -57,7 +57,7 @@
         </div>
       </ion-list>
 
-      <ion-list *ngSwitchCase="'personal-info'" class="animated faster slideInRight">
+      <ion-list *ngSwitchCase="'personal-info'">
         <ion-item class="input-item">
           <ion-label position="stacked">First Name</ion-label>
           <ion-input [(ngModel)]="signup.first_name"
@@ -183,7 +183,7 @@
         </ion-button>
       </ion-list>
 
-      <ion-list *ngSwitchCase="'set-up-password'" class="animated faster slideInRight">
+      <ion-list *ngSwitchCase="'set-up-password'">
         <ion-item>
           <ion-label position="stacked">Password</ion-label>
           <ion-input [(ngModel)]="signup.password"
@@ -230,7 +230,7 @@
         </ion-button>
       </ion-list>
 
-      <ion-list *ngSwitchCase="'select-city'" class="animated faster slideInRight">
+      <ion-list *ngSwitchCase="'select-city'">
         <ion-card *ngFor="let city of cities" style="border-radius: 2rem!important;">
           <ion-item style="padding-right: 0!important;">
             <h2>
