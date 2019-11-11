@@ -13,6 +13,11 @@ import {City} from '../../utils/interfaces/locations/city';
 import {Router} from '@angular/router';
 import {FavrDataService} from '../../utils/services/favr-data.service';
 
+interface PageStack {
+  pageTitle: string;
+  page: string;
+}
+
 @Component({
   selector: 'page-signup',
   templateUrl: 'signup.html',
@@ -47,8 +52,12 @@ export class SignupPage {
   pageTitle = 'Sign Up';
   subPageTitle = 'Sign Up';
   subPage = 'signup-index';
-  prevPageTitle: string;
-  prevSubPage: string;
+  pageStack: PageStack[] = [
+    {
+      pageTitle: 'Sign Up',
+      page: 'signup-index'
+    }
+  ];
 
   constructor(
     private authService: AuthService,
@@ -95,26 +104,6 @@ export class SignupPage {
     });
   }
 
-  onSlideChange() {
-    this.slides.getActiveIndex()
-      .then((index) => {
-        switch (index) {
-          case 0:
-            this.pageTitle = 'Sign Up';
-            this.content.scrollToTop(500);
-            break;
-          case 1:
-            this.pageTitle = 'Security';
-            this.content.scrollToTop(500);
-            break;
-          case 2:
-            this.pageTitle = 'Location';
-            this.content.scrollToTop(500);
-            break;
-        }
-      });
-  }
-
   updateProgress() {
     this.progress = setProgress([
       this.signup.first_name,
@@ -124,7 +113,6 @@ export class SignupPage {
       this.signup.password,
       this.signup.confirm_password,
       this.signup.phone,
-      // this.signup.birthday,
       this.signup.city_id
     ]);
   }
@@ -132,7 +120,7 @@ export class SignupPage {
   selectCity(city: City) {
     this.signup.city_id = city.id;
     this.updateProgress();
-    this.content.scrollToBottom(1000);
+    setTimeout(() => this.openSubPage('signup-index'), 600);
   }
 
   initPushNotification() {
@@ -181,32 +169,29 @@ export class SignupPage {
     }
   }
 
+  goBack() {
+    this.pageStack.pop(); // remove current page
+    const prevPage = this.pageStack[this.pageStack.length - 1];
+    this.subPage = prevPage.page;
+    this.subPageTitle = prevPage.pageTitle;
+  }
+
   openSubPage(page: string) {
-    console.log(this.prevSubPage);
     switch (page) {
       case 'signup-index':
-        this.prevPageTitle = this.subPageTitle;
-        this.prevSubPage = this.subPage;
-        this.subPage = page;
+        this.subPageTitle = 'Sign Up';
         break;
       case 'personal-info':
-        this.prevPageTitle = this.subPageTitle;
-        this.prevSubPage = this.subPage;
         this.subPageTitle = 'Personal Information';
-        this.subPage = page;
         break;
       case 'set-up-password':
-        this.prevPageTitle = this.subPageTitle;
-        this.prevSubPage = this.subPage;
         this.subPageTitle = 'Set Up Password';
-        this.subPage = page;
         break;
       case 'select-city':
-        this.prevPageTitle = this.subPageTitle;
-        this.prevSubPage = this.subPage;
         this.subPageTitle = 'Select City';
-        this.subPage = page;
         break;
     }
+    this.pageStack.push({pageTitle: this.subPageTitle, page: page});
+    this.subPage = page;
   }
 }

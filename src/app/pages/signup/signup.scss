@@ -31,3 +31,7 @@ ion-slide {
   display: block;
   text-align: left;
 }
+
+.green-progress {
+  --progress-background: var(--ion-color-success);
+}
