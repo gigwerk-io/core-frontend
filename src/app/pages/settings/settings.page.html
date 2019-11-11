@@ -86,7 +86,7 @@
   </ion-list>
 
   <!--TRANSFERS SECTION (if freelancer)-->
-  <ion-list class="ion-padding-start" *ngIf="seeTransfers">
+  <ion-list class="ion-padding-start" *ngIf="isFreelancer">
     <ion-list-header>
       TRANSFERS
     </ion-list-header>
@@ -123,11 +123,6 @@
       <ion-icon slot="start" name="barcode"></ion-icon>
       <ion-label> Redeem Code </ion-label>
     </ion-item>
-
-    <ion-item href (click)="inviteFriends()">
-      <ion-icon slot="start" mode="md" name="person-add"></ion-icon>
-      <ion-label> Invite Friends for Credit </ion-label>
-    </ion-item>
   </ion-list>
 
   <!--Support Section-->
@@ -141,10 +136,22 @@
       <ion-label> Help </ion-label>
     </ion-item>
 
-    <!--<ion-item routerLink="#">-->
-      <!--<ion-icon slot="start" name="help"></ion-icon>-->
-      <!--<ion-label> FAQ </ion-label>-->
-    <!--</ion-item>-->
+  </ion-list>
+
+  <!--Share Section-->
+  <ion-list class="ion-padding-start">
+    <ion-list-header>
+      Invite Friends
+    </ion-list-header>
+
+    <ion-item routerLink="/app/refer-a-customer">
+      <ion-icon slot="start" name="ribbon"></ion-icon>
+      <ion-label> Refer For Credit </ion-label>
+    </ion-item>
+    <ion-item *ngIf="isFreelancer" routerLink="/app/refer-a-worker">
+      <ion-icon slot="start" name="cash"></ion-icon>
+      <ion-label> Refer For Cash </ion-label>
+    </ion-item>
   </ion-list>
 
   <!--LEGAL SECTION-->
