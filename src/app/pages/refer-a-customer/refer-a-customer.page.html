@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Refer a Customer</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>Invite Friends</ion-card-subtitle>
+      <ion-card-title>Earn $10 Credit Per Referral</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      Earn $10 per referral when you refer your friends to use FAVR. In order to qualify, your friend must setup an account
+      with FAVR. When they signup, they too will receive $10 in credit for their first job, valid for 30 days.
+    </ion-card-content>
+    <small>
+      Note, we will only pay up to $500 in credit for referrals. <br><br> Any spamming of our referral system,
+      will result in a permanent ban from FAVR.
+    </small>
+    <ion-button expand="block" (click)="copyToClipboard()">
+      Share
+      <ion-icon slot="end" name="share-alt"></ion-icon>
+    </ion-button>
+  </ion-card>
+</ion-content>

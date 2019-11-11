@@ -20,9 +20,9 @@ import {StatusBar} from '@ionic-native/status-bar/ngx';
 export class SettingsPage implements OnInit {
 
   seeCredit: boolean;
-  seeTransfers: boolean;
   intercomActive = false;
   darkMode = true;
+  isFreelancer: boolean;
 
   constructor(private authService: AuthService,
               private storage: Storage,
@@ -42,8 +42,10 @@ export class SettingsPage implements OnInit {
       });
 
     this.storage.get(StorageKeys.PROFILE).then(profile => {
-      this.seeTransfers = profile.user.role === Role.VERIFIED_FREELANCER;
       this.seeCredit = profile.user.organization_id === null;
+      if (profile.user.role === Role.VERIFIED_FREELANCER) {
+        this.isFreelancer = true;
+      }
     });
   }
 
