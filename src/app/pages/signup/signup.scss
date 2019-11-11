@@ -2,6 +2,12 @@
   --padding-start: 16px;
 }
 
+.back-button {
+  --padding-start: 0;
+  --padding-end: 0;
+  margin-inline-start: -5px
+}
+
 .signup-logo {
   padding: 20px 0;
   min-height: 200px;
@@ -24,4 +30,8 @@ ion-slide {
   height: available;
   display: block;
   text-align: left;
+}
+
+.green-progress {
+  --progress-background: var(--ion-color-success);
 }
