@@ -58,9 +58,9 @@
       </span>
     </ng-template>
 
-    <ngb-rating [(rate)]="rating" [starTemplate]="star" [readonly]="true" max="5"></ngb-rating>
-    <!--<div padding-bottom style="text-align: center;" *ngIf="rating != undefined">-->
-    <!--</div>-->
+    <div padding-bottom *ngIf="rating">
+      <ngb-rating [(rate)]="rating" [starTemplate]="star" [readonly]="true" max="5"></ngb-rating>
+    </div>
   </div>
   <div text-center>
     <section *ngIf="!isOwner">
