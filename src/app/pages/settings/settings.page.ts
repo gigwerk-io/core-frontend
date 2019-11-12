@@ -151,10 +151,10 @@ export class SettingsPage implements OnInit {
   setDarkMode() {
     switch (this.darkMode) {
       case true:
-        this.statusBar.backgroundColorByHexString('#ff6500');
+        this.statusBar.backgroundColorByHexString('#222428');
         break;
       case false:
-        this.statusBar.backgroundColorByHexString('#222428');
+        this.statusBar.backgroundColorByHexString('#ff6500');
         break;
     }
     this.storage.set(StorageKeys.THEME_PREFERENCE, this.darkMode)
