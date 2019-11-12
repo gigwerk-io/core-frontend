@@ -37,7 +37,7 @@
     <ion-item>
       <ion-icon slot="start" name="moon"></ion-icon>
       Dark Mode
-      <ion-toggle slot="end" color="primary" [(ngModel)]="darkMode" [checked]="darkMode" (click)="setDarkMode()"></ion-toggle>
+      <ion-toggle slot="end" color="primary" [(ngModel)]="darkMode" [checked]="darkMode" (ionChange)="setDarkMode()"></ion-toggle>
     </ion-item>
   </ion-list>
 
