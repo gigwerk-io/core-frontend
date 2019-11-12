@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ReferralService} from '../../utils/services/referral.service';
 import {ReferralSteps} from '../../utils/interfaces/referrals/ReferralSteps';
 import {ToastController} from '@ionic/angular';
@@ -14,16 +14,19 @@ export class ReferAWorkerPage implements OnInit {
   remainingSteps: ReferralSteps = {has_profile_description: false, has_profile_photo: false, has_bank_account: false};
   constructor(private referralService: ReferralService,
               private toastController: ToastController,
+              private changeRef: ChangeDetectorRef,
               private storage: Storage) { }
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter() {
     this.getSteps();
   }
 
   getSteps() {
-    this.referralService.getStepsToReferWorkers().subscribe(res => {
-      this.remainingSteps = res.steps;
-    });
+    this.referralService.getStepsToReferWorkers()
+      .toPromise().then(res => this.remainingSteps = res.steps);
   }
 
   copyToClipboard() {
@@ -51,5 +54,18 @@ export class ReferAWorkerPage implements OnInit {
       color: 'dark',
       showCloseButton: true
     }).then(toast => toast.present());
+  }
+
+  async doRefresh(event?: any) {
+    setTimeout(() => {
+      this.referralService.getStepsToReferWorkers()
+        .toPromise().then(res => this.remainingSteps = res.steps);
+      this.changeRef.detectChanges();
+      if (event) {
+        if (event.target) {
+          event.target.complete();
+        }
+      }
+    }, 1000);
   }
 }

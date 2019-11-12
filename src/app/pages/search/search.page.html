@@ -21,7 +21,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
+  <ion-list *ngIf="users; else noSearch">
     <ion-item href *ngFor="let user of users; let i = index;" [attr.data-index]="i" (click)="goToUserProfile(user.id)">
       <ion-avatar slot="start">
         <ion-img [src]="user.profile.image"></ion-img>
@@ -33,5 +33,12 @@
       </ion-label>
     </ion-item>
   </ion-list>
-  <ion-card-title class="ion-text-center" *ngIf="query_length == 0 && query_length != undefined">No Users Found</ion-card-title>
+  <ng-template #noSearch>
+    <ion-title>
+      <img src="../../../assets/img/binoculars.png" alt="No users found.">
+    </ion-title>
+  </ng-template>
+  <ion-title *ngIf="query_length == 0 && query_length != undefined">
+    <ion-note class="ion-text-center">No users found.</ion-note>
+  </ion-title>
 </ion-content>
