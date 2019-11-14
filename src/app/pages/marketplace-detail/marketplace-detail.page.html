@@ -54,7 +54,9 @@
           </ng-container>
 
           <ng-template #completedTime>
-            <div class="complete-by-time">Completed on {{mainMarketplaceTask.proposals[0].complete_at | amFromUtc | amLocal | date: 'MMM dd, yyyy'}}</div>
+            <ng-container *ngIf="mainMarketplaceTask.proposals">
+              <div class="complete-by-time">Completed on {{mainMarketplaceTask.proposals[0].complete_at | amFromUtc | amLocal | date: 'MMM dd, yyyy'}}</div>
+            </ng-container>
           </ng-template>
           <ion-note class="note posted-time">
             Posted {{mainMarketplaceTask.postedFormat | date}}
@@ -152,7 +154,7 @@
           </ion-button>
         </ion-col>
 
-        <ion-col *ngIf="mainMarketplaceTask.action === 7" class="ion-text-center">
+        <ion-col *ngIf="mainMarketplaceTask.action === 7 && mainMarketplaceTask.proposals" class="ion-text-center">
           <!--TODO: work on approval system instead of this work around-->
           <ion-button (click)="customerApproveFreelancer(mainMarketplaceTask.proposals[0].user_id)" fill="outline" size="small" color="primary">
             <ion-icon name="thumbs-up" slot="start"></ion-icon>
@@ -160,7 +162,7 @@
           </ion-button>
         </ion-col>
 
-        <ion-col *ngIf="mainMarketplaceTask.action === 7" class="ion-text-center">
+        <ion-col *ngIf="mainMarketplaceTask.action === 7 && mainMarketplaceTask.proposals" class="ion-text-center">
           <ion-button (click)="customerRejectFreelancer(mainMarketplaceTask.proposals[0].user_id)" fill="outline" size="small" color="primary">
             <ion-icon name="thumbs-down" slot="start"></ion-icon>
             Reject
@@ -288,7 +290,9 @@
             <ng-template #completedOn>
               <b>Completed On:</b>
               <br>
-              {{mainMarketplaceTask.proposals[0].complete_at | amFromUtc | amLocal | date: 'MMM dd, yyyy h:mm a'}}
+              <ng-container *ngIf="mainMarketplaceTask.proposals">
+                {{mainMarketplaceTask.proposals[0].complete_at | amFromUtc | amLocal | date: 'MMM dd, yyyy h:mm a'}}
+              </ng-container>
             </ng-template>
         </ion-col>
       </ion-row>

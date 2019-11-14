@@ -2,6 +2,24 @@
   background: #ededed;
 }
 
+.star {
+  position: relative;
+  display: inline-block;
+  font-size: 2rem;
+  color: #353535;
+}
+
+.full {
+  color: gold;
+}
+
+.half {
+  position: absolute;
+  display: inline-block;
+  overflow: hidden;
+  color: gold;
+}
+
 .complete-by-time {
   display: block;
 }

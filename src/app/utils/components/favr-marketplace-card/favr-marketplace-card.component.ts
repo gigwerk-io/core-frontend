@@ -8,6 +8,7 @@ import {Router} from '@angular/router';
 import {ChatService} from '../../services/chat.service';
 import {MarketplaceService} from '../../services/marketplace.service';
 import {TaskActions, TaskStatus} from '../../../providers/constants';
+import {PastJob} from '../../interfaces/user';
 
 @Component({
   selector: 'favr-marketplace-card',
@@ -18,6 +19,7 @@ import {TaskActions, TaskStatus} from '../../../providers/constants';
 export class FavrMarketplaceCardComponent implements OnInit, OnDestroy {
 
   @Input() mainMarketplaceTask: MainMarketplaceTask;
+  @Input() freelancerPastTask: PastJob;
   @Output() taskActionTaken: EventEmitter<string> = new EventEmitter();
   TaskStatus = TaskStatus;
 
