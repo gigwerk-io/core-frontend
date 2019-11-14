@@ -6,11 +6,8 @@ import {AuthorizationToken} from '../../utils/interfaces/user-options';
 import {ActionSheetController, NavController, Platform} from '@ionic/angular';
 import {Intercom as WebIntercom} from 'ng-intercom';
 import {InAppBrowser} from '@ionic-native/in-app-browser/ngx';
-import { SocialSharing } from '@ionic-native/social-sharing/ngx';
-import { Contacts, Contact, ContactField, ContactName } from '@ionic-native/contacts/ngx';
-import {error} from 'selenium-webdriver';
 import {StatusBar} from '@ionic-native/status-bar/ngx';
-
+import {environment} from 'environments/environment';
 
 @Component({
   selector: 'settings',
@@ -23,6 +20,8 @@ export class SettingsPage implements OnInit {
   intercomActive = false;
   darkMode = true;
   isFreelancer: boolean;
+  COPY_YEAR = (new Date()).getFullYear();
+  VERSION = environment.version;
 
   constructor(private authService: AuthService,
               private storage: Storage,

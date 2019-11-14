@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { ReferAWorkerPage } from './refer-a-worker.page';
+import {SocialSharing} from '@ionic-native/social-sharing/ngx';
 
 const routes: Routes = [
   {
@@ -21,6 +22,9 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [ReferAWorkerPage]
+  declarations: [ReferAWorkerPage],
+  providers: [
+    SocialSharing
+  ]
 })
 export class ReferAWorkerPageModule {}

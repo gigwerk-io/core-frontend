@@ -1,9 +1,10 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ReferralService} from '../../utils/services/referral.service';
 import {ReferralSteps} from '../../utils/interfaces/referrals/ReferralSteps';
-import {ToastController} from '@ionic/angular';
+import {Platform, ToastController} from '@ionic/angular';
 import {ORIGIN, StorageKeys} from '../../providers/constants';
 import { Storage } from '@ionic/storage';
+import {SocialSharing} from '@ionic-native/social-sharing/ngx';
 
 @Component({
   selector: 'refer-a-worker',
@@ -15,7 +16,9 @@ export class ReferAWorkerPage implements OnInit {
   constructor(private referralService: ReferralService,
               private toastController: ToastController,
               private changeRef: ChangeDetectorRef,
-              private storage: Storage) { }
+              private storage: Storage,
+              private socialSharing: SocialSharing,
+              private platform: Platform) { }
 
   ngOnInit() {
   }
@@ -27,6 +30,17 @@ export class ReferAWorkerPage implements OnInit {
   getSteps() {
     this.referralService.getStepsToReferWorkers()
       .toPromise().then(res => this.remainingSteps = res.steps);
+  }
+
+  shareReferral() {
+    this.platform.ready().then(async () => {
+      let username;
+      await this.storage.get(StorageKeys.PROFILE)
+        .then(profile => username = profile.user.username);
+
+      await this.socialSharing.share(`${ORIGIN}/r/${username}`).then(() => {
+      }).catch((err) => this.copyToClipboard());
+    });
   }
 
   copyToClipboard() {
