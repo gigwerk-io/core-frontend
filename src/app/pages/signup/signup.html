@@ -172,8 +172,8 @@
         <ion-item>
           <ion-label position="stacked">Phone</ion-label>
           <ion-input [(ngModel)]="signup.phone"
-                     [minlength]="10"
-                     [maxlength]="10"
+                     [minlength]="14"
+                     [maxlength]="14"
                      #phone="ngModel"
                      (ionChange)="updateProgress()"
                      name="phone"
@@ -185,6 +185,7 @@
                      required>
           </ion-input>
         </ion-item>
+
         <ion-text color="danger">
           <p [hidden]="phone.valid || submitted == false" class="ion-padding-start">
             Phone Number is required
