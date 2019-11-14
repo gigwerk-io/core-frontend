@@ -43,8 +43,8 @@ export class MarketplacePage implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {}
 
-  getAllMarketplaceRequests() {
-    this.marketplaceService.getMainMarketplaceRequests('all')
+  getAllMarketplaceRequests(coords = undefined) {
+    this.marketplaceService.getMainMarketplaceRequests('all', coords)
       .subscribe(tasks => {
         this.marketplaceTasks = tasks;
         const channel = this.pusher.marketplace();
@@ -121,7 +121,15 @@ export class MarketplacePage implements OnInit, OnDestroy {
     switch (value) {
       case 'all':
         this.segment = 'all';
-        this.getAllMarketplaceRequests();
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(res => {
+            console.log(res);
+            const coords = {lat: res.coords.latitude, long: res.coords.longitude};
+            this.getAllMarketplaceRequests(coords);
+          });
+        } else {
+          this.getAllMarketplaceRequests();
+        }
         break;
       case 'me':
         this.segment = 'me';
@@ -183,7 +191,15 @@ export class MarketplacePage implements OnInit, OnDestroy {
     setTimeout(() => {
       switch (this.segment) {
         case 'all':
-          this.getAllMarketplaceRequests();
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(res => {
+              console.log(res);
+              const coords = {lat: res.coords.latitude, long: res.coords.longitude};
+              this.getAllMarketplaceRequests(coords);
+            });
+          } else {
+            this.getAllMarketplaceRequests();
+          }
           break;
         case 'me':
           this.getMyMarketplaceRequests();
