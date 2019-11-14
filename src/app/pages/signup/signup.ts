@@ -3,8 +3,6 @@ import { NgForm } from '@angular/forms';
 import { UserRegistrationOptions } from '../../utils/interfaces/user-options';
 import {AuthService} from '../../utils/services/auth.service';
 import {IonContent, IonSlides, NavController, Platform, ToastController} from '@ionic/angular';
-import {State} from '../../utils/interfaces/locations/state';
-import {STATES} from '../../utils/mocks/states.mock';
 import {setProgress} from '../request/request.page';
 import {Push, PushObject, PushOptions} from '@ionic-native/push/ngx';
 import {NotificationService} from '../../utils/services/notification.service';
@@ -12,6 +10,7 @@ import {PreferencesService} from '../../utils/services/preferences.service';
 import {City} from '../../utils/interfaces/locations/city';
 import {Router} from '@angular/router';
 import {FavrDataService} from '../../utils/services/favr-data.service';
+import {PhonePipe} from '../../utils/pipes/phone.pipe';
 
 interface PageStack {
   pageTitle: string;
@@ -21,7 +20,7 @@ interface PageStack {
 @Component({
   selector: 'page-signup',
   templateUrl: 'signup.html',
-  styleUrls: ['./signup.scss'],
+  styleUrls: ['./signup.scss']
 })
 export class SignupPage {
 
@@ -68,7 +67,8 @@ export class SignupPage {
     private platform: Platform,
     private preferencesService: PreferencesService,
     private router: Router,
-    private favrService: FavrDataService
+    private favrService: FavrDataService,
+    private phonePipe: PhonePipe
   ) {
     this.favrService.getCities().subscribe(res => {
       this.cities = res.cities;
@@ -105,6 +105,7 @@ export class SignupPage {
   }
 
   updateProgress() {
+    this.signup.phone = (this.signup.phone) ? this.phonePipe.transform(this.signup.phone) : undefined;
     this.progress = setProgress([
       this.signup.first_name,
       this.signup.last_name,

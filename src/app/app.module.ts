@@ -19,12 +19,11 @@ import {Stripe} from '@ionic-native/stripe/ngx';
 import { CreditCardDirectivesModule } from 'angular-cc-library';
 import { IntercomModule } from 'ng-intercom';
 import { Push } from '@ionic-native/push/ngx';
-import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Contacts} from '@ionic-native/contacts/ngx';
 import { Badge } from '@ionic-native/badge/ngx';
 import {Keyboard} from '@ionic-native/keyboard/ngx';
 import { Angulartics2Module } from 'angulartics2';
-
+import {SocialSharing} from '@ionic-native/social-sharing/ngx';
 
 @NgModule({
   imports: [
@@ -58,10 +57,10 @@ import { Angulartics2Module } from 'angulartics2';
     Stripe,
     Push,
     FormBuilder,
-    SocialSharing,
     Contacts,
     Badge,
     Keyboard,
+    SocialSharing
   ],
   bootstrap: [AppComponent]
 })

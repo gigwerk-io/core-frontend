@@ -56,7 +56,7 @@
     </ion-item>
   </ion-list>
 
-  <ion-button expand="block" (click)="copyToClipboard()" [disabled]="!(remainingSteps.has_bank_account && remainingSteps.has_profile_photo && remainingSteps.has_profile_description)">
+  <ion-button expand="block" (click)="shareReferral()" [disabled]="!(remainingSteps.has_bank_account && remainingSteps.has_profile_photo && remainingSteps.has_profile_description)">
     Share
     <ion-icon slot="end" name="share-alt"></ion-icon>
   </ion-button>

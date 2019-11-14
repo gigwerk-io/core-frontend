@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {ReferralService} from '../../utils/services/referral.service';
-import {ToastController} from '@ionic/angular';
+import {Platform, ToastController} from '@ionic/angular';
 import {ORIGIN, StorageKeys} from '../../providers/constants';
 import {Storage} from '@ionic/storage';
+import {SocialSharing} from '@ionic-native/social-sharing/ngx';
 
 @Component({
   selector: 'refer-a-customer',
@@ -13,9 +14,22 @@ export class ReferACustomerPage implements OnInit {
 
   constructor(private referralService: ReferralService,
               private toastController: ToastController,
-              private storage: Storage) { }
+              private storage: Storage,
+              private platform: Platform,
+              private socialSharing: SocialSharing) { }
 
   ngOnInit() {
+  }
+
+  shareReferral() {
+    this.platform.ready().then(async () => {
+      let username;
+      await this.storage.get(StorageKeys.PROFILE)
+        .then(profile => username = profile.user.username);
+
+      await this.socialSharing.share(`${ORIGIN}/customer-referral/${username}`).then(() => {
+      }).catch((err) => this.copyToClipboard());
+    });
   }
 
   copyToClipboard() {

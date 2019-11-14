@@ -118,7 +118,7 @@ export class MessagesPage implements OnInit {
 
   async presentActionSheet() {
     const actionSheet = await this.actionSheetCtrl.create({
-      header: 'Task Actions',
+      header: 'User Actions',
       buttons: [{
         text: 'View Profile',
         icon: 'person',
