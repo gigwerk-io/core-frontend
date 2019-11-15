@@ -12,13 +12,13 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content #chatDisplay>
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <div class="message-wrap">
 
-    <div *ngFor="let message of messages"
+    <div *ngFor="let message of messages; let last = last"
          class="message"
          [class.left]=" message.sender_id != user_id"
          [class.right]=" message.sender_id == user_id">
@@ -35,8 +35,10 @@
           <p class="line-breaker ">{{message.text}}</p>
         </div>
       </div>
-    </div>
 
+      {{last && !didScrollToBottomOnInit ? scrollToBottomOnInit() : ''}}
+    </div>
+    <br>
   </div>
 
 </ion-content>
@@ -44,13 +46,15 @@
 <ion-footer no-border>
   <div class="input-wrap">
     <ion-textarea placeholder="Text Message"
+                  #chatBox
                   [(ngModel)]="pendingMessage"
                   (focusin)="onFocus()"
                   required
+                  autocapitalize
                   autoGrow
                   clearOnEdit="true"
     ></ion-textarea>
-    <ion-button class="send-button" (click)="sendMessage()">
+    <ion-button class="send-button" [disabled]="!pendingMessage" (click)="sendMessage()">
       <ion-spinner *ngIf="sending" name="crescent"></ion-spinner>
       <ion-icon mode="md" size="large" *ngIf="!sending" name="send"></ion-icon>
     </ion-button>

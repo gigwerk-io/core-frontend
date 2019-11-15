@@ -19,9 +19,11 @@ import {Stripe} from '@ionic-native/stripe/ngx';
 import { CreditCardDirectivesModule } from 'angular-cc-library';
 import { IntercomModule } from 'ng-intercom';
 import { Push } from '@ionic-native/push/ngx';
-import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Contacts} from '@ionic-native/contacts/ngx';
 import { Badge } from '@ionic-native/badge/ngx';
+import {Keyboard} from '@ionic-native/keyboard/ngx';
+import { Angulartics2Module } from 'angulartics2';
+import {SocialSharing} from '@ionic-native/social-sharing/ngx';
 
 @NgModule({
   imports: [
@@ -43,11 +45,10 @@ import { Badge } from '@ionic-native/badge/ngx';
     IntercomModule.forRoot({
       appId: 'yvoar9nd', // from your Intercom config
       updateOnRouterChange: true // will automatically run `update` on router event changes. Default: `false`
-    })
+    }),
+    Angulartics2Module.forRoot()
   ],
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   providers: [
     InAppBrowser,
     SplashScreen,
@@ -56,9 +57,10 @@ import { Badge } from '@ionic-native/badge/ngx';
     Stripe,
     Push,
     FormBuilder,
-    SocialSharing,
     Contacts,
-    Badge
+    Badge,
+    Keyboard,
+    SocialSharing
   ],
   bootstrap: [AppComponent]
 })

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {City} from '../../utils/interfaces/locations/city';
-import {CITIES} from '../../utils/mocks/cities.mock';
 import {PreferencesService} from '../../utils/services/preferences.service';
 import {ToastController} from '@ionic/angular';
+import {FavrDataService} from '../../utils/services/favr-data.service';
 
 @Component({
   selector: 'select-city',
@@ -14,11 +14,14 @@ export class SelectCityPage implements OnInit {
   cities: City[];
   current;
   constructor(private preferencesService: PreferencesService,
-              private toastController: ToastController) { }
+              private toastController: ToastController,
+              private favrService: FavrDataService) { }
 
   ngOnInit() {
     this.getCurrentCity();
-    this.cities = CITIES;
+    this.favrService.getCities().subscribe(res => {
+      this.cities = res.cities;
+    });
   }
 
   selectCity(city: City) {

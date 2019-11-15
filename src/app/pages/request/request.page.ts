@@ -10,7 +10,6 @@ import {
   ToastController
 } from '@ionic/angular';
 import {MainCategory} from '../../utils/interfaces/main-marketplace/main-category';
-import {TASK_CATEGORIES} from '../../utils/mocks/mock-categories.mock';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import {ChangeEvent} from '@ckeditor/ckeditor5-angular';
 import {MainMarketplaceTask} from '../../utils/interfaces/main-marketplace/main-marketplace-task';
@@ -24,6 +23,7 @@ import {LocationAddress} from '../../utils/interfaces/settings/preferences';
 import {PreferencesService} from '../../utils/services/preferences.service';
 import {PreviousRouteService} from '../../providers/previous-route.service';
 import {TaskActions} from '../../providers/constants';
+import {FavrDataService} from '../../utils/services/favr-data.service';
 
 @Component({
   selector: 'request',
@@ -75,7 +75,7 @@ export class RequestPage implements OnInit, OnDestroy {
   };
   Editor = ClassicEditor;
 
-  categories: MainCategory[] = TASK_CATEGORIES;
+  categories: MainCategory[];
   pageTitle = 'Request';
   states: State[] = STATES;
   progress = 0;
@@ -95,7 +95,11 @@ export class RequestPage implements OnInit, OnDestroy {
               private actionSheetCtrl: ActionSheetController,
               private previousRoute: PreviousRouteService,
               private navCtrl: NavController,
-              public platform: Platform) {
+              public platform: Platform,
+              private favrService: FavrDataService) {
+    this.favrService.getCategories().subscribe(res => {
+      this.categories = res.categories;
+    });
     this.events.subscribe('task-edit', (taskRequest: MainMarketplaceTask) => {
       if (taskRequest) {
         this.isTaskEdit = true;

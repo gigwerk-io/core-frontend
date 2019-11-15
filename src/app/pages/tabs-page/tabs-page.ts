@@ -6,6 +6,7 @@ import {PusherServiceProvider} from '../../providers/pusher.service';
 import {Storage} from '@ionic/storage';
 import {StorageKeys} from '../../providers/constants';
 import {Router} from '@angular/router';
+import {Angulartics2GoogleAnalytics} from 'angulartics2/ga';
 
 @Component({
   templateUrl: './tabs-page.html',
@@ -26,7 +27,8 @@ export class TabsPage implements OnInit {
               private navCtrl: NavController,
               private toastController: ToastController,
               private storage: Storage,
-              private router: Router) {
+              private router: Router,
+              private angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics) {
     if (window.innerWidth >= 500) {
       this.tabSlot = 'top';
     } else {
@@ -41,6 +43,8 @@ export class TabsPage implements OnInit {
         if (profile) {
           this.profileId = profile.user_id;
           this.profileImage = profile.image;
+          this.angulartics2GoogleAnalytics.setUsername(profile.user.username);
+          this.angulartics2GoogleAnalytics.startTracking();
         }
       });
   }

@@ -39,7 +39,6 @@ export class MarketplacePage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.segmentChanged(this.segment);
-    this.trackWithGoogle();
   }
 
   ngOnDestroy(): void {}
@@ -133,19 +132,6 @@ export class MarketplacePage implements OnInit, OnDestroy {
         this.getMyJobs();
         break;
     }
-  }
-
-  trackWithGoogle() {
-    this.storage.get(StorageKeys.PROFILE).then(profile => {
-      this.userRole = profile.user.role;
-      // this.ga.startTrackerWithId(GA_ID)
-      //   .then(() => {
-      //     console.log('Google analytics is ready now');
-      //     this.ga.trackView('marketplace');
-      //     this.ga.setUserId(profile.user.username);
-      //   })
-      //   .catch(e => console.log('Error starting GoogleAnalytics', e));
-    });
   }
 
   async openRequestPage() {

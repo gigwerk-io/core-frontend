@@ -51,8 +51,15 @@
         <ion-label>{{status.text}}</ion-label>
       </ion-chip>
     </p>
-    <div padding-bottom style="text-align: center;" *ngIf="rating != undefined">
-      <rating [rate]="rating" readonly="true"></rating>
+
+    <ng-template #star let-fill="fill">
+      <span class="star" [class.full]="fill === 100">
+        <span class="half" [style.width.%]="fill">&#9733;</span>&#9733;
+      </span>
+    </ng-template>
+
+    <div padding-bottom *ngIf="rating">
+      <ngb-rating [(rate)]="rating" [starTemplate]="star" [readonly]="true" max="5"></ngb-rating>
     </div>
   </div>
   <div text-center>

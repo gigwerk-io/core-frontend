@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ChatService} from '../../utils/services/chat.service';
 import {Room} from '../../utils/interfaces/chat/room';
 import {StorageKeys} from '../../providers/constants';
 import {Storage} from '@ionic/storage';
 import {PusherServiceProvider} from '../../providers/pusher.service';
-import {ActionSheetController, IonContent} from '@ionic/angular';
+import {ActionSheetController, Events, IonContent, IonTextarea} from '@ionic/angular';
 
 
 @Component({
@@ -14,7 +14,11 @@ import {ActionSheetController, IonContent} from '@ionic/angular';
   styleUrls: ['./messages.page.scss'],
 })
 export class MessagesPage implements OnInit {
-  @ViewChild(IonContent, {static: false}) content: IonContent;
+  // @ts-ignore
+  @ViewChild('chatDisplay') content: IonContent;
+  // @ts-ignore
+  @ViewChild('chatBox') textarea: IonTextarea;
+
   room: Room;
   user_id: Number;
   messages: any; // TODO create types
@@ -22,18 +26,19 @@ export class MessagesPage implements OnInit {
   uuid: string;
   pendingMessage = '';
   sending = false;
+  didScrollToBottomOnInit = false;
+
   constructor(private activatedRoute: ActivatedRoute,
               private chatService: ChatService,
               private storage: Storage,
               private pusher: PusherServiceProvider,
               private actionSheetCtrl: ActionSheetController,
               private router: Router
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe(data => {
       this.uuid = data.get('uuid');
-
       // Initial Messages
       this.getMessages();
     });
@@ -41,9 +46,17 @@ export class MessagesPage implements OnInit {
       .then(profile => {
         this.user_id = profile.user_id;
       });
+    window.addEventListener('keyboardDidShow', (event) => {
+      console.log('Keyboard opened');
+      setTimeout(() => this.content.scrollToBottom(300), 1);
+    });
   }
 
-  public getUserProfileImage() {
+  ionViewDidLeave() {
+    window.removeEventListener('keyboardDidShow', () => console.log('page destroyed'));
+  }
+
+  getUserProfileImage() {
     const members = this.room.members;
     for (const member of members) {
       if (member.id !== this.user_id) {
@@ -52,7 +65,7 @@ export class MessagesPage implements OnInit {
     }
   }
 
-  public getToUser() {
+  getToUser() {
     const members = this.room.members;
     // tslint:disable-next-line
     for(let member of members) {
@@ -62,7 +75,7 @@ export class MessagesPage implements OnInit {
     }
   }
 
-  public goToUserProfile() {
+  goToUserProfile() {
     const members = this.room.members;
     for (const member of members) {
       if (member.id !== this.user_id) {
@@ -71,11 +84,7 @@ export class MessagesPage implements OnInit {
     }
   }
 
-  ionViewDidLoad() {
-    this.scrollToBottomOnInit();
-  }
-
-  public getMessages() {
+  getMessages() {
     this.chatService.getChatRoom(this.uuid).subscribe(res => {
       this.room = res;
       this.messages = this.room.messages;
@@ -91,23 +100,25 @@ export class MessagesPage implements OnInit {
     });
   }
 
-  public sendMessage() {
+  sendMessage() {
+    this.textarea.setFocus();
     this.sending = true;
     this.chatService.sendMessage(this.uuid, this.pendingMessage);
     this.pendingMessage = '';
   }
 
   scrollToBottomOnInit() {
-    this.content.scrollToBottom(300).catch(err => { console.log(err); });
+    this.content.scrollToBottom(300);
+    this.didScrollToBottomOnInit = true;
   }
 
   onFocus() {
-    this.scrollToBottomOnInit();
+    this.content.scrollToBottom(300);
   }
 
   async presentActionSheet() {
     const actionSheet = await this.actionSheetCtrl.create({
-      header: 'Task Actions',
+      header: 'User Actions',
       buttons: [{
         text: 'View Profile',
         icon: 'person',

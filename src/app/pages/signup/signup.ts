@@ -3,20 +3,24 @@ import { NgForm } from '@angular/forms';
 import { UserRegistrationOptions } from '../../utils/interfaces/user-options';
 import {AuthService} from '../../utils/services/auth.service';
 import {IonContent, IonSlides, NavController, Platform, ToastController} from '@ionic/angular';
-import {State} from '../../utils/interfaces/locations/state';
-import {STATES} from '../../utils/mocks/states.mock';
 import {setProgress} from '../request/request.page';
 import {Push, PushObject, PushOptions} from '@ionic-native/push/ngx';
 import {NotificationService} from '../../utils/services/notification.service';
 import {PreferencesService} from '../../utils/services/preferences.service';
 import {City} from '../../utils/interfaces/locations/city';
-import {CITIES} from '../../utils/mocks/cities.mock';
 import {Router} from '@angular/router';
+import {FavrDataService} from '../../utils/services/favr-data.service';
+import {PhonePipe} from '../../utils/pipes/phone.pipe';
+
+interface PageStack {
+  pageTitle: string;
+  page: string;
+}
 
 @Component({
   selector: 'page-signup',
   templateUrl: 'signup.html',
-  styleUrls: ['./signup.scss'],
+  styleUrls: ['./signup.scss']
 })
 export class SignupPage {
 
@@ -41,21 +45,35 @@ export class SignupPage {
   };
   submitted = false;
   maxYear = (new Date()).getFullYear() - 13;
-  states: State[] = STATES;
+  cities: City[];
   progress = 0;
+
   pageTitle = 'Sign Up';
-  cities: City[] = CITIES;
+  subPageTitle = 'Sign Up';
+  subPage = 'signup-index';
+  pageStack: PageStack[] = [
+    {
+      pageTitle: 'Sign Up',
+      page: 'signup-index'
+    }
+  ];
 
   constructor(
     private authService: AuthService,
     public navCtrl: NavController,
     private toastController: ToastController,
     private push: Push,
-    private notficationService: NotificationService,
+    private notificationService: NotificationService,
     private platform: Platform,
-    private perferencesService: PreferencesService,
-    private router: Router
-  ) { }
+    private preferencesService: PreferencesService,
+    private router: Router,
+    private favrService: FavrDataService,
+    private phonePipe: PhonePipe
+  ) {
+    this.favrService.getCities().subscribe(res => {
+      this.cities = res.cities;
+    });
+  }
 
   onSignup(form: NgForm) {
     this.submitted = true;
@@ -86,27 +104,8 @@ export class SignupPage {
     });
   }
 
-  onSlideChange() {
-    this.slides.getActiveIndex()
-      .then((index) => {
-        switch (index) {
-          case 0:
-            this.pageTitle = 'Sign Up';
-            this.content.scrollToTop(500);
-            break;
-          case 1:
-            this.pageTitle = 'Security';
-            this.content.scrollToTop(500);
-            break;
-          case 2:
-            this.pageTitle = 'Location';
-            this.content.scrollToTop(500);
-            break;
-        }
-      });
-  }
-
   updateProgress() {
+    this.signup.phone = (this.signup.phone) ? this.phonePipe.transform(this.signup.phone) : undefined;
     this.progress = setProgress([
       this.signup.first_name,
       this.signup.last_name,
@@ -115,7 +114,6 @@ export class SignupPage {
       this.signup.password,
       this.signup.confirm_password,
       this.signup.phone,
-      // this.signup.birthday,
       this.signup.city_id
     ]);
   }
@@ -123,7 +121,7 @@ export class SignupPage {
   selectCity(city: City) {
     this.signup.city_id = city.id;
     this.updateProgress();
-    this.content.scrollToBottom(1000);
+    setTimeout(() => this.openSubPage('signup-index'), 600);
   }
 
   initPushNotification() {
@@ -147,11 +145,11 @@ export class SignupPage {
       pushObject.on('registration').subscribe((data: any) => {
         console.log('Token: ' + data.registrationId);
         if (this.platform.is('ios')) {
-          this.notficationService.saveAPNToken({'device_token': data.registrationId}).subscribe(res => {
+          this.notificationService.saveAPNToken({'device_token': data.registrationId}).subscribe(res => {
             console.log(res);
           });
         } else if (this.platform.is('android')) {
-          this.notficationService.saveFCMToken({'device_token': data.registrationId}).subscribe(res => {
+          this.notificationService.saveFCMToken({'device_token': data.registrationId}).subscribe(res => {
             console.log(res);
           });
         }
@@ -170,5 +168,31 @@ export class SignupPage {
 
       pushObject.on('error').subscribe(error => console.warn(error));
     }
+  }
+
+  goBack() {
+    this.pageStack.pop(); // remove current page
+    const prevPage = this.pageStack[this.pageStack.length - 1];
+    this.subPage = prevPage.page;
+    this.subPageTitle = prevPage.pageTitle;
+  }
+
+  openSubPage(page: string) {
+    switch (page) {
+      case 'signup-index':
+        this.subPageTitle = 'Sign Up';
+        break;
+      case 'personal-info':
+        this.subPageTitle = 'Personal Information';
+        break;
+      case 'set-up-password':
+        this.subPageTitle = 'Set Up Password';
+        break;
+      case 'select-city':
+        this.subPageTitle = 'Select City';
+        break;
+    }
+    this.pageStack.push({pageTitle: this.subPageTitle, page: page});
+    this.subPage = page;
   }
 }
