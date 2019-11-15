@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {FinanceService} from '../../utils/services/finance.service';
+import {PaymentInformationResponse} from '../../utils/interfaces/finance/payments';
 
 @Component({
   selector: 'manage-cards',
@@ -7,8 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ManageCardsPage implements OnInit {
 
-  constructor() { }
+  card: PaymentInformationResponse;
+
+  constructor(private financeService: FinanceService) { }
 
   ngOnInit() {
+    this.financeService.getPaymentInformation()
+      .then((res: PaymentInformationResponse) => {
+        this.card = res;
+        console.log(this.card);
+      });
   }
 }
