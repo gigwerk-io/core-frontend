@@ -8,6 +8,7 @@ export interface Room {
   last_message: any;
   messages: any;
   [propName: string]: any;
+  unread: number;
 }
 
 export interface CreateChatResponse {
