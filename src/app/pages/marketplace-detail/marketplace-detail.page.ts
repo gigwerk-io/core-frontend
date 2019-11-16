@@ -58,9 +58,21 @@ export class MarketplaceDetailPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(res => {
+        console.log(res);
+        const coords = {lat: res.coords.latitude, long: res.coords.longitude};
+        this.getJobDetails(coords);
+      });
+    } else {
+      this.getJobDetails();
+    }
+  }
+
+  public getJobDetails(coords = undefined) {
     this.activatedRoute.paramMap.subscribe(data => {
       this.taskID = parseInt(data.get('id'), 10);
-      this.marketplaceService.getSingleMainMarketplaceRequest(this.taskID)
+      this.marketplaceService.getSingleMainMarketplaceRequest(this.taskID, coords)
         .then((task: MainMarketplaceTask) => {
           this.mainMarketplaceTask = task;
           this.taskStatusDisplay = (this.mainMarketplaceTask.status === TaskStatus.PAID)
