@@ -8,6 +8,7 @@ import {Storage} from '@ionic/storage';
 import {PusherServiceProvider} from '../../providers/pusher.service';
 import {AuthService} from '../../utils/services/auth.service';
 import {Router} from '@angular/router';
+import {ProfileRouteResponse, User} from '../../utils/interfaces/user';
 
 @Component({
   selector: 'marketplace',
@@ -36,6 +37,8 @@ export class MarketplacePage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.segmentChanged(this.segment);
+    this.storage.get(StorageKeys.PROFILE)
+      .then(prof => this.userRole = prof.user.role);
   }
 
   ngOnDestroy(): void {}
