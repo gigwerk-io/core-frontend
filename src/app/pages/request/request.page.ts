@@ -3,7 +3,7 @@ import {
   ActionSheetController,
   Events,
   IonContent,
-  IonSlides,
+  IonSlides, LoadingController,
   ModalController,
   NavController,
   Platform,
@@ -109,7 +109,8 @@ export class RequestPage implements OnInit, OnDestroy {
               private navCtrl: NavController,
               public platform: Platform,
               private favrService: FavrDataService,
-              private financeService: FinanceService) {
+              private financeService: FinanceService,
+              private loadingCtrl: LoadingController) {
     this.favrService.getCategories().subscribe(res => {
       this.categories = res.categories;
     });
@@ -229,8 +230,16 @@ export class RequestPage implements OnInit, OnDestroy {
       (this.taskRequest.price >= 5) ? this.taskRequest.price : this.taskRequest.id
     ]);
   }
-  onSubmitTaskRequest() {
+
+  async onSubmitTaskRequest() {
     this.submitted = true;
+
+    const loadingPage = await this.loadingCtrl.create({
+      message: 'Please wait...',
+      translucent: true
+    });
+
+    await loadingPage.present();
 
     if (this.progress === 1) {
       this.marketplaceService.createMainMarketplaceRequest(this.taskRequest)
@@ -242,6 +251,7 @@ export class RequestPage implements OnInit, OnDestroy {
                 this.router.navigateByUrl('app/tabs/marketplace');
               }
             });
+          loadingPage.dismiss();
         })
         .catch(error => {
           this.closeRequestPage()
@@ -252,6 +262,7 @@ export class RequestPage implements OnInit, OnDestroy {
                   this.presentToast(error.error.message);
                 });
             });
+          loadingPage.dismiss();
         });
     }
   }
@@ -273,8 +284,15 @@ export class RequestPage implements OnInit, OnDestroy {
     });
   }
 
-  onUpdateTaskRequest() {
+  async onUpdateTaskRequest() {
     this.submitted = true;
+
+    const loadingPage = await this.loadingCtrl.create({
+      message: 'Please wait...',
+      translucent: true
+    });
+
+    await loadingPage.present();
 
     this.marketplaceService.editMainMarketplaceRequest(this.taskRequest)
       .then((res) => {
@@ -282,10 +300,12 @@ export class RequestPage implements OnInit, OnDestroy {
         this.presentToast(res);
         this.navCtrl.navigateBack(`app/marketplace-detail/${this.taskRequest.id}`);
         this.events.publish('task-action', TaskActions.CUSTOMER_UPDATE_TASK);
+        loadingPage.dismiss();
       })
       .catch(error => {
         this.closeRequestPage();
         this.presentToast(error.error.message);
+        loadingPage.dismiss();
       });
   }
 
