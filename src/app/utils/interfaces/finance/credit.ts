@@ -1,5 +1,5 @@
 export interface UserCreditResponse {
-  credit: string;
+  credit: number;
 }
 
 export interface RedeemedCreditResponse {

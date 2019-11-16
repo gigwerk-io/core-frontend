@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Stripe } from '@ionic-native/stripe/ngx';
 import {STRIPE_PUBLIC} from '../../providers/constants';
 import {FinanceService} from '../../utils/services/finance.service';
-import {AlertController, Events, ToastController} from '@ionic/angular';
+import {AlertController, Events, LoadingController, ToastController} from '@ionic/angular';
 import {FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CreditCardValidator } from 'angular-cc-library';
 import {Validators} from '@angular/forms';
@@ -27,7 +27,8 @@ export class SetUpPaymentsPage implements OnInit {
               private marketplaceService: MarketplaceService,
               private router: Router,
               private fb: FormBuilder,
-              private events: Events) {
+              private events: Events,
+              private loadCtrl: LoadingController) {
     this.events.subscribe('task-request', (taskRequest) => {
       this.task = taskRequest;
     });
@@ -42,12 +43,17 @@ export class SetUpPaymentsPage implements OnInit {
     });
   }
 
-  onSubmit(form) {
+  async onSubmit(form) {
+    const loadingCtrl = await this.loadCtrl.create({
+      message: 'Please Wait',
+      translucent: true
+    });
+
+    await loadingCtrl.present();
+
     this.submitted = true;
-    console.log(form);
     let date = this.form.get('expirationDate').value;
     date = date.split('/');
-    console.log(date);
     const card = {
       number: this.form.get('creditCard').value,
       expMonth: date[0].trim(),
@@ -67,6 +73,8 @@ export class SetUpPaymentsPage implements OnInit {
         }
       });
     }).catch(error => this.presentToast(error));
+
+    await loadingCtrl.dismiss();
   }
 
 

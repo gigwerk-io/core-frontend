@@ -112,8 +112,7 @@ export class FinanceService {
   }
 
   getCreditBalance() {
-    return from(
-      this.storage.get(StorageKeys.ACCESS_TOKEN)
+    return this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {
@@ -123,8 +122,7 @@ export class FinanceService {
           return this.httpClient.get<UserCreditResponse>(`${API_ADDRESS}/credit`, authHeader)
             .toPromise()
             .then((res: UserCreditResponse) => res);
-        })
-    );
+        });
   }
 
   redeemCredit(body) {

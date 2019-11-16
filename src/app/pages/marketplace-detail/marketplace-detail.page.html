@@ -54,7 +54,7 @@
           </ng-container>
 
           <ng-template #completedTime>
-            <div class="complete-by-time">Completed on {{mainMarketplaceTask.proposals[0].complete_at | amFromUtc | amLocal | date: 'MMM dd, yyyy'}}</div>
+            <div class="complete-by-time">Completed on {{mainMarketplaceTask.proposals[0].complete_at | amFromUtc | amLocal | date: 'MMM d, yyyy'}}</div>
           </ng-template>
           <ion-note class="note posted-time">
             Posted {{mainMarketplaceTask.postedFormat | date}}
@@ -232,18 +232,26 @@
             <ng-template #paid>
               You paid
             </ng-template>
+
+            <div *ngIf="credit == 0; else creditAndPrice">
+              {{mainMarketplaceTask.price | currency:'USD'}}
+            </div>
+
+            <ng-template #creditAndPrice>
+              {{((mainMarketplaceTask.price > credit) ? (mainMarketplaceTask.price - credit | currency: 'USD') : 0 | currency: 'USD')}}
+            </ng-template>
           </ng-container>
 
           <ng-template #notOwner>
             <ng-container *ngIf="mainMarketplaceTask.status !== TaskStatus.COMPLETE; else earnedPrice">
-              You earn
+              They pay
             </ng-container>
             <ng-template #earnedPrice>
-              Earned
+              Paid
             </ng-template>
-          </ng-template>
 
-          ${{mainMarketplaceTask.price}}
+            {{mainMarketplaceTask.price | currency: 'USD'}}
+          </ng-template>
         </ion-col>
       </ion-row>
 
@@ -283,13 +291,13 @@
             <ng-container *ngIf="mainMarketplaceTask.status !== TaskStatus.COMPLETE; else completedOn">
               <b>Complete Before:</b>
               <br>
-              {{mainMarketplaceTask.isoFormat | date: 'MMM dd, yyyy h:mm a'}}
+              {{mainMarketplaceTask.isoFormat | date: 'MMM d, yyyy h:mm a'}}
             </ng-container>
 
             <ng-template #completedOn>
               <b>Completed On:</b>
               <br>
-              {{mainMarketplaceTask.proposals[0].complete_at | amFromUtc | amLocal | date: 'MMM dd, yyyy h:mm a'}}
+              {{mainMarketplaceTask.proposals[0].complete_at | amFromUtc | amLocal | date: 'MMM d, yyyy h:mm a'}}
             </ng-template>
         </ion-col>
       </ion-row>

@@ -15,7 +15,7 @@ export class CreditAmountPage implements OnInit {
   }
 
   getCreditBalance() {
-    this.financeService.getCreditBalance().subscribe(res => {
+    this.financeService.getCreditBalance().then(res => {
       this.credit = res.credit;
     });
   }

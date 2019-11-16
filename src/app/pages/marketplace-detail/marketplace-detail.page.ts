@@ -12,6 +12,8 @@ import {CompleteTaskPage} from '../complete-task/complete-task.page';
 import {LaunchNavigator, LaunchNavigatorOptions} from '@ionic-native/launch-navigator/ngx';
 import {ReportPage} from '../report/report.page';
 import {FavrDataService} from '../../utils/services/favr-data.service';
+import {RequestPage} from '../request/request.page';
+import {FinanceService} from '../../utils/services/finance.service';
 
 @Component({
   selector: 'marketplace-detail',
@@ -30,6 +32,7 @@ export class MarketplaceDetailPage implements OnInit, OnDestroy {
   userRole: string;
   Categories;
   TaskStatus = TaskStatus;
+  credit: number;
 
   constructor(private modalCtrl: ModalController,
               private loadingCtrl: LoadingController,
@@ -44,7 +47,8 @@ export class MarketplaceDetailPage implements OnInit, OnDestroy {
               private chatService: ChatService,
               private events: Events,
               private launchNavigator: LaunchNavigator,
-              private favrService: FavrDataService) {
+              private favrService: FavrDataService,
+              private financeService: FinanceService) {
     this.favrService.getCategories().subscribe(res => {
       this.Categories = res.categories;
     });
@@ -88,13 +92,20 @@ export class MarketplaceDetailPage implements OnInit, OnDestroy {
             });
         });
     });
+    this.getCreditBalance();
   }
 
   ngOnDestroy(): void {
     this.events.unsubscribe('task-action');
   }
 
-  private viewAttachedPhoto(url: string, photoTitle?: string): void {
+  getCreditBalance() {
+    this.financeService.getCreditBalance().then(res => {
+      this.credit = parseInt(res.credit.toString().replace('$', ''), 10);
+    });
+  }
+
+  viewAttachedPhoto(url: string, photoTitle?: string): void {
     this.photoViewer.show(url, (photoTitle) ? photoTitle : '');
   }
 
@@ -246,9 +257,34 @@ export class MarketplaceDetailPage implements OnInit, OnDestroy {
     }, 1000);
   }
 
-  editTaskRequest(task: MainMarketplaceTask) {
-    this.navCtrl.navigateForward('/app/edit-task')
-      .then(() => this.events.publish('task-edit', task));
+  async editTaskRequest(task: MainMarketplaceTask) {
+    const modal = await this.modalCtrl.create({
+      component: RequestPage,
+      componentProps: {'isModal': true}
+    });
+
+    const loadingRequestPage = await this.loadingCtrl.create({
+      message: 'Please wait...',
+      translucent: true
+    });
+
+    await loadingRequestPage.present();
+
+    modal.onDidDismiss().then(async () => {
+      const loadingPage = await this.loadingCtrl.create({
+        message: 'Please wait...',
+        translucent: true
+      });
+
+      await loadingPage.present();
+      loadingPage.dismiss();
+    });
+
+    await modal.present()
+      .then(() => {
+        this.events.publish('task-edit', task);
+        return loadingRequestPage.dismiss();
+      });
   }
 
   openLocation() {

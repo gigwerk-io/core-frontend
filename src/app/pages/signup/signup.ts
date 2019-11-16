@@ -12,7 +12,7 @@ import {Router} from '@angular/router';
 import {FavrDataService} from '../../utils/services/favr-data.service';
 import {PhonePipe} from '../../utils/pipes/phone.pipe';
 
-interface PageStack {
+export interface PageStack {
   pageTitle: string;
   page: string;
 }
