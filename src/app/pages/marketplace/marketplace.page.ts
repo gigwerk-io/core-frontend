@@ -1,14 +1,11 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {MainMarketplaceTask} from '../../utils/interfaces/main-marketplace/main-marketplace-task';
 import {MarketplaceService} from '../../utils/services/marketplace.service';
 import {LoadingController, ModalController, NavController, ToastController} from '@ionic/angular';
 import {RequestPage} from '../request/request.page';
-import {Observable, Subscription} from 'rxjs';
-import {GA_ID, Role, StorageKeys} from '../../providers/constants';
+import {Role, StorageKeys} from '../../providers/constants';
 import {Storage} from '@ionic/storage';
 import {PusherServiceProvider} from '../../providers/pusher.service';
-import {AuthorizationToken} from '../../utils/interfaces/user-options';
-import {AuthResponse} from '../../utils/interfaces/auth/auth-response';
 import {AuthService} from '../../utils/services/auth.service';
 import {Router} from '@angular/router';
 

@@ -11,10 +11,7 @@
   <ion-header [ngClass]="!isModal ? 'animated slideInRight' : ''">
     <ion-toolbar>
       <ion-buttons slot="start">
-        <ion-back-button *ngIf="subPage == 'request-index'; else backToIndex" defaultHref></ion-back-button>
-        <ng-template #backToIndex>
-          <ion-back-button (click)="openSubPage('request-index')" defaultHref></ion-back-button>
-        </ng-template>
+        <ion-back-button (click)="goBack()" defaultHref></ion-back-button>
       </ion-buttons>
       <ion-title class="animated fadeIn">
         {{subPageTitle}}
@@ -77,7 +74,7 @@
         </div>
       </ion-item>
 
-      <ion-item href (click)="openSubPage('attach-images')">
+      <ion-item href *ngIf="!isTaskEdit" (click)="openSubPage('attach-images')">
         <ion-icon slot="start" mode="md" name="images"></ion-icon>
         <ion-label>Attach Images (Optional)</ion-label>
         <div slot="end" *ngIf="taskImages.image_one">
@@ -115,9 +112,9 @@
       </ion-list>
     </div>
 
-    <div *ngSwitchCase="'task-information'" class="sub-page animated faster slideInRight">
+    <div *ngSwitchCase="'task-information'" [ngClass]="(backPage == 'task-information') ? 'sub-page animated faster slideInLeft' : 'sub-page animated faster slideInRight'">
       <ion-list>
-        <ion-item padding-top>
+        <ion-item padding-top margin-top>
           <ion-textarea
             placeholder="Please Describe Your Job"
             (ionChange)="onTextboxChange()"
@@ -126,9 +123,9 @@
           ></ion-textarea>
         </ion-item>
 
-        <ion-item class="datetime-item">
+        <ion-item padding-top margin-top class="datetime-item">
           <ion-label position="stacked">
-            Complete Task By
+            Complete My Task By
           </ion-label>
           <ion-datetime
             [(ngModel)]="taskRequest.date"
@@ -151,7 +148,7 @@
       </div>
     </div>
 
-    <div *ngSwitchCase="'location'" class="sub-page animated faster slideInRight">
+    <div *ngSwitchCase="'location'" [ngClass]="(backPage == 'location') ? 'sub-page animated faster slideInLeft' : 'sub-page animated faster slideInRight'">
       <ion-list>
         <div no-margin *ngIf="locations.length != 0">
           <ion-list-header>
@@ -241,7 +238,7 @@
       </div>
     </div>
 
-    <div *ngSwitchCase="'task-intensity'" class="sub-page animated faster slideInRight">
+    <div *ngSwitchCase="'task-intensity'" [ngClass]="(backPage == 'task-intensity') ? 'sub-page animated faster slideInLeft' : 'sub-page animated faster slideInRight'">
       <ion-list>
         <ul>
           <li><b>Easy</b> tasks take 1 hour or less to complete.</li>
@@ -265,33 +262,29 @@
             Hard 🔥
           </ion-button>
         </div>
-        <div text-center>
-          <ion-note>
-            <small>
-              <b>Note:</b> jobs with an unreasonable price will likely receive no proposals and be ignored on the marketplace feed.
-            </small>
-          </ion-note>
-        </div>
       </ion-list>
 
       <div class="ion-padding-start form-submit-button">
-        <ion-button *ngIf="taskRequest.intensity && !isTaskEdit"
+        <ion-button *ngIf="taskRequest.intensity && !isTaskEdit; else taskEditSubmit"
                     (click)="openSubPage('set-price')" expand="block">
           Tap to Continue
           <ion-icon name="arrow-forward" slot="end"></ion-icon>
         </ion-button>
 
-        <ion-button *ngIf="taskRequest.intensity && isTaskEdit"
-                    (click)="openSubPage('attach-images')" expand="block">
-          Tap to Continue
-          <ion-icon name="arrow-forward" slot="end"></ion-icon>
-        </ion-button>
+        <ng-template #taskEditSubmit>
+          <ion-button *ngIf="isTaskEdit" (click)="onUpdateTaskRequest()"
+                      [disabled]="progress < 1"
+                      type="submit"
+                      expand="block">
+            Update Task
+          </ion-button>
+        </ng-template>
       </div>
     </div>
 
-    <div *ngSwitchCase="'set-price'" class="animated faster slideInRight">
-      <ion-list padding-top>
-        <ion-item class="input-item">
+    <div *ngSwitchCase="'set-price'" [ngClass]="(backPage == 'set-price') ? 'animated faster slideInLeft' : 'animated faster slideInRight'">
+      <ion-list padding-top margin-top>
+        <ion-item padding-top margin-top class="input-item">
           <ion-label position="stacked">
             Set Your Price
           </ion-label>
@@ -311,25 +304,48 @@
             <ion-icon name="logo-usd" color="primary" slot="start"></ion-icon>
           </ion-input>
         </ion-item>
+        <div text-center>
+          <ion-note>
+            <small>
+              <b>Note:</b> jobs with an unreasonable price will likely receive no proposals and be ignored on the marketplace feed.
+            </small>
+          </ion-note>
+        </div>
       </ion-list>
 
+      <div text-center *ngIf="credit > 0">You have <div style="color: green;">{{credit | currency: 'USD'}}</div> in credit</div>
       <h4 text-center>You will pay</h4>
       <div class="price-proposal">
-        <h1>
+        <h1 *ngIf="credit == 0; else creditAndPrice">
           {{((taskRequest.price) ? taskRequest.price : 0) | currency:'USD'}}
         </h1>
+
+        <ng-template #creditAndPrice>
+          <h1>
+            {{((taskRequest.price > credit) ? (taskRequest.price - credit | currency: 'USD') : 0 | currency: 'USD')}}
+          </h1>
+        </ng-template>
       </div>
 
-      <div class="ion-padding-start form-submit-button">
+      <div *ngIf="!isTaskEdit; else taskEditSubmit" class="ion-padding-start form-submit-button">
         <ion-button *ngIf="taskRequest.price"
                     (click)="openSubPage('attach-images')" expand="block">
           Tap to Continue
           <ion-icon name="arrow-forward" slot="end"></ion-icon>
         </ion-button>
       </div>
+
+      <ng-template #taskEditSubmit>
+        <ion-button (click)="onUpdateTaskRequest()"
+                    [disabled]="progress < 1"
+                    type="submit"
+                    expand="block">
+          Update Task
+        </ion-button>
+      </ng-template>
     </div>
 
-    <div *ngSwitchCase="'attach-images'" class="sub-page animated faster slideInRight">
+    <div *ngSwitchCase="'attach-images'" [ngClass]="(backPage == 'attach-images') ? 'sub-page animated faster slideInLeft' : 'sub-page animated faster slideInRight'">
       <ion-list>
         <ion-slides [pager]="true" *ngIf="taskImages.image_one || taskImages.image_two || taskImages.image_three" class="photo-gallery">
           <ion-slide *ngIf="taskImages.image_one" class="marketplace-slide-image">
@@ -349,14 +365,19 @@
         </ion-slides>
 
         <div class="ion-padding-start ion-padding-top long-button">
-          <ion-button (click)="openPhotoGallery()" expand="block">
-            <ion-icon name="images" slot="start"></ion-icon>
-            Attach Photos (Optional)
-          </ion-button>
-          <!--<ion-button (click)="openCamera()" class="mobile-only camera-button" expand="block">-->
+          <!--<ion-button (click)="openPhotoGallery()" expand="block">-->
+            <!--<ion-icon name="images" slot="start"></ion-icon>-->
+            <!--Attach Photos (Optional)-->
+          <!--</ion-button>-->
+          <!--<ion-button *ngIf="isMobileOnly" (click)="openCamera()" class="mobile-only camera-button" expand="block">-->
             <!--<ion-icon name="camera" slot="start"></ion-icon>-->
             <!--Take Photo (Optional)-->
           <!--</ion-button>-->
+          <input type="file" accept="image/*" (change)="uploadImage($event)" #file style="display:none" multiple>
+          <ion-button (click)="file.click()" expand="block">
+            <ion-icon name="images" slot="start"></ion-icon>
+            Attach Photos (Optional)
+          </ion-button>
         </div>
       </ion-list>
 
