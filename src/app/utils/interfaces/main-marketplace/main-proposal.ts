@@ -4,7 +4,7 @@ export interface MainProposal {
   user?: User;
   marketplace_id?: number;
   user_id?: number;
-  approved?: boolean;
+  approved?: boolean | number;
   rating?: number;
   review?: string;
   arrived_at?: number;

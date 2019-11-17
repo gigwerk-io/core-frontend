@@ -30,6 +30,19 @@ export interface User {
   profile?: Profile;
 }
 
+export interface PastJob {
+  approved: number;
+  arrived_at: number;
+  complete_at: number;
+  created_at: number;
+  marketplace: MainMarketplaceTask;
+  marketplace_id: number;
+  rating: number;
+  review: string;
+  updated_at: number;
+  user_id: number;
+}
+
 export interface ProfileRouteResponse {
   user: {
     user_id?: number;
@@ -40,6 +53,7 @@ export interface ProfileRouteResponse {
     rating?: number;
     customer_rating?: number;
     friend_status?: string;
+    past_jobs?: PastJob[];
     user: {
       id?: number;
       username?: string;

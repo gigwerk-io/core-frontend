@@ -7,7 +7,7 @@ import {Storage} from '@ionic/storage';
 import {ActionSheetController, ModalController, NavController, ToastController} from '@ionic/angular';
 import {ChatService} from '../../utils/services/chat.service';
 import {FriendsService} from '../../utils/services/friends.service';
-import {GA_ID, StorageKeys} from '../../providers/constants';
+import {GA_ID, Role, StorageKeys} from '../../providers/constants';
 import {Subscription} from 'rxjs';
 import {AuthService} from '../../utils/services/auth.service';
 import {MainMarketplaceTask} from '../../utils/interfaces/main-marketplace/main-marketplace-task';
@@ -28,8 +28,9 @@ export class ProfilePage implements OnInit, OnDestroy {
   status: object;
   showFriendButton = true;
   friendButton: object;
-  rating;
-  tasks: MainMarketplaceTask[];
+  rating: number;
+  Role = Role;
+  taskFeed = 'customer';
 
   constructor(private activatedRoute: ActivatedRoute,
               private storage: Storage,
@@ -57,17 +58,16 @@ export class ProfilePage implements OnInit, OnDestroy {
             this.rating = profile.user.rating;
           }
 
-          // if (profile.user.user.role === Role.VERIFIED_FREELANCER) {
-          //   // TODO: fix this show freelancer tasks
-          // } else {
-          //   this.tasks = profile.user.user.main_marketplace;
-          // }
-
           this.status = this.showBadge(profile.user.friend_status);
           this.friendButton = this.defineFriendButton(profile.user.friend_status);
           this.storage.get(StorageKeys.PROFILE)
             .then((prof: any) => {
               this.isOwner = (prof.user_id === this.profile.user.user_id);
+              if (this.profile.user.user.role !== Role.VERIFIED_FREELANCER || this.isOwner) {
+                this.taskFeed = 'customer';
+              } else {
+                this.taskFeed = 'freelancer';
+              }
             });
         }, error => {
           if (error.status === 401) {
@@ -121,7 +121,7 @@ export class ProfilePage implements OnInit, OnDestroy {
 
   async presentActionSheet() {
     const actionSheet = await this.actionSheetCtrl.create({
-      header: 'Task Actions',
+      header: 'User Actions',
       buttons: [{
         text: 'Report User',
         role: 'destructive',
