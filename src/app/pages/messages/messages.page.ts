@@ -47,13 +47,15 @@ export class MessagesPage implements OnInit {
         this.user_id = profile.user_id;
       });
     window.addEventListener('keyboardDidShow', (event) => {
-      console.log('Keyboard opened');
+      // console.log('Keyboard opened');
       setTimeout(() => this.content.scrollToBottom(300), 1);
     });
   }
 
   ionViewDidLeave() {
-    window.removeEventListener('keyboardDidShow', () => console.log('page destroyed'));
+    window.removeEventListener('keyboardDidShow', () => {
+      // console.log('page destroyed');
+    });
   }
 
   getUserProfileImage() {
@@ -89,12 +91,12 @@ export class MessagesPage implements OnInit {
       this.room = res;
       this.messages = this.room.messages;
       this.toUser = this.getToUser();
-      console.log(this.toUser);
+      // console.log(this.toUser);
       const channel = this.pusher.init(this.uuid);
       channel.bind('new-message', data => {
         this.messages.push(data.message);
         this.scrollToBottomOnInit();
-        console.log(data);
+        // console.log(data);
         this.sending = false;
       });
     });
@@ -129,7 +131,7 @@ export class MessagesPage implements OnInit {
         text: 'Close',
         role: 'cancel',
         handler: () => {
-          console.log('Cancel clicked');
+          // console.log('Cancel clicked');
         }
       }]
     });

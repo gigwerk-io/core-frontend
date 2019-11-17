@@ -45,14 +45,14 @@ export class MarketplacePage implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {}
 
-  getAllMarketplaceRequests(coords = undefined) {
+
+  getAllMarketplaceRequests(coords?: any) {
     this.marketplaceService.getMainMarketplaceRequests('all', coords)
       .subscribe(tasks => {
         this.marketplaceTasks = tasks;
         const channel = this.pusher.marketplace();
         channel.bind('new-request', data => {
           this.marketplaceTasks.push(data.marketplace);
-          // console.log(data.marketplace);
         });
         this.changeRef.detectChanges();
       }, error => {

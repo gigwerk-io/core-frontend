@@ -75,7 +75,8 @@ export class MarketplaceDetailPage implements OnInit, OnDestroy {
     this.getCreditBalance();
   }
 
-  public getJobDetails(coords = undefined) {
+
+  public getJobDetails(coords?: any) {
     this.activatedRoute.paramMap.subscribe(data => {
       this.taskID = parseInt(data.get('id'), 10);
       this.marketplaceService.getSingleMainMarketplaceRequest(this.taskID, coords)
@@ -131,7 +132,7 @@ export class MarketplaceDetailPage implements OnInit, OnDestroy {
         text: 'Close',
         role: 'cancel',
         handler: () => {
-          console.log('Cancel clicked');
+          // console.log('Cancel clicked');
         }
       }]
     });
@@ -212,11 +213,11 @@ export class MarketplaceDetailPage implements OnInit, OnDestroy {
   async customerApproveFreelancer(freelancerID: number) {
     const customerApproveFreelancer = await this.marketplaceService.customerApproveFreelancer(this.mainMarketplaceTask.id, freelancerID)
       .then((res: string) => {
-        console.log('success -> ' + res);
+        // console.log('success -> ' + res);
         return res;
       })
       .catch((err: any) => {
-        console.log('fail -> ' + JSON.stringify(err.error));
+        // console.log('fail -> ' + JSON.stringify(err.error));
         return err.error.message;
       });
     this.presentToast(customerApproveFreelancer)
@@ -226,11 +227,11 @@ export class MarketplaceDetailPage implements OnInit, OnDestroy {
   async customerRejectFreelancer(freelancerID: number) {
     const customerDenyFreelancer = await this.marketplaceService.customerDenyFreelancer(this.mainMarketplaceTask.id, freelancerID)
       .then((res: string) => {
-        console.log('success -> ' + res);
+        // console.log('success -> ' + res);
         return res;
       })
       .catch((err: any) => {
-        console.log('fail -> ' + err);
+        // console.log('fail -> ' + err);
         return err.error.message;
       });
     this.presentToast(customerDenyFreelancer)
@@ -297,7 +298,7 @@ export class MarketplaceDetailPage implements OnInit, OnDestroy {
     const options: LaunchNavigatorOptions = {};
 
     this.launchNavigator.navigate(locationAddress, options)
-      .then(success => console.log('Launched navigator'))
+      .then(success => {})
       .catch(error => window.open('https://maps.google.com/?q=' + locationAddress));
   }
 }

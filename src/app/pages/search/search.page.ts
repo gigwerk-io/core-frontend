@@ -37,7 +37,7 @@ export class SearchPage implements OnInit {
     // console.log(this.query);
     this.friendService.searchUsers(this.query).subscribe(res => {
       this.users = res;
-      console.log(this.users);
+      // console.log(this.users);
     });
   }
 

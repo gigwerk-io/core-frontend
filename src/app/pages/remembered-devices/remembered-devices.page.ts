@@ -22,7 +22,7 @@ export class RememberedDevicesPage implements OnInit {
   getSessions() {
     this.activeSessionSubscription = this.securityService.getSessions().subscribe(res => {
       this.sessions = res.sessions;
-      console.log(this.sessions);
+      // console.log(this.sessions);
     });
   }
 
