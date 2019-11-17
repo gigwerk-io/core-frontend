@@ -6,11 +6,8 @@ import {AuthorizationToken} from '../../utils/interfaces/user-options';
 import {ActionSheetController, NavController, Platform} from '@ionic/angular';
 import {Intercom as WebIntercom} from 'ng-intercom';
 import {InAppBrowser} from '@ionic-native/in-app-browser/ngx';
-import { SocialSharing } from '@ionic-native/social-sharing/ngx';
-import { Contacts, Contact, ContactField, ContactName } from '@ionic-native/contacts/ngx';
-import {error} from 'selenium-webdriver';
 import {StatusBar} from '@ionic-native/status-bar/ngx';
-
+import {environment} from 'environments/environment';
 
 @Component({
   selector: 'settings',
@@ -20,9 +17,11 @@ import {StatusBar} from '@ionic-native/status-bar/ngx';
 export class SettingsPage implements OnInit {
 
   seeCredit: boolean;
-  seeTransfers: boolean;
   intercomActive = false;
   darkMode = true;
+  isFreelancer: boolean;
+  COPY_YEAR = (new Date()).getFullYear();
+  VERSION = environment.version;
 
   constructor(private authService: AuthService,
               private storage: Storage,
@@ -42,8 +41,10 @@ export class SettingsPage implements OnInit {
       });
 
     this.storage.get(StorageKeys.PROFILE).then(profile => {
-      this.seeTransfers = profile.user.role === Role.VERIFIED_FREELANCER;
       this.seeCredit = profile.user.organization_id === null;
+      if (profile.user.role === Role.VERIFIED_FREELANCER) {
+        this.isFreelancer = true;
+      }
     });
   }
 
@@ -57,7 +58,7 @@ export class SettingsPage implements OnInit {
         };
         this.authService.logout(authHeaders)
           .subscribe(res => {
-            console.log(res);
+            // console.log(res);
             this.navCtrl.navigateRoot('/welcome');
           });
       });
@@ -86,7 +87,7 @@ export class SettingsPage implements OnInit {
   }
 
   openTerms() {
-    if (this.platform.is('ios') || this.platform.is('android')){
+    if (this.platform.is('ios') || this.platform.is('android')) {
       this.iab.create('https://askfavr.com/terms.html');
     } else {
       window.open('https://askfavr.com/terms.html');
@@ -133,7 +134,6 @@ export class SettingsPage implements OnInit {
         text: 'Close',
         role: 'cancel',
         handler: () => {
-          // console.log('Cancel clicked');
         }
       }];
     if (!this.platform.is('mobile')) {
@@ -149,15 +149,13 @@ export class SettingsPage implements OnInit {
   setDarkMode() {
     switch (this.darkMode) {
       case true:
-        this.statusBar.backgroundColorByHexString('#ff6500');
-        toggleDarkTheme(false);
+        this.statusBar.backgroundColorByHexString('#222428');
         break;
       case false:
-        this.statusBar.backgroundColorByHexString('#222428');
-        toggleDarkTheme(true);
+        this.statusBar.backgroundColorByHexString('#ff6500');
         break;
     }
-    this.storage.set(StorageKeys.THEME_PREFERENCE, !this.darkMode)
+    this.storage.set(StorageKeys.THEME_PREFERENCE, this.darkMode)
       .then(() => toggleDarkTheme(this.darkMode));
   }
 }

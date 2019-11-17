@@ -13,6 +13,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 export class SearchPage implements OnInit {
   users;
   query;
+  query_length = undefined;
   // Holds results
   public people$: Subject<any> = new Subject();
 
@@ -36,7 +37,7 @@ export class SearchPage implements OnInit {
     // console.log(this.query);
     this.friendService.searchUsers(this.query).subscribe(res => {
       this.users = res;
-      console.log(this.users);
+      // console.log(this.users);
     });
   }
 
@@ -60,7 +61,7 @@ export class SearchPage implements OnInit {
     ).subscribe((term: string) => {
       this.friendService.searchUsers(term).subscribe(res => {
         this.users = res;
-        console.log(this.users);
+        this.query_length = this.users.length;
       });
     });
   }

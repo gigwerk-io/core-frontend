@@ -7,7 +7,6 @@ import { IonicModule } from '@ionic/angular';
 
 import { RequestPage } from './request.page';
 import {CommonComponentsModule} from '../../utils/components/common-components.module';
-import {CKEditorModule} from '@ckeditor/ckeditor5-angular';
 import {ImagePicker} from '@ionic-native/image-picker/ngx';
 import {Camera} from '@ionic-native/camera/ngx';
 
@@ -21,7 +20,6 @@ const routes: Routes = [
 const MODULES = [
   CommonModule,
   CommonComponentsModule,
-  CKEditorModule,
   FormsModule,
   IonicModule,
   RouterModule.forChild(routes)

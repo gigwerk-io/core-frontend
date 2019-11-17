@@ -42,7 +42,7 @@
     </div>
     <ion-note>
       @{{profile.user.user.username}}
-      <img *ngIf="profile.user.user.role == 'Verified Freelancer'"
+      <img *ngIf="profile.user.user.role == Role.VERIFIED_FREELANCER"
            class="badge"
            src="../../../assets/img/verified.png" alt="This user is a Verified Freelancer">
     </ion-note>
@@ -51,8 +51,15 @@
         <ion-label>{{status.text}}</ion-label>
       </ion-chip>
     </p>
-    <div padding-bottom style="text-align: center;" *ngIf="rating != undefined">
-      <rating [rate]="rating" readonly="true"></rating>
+
+    <ng-template #star let-fill="fill">
+      <span class="star" [class.full]="fill === 100">
+        <span class="half" [style.width.%]="fill">&#9733;</span>&#9733;
+      </span>
+    </ng-template>
+
+    <div padding-bottom *ngIf="rating">
+      <ngb-rating [(rate)]="rating" [starTemplate]="star" [readonly]="true" max="5"></ngb-rating>
     </div>
   </div>
   <div text-center>
@@ -70,16 +77,40 @@
     </section>
   </div>
   <hr>
-  <ng-container text-center *ngIf="profile.user.user.main_marketplace.length === 0; else tasks">
-    <ion-title color="medium" class="no-tasks">
-      No Tasks To Display
-    </ion-title>
-  </ng-container>
+  <ion-toolbar *ngIf="profile.user.user.role === Role.VERIFIED_FREELANCER">
+    <ion-segment [(ngModel)]="taskFeed">
+      <ion-segment-button checked value="freelancer">Past Jobs</ion-segment-button>
+      <ion-segment-button value="customer">Past Tasks</ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+  <ng-container [ngSwitch]="taskFeed">
+    <ng-container *ngSwitchCase="'customer'">
+      <ng-container text-center *ngIf="profile.user.user.main_marketplace.length === 0; else tasks">
+        <ion-title color="medium" class="no-tasks">
+          No Tasks To Display
+        </ion-title>
+      </ng-container>
 
-  <ng-template #tasks>
-    <favr-marketplace-card *ngFor="let task of profile.user.user.main_marketplace"
-                           [mainMarketplaceTask]="task"
-    ></favr-marketplace-card>
-  </ng-template>
+      <ng-template #tasks>
+        <favr-marketplace-card *ngFor="let task of profile.user.user.main_marketplace"
+                               [mainMarketplaceTask]="task"
+        ></favr-marketplace-card>
+      </ng-template>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'freelancer'">
+      <ng-container text-center *ngIf="profile.user.past_jobs.length === 0; else tasks">
+        <ion-title color="medium" class="no-tasks">
+          No Past Jobs To Display
+        </ion-title>
+      </ng-container>
+
+      <ng-template #tasks>
+        <favr-marketplace-card *ngFor="let task of profile.user.past_jobs"
+                               [freelancerPastTask]="task"
+        ></favr-marketplace-card>
+      </ng-template>
+    </ng-container>
+  </ng-container>
 
 </ion-content>

@@ -7,11 +7,14 @@ import {MarketplaceService} from '../../utils/services/marketplace.service';
 import {Storage} from '@ionic/storage';
 import {Role, StorageKeys, TaskActions, TaskStatus} from '../../providers/constants';
 import {ChatService} from '../../utils/services/chat.service';
-import {TASK_CATEGORIES} from '../../utils/mocks/mock-categories.mock';
 import {Events} from '@ionic/angular';
 import {CompleteTaskPage} from '../complete-task/complete-task.page';
 import {LaunchNavigator, LaunchNavigatorOptions} from '@ionic-native/launch-navigator/ngx';
 import {ReportPage} from '../report/report.page';
+import {FavrDataService} from '../../utils/services/favr-data.service';
+import {RequestPage} from '../request/request.page';
+import {FinanceService} from '../../utils/services/finance.service';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @Component({
   selector: 'marketplace-detail',
@@ -28,8 +31,9 @@ export class MarketplaceDetailPage implements OnInit, OnDestroy {
   isOwner: boolean;
   isFreelancer: boolean;
   userRole: string;
-  Categories = TASK_CATEGORIES;
+  Categories;
   TaskStatus = TaskStatus;
+  credit: number;
 
   constructor(private modalCtrl: ModalController,
               private loadingCtrl: LoadingController,
@@ -43,7 +47,13 @@ export class MarketplaceDetailPage implements OnInit, OnDestroy {
               private actionSheetCtrl: ActionSheetController,
               private chatService: ChatService,
               private events: Events,
-              private launchNavigator: LaunchNavigator) {
+              private launchNavigator: LaunchNavigator,
+              private favrService: FavrDataService,
+              private financeService: FinanceService,
+              private geolocation: Geolocation) {
+    this.favrService.getCategories().subscribe(res => {
+      this.Categories = res.categories;
+    });
     this.events.subscribe('task-action', (action) => {
       if (action === TaskActions.FREELANCER_COMPLETE_TASK ||
           action === TaskActions.CUSTOMER_COMPLETE_TASK ||
@@ -54,9 +64,22 @@ export class MarketplaceDetailPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.geolocation.getCurrentPosition().then(res => {
+      const coords = {lat: res.coords.latitude, long: res.coords.longitude};
+      // GEt job details with location
+      this.getJobDetails(coords);
+    }).catch(err => {
+      // Get job details without location
+      this.getJobDetails();
+    });
+    this.getCreditBalance();
+  }
+
+
+  public getJobDetails(coords?: any) {
     this.activatedRoute.paramMap.subscribe(data => {
       this.taskID = parseInt(data.get('id'), 10);
-      this.marketplaceService.getSingleMainMarketplaceRequest(this.taskID)
+      this.marketplaceService.getSingleMainMarketplaceRequest(this.taskID, coords)
         .then((task: MainMarketplaceTask) => {
           this.mainMarketplaceTask = task;
           this.taskStatusDisplay = (this.mainMarketplaceTask.status === TaskStatus.PAID)
@@ -78,7 +101,13 @@ export class MarketplaceDetailPage implements OnInit, OnDestroy {
     this.events.unsubscribe('task-action');
   }
 
-  private viewAttachedPhoto(url: string, photoTitle?: string): void {
+  getCreditBalance() {
+    this.financeService.getCreditBalance().then(res => {
+      this.credit = parseInt(res.credit.toString().replace('$', ''), 10);
+    });
+  }
+
+  viewAttachedPhoto(url: string, photoTitle?: string): void {
     this.photoViewer.show(url, (photoTitle) ? photoTitle : '');
   }
 
@@ -103,7 +132,7 @@ export class MarketplaceDetailPage implements OnInit, OnDestroy {
         text: 'Close',
         role: 'cancel',
         handler: () => {
-          console.log('Cancel clicked');
+          // console.log('Cancel clicked');
         }
       }]
     });
@@ -184,11 +213,11 @@ export class MarketplaceDetailPage implements OnInit, OnDestroy {
   async customerApproveFreelancer(freelancerID: number) {
     const customerApproveFreelancer = await this.marketplaceService.customerApproveFreelancer(this.mainMarketplaceTask.id, freelancerID)
       .then((res: string) => {
-        console.log('success -> ' + res);
+        // console.log('success -> ' + res);
         return res;
       })
       .catch((err: any) => {
-        console.log('fail -> ' + JSON.stringify(err.error));
+        // console.log('fail -> ' + JSON.stringify(err.error));
         return err.error.message;
       });
     this.presentToast(customerApproveFreelancer)
@@ -198,11 +227,11 @@ export class MarketplaceDetailPage implements OnInit, OnDestroy {
   async customerRejectFreelancer(freelancerID: number) {
     const customerDenyFreelancer = await this.marketplaceService.customerDenyFreelancer(this.mainMarketplaceTask.id, freelancerID)
       .then((res: string) => {
-        console.log('success -> ' + res);
+        // console.log('success -> ' + res);
         return res;
       })
       .catch((err: any) => {
-        console.log('fail -> ' + err);
+        // console.log('fail -> ' + err);
         return err.error.message;
       });
     this.presentToast(customerDenyFreelancer)
@@ -230,9 +259,34 @@ export class MarketplaceDetailPage implements OnInit, OnDestroy {
     }, 1000);
   }
 
-  editTaskRequest(task: MainMarketplaceTask) {
-    this.navCtrl.navigateForward('/app/edit-task')
-      .then(() => this.events.publish('task-edit', task));
+  async editTaskRequest(task: MainMarketplaceTask) {
+    const modal = await this.modalCtrl.create({
+      component: RequestPage,
+      componentProps: {'isModal': true}
+    });
+
+    const loadingRequestPage = await this.loadingCtrl.create({
+      message: 'Please wait...',
+      translucent: true
+    });
+
+    await loadingRequestPage.present();
+
+    modal.onDidDismiss().then(async () => {
+      const loadingPage = await this.loadingCtrl.create({
+        message: 'Please wait...',
+        translucent: true
+      });
+
+      await loadingPage.present();
+      loadingPage.dismiss();
+    });
+
+    await modal.present()
+      .then(() => {
+        this.events.publish('task-edit', task);
+        return loadingRequestPage.dismiss();
+      });
   }
 
   openLocation() {
@@ -244,7 +298,7 @@ export class MarketplaceDetailPage implements OnInit, OnDestroy {
     const options: LaunchNavigatorOptions = {};
 
     this.launchNavigator.navigate(locationAddress, options)
-      .then(success => console.log('Launched navigator'))
+      .then(success => {})
       .catch(error => window.open('https://maps.google.com/?q=' + locationAddress));
   }
 }

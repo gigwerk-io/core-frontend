@@ -1,16 +1,15 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {MainMarketplaceTask} from '../../utils/interfaces/main-marketplace/main-marketplace-task';
 import {MarketplaceService} from '../../utils/services/marketplace.service';
 import {LoadingController, ModalController, NavController, ToastController} from '@ionic/angular';
 import {RequestPage} from '../request/request.page';
-import {Observable, Subscription} from 'rxjs';
-import {GA_ID, Role, StorageKeys} from '../../providers/constants';
+import {Role, StorageKeys} from '../../providers/constants';
 import {Storage} from '@ionic/storage';
 import {PusherServiceProvider} from '../../providers/pusher.service';
-import {AuthorizationToken} from '../../utils/interfaces/user-options';
-import {AuthResponse} from '../../utils/interfaces/auth/auth-response';
 import {AuthService} from '../../utils/services/auth.service';
 import {Router} from '@angular/router';
+import {ProfileRouteResponse, User} from '../../utils/interfaces/user';
+import {Geolocation} from '@ionic-native/geolocation/ngx';
 
 @Component({
   selector: 'marketplace',
@@ -35,23 +34,25 @@ export class MarketplacePage implements OnInit, OnDestroy {
               private authService: AuthService,
               private navCtrl: NavController,
               private router: Router,
-              private toastController: ToastController) { }
+              private toastController: ToastController,
+              private geolocation: Geolocation) { }
 
   ngOnInit() {
     this.segmentChanged(this.segment);
-    this.trackWithGoogle();
+    this.storage.get(StorageKeys.PROFILE)
+      .then(prof => this.userRole = prof.user.role);
   }
 
   ngOnDestroy(): void {}
 
-  getAllMarketplaceRequests() {
-    this.marketplaceService.getMainMarketplaceRequests('all')
+
+  getAllMarketplaceRequests(coords?: any) {
+    this.marketplaceService.getMainMarketplaceRequests('all', coords)
       .subscribe(tasks => {
         this.marketplaceTasks = tasks;
         const channel = this.pusher.marketplace();
         channel.bind('new-request', data => {
           this.marketplaceTasks.push(data.marketplace);
-          // console.log(data.marketplace);
         });
         this.changeRef.detectChanges();
       }, error => {
@@ -122,7 +123,14 @@ export class MarketplacePage implements OnInit, OnDestroy {
     switch (value) {
       case 'all':
         this.segment = 'all';
-        this.getAllMarketplaceRequests();
+        this.geolocation.getCurrentPosition().then(res => {
+          const coords = {lat: res.coords.latitude, long: res.coords.longitude};
+          // GEt job details with location
+          this.getAllMarketplaceRequests(coords);
+        }).catch(err => {
+          // Get job details without location
+          this.getAllMarketplaceRequests();
+        });
         break;
       case 'me':
         this.segment = 'me';
@@ -133,19 +141,6 @@ export class MarketplacePage implements OnInit, OnDestroy {
         this.getMyJobs();
         break;
     }
-  }
-
-  trackWithGoogle() {
-    this.storage.get(StorageKeys.PROFILE).then(profile => {
-      this.userRole = profile.user.role;
-      // this.ga.startTrackerWithId(GA_ID)
-      //   .then(() => {
-      //     console.log('Google analytics is ready now');
-      //     this.ga.trackView('marketplace');
-      //     this.ga.setUserId(profile.user.username);
-      //   })
-      //   .catch(e => console.log('Error starting GoogleAnalytics', e));
-    });
   }
 
   async openRequestPage() {
@@ -197,7 +192,14 @@ export class MarketplacePage implements OnInit, OnDestroy {
     setTimeout(() => {
       switch (this.segment) {
         case 'all':
-          this.getAllMarketplaceRequests();
+          this.geolocation.getCurrentPosition().then(res => {
+            const coords = {lat: res.coords.latitude, long: res.coords.longitude};
+            // GEt job details with location
+            this.getAllMarketplaceRequests(coords);
+          }).catch(err => {
+            // Get job details without location
+            this.getAllMarketplaceRequests();
+          });
           break;
         case 'me':
           this.getMyMarketplaceRequests();

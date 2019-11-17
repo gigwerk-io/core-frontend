@@ -10,7 +10,7 @@ export interface UserRegistrationOptions {
   last_name: string;
   username: string;
   email: string;
-  phone: number;
+  phone: string;
   birthday?: number;
   password: string;
   confirm_password: string;

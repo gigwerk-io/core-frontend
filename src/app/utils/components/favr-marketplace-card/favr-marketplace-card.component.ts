@@ -1,13 +1,13 @@
 import {ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {
-  MainMarketplaceTask
-} from '../../interfaces/main-marketplace/main-marketplace-task';
+import {MainMarketplaceTask} from '../../interfaces/main-marketplace/main-marketplace-task';
 import {PhotoViewer} from '@ionic-native/photo-viewer/ngx';
-import {Events, LoadingController, NavController, ToastController} from '@ionic/angular';
+import {Events, LoadingController, ModalController, NavController, ToastController} from '@ionic/angular';
 import {Router} from '@angular/router';
 import {ChatService} from '../../services/chat.service';
 import {MarketplaceService} from '../../services/marketplace.service';
 import {TaskActions, TaskStatus} from '../../../providers/constants';
+import {PastJob} from '../../interfaces/user';
+import {RequestPage} from '../../../pages/request/request.page';
 
 @Component({
   selector: 'favr-marketplace-card',
@@ -18,6 +18,7 @@ import {TaskActions, TaskStatus} from '../../../providers/constants';
 export class FavrMarketplaceCardComponent implements OnInit, OnDestroy {
 
   @Input() mainMarketplaceTask: MainMarketplaceTask;
+  @Input() freelancerPastTask: PastJob;
   @Output() taskActionTaken: EventEmitter<string> = new EventEmitter();
   TaskStatus = TaskStatus;
 
@@ -28,6 +29,7 @@ export class FavrMarketplaceCardComponent implements OnInit, OnDestroy {
               private chatService: ChatService,
               private toastCtrl: ToastController,
               private changeRef: ChangeDetectorRef,
+              private modalCtrl: ModalController,
               private navCtrl: NavController,
               private events: Events) {
     this.events.subscribe('task-action', (action, taskID) => {
@@ -137,9 +139,33 @@ export class FavrMarketplaceCardComponent implements OnInit, OnDestroy {
       .then(() => this.taskActionTaken.emit('customerCancelTask'));
   }
 
-  customerEditTask(task: MainMarketplaceTask) {
-    console.log(task);
-    this.navCtrl.navigateForward('/app/edit-task')
-      .then(() => this.events.publish('task-edit', task));
+  async customerEditTask(task: MainMarketplaceTask) {
+    const modal = await this.modalCtrl.create({
+      component: RequestPage,
+      componentProps: {'isModal': true}
+    });
+
+    const loadingRequestPage = await this.loadingCtrl.create({
+      message: 'Please wait...',
+      translucent: true
+    });
+
+    await loadingRequestPage.present();
+
+    modal.onDidDismiss().then(async () => {
+      const loadingPage = await this.loadingCtrl.create({
+        message: 'Please wait...',
+        translucent: true
+      });
+
+      await loadingPage.present();
+      loadingPage.dismiss();
+    });
+
+    await modal.present()
+      .then(() => {
+        this.events.publish('task-edit', task);
+        return loadingRequestPage.dismiss();
+      });
   }
 }

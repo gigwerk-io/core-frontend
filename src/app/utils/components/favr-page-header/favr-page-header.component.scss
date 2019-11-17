@@ -4,6 +4,10 @@
   width: 32px;
 }
 
+.green-progress {
+  --progress-background: var(--ion-color-success);
+}
+
 .nav-button {
   background-color: var(--ion-color-primary-tint);
   color: white;

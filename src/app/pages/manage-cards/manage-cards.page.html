@@ -20,17 +20,45 @@
 
   </ion-list>
 
-  <ion-list class="ion-padding">
+  <ion-list class="ion-padding" *ngIf="card">
     <ion-list-header>
       SAVED CARDS
     </ion-list-header>
-    <ion-item>
-      <ion-icon slot="start" name="card"></ion-icon>
+    <ion-item *ngIf="card.user.card_id != null">
+      <ng-container [ngSwitch]="card.user.type">
+        <ng-template ngSwitchDefault>
+          <ion-icon slot="start" name="card"></ion-icon>
+        </ng-template>
+
+        <ng-container *ngSwitchCase="'Visa'">
+          <ion-avatar slot="start" style="background: #fff;">
+            <img src="../../../assets/img/visa.png" height="32" width="32" alt="visa">
+          </ion-avatar>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'MasterCard'">
+          <ion-avatar slot="start" style="background: #fff;">
+            <img src="../../../assets/img/mastercard.png" height="32" width="32" alt="mastercard">
+          </ion-avatar>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'American Express'">
+          <ion-avatar slot="start" style="background: #fff;">
+            <img src="../../../assets/img/american-express.png" height="32" width="32" alt="amex">
+          </ion-avatar>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'Discover'">
+          <ion-avatar slot="start" style="background: #fff;">
+            <img src="../../../assets/img/discover.png" height="32" width="32" alt="discover">
+          </ion-avatar>
+        </ng-container>
+      </ng-container>
+
       <ion-label>
-        <h3>Visa</h3>
-        <p>Card Ending with 0665</p>
+        <h3>{{card.user.type}}</h3>
+        <p>Card Ending with {{card.user.last4}}</p>
       </ion-label>
-      <ion-icon slot="end" name="checkmark"></ion-icon>
     </ion-item>
 
   </ion-list>

@@ -56,6 +56,12 @@ ion-searchbar.ios {
   text-decoration: underline
 }
 
+.dark {
+  .hyperlink {
+    color: var(--ion-color-primary)!important;
+  }
+}
+
 ion-item.ios {
   --border: 0;
   --inner-border-width: 0;

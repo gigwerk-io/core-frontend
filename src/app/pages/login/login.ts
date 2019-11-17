@@ -82,22 +82,22 @@ export class LoginPage {
     if (!(this.platform.is('pwa') && this.platform.is('ios'))) {
       const pushObject: PushObject = this.push.init(options);
       pushObject.on('registration').subscribe((data: any) => {
-        console.log('Token: ' + data.registrationId);
+        // console.log('Token: ' + data.registrationId);
         if (this.platform.is('ios')) {
           this.notficationService.saveAPNToken({'device_token': data.registrationId}).subscribe(res => {
-            console.log(res);
+            // console.log(res);
           });
         } else if (this.platform.is('android')) {
           this.notficationService.saveFCMToken({'device_token': data.registrationId}).subscribe(res => {
-            console.log(res);
+            // console.log(res);
           });
         }
       }, error1 => {
-        console.log(error1);
+        // console.log(error1);
       });
 
       pushObject.on('notification').subscribe((data: any) => {
-        console.log(data);
+        // console.log(data);
         this.badge.increase(1);
         if (!data.additionalData.foreground) {
           if (data.custom !== undefined) {

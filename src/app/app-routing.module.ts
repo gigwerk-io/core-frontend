@@ -40,6 +40,14 @@ const routes: Routes = [
     canActivate: [CheckAuth]
   },
   {
+    path: 'r/:username',
+    loadChildren: () => import('./pages/referral/referral.module').then(m => m.ReferralPageModule)
+  },
+  {
+    path: 'customer-referral/:username',
+    loadChildren: () => import('./pages//customer-referral/customer-referral.module').then(m => m.CustomerReferralPageModule)
+  },
+  {
     path: '**',
     redirectTo: '/tutorial'
   }

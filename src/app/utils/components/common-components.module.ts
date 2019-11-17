@@ -7,6 +7,7 @@ import {FavrPageHeaderComponent} from './favr-page-header/favr-page-header.compo
 import {RouterModule} from '@angular/router';
 import {FavrCategoryCardButtonsComponent} from './favr-category-card-buttons/favr-category-card-buttons.component';
 import {MomentModule} from 'ngx-moment';
+import {NgbRatingModule} from '@ng-bootstrap/ng-bootstrap';
 
 const COMPONENTS = [
   FavrCategoryCardButtonsComponent,
@@ -19,7 +20,8 @@ const MODULES = [
   FormsModule,
   IonicModule,
   MomentModule,
-  RouterModule
+  RouterModule,
+  NgbRatingModule
 ];
 
 @NgModule({

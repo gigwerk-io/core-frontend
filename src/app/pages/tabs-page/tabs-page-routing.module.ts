@@ -164,6 +164,14 @@ const routes: Routes = [
   {
     path: 'customer-tutorial',
     loadChildren: () => import('../customer-tutorial/customer-tutorial.module').then(m => m.CustomerTutorialPageModule),
+  },
+  {
+    path: 'refer-a-worker',
+    loadChildren: () => import('../refer-a-worker/refer-a-worker.module').then(m => m.ReferAWorkerPageModule)
+  },
+  {
+    path: 'refer-a-customer',
+    loadChildren: () => import('../refer-a-customer/refer-a-customer.module').then(m => m.ReferACustomerPageModule)
   }
 ];
 

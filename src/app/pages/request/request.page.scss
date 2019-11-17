@@ -54,6 +54,10 @@ ckeditor {
   right: 2rem;
 }
 
+.sub-page {
+  min-height: 100%;
+}
+
 ::ng-deep request {
   ::ng-deep ion-card {
     max-width: 182.5px;
@@ -62,4 +66,14 @@ ckeditor {
 
 ion-textarea {
   --background: rgb(245, 245, 245);
+}
+
+.green-progress {
+  --progress-background: var(--ion-color-success);
+}
+
+.form-submit-button {
+  left: 0;
+  bottom: 25%;
+  right: 0;
 }

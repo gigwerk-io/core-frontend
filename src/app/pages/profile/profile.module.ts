@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { ProfilePage } from './profile.page';
 import {CommonComponentsModule} from '../../utils/components/common-components.module';
-import {IonicRatingModule} from 'ionic4-rating/dist';
+import {NgbRatingModule} from '@ng-bootstrap/ng-bootstrap';
 
 const routes: Routes = [
   {
@@ -23,7 +23,7 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
-    IonicRatingModule
+    NgbRatingModule
   ],
   declarations: [ProfilePage]
 })

@@ -7,13 +7,14 @@ ion-content .scroll-content {
   background-color: #f5f5f5;
 }
 
+ion-textarea {
+  border-radius: 30px;
+}
+
 ion-footer {
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.11);
   background-color: #fff;
   height: inherit;
-  @media (min-width: $iphone678) {
-    padding-bottom: .5rem;
-  }
   @media (max-width: $iphoneSe) {
     height: 55px!important;
   }
@@ -172,4 +173,3 @@ ion-footer {
 .footer {
   border: none;
 }
-

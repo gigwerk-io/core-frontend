@@ -1,30 +1,29 @@
-import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {
   ActionSheetController,
   Events,
   IonContent,
-  IonSlides,
+  IonSlides, LoadingController,
   ModalController,
   NavController,
   Platform,
   ToastController
 } from '@ionic/angular';
 import {MainCategory} from '../../utils/interfaces/main-marketplace/main-category';
-import {TASK_CATEGORIES} from '../../utils/mocks/mock-categories.mock';
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import {ChangeEvent} from '@ckeditor/ckeditor5-angular';
 import {MainMarketplaceTask} from '../../utils/interfaces/main-marketplace/main-marketplace-task';
 import {State} from '../../utils/interfaces/locations/state';
 import {STATES} from '../../utils/mocks/states.mock';
-import {ImagePicker, ImagePickerOptions} from '@ionic-native/image-picker/ngx';
-import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
+import {ImagePicker} from '@ionic-native/image-picker/ngx';
+import {Camera} from '@ionic-native/camera/ngx';
 import {MarketplaceService} from '../../utils/services/marketplace.service';
-import {NgForm} from '@angular/forms';
 import {Router} from '@angular/router';
 import {LocationAddress} from '../../utils/interfaces/settings/preferences';
 import {PreferencesService} from '../../utils/services/preferences.service';
 import {PreviousRouteService} from '../../providers/previous-route.service';
 import {TaskActions} from '../../providers/constants';
+import {FavrDataService} from '../../utils/services/favr-data.service';
+import {PageStack} from '../signup/signup';
+import {FinanceService} from '../../utils/services/finance.service';
 
 @Component({
   selector: 'request',
@@ -35,7 +34,9 @@ export class RequestPage implements OnInit, OnDestroy {
   @Input() isModal = false;
   @ViewChild(IonSlides, {static: false}) slides: IonSlides;
   @ViewChild(IonContent, {static: false}) content: IonContent;
+  @ViewChild('file', {static: false}) file: ElementRef;
 
+  isMobileOnly: boolean;
   taskRequest: MainMarketplaceTask = {
     description: undefined,
     freelancer_count: 1,
@@ -51,32 +52,33 @@ export class RequestPage implements OnInit, OnDestroy {
     image_two: undefined,
     image_three: undefined
   };
+  taskImages = {
+    image_one: undefined,
+    image_two: undefined,
+    image_three: undefined
+  };
   isMobileWebOrDesktop = false;
   isTaskEdit = false;
 
   minYear: number = (new Date()).getFullYear();
   maxYear: number = this.minYear + 1;
 
-  editorConfig = {
-    placeholder: 'Describe your task here.',
-    toolbar: [
-      'heading',
-      '|',
-      'bold',
-      'italic',
-      'bulletedList',
-      'numberedList',
-      'blockQuote'
-    ]
-  };
-  Editor = ClassicEditor;
-
-  categories: MainCategory[] = TASK_CATEGORIES;
+  categories: MainCategory[];
   pageTitle = 'Request';
   states: State[] = STATES;
   progress = 0;
   submitted = false;
   locations: LocationAddress[] = [];
+  subPage = 'request-index';
+  subPageTitle = 'Request';
+  pageStack: PageStack[] = [
+    {
+      pageTitle: 'Request',
+      page: 'request-index'
+    }
+  ];
+  backPage: string;
+  credit: number;
 
   constructor(private modalCtrl: ModalController,
               private imagePicker: ImagePicker,
@@ -89,7 +91,13 @@ export class RequestPage implements OnInit, OnDestroy {
               private actionSheetCtrl: ActionSheetController,
               private previousRoute: PreviousRouteService,
               private navCtrl: NavController,
-              public platform: Platform) {
+              public platform: Platform,
+              private favrService: FavrDataService,
+              private financeService: FinanceService,
+              private loadingCtrl: LoadingController) {
+    this.favrService.getCategories().subscribe(res => {
+      this.categories = res.categories;
+    });
     this.events.subscribe('task-edit', (taskRequest: MainMarketplaceTask) => {
       if (taskRequest) {
         this.isTaskEdit = true;
@@ -101,19 +109,31 @@ export class RequestPage implements OnInit, OnDestroy {
           this.taskRequest.state = location.state;
           this.taskRequest.zip = location.zip;
         });
+
+        this.taskImages.image_one = taskRequest.image_one;
+        this.taskImages.image_two = taskRequest.image_two;
+        this.taskImages.image_three = taskRequest.image_three;
       }
     });
   }
 
   ngOnInit() {
-    if (this.platform.is('mobileweb') || this.platform.is('desktop') || this.platform.is('pwa')) {
+    if  (this.platform.is('mobileweb') || this.platform.is('desktop') || this.platform.is('pwa')) {
       this.isMobileWebOrDesktop = true;
     }
+    this.isMobileOnly = this.platform.is('android') || this.platform.is('ios');
     this.getLocations();
+    this.getCreditBalance();
   }
 
   ngOnDestroy(): void {
     this.events.unsubscribe('task-edit');
+  }
+
+  getCreditBalance() {
+    this.financeService.getCreditBalance().then(res => {
+      this.credit = parseInt(res.credit.toString().replace('$', ''), 10);
+    });
   }
 
   async closeRequestPage(): Promise<boolean> {
@@ -160,55 +180,18 @@ export class RequestPage implements OnInit, OnDestroy {
   }
 
   onSlideChange() {
-    this.slides.getActiveIndex()
-      .then((index) => {
-        switch (index) {
-          case 0:
-            this.pageTitle = 'Request';
-            this.content.scrollToTop(500);
-            break;
-          case 1:
-            this.pageTitle = 'Description';
-            this.content.scrollToTop(500);
-            break;
-          case 2:
-            this.pageTitle = 'Time';
-            this.content.scrollToTop(500);
-            break;
-          case 3:
-            this.pageTitle = 'Location';
-            this.content.scrollToTop(500);
-            break;
-          case 4:
-            this.pageTitle = 'Images';
-            this.content.scrollToTop(500);
-            break;
-          case 5:
-            this.pageTitle = 'Difficulty';
-            this.content.scrollToTop(500);
-            break;
-          case 6:
-            this.pageTitle = 'Price';
-            this.content.scrollToTop(500);
-            break;
-        }
-      });
+    this.content.scrollToTop(500);
   }
 
   selectCategory(category: MainCategory) {
     this.taskRequest.category_id = category.id;
     setTimeout(() => {
       this.updateProgress();
-      this.slides.slideNext();
+      this.openSubPage('task-information');
     }, 500);
   }
 
-  onEditorChange( { editor }: ChangeEvent ) {
-    this.taskRequest.description = editor.getData();
-    this.updateProgress();
-  }
-
-  onTextboxChange(event) {
+  onTextboxChange() {
     this.updateProgress();
   }
 
@@ -227,77 +210,27 @@ export class RequestPage implements OnInit, OnDestroy {
     ]);
   }
 
-  openPhotoGallery() {
-    const options: ImagePickerOptions = {
-      quality: 100,
-      width: 600,
-      height: 600,
-      outputType: 1,
-      maximumImagesCount: 3
-    };
-
-    this.imagePicker.getPictures(options).then((results) => {
-      if (results[0]) {
-        this.taskRequest.image_one = results[0];
-      }
-
-      if (results[1]) {
-        this.taskRequest.image_two = results[1];
-      }
-
-      if (results[2]) {
-        this.taskRequest.image_three = results[2];
-      }
-    }, (err) => { console.log('Error with Image Picker.'); });
-  }
-
-  removeImage(index: number) {
-    switch (index) {
-      case 0:
-        this.taskRequest.image_one = undefined;
-        break;
-      case 1:
-        this.taskRequest.image_two = undefined;
-        break;
-      case 2:
-        this.taskRequest.image_three = undefined;
-        break;
-    }
-  }
-
-  openCamera() {
-    const options: CameraOptions = {
-      quality: 100,
-      destinationType: this.camera.DestinationType.FILE_URI,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE
-    };
-
-    this.camera.getPicture(options).then((imageData) => {
-      // imageData is either a base64 encoded string or a file URI
-      // If it's base64 (DATA_URL):
-      const base64Image = 'data:image/jpeg;base64,' + imageData;
-      console.log(base64Image);
-    }, (err) => {
-      // Handle error
-      console.log('Error something went wrong with camera.');
-    });
-  }
-
-  onSubmitTaskRequest(form: NgForm) {
+  async onSubmitTaskRequest() {
     this.submitted = true;
 
-    if (form.valid) {
+    const loadingPage = await this.loadingCtrl.create({
+      message: 'Please wait...',
+      translucent: true
+    });
+
+    await loadingPage.present();
+
+    if (this.progress === 1) {
       this.marketplaceService.createMainMarketplaceRequest(this.taskRequest)
         .then((res) => {
           this.closeRequestPage()
             .then(() => {
               this.presentToast(res);
-              console.log(this.previousRoute.getCurrentUrl());
               if (this.previousRoute.getCurrentUrl() !== '/app/tabs/marketplace') {
                 this.router.navigateByUrl('app/tabs/marketplace');
               }
             });
+          loadingPage.dismiss();
         })
         .catch(error => {
           this.closeRequestPage()
@@ -308,6 +241,7 @@ export class RequestPage implements OnInit, OnDestroy {
                   this.presentToast(error.error.message);
                 });
             });
+          loadingPage.dismiss();
         });
     }
   }
@@ -329,18 +263,115 @@ export class RequestPage implements OnInit, OnDestroy {
     });
   }
 
-  onUpdateTaskRequest() {
+  async onUpdateTaskRequest() {
     this.submitted = true;
+
+    const loadingPage = await this.loadingCtrl.create({
+      message: 'Please wait...',
+      translucent: true
+    });
+
+    await loadingPage.present();
 
     this.marketplaceService.editMainMarketplaceRequest(this.taskRequest)
       .then((res) => {
+        this.closeRequestPage();
         this.presentToast(res);
         this.navCtrl.navigateBack(`app/marketplace-detail/${this.taskRequest.id}`);
         this.events.publish('task-action', TaskActions.CUSTOMER_UPDATE_TASK);
+        loadingPage.dismiss();
       })
       .catch(error => {
+        this.closeRequestPage();
         this.presentToast(error.error.message);
+        loadingPage.dismiss();
       });
+  }
+
+  goBack() {
+    this.pageStack.pop(); // remove current page
+    const prevPage = this.pageStack[this.pageStack.length - 1];
+    this.backPage = prevPage.page;
+    this.subPage = prevPage.page;
+    this.subPageTitle = prevPage.pageTitle;
+  }
+
+  openSubPage(page: string) {
+    switch (page) {
+      case 'select-category':
+        this.subPageTitle = 'Select Category';
+        break;
+      case 'task-information':
+        this.subPageTitle = 'Task Information';
+        break;
+      case 'location':
+        this.subPageTitle = 'Location';
+        break;
+      case 'attach-images':
+        this.subPageTitle = 'Attach Images';
+        break;
+      case 'task-intensity':
+        this.subPageTitle = 'Task Difficulty';
+        break;
+      case 'set-price':
+        this.subPageTitle = 'Set Price';
+        break;
+    }
+    this.pageStack.push({pageTitle: this.subPageTitle, page: page});
+    this.subPage = page;
+    this.backPage = this.pageStack[this.pageStack.length - 2].page;
+  }
+
+  removeImage(index: number) {
+    this.file.nativeElement.value = '';
+    switch (index) {
+      case 0:
+        this.taskImages.image_one = undefined;
+        this.taskRequest.image_one = undefined;
+        break;
+      case 1:
+        this.taskImages.image_two = undefined;
+        this.taskRequest.image_two = undefined;
+        break;
+      case 2:
+        this.taskImages.image_three = undefined;
+        this.taskRequest.image_three = undefined;
+        break;
+    }
+  }
+
+  uploadImage(event: any) {
+    if (event.target.files) {
+      if (event.target.files[0]) {
+        const reader = new FileReader();
+
+        reader.onload = (e: ProgressEvent) => {
+          this.taskImages.image_one = (<FileReader>e.target).result;
+          this.taskRequest.image_one = (<FileReader>e.target).result.toString().split(',')[1];
+        };
+        reader.readAsDataURL(event.target.files[0]);
+      }
+
+      if (event.target.files[1]) {
+        const reader = new FileReader();
+
+        reader.onload = (e: ProgressEvent) => {
+          this.taskImages.image_two = (<FileReader>e.target).result;
+          this.taskRequest.image_two = (<FileReader>e.target).result.toString().split(',')[1];
+        };
+        reader.readAsDataURL(event.target.files[1]);
+      }
+
+      if (event.target.files[2]) {
+        const reader = new FileReader();
+
+        reader.onload = (e: ProgressEvent) => {
+          this.taskImages.image_three = (<FileReader>e.target).result;
+          this.taskRequest.image_three = (<FileReader>e.target).result.toString().split(',')[1];
+        };
+        reader.readAsDataURL(event.target.files[2]);
+      }
+    }
   }
 }
 
