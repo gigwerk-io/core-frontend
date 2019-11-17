@@ -14,6 +14,7 @@ import {ReportPage} from '../report/report.page';
 import {FavrDataService} from '../../utils/services/favr-data.service';
 import {RequestPage} from '../request/request.page';
 import {FinanceService} from '../../utils/services/finance.service';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @Component({
   selector: 'marketplace-detail',
@@ -48,7 +49,8 @@ export class MarketplaceDetailPage implements OnInit, OnDestroy {
               private events: Events,
               private launchNavigator: LaunchNavigator,
               private favrService: FavrDataService,
-              private financeService: FinanceService) {
+              private financeService: FinanceService,
+              private geolocation: Geolocation) {
     this.favrService.getCategories().subscribe(res => {
       this.Categories = res.categories;
     });
@@ -62,9 +64,21 @@ export class MarketplaceDetailPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.geolocation.getCurrentPosition().then(res => {
+      const coords = {lat: res.coords.latitude, long: res.coords.longitude};
+      // GEt job details with location
+      this.getJobDetails(coords);
+    }).catch(err => {
+      // Get job details without location
+      this.getJobDetails();
+    });
+    this.getCreditBalance();
+  }
+
+  public getJobDetails(coords = undefined) {
     this.activatedRoute.paramMap.subscribe(data => {
       this.taskID = parseInt(data.get('id'), 10);
-      this.marketplaceService.getSingleMainMarketplaceRequest(this.taskID)
+      this.marketplaceService.getSingleMainMarketplaceRequest(this.taskID, coords)
         .then((task: MainMarketplaceTask) => {
           this.mainMarketplaceTask = task;
           this.taskStatusDisplay = (this.mainMarketplaceTask.status === TaskStatus.PAID)
@@ -80,7 +94,6 @@ export class MarketplaceDetailPage implements OnInit, OnDestroy {
             });
         });
     });
-    this.getCreditBalance();
   }
 
   ngOnDestroy(): void {

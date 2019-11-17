@@ -24,6 +24,7 @@ import { Badge } from '@ionic-native/badge/ngx';
 import {Keyboard} from '@ionic-native/keyboard/ngx';
 import { Angulartics2Module } from 'angulartics2';
 import {SocialSharing} from '@ionic-native/social-sharing/ngx';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @NgModule({
   imports: [
@@ -60,7 +61,8 @@ import {SocialSharing} from '@ionic-native/social-sharing/ngx';
     Contacts,
     Badge,
     Keyboard,
-    SocialSharing
+    SocialSharing,
+    Geolocation
   ],
   bootstrap: [AppComponent]
 })
