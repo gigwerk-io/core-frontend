@@ -10,13 +10,11 @@ import {
   ToastController
 } from '@ionic/angular';
 import {MainCategory} from '../../utils/interfaces/main-marketplace/main-category';
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import {ChangeEvent} from '@ckeditor/ckeditor5-angular';
 import {MainMarketplaceTask} from '../../utils/interfaces/main-marketplace/main-marketplace-task';
 import {State} from '../../utils/interfaces/locations/state';
 import {STATES} from '../../utils/mocks/states.mock';
-import {ImagePicker, ImagePickerOptions} from '@ionic-native/image-picker/ngx';
-import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
+import {ImagePicker} from '@ionic-native/image-picker/ngx';
+import {Camera} from '@ionic-native/camera/ngx';
 import {MarketplaceService} from '../../utils/services/marketplace.service';
 import {Router} from '@angular/router';
 import {LocationAddress} from '../../utils/interfaces/settings/preferences';
@@ -64,20 +62,6 @@ export class RequestPage implements OnInit, OnDestroy {
 
   minYear: number = (new Date()).getFullYear();
   maxYear: number = this.minYear + 1;
-
-  editorConfig = {
-    placeholder: 'Describe your task here.',
-    toolbar: [
-      'heading',
-      '|',
-      'bold',
-      'italic',
-      'bulletedList',
-      'numberedList',
-      'blockQuote'
-    ]
-  };
-  Editor = ClassicEditor;
 
   categories: MainCategory[];
   pageTitle = 'Request';
@@ -205,11 +189,6 @@ export class RequestPage implements OnInit, OnDestroy {
       this.updateProgress();
       this.openSubPage('task-information');
     }, 500);
-  }
-
-  onEditorChange( { editor }: ChangeEvent ) {
-    this.taskRequest.description = editor.getData();
-    this.updateProgress();
   }
 
   onTextboxChange() {

@@ -96,9 +96,9 @@
         <config-file parent="NSPhotoLibraryUsageDescription" platform="ios" target="*-Info.plist">
             <string>FAVR requires permission to use photos within certain functions of the app.</string>
         </config-file>
-      <edit-config file="*-Info.plist" mode="merge" target="NSLocationWhenInUseUsageDescription">
-        <string>We use your location for full functionality of certain app features.</string>
-      </edit-config>
+        <edit-config file="*-Info.plist" mode="merge" target="NSLocationWhenInUseUsageDescription">
+            <string>FAVR requires permission to access your location for full functionality of certain app features.</string>
+        </edit-config>
     </platform>
     <engine name="ios" spec="^4.5.5" />
     <plugin name="cordova-plugin-device" spec="^2.0.3" />
@@ -125,6 +125,6 @@
     <plugin name="uk.co.workingedge.phonegap.plugin.launchnavigator" source="npm">
         <variable name="GOOGLE_API_KEY_FOR_ANDROID" value="AIzaSyBubXV7Inv5xrldlRAKCTK4RnCA4Pljuo0" />
         <variable name="OKHTTP_VERSION" value="3.12.0" />
-        <variable name="LOCATION_USAGE_DESCRIPTION" value="This app requires access to your location for navigation purposes" />
+        <variable name="LOCATION_USAGE_DESCRIPTION" value="FAVR requires access to your location for navigation purposes." />
     </plugin>
 </widget>
