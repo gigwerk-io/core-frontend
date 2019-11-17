@@ -157,7 +157,7 @@ export class FriendsPage implements OnInit {
     this.friendService.sendFriendRequest(id).subscribe(res => {
       this.presentToast(res);
     }, error => {
-      console.log(error);
+      // console.log(error);
     });
   }
 

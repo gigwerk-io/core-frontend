@@ -18,7 +18,7 @@ export class ManageCardsPage {
     this.financeService.getPaymentInformation()
       .then((res: PaymentInformationResponse) => {
         this.card = res;
-        console.log(this.card);
+        // console.log(this.card);
       });
   }
 }

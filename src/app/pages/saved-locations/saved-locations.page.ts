@@ -66,7 +66,7 @@ export class SavedLocationsPage implements OnInit {
   getLocations() {
     this.preferences.getMyLocations().subscribe(res => {
       this.locations = res.locations;
-      console.log(this.locations);
+      // console.log(this.locations);
     });
   }
 

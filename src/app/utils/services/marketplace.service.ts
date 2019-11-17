@@ -27,7 +27,7 @@ export class MarketplaceService {
               private storage: Storage) {
   }
 
-  public getSingleMainMarketplaceRequest(id: number, coords = undefined): Promise<MainMarketplaceTask> {
+  public getSingleMainMarketplaceRequest(id: number, coords?: any): Promise<MainMarketplaceTask> {
     return this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader = {
@@ -42,7 +42,7 @@ export class MarketplaceService {
         });
   }
 
-  public getMainMarketplaceRequests(filter?: string, coords = undefined): Observable<MainMarketplaceTask[]> {
+  public getMainMarketplaceRequests(filter?: string, coords?: any): Observable<MainMarketplaceTask[]> {
     switch (filter) {
       case 'all':
         return from(

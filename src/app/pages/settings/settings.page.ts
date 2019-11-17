@@ -58,7 +58,7 @@ export class SettingsPage implements OnInit {
         };
         this.authService.logout(authHeaders)
           .subscribe(res => {
-            console.log(res);
+            // console.log(res);
             this.navCtrl.navigateRoot('/welcome');
           });
       });
@@ -87,7 +87,7 @@ export class SettingsPage implements OnInit {
   }
 
   openTerms() {
-    if (this.platform.is('ios') || this.platform.is('android')){
+    if (this.platform.is('ios') || this.platform.is('android')) {
       this.iab.create('https://askfavr.com/terms.html');
     } else {
       window.open('https://askfavr.com/terms.html');
@@ -134,7 +134,6 @@ export class SettingsPage implements OnInit {
         text: 'Close',
         role: 'cancel',
         handler: () => {
-          // console.log('Cancel clicked');
         }
       }];
     if (!this.platform.is('mobile')) {

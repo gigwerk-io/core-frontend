@@ -143,22 +143,22 @@ export class SignupPage {
     if (!(this.platform.is('pwa') && this.platform.is('ios'))) {
       const pushObject: PushObject = this.push.init(options);
       pushObject.on('registration').subscribe((data: any) => {
-        console.log('Token: ' + data.registrationId);
+        // console.log('Token: ' + data.registrationId);
         if (this.platform.is('ios')) {
           this.notificationService.saveAPNToken({'device_token': data.registrationId}).subscribe(res => {
-            console.log(res);
+            // console.log(res);
           });
         } else if (this.platform.is('android')) {
           this.notificationService.saveFCMToken({'device_token': data.registrationId}).subscribe(res => {
-            console.log(res);
+            // console.log(res);
           });
         }
       }, error1 => {
-        console.log(error1);
+        // console.log(error1);
       });
 
       pushObject.on('notification').subscribe((data: any) => {
-        console.log(data);
+        // console.log(data);
         if (!data.additionalData.foreground) {
           if (data.custom !== undefined) {
             this.router.navigate(data.custom.action.page, data.custom.action.params);

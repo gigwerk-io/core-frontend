@@ -111,7 +111,7 @@ export class ProfilePage implements OnInit, OnDestroy {
         text: 'Close',
         role: 'cancel',
         handler: () => {
-          console.log('Cancel clicked');
+          // console.log('Cancel clicked');
         }
       }]
     });
@@ -135,18 +135,11 @@ export class ProfilePage implements OnInit, OnDestroy {
             reportUserModal.present();
           }, 0);
         }
-      // }, {
-        // text: 'Block User',
-        // role: 'destructive',
-        // icon: 'trash',
-        // handler: () => {
-        //   console.log('Block clicked');
-        // }
       }, {
         text: 'Close',
         role: 'cancel',
         handler: () => {
-          console.log('Cancel clicked');
+          // console.log('Cancel clicked');
         }
       }]
     });
