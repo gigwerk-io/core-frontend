@@ -6,6 +6,7 @@ import {Router} from '@angular/router';
 import {ChatService} from '../../services/chat.service';
 import {MarketplaceService} from '../../services/marketplace.service';
 import {TaskActions, TaskStatus} from '../../../providers/constants';
+import {PastJob} from '../../interfaces/user';
 import {RequestPage} from '../../../pages/request/request.page';
 
 @Component({
@@ -17,6 +18,7 @@ import {RequestPage} from '../../../pages/request/request.page';
 export class FavrMarketplaceCardComponent implements OnInit, OnDestroy {
 
   @Input() mainMarketplaceTask: MainMarketplaceTask;
+  @Input() freelancerPastTask: PastJob;
   @Output() taskActionTaken: EventEmitter<string> = new EventEmitter();
   TaskStatus = TaskStatus;
 
@@ -49,8 +51,7 @@ export class FavrMarketplaceCardComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   ngOnDestroy(): void {
     this.events.unsubscribe('task-action');

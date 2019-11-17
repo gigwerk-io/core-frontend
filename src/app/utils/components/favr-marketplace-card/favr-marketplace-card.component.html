@@ -1,4 +1,4 @@
-<ion-card class="marketplace-card">
+<ion-card class="marketplace-card" *ngIf="mainMarketplaceTask; else freelancerPastJob">
 
   <ion-slides [pager]="true">
     <ion-slide (click)="viewAttachedPhoto(mainMarketplaceTask.image_one, 'Image 1')" class="marketplace-slide-image" *ngIf="mainMarketplaceTask.image_one">
@@ -45,7 +45,6 @@
         </small>
       </div>
       <div slot="end" class="marketplace-card-distance-away">
-        <ion-note *ngIf="mainMarketplaceTask.distance_away != undefined">{{mainMarketplaceTask.distance_away}} Miles</ion-note>
         <small *ngIf="mainMarketplaceTask.status == 'Complete'">
           <ion-icon size="large" color="success" name="checkmark-circle" ariaLabel="task completed"></ion-icon>
         </small>
@@ -57,7 +56,7 @@
     <div id="taskDescription" [innerHTML]="mainMarketplaceTask.description"></div>
   </ion-card-content>
 
-
+  <!--task actions-->
 
   <ion-row *ngIf="mainMarketplaceTask.action == 2 || mainMarketplaceTask.action == 3"
            class="ion-no-padding ion-justify-content-center">
@@ -132,3 +131,74 @@
     </ion-col>
   </ion-row>
 </ion-card>
+
+<ng-template #freelancerPastJob>
+  <ion-card class="marketplace-card">
+    <ion-slides [pager]="true">
+      <ion-slide (click)="viewAttachedPhoto(freelancerPastTask.marketplace.image_one, 'Image 1')" class="marketplace-slide-image" *ngIf="freelancerPastTask.marketplace.image_one">
+        <img [src]="freelancerPastTask.marketplace.image_one" alt="image one">
+      </ion-slide>
+
+      <ion-slide (click)="viewAttachedPhoto(freelancerPastTask.marketplace.image_two, 'Image 2')" class="marketplace-slide-image" *ngIf="freelancerPastTask.marketplace.image_two">
+        <img [src]="freelancerPastTask.marketplace.image_two" alt="image two">
+      </ion-slide>
+
+      <ion-slide (click)="viewAttachedPhoto(freelancerPastTask.marketplace.image_one, 'Image 3')" class="marketplace-slide-image" *ngIf="freelancerPastTask.marketplace.image_three">
+        <img [src]="freelancerPastTask.marketplace.image_three" alt="image three">
+      </ion-slide>
+    </ion-slides>
+
+    <ion-card-header>
+      <ion-item detail="false" lines="isNone" routerLink="/app/profile/{{freelancerPastTask.marketplace.customer.id}}" routerDirection="forward">
+        <ion-avatar slot="start">
+          <img [src]="(freelancerPastTask.marketplace.customer.profile.image) ? freelancerPastTask.marketplace.customer.profile.image : '../../../../assets/img/user.png'" alt="profile picture">
+        </ion-avatar>
+        {{freelancerPastTask.marketplace.customer.first_name}} {{freelancerPastTask.marketplace.customer.last_name}}
+        <div slot="end">
+          <div class="marketplace-card-price-area">
+            <div class="marketplace-card-price-tag">
+              {{freelancerPastTask.price | currency:'USD'}}
+            </div>
+          </div>
+        </div>
+      </ion-item>
+
+      <ion-item detail="false" lines="isNone">
+        <div slot="start">
+          <small>
+            <div class="complete-by-time">Completed on {{freelancerPastTask.complete_at | amFromUtc | amLocal | date: 'MMM dd, yyyy'}}</div>
+            <ion-note class="note posted-time">
+              Posted {{freelancerPastTask.marketplace.postedFormat | date}}
+            </ion-note>
+          </small>
+        </div>
+        <div slot="end" class="marketplace-card-distance-away">
+          <ion-icon size="large" color="success" name="checkmark-circle" ariaLabel="task completed"></ion-icon>
+        </div>
+      </ion-item>
+    </ion-card-header>
+
+    <ion-card-content text-center>
+      <ng-template #star let-fill="fill">
+        <span class="star" [class.full]="fill === 100">
+          <span class="half" [style.width.%]="fill">&#9733;</span>&#9733;
+        </span>
+      </ng-template>
+
+      <ngb-rating [(rate)]="freelancerPastTask.rating" [starTemplate]="star" [readonly]="true" max="5"></ngb-rating>
+      <h1 *ngIf="freelancerPastTask.review" [style.font-size.%]="freelancerPastTask.review.length > 1000 ? 50 : ((freelancerPastTask.review.length > 100) ? 100 : 150)">
+        <i>"{{freelancerPastTask.review}}"</i>
+      </h1>
+    </ion-card-content>
+
+    <!--task actions-->
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-button fill="outline" size="small" color="primary" (click)="loadMarketplaceDetail(freelancerPastTask.marketplace.id)" routerDirection="forward">
+          <ion-icon name="eye" slot="start"></ion-icon>
+          View
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+</ng-template>
