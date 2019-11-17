@@ -27,13 +27,14 @@ export class MarketplaceService {
               private storage: Storage) {
   }
 
-  public getSingleMainMarketplaceRequest(id: number): Promise<MainMarketplaceTask> {
+  public getSingleMainMarketplaceRequest(id: number, coords = undefined): Promise<MainMarketplaceTask> {
     return this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
-          const authHeader: AuthorizationToken = {
+          const authHeader = {
             headers: {
               Authorization: (token) ? token : ''
-            }
+            },
+            params: coords
           };
           return this.httpClient.get<MainMarketplaceTask>(`${API_ADDRESS}/marketplace/main/request/${id}`, authHeader)
             .toPromise()
@@ -41,16 +42,17 @@ export class MarketplaceService {
         });
   }
 
-  public getMainMarketplaceRequests(filter?: string): Observable<MainMarketplaceTask[]> {
+  public getMainMarketplaceRequests(filter?: string, coords = undefined): Observable<MainMarketplaceTask[]> {
     switch (filter) {
       case 'all':
         return from(
           this.storage.get(StorageKeys.ACCESS_TOKEN)
             .then(token => {
-              const authHeader: AuthorizationToken = {
+              const authHeader = {
                 headers: {
                   Authorization: (token) ? token : ''
-                }
+                },
+                params: coords
               };
               return this.httpClient.get<MainMarketplaceRouteResponse>(`${API_ADDRESS}/marketplace/main/feed`, authHeader)
                 .toPromise()

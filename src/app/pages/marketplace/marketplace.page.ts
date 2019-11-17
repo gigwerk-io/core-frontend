@@ -9,6 +9,7 @@ import {PusherServiceProvider} from '../../providers/pusher.service';
 import {AuthService} from '../../utils/services/auth.service';
 import {Router} from '@angular/router';
 import {ProfileRouteResponse, User} from '../../utils/interfaces/user';
+import {Geolocation} from '@ionic-native/geolocation/ngx';
 
 @Component({
   selector: 'marketplace',
@@ -33,7 +34,8 @@ export class MarketplacePage implements OnInit, OnDestroy {
               private authService: AuthService,
               private navCtrl: NavController,
               private router: Router,
-              private toastController: ToastController) { }
+              private toastController: ToastController,
+              private geolocation: Geolocation) { }
 
   ngOnInit() {
     this.segmentChanged(this.segment);
@@ -43,8 +45,8 @@ export class MarketplacePage implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {}
 
-  getAllMarketplaceRequests() {
-    this.marketplaceService.getMainMarketplaceRequests('all')
+  getAllMarketplaceRequests(coords = undefined) {
+    this.marketplaceService.getMainMarketplaceRequests('all', coords)
       .subscribe(tasks => {
         this.marketplaceTasks = tasks;
         const channel = this.pusher.marketplace();
@@ -121,7 +123,14 @@ export class MarketplacePage implements OnInit, OnDestroy {
     switch (value) {
       case 'all':
         this.segment = 'all';
-        this.getAllMarketplaceRequests();
+        this.geolocation.getCurrentPosition().then(res => {
+          const coords = {lat: res.coords.latitude, long: res.coords.longitude};
+          // GEt job details with location
+          this.getAllMarketplaceRequests(coords);
+        }).catch(err => {
+          // Get job details without location
+          this.getAllMarketplaceRequests();
+        });
         break;
       case 'me':
         this.segment = 'me';
