@@ -7,10 +7,9 @@ import {Storage} from '@ionic/storage';
 import {ActionSheetController, ModalController, NavController, ToastController} from '@ionic/angular';
 import {ChatService} from '../../utils/services/chat.service';
 import {FriendsService} from '../../utils/services/friends.service';
-import {GA_ID, Role, StorageKeys} from '../../providers/constants';
+import {Role, StorageKeys} from '../../providers/constants';
 import {Subscription} from 'rxjs';
 import {AuthService} from '../../utils/services/auth.service';
-import {MainMarketplaceTask} from '../../utils/interfaces/main-marketplace/main-marketplace-task';
 import {MarketplaceService} from '../../utils/services/marketplace.service';
 import {ReportPage} from '../report/report.page';
 
