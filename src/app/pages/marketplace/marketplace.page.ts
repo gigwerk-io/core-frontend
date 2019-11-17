@@ -192,7 +192,14 @@ export class MarketplacePage implements OnInit, OnDestroy {
     setTimeout(() => {
       switch (this.segment) {
         case 'all':
-          this.getAllMarketplaceRequests();
+          this.geolocation.getCurrentPosition().then(res => {
+            const coords = {lat: res.coords.latitude, long: res.coords.longitude};
+            // GEt job details with location
+            this.getAllMarketplaceRequests(coords);
+          }).catch(err => {
+            // Get job details without location
+            this.getAllMarketplaceRequests();
+          });
           break;
         case 'me':
           this.getMyMarketplaceRequests();
