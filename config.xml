@@ -99,6 +99,9 @@
         <edit-config file="*-Info.plist" mode="merge" target="NSLocationWhenInUseUsageDescription">
             <string>FAVR requires permission to access your location for full functionality of certain app features.</string>
         </edit-config>
+        <edit-config file="*-Info.plist" mode="merge" target="NSLocationAlwaysUsageDescription">
+            <string>FAVR requires permission to access your location for full functionality of certain app features.</string>
+        </edit-config>
     </platform>
     <engine name="ios" spec="^4.5.5" />
     <plugin name="cordova-plugin-device" spec="^2.0.3" />
