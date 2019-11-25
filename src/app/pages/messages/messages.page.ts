@@ -27,6 +27,7 @@ export class MessagesPage implements OnInit {
   pendingMessage = '';
   sending = false;
   didScrollToBottomOnInit = false;
+  rooms: Room[];
 
   constructor(private activatedRoute: ActivatedRoute,
               private chatService: ChatService,
@@ -37,6 +38,7 @@ export class MessagesPage implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.getRooms();
     this.activatedRoute.paramMap.subscribe(data => {
       this.uuid = data.get('uuid');
       // Initial Messages
@@ -58,13 +60,48 @@ export class MessagesPage implements OnInit {
     });
   }
 
-  getUserProfileImage() {
-    const members = this.room.members;
-    for (const member of members) {
-      if (member.id !== this.user_id) {
-        return member.profile.image;
+  public getRooms() {
+    this.chatService.getChatRooms().subscribe(res => {
+      this.rooms = res;
+    });
+  }
+
+  getUserProfileImage(members?: Room[]) {
+    if (members) {
+      // tslint:disable-next-line
+      for(let member of members) {
+        if (member.id !== this.user_id) {
+          return member.profile.image;
+        }
+      }
+    } else {
+      for (const member of this.room.members) {
+        if (member.id !== this.user_id) {
+          return member.profile.image;
+        }
       }
     }
+  }
+
+  public getUserName(members) {
+    // tslint:disable-next-line
+    for(let member of members) {
+      if (member.id !== this.user_id) {
+        return member.first_name + ' ' + member.last_name;
+      }
+    }
+  }
+
+  public getLastMessage(room: Room) {
+    if (room.last_message != null) {
+      return room.last_message.text;
+    }  else {
+      return 'Say Hello!';
+    }
+  }
+
+  public goToChatRoom(uuid) {
+    this.router.navigate(['/app/room', uuid]);
   }
 
   getToUser() {
