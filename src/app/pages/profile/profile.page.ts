@@ -122,6 +122,15 @@ export class ProfilePage implements OnInit, OnDestroy {
     const actionSheet = await this.actionSheetCtrl.create({
       header: 'User Actions',
       buttons: [{
+        text: 'Unfriend ' + this.profile.user.user.first_name,
+        role: 'destructive',
+        icon: 'remove-circle',
+        handler: () => {
+          this.friendService.unfriend(this.profile.user.user_id)
+            .then(message => this.presentToast(message)
+              .then(() => this.doRefresh()));
+        }
+      }, {
         text: 'Report User',
         role: 'destructive',
         icon: 'flag',
