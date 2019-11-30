@@ -6,13 +6,10 @@
   (filterOption)="setFilterOption($event)"
 >
 </favr-page-header>
-
 <ion-content>
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <!-- Default Segment -->
-  <!-- Icon end -->
   <ion-segment (ionChange)="segmentChanged($event.target.value)" [(ngModel)]="segment">
     <ion-segment-button checked value="all">
       <ion-label>Feed</ion-label>

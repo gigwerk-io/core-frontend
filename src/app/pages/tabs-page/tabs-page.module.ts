@@ -20,10 +20,8 @@ const MODULES = [
   IonicModule,
   MarketplacePageModule,
   MarketplaceDetailPageModule,
-  RequestPageModule,
   ReportPageModule,
   SettingsPageModule,
-  SearchPageModule,
   TabsPageRoutingModule,
 ];
 

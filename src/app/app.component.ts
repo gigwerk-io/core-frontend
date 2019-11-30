@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
 
-import { Events, MenuController, Platform, ToastController } from '@ionic/angular';
+import {Events, MenuController, ModalController, Platform, ToastController} from '@ionic/angular';
 
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
@@ -13,15 +13,22 @@ import { UserData } from './providers/user-data';
 import {StorageKeys} from './providers/constants';
 import {toggleDarkTheme} from './pages/settings/settings.page';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
+import {TabsPage} from './pages/tabs-page/tabs-page';
+import {RequestPage} from './pages/request/request.page';
+import {SearchPage} from './pages/search/search.page';
+import {popInAnimation} from './utils/animations/enter.animation';
+import {popOutAnimation} from './utils/animations/leave.animation';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  providers: [ScreenOrientation],
+  providers: [ScreenOrientation, TabsPage, RequestPage, SearchPage],
   encapsulation: ViewEncapsulation.None
 })
 export class AppComponent implements OnInit {
+  profileId: number;
+  profileImage: string;
 
   constructor(
     private events: Events,
@@ -35,11 +42,20 @@ export class AppComponent implements OnInit {
     private swUpdate: SwUpdate,
     private toastCtrl: ToastController,
     private screenOrientation: ScreenOrientation,
+    private tabsPage: TabsPage,
+    private modalCtrl: ModalController
   ) {
     this.initializeApp();
   }
 
   async ngOnInit() {
+    this.storage.get(StorageKeys.PROFILE)
+      .then(profile => {
+        if (profile) {
+          this.profileId = profile.user_id;
+          this.profileImage = profile.image;
+        }
+      });
     this.swUpdate.available.subscribe(async res => {
       const toast = await this.toastCtrl.create({
         message: 'Update available!',
@@ -82,5 +98,17 @@ export class AppComponent implements OnInit {
         this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
       }
     });
+  }
+
+  async openSearchModal() {
+    const modal = await this.modalCtrl.create({
+      component: SearchPage,
+      componentProps: {'isModal': true},
+      cssClass: 'transparent-modal',
+      enterAnimation: (this.platform.is('mobile') || this.platform.is('pwa')) ? popInAnimation : undefined,
+      leaveAnimation: (this.platform.is('mobile') || this.platform.is('pwa')) ? popOutAnimation : undefined
+    });
+
+    modal.present();
   }
 }

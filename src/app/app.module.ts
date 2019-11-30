@@ -25,6 +25,8 @@ import {Keyboard} from '@ionic-native/keyboard/ngx';
 import { Angulartics2Module } from 'angulartics2';
 import {SocialSharing} from '@ionic-native/social-sharing/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import {RequestPageModule} from './pages/request/request.module';
+import {SearchPageModule} from './pages/search/search.module';
 
 @NgModule({
   imports: [
@@ -36,6 +38,8 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
     IonicModule.forRoot({
       mode: 'ios'
     }),
+    RequestPageModule,
+    SearchPageModule,
     IonicStorageModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production
