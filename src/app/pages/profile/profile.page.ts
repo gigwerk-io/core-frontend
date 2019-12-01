@@ -24,7 +24,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   profileSubscription: Subscription;
   profile: ProfileRouteResponse;
   isOwner: boolean;
-  status: object;
+  status: {class: string, text: string};
   showFriendButton = true;
   friendButton: object;
   rating: number;
@@ -119,38 +119,61 @@ export class ProfilePage implements OnInit, OnDestroy {
   }
 
   async presentActionSheet() {
+
+    const actionButtons = (this.status.text === 'Friends') ? [{
+      text: 'Unfriend ' + this.profile.user.user.first_name,
+      role: 'destructive',
+      icon: 'remove-circle',
+      handler: () => {
+        this.friendService.unfriend(this.profile.user.user_id)
+          .then(message => this.presentToast(message)
+            .then(() => this.doRefresh()));
+      }
+    }, {
+      text: 'Report User',
+      role: 'destructive',
+      icon: 'flag',
+      handler: () => {
+        setTimeout(async () => {
+          const reportUserModal = await this.modalCtrl.create({
+            component: ReportPage,
+            componentProps: {type: 'User', extra: this.profile}
+          });
+
+          reportUserModal.present();
+        }, 0);
+      }
+    }, {
+      text: 'Close',
+      role: 'cancel',
+      handler: () => {
+        // console.log('Cancel clicked');
+      }
+    }] : [{
+      text: 'Report User',
+      role: 'destructive',
+      icon: 'flag',
+      handler: () => {
+        setTimeout(async () => {
+          const reportUserModal = await this.modalCtrl.create({
+            component: ReportPage,
+            componentProps: {type: 'User', extra: this.profile}
+          });
+
+          reportUserModal.present();
+        }, 0);
+      }
+    }, {
+      text: 'Close',
+      role: 'cancel',
+      handler: () => {
+        // console.log('Cancel clicked');
+      }
+    }];
+
     const actionSheet = await this.actionSheetCtrl.create({
       header: 'User Actions',
-      buttons: [{
-        text: 'Unfriend ' + this.profile.user.user.first_name,
-        role: 'destructive',
-        icon: 'remove-circle',
-        handler: () => {
-          this.friendService.unfriend(this.profile.user.user_id)
-            .then(message => this.presentToast(message)
-              .then(() => this.doRefresh()));
-        }
-      }, {
-        text: 'Report User',
-        role: 'destructive',
-        icon: 'flag',
-        handler: () => {
-          setTimeout(async () => {
-            const reportUserModal = await this.modalCtrl.create({
-              component: ReportPage,
-              componentProps: {type: 'User', extra: this.profile}
-            });
-
-            reportUserModal.present();
-          }, 0);
-        }
-      }, {
-        text: 'Close',
-        role: 'cancel',
-        handler: () => {
-          // console.log('Cancel clicked');
-        }
-      }]
+      buttons: [...actionButtons]
     });
     await actionSheet.present();
   }

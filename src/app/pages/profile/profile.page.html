@@ -35,6 +35,29 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <ion-list>
+    <ion-toolbar padding-top class="web-only">
+      <ion-buttons slot="end" *ngIf="!isOwner" >
+        <ion-button (click)="startChat(profile.user.user.username)"
+                    class="nav-button">
+          <ion-icon name="chatbubbles"></ion-icon>
+        </ion-button>
+        <ion-button (click)="presentActionSheet()"
+                    class="nav-button">
+          <ion-icon name="more"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-buttons slot="end" *ngIf="isOwner">
+        <ion-button routerLink="/app/chat"
+                    routerDirection="forward"
+                    class="nav-button">
+          <ion-icon name="chatbubbles"></ion-icon>
+        </ion-button>
+        <ion-button (click)="presentOwnerActionSheet()"
+                    class="nav-button">
+          <ion-icon name="more"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
     <div text-center padding-top>
       <div margin-bottom class="img-container">
         <img [src]="(profile.user.image) ? profile.user.image : '../../assets/img/user.png'"

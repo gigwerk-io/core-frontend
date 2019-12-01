@@ -20,7 +20,7 @@
 
     <ion-tab-button (click)="tabsPage.openRequestPage()">
       <ion-icon name="add-circle-outline" class="icon-button"></ion-icon>
-      <ion-label color="primary">Request</ion-label>
+      <ion-label>Request</ion-label>
     </ion-tab-button>
 
     <ion-tab-button routerLink="app/tabs/notifications">
@@ -40,7 +40,7 @@
       </ion-button>
 
       <!--<ion-button routerLink="app/chat" class="nav-button">-->
-        <!--<ion-icon name="chatbubbles"></ion-icon>-->
+      <!--<ion-icon name="chatbubbles"></ion-icon>-->
       <!--</ion-button>-->
 
       <ion-avatar slot="end" routerLink="app/profile/{{profileId}}" style="height: 32px;width: 32px;cursor: pointer">
@@ -48,7 +48,5 @@
       </ion-avatar>
     </ion-buttons>
   </ion-tab-bar>
-  <ion-split-pane>
-    <ion-router-outlet main></ion-router-outlet>
-  </ion-split-pane>
+  <ion-router-outlet main></ion-router-outlet>
 </ion-app>
