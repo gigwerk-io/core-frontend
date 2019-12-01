@@ -18,7 +18,14 @@
   <ion-toolbar class="search-area">
     <ion-row class="page-title-header">
       <ion-col *ngIf="pageTitle" class="page-title-area">
-        <h1 class="page-title">{{pageTitle}}</h1>
+        <h1 class="page-title">
+          <ng-container *ngIf="pageTitle === 'Marketplace'; else title">
+            <img src="../../../../assets/brand/favr_logo_rd.png" alt="favr logo" class="favr-logo">
+          </ng-container>
+          <ng-template #title>
+            {{pageTitle}}
+          </ng-template>
+        </h1>
       </ion-col>
       <ion-col>
         <ion-buttons class="page-header-buttons">
@@ -39,7 +46,7 @@
             <ion-icon name="search"></ion-icon>
           </ion-button>
 
-          <ion-button *ngIf="pageTitle == 'Friends'"
+          <ion-button *ngIf="pageTitle == 'Marketplace' || pageTitle == 'Friends'"
                       (click)="navigateToChat()"
                       class="nav-button">
             <ion-icon name="chatbubbles"></ion-icon>
