@@ -34,7 +34,7 @@ export class AppComponent implements OnInit {
     private events: Events,
     private menu: MenuController,
     private platform: Platform,
-    private router: Router,
+    public router: Router,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private storage: Storage,
@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
     private swUpdate: SwUpdate,
     private toastCtrl: ToastController,
     private screenOrientation: ScreenOrientation,
-    private tabsPage: TabsPage,
+    public tabsPage: TabsPage,
     private modalCtrl: ModalController
   ) {
     this.initializeApp();
