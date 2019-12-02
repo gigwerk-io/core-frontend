@@ -6,6 +6,7 @@ import { MenuController } from '@ionic/angular';
 import { TutorialPage } from './tutorial';
 
 import { IonicStorageModule } from '@ionic/storage';
+import {StorageKeys} from '../../providers/constants';
 describe('TutorialPage', () => {
   let fixture, app;
   beforeEach(async(() => {
@@ -35,7 +36,7 @@ describe('TutorialPage', () => {
   });
 
   it('should check the tutorial status', async () => {
-    const didTuts = await app.storage.get('ion_did_tutorial');
+    const didTuts = await app.storage.get(StorageKeys.PLATFORM_TUTORIAL);
     expect(didTuts).toBeFalsy();
   });
 });

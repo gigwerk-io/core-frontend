@@ -7,7 +7,6 @@ import {AuthResponse, SignOutResponse, ValidateTokenResponse} from '../interface
 import {AuthorizationToken, UserOptions, UserRegistrationOptions} from '../interfaces/user-options';
 import {API_ADDRESS, StorageKeys} from '../../providers/constants';
 import {from} from 'rxjs/index';
-import {Room} from '../interfaces/chat/room';
 
 @Injectable({
   providedIn: 'root'

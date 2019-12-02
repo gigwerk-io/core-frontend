@@ -18,12 +18,13 @@ import {RequestPage} from './pages/request/request.page';
 import {SearchPage} from './pages/search/search.page';
 import {popInAnimation} from './utils/animations/enter.animation';
 import {popOutAnimation} from './utils/animations/leave.animation';
+import {CustomerTutorialPage} from './pages/customer-tutorial/customer-tutorial.page';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  providers: [ScreenOrientation, TabsPage, RequestPage, SearchPage],
+  providers: [ScreenOrientation, TabsPage, RequestPage, SearchPage, CustomerTutorialPage],
   encapsulation: ViewEncapsulation.None
 })
 export class AppComponent implements OnInit {

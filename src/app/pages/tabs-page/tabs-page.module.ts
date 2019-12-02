@@ -6,10 +6,8 @@ import { TabsPage } from './tabs-page';
 import { TabsPageRoutingModule } from './tabs-page-routing.module';
 import { MarketplacePageModule } from '../marketplace/marketplace.module';
 import {FriendsPageModule} from '../friends/friends.module';
-import {RequestPageModule} from '../request/request.module';
 import {SettingsPageModule} from '../settings/settings.module';
 import {MarketplaceDetailPageModule} from '../marketplace-detail/marketplace-detail.module';
-import {SearchPageModule} from '../search/search.module';
 import {CompleteTaskPageModule} from '../complete-task/complete-task.module';
 import {ReportPageModule} from '../report/report.module';
 
@@ -18,7 +16,6 @@ const MODULES = [
   CompleteTaskPageModule,
   FriendsPageModule,
   IonicModule,
-  MarketplacePageModule,
   MarketplaceDetailPageModule,
   ReportPageModule,
   SettingsPageModule,

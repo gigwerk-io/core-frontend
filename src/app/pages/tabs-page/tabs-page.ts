@@ -7,6 +7,7 @@ import {Storage} from '@ionic/storage';
 import {StorageKeys} from '../../providers/constants';
 import {Router} from '@angular/router';
 import {Angulartics2GoogleAnalytics} from 'angulartics2/ga';
+import {CustomerTutorialPage} from '../customer-tutorial/customer-tutorial.page';
 
 @Component({
   templateUrl: './tabs-page.html',
@@ -77,7 +78,33 @@ export class TabsPage implements OnInit {
     this.storage.get(StorageKeys.CUSTOMER_TUTORIAL).then(res => {
       setTimeout(async () => {
         if (!res) {
-          this.router.navigateByUrl('/app/customer-tutorial');
+          const modal = await this.modalCtrl.create({
+            component: CustomerTutorialPage,
+            componentProps: {'isModal': true}
+          });
+
+          const loadingRequestPage = await this.loadingCtrl.create({
+            message: 'Please wait...',
+            translucent: true
+          });
+
+          await loadingRequestPage.present();
+
+          modal.onDidDismiss().then(async () => {
+            const loadingMarketplacePage = await this.loadingCtrl.create({
+              message: 'Please wait...',
+              translucent: true
+            });
+
+            await loadingMarketplacePage.present();
+            loadingMarketplacePage.dismiss();
+          });
+
+          await modal.present()
+            .then(() => {
+
+              return loadingRequestPage.dismiss();
+            });
           await Promise.resolve(false);
         } else {
           const modal = await this.modalCtrl.create({
@@ -99,6 +126,11 @@ export class TabsPage implements OnInit {
             });
 
             await loadingMarketplacePage.present();
+
+            // this.marketplaceService.getMainMarketplaceRequests('all')
+            //   .then(tasks => this.marketplaceTasks = tasks);
+            // this.marketplaceService.getMainMarketplaceRequests('me')
+            //   .then(tasks => this.marketplaceTasks = tasks);
             loadingMarketplacePage.dismiss();
           });
 
