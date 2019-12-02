@@ -34,7 +34,7 @@
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <ion-list>
+  <ion-list style="margin-bottom: unset;">
     <ion-toolbar padding-top class="web-only">
       <ion-buttons slot="end" *ngIf="!isOwner" >
         <ion-button (click)="startChat(profile.user.user.username)"

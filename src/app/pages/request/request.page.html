@@ -25,7 +25,7 @@
   <ng-container [ngSwitch]="subPage">
     <ion-list *ngSwitchCase="'request-index'" style="min-height: 100%;">
       <ion-item href (click)="openSubPage('select-category')">
-        <ion-icon slot="start" name="apps"></ion-icon>
+        <ion-icon slot="start" name="cart"></ion-icon>
         <ion-label>Select Category</ion-label>
         <div slot="end" *ngIf="taskRequest.category_id">
           <small>
