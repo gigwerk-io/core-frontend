@@ -148,8 +148,7 @@ export class FriendsService {
   }
 
   public unfriend(id) {
-    return from(
-      this.storage.get(StorageKeys.ACCESS_TOKEN)
+    return this.storage.get(StorageKeys.ACCESS_TOKEN)
         .then(token => {
           const authHeader: AuthorizationToken = {
             headers: {
@@ -159,7 +158,6 @@ export class FriendsService {
           return this.http.get<GenericResponse>(API_ADDRESS + `/friend/delete/${id}`, authHeader)
             .toPromise()
             .then((res: GenericResponse) => res.message);
-        })
-    );
+        });
   }
 }

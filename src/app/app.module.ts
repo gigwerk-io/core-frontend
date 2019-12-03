@@ -25,29 +25,37 @@ import {Keyboard} from '@ionic-native/keyboard/ngx';
 import { Angulartics2Module } from 'angulartics2';
 import {SocialSharing} from '@ionic-native/social-sharing/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import {RequestPageModule} from './pages/request/request.module';
+import {SearchPageModule} from './pages/search/search.module';
+import {CustomerTutorialPageModule} from './pages/customer-tutorial/customer-tutorial.module';
+import {MarketplacePageModule} from './pages/marketplace/marketplace.module';
 
 @NgModule({
   imports: [
     AuthModule,
     AppRoutingModule,
+    Angulartics2Module.forRoot(),
     BrowserModule,
+    CustomerTutorialPageModule,
+    CreditCardDirectivesModule,
     FormsModule,
     HttpClientModule,
     IonicModule.forRoot({
       mode: 'ios'
     }),
+    IntercomModule.forRoot({
+      appId: 'yvoar9nd', // from your Intercom config
+      updateOnRouterChange: true // will automatically run `update` on router event changes. Default: `false`
+    }),
+    RequestPageModule,
+    SearchPageModule,
     IonicStorageModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production
     }),
     MomentModule,
-    CreditCardDirectivesModule,
-    ReactiveFormsModule,
-    IntercomModule.forRoot({
-      appId: 'yvoar9nd', // from your Intercom config
-      updateOnRouterChange: true // will automatically run `update` on router event changes. Default: `false`
-    }),
-    Angulartics2Module.forRoot()
+    MarketplacePageModule,
+    ReactiveFormsModule
   ],
   declarations: [AppComponent],
   providers: [

@@ -5,6 +5,7 @@ import { MenuController, IonSlides } from '@ionic/angular';
 
 import { Storage } from '@ionic/storage';
 import {AuthService} from '../../utils/services/auth.service';
+import {StorageKeys} from '../../providers/constants';
 
 @Component({
   selector: 'page-tutorial',
@@ -28,11 +29,11 @@ export class TutorialPage {
       if (loggedIn) {
         this.router
           .navigateByUrl('/app/tabs/marketplace')
-          .then(() => this.storage.set('ion_did_tutorial', true));
+          .then(() => this.storage.set(StorageKeys.PLATFORM_TUTORIAL, true));
       } else {
         this.router
           .navigateByUrl('/welcome')
-          .then(() => this.storage.set('ion_did_tutorial', true));
+          .then(() => this.storage.set(StorageKeys.PLATFORM_TUTORIAL, true));
       }
     });
   }
@@ -44,7 +45,7 @@ export class TutorialPage {
   }
 
   ionViewWillEnter() {
-    this.storage.get('ion_did_tutorial').then(res => {
+    this.storage.get(StorageKeys.PLATFORM_TUTORIAL).then(res => {
       if (res === true) {
         this.authService.isLoggedIn().subscribe(loggedIn => {
           if (loggedIn) {

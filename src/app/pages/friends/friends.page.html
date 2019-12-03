@@ -30,17 +30,17 @@
 
   <!-- List of Text Items -->
   <ion-list>
-    <ion-item [detail]="(btnClass == 'arrow-forward')" *ngFor="let user of users; let i = index;" [attr.data-index]="i"
-              (click)="handleClick(user, i)">
+    <ion-item [detail]="(btnClass == 'arrow-forward')" *ngFor="let user of users; let i = index;" [attr.data-index]="i">
       <ion-avatar slot="start" (click)="goToUserProfile(user.id)">
         <ion-img [src]="user.profile.image"></ion-img>
       </ion-avatar>
-      <ion-label>
+      <ion-label (click)="goToUserProfile(user.id)">
         {{user.name}}
         <br>
         <ion-note>@{{user.username}}</ion-note>
       </ion-label>
       <ion-button *ngIf="btnClass != 'arrow-forward'"
+                  (click)="handleClick(user, i)"
                   [ngClass]="(btnClass === 'checkmark') ? 'checkmark-btn nav-button' : 'nav-button'">
         <ion-icon [mode]="(btnClass === 'person-add' || btnClass === 'checkmark') ? 'md' : ''" [name]="btnClass"></ion-icon>
       </ion-button>
