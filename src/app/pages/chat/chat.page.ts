@@ -22,6 +22,7 @@ export class ChatPage implements OnInit {
         this.user_id = profile.user_id;
       });
   }
+
   public getRooms() {
     this.roomService.getChatRooms().subscribe(res => {
       this.rooms = res;

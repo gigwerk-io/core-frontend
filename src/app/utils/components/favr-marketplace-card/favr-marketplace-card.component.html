@@ -45,8 +45,8 @@
         </small>
       </div>
       <div slot="end" class="marketplace-card-distance-away">
-        <ion-note *ngIf="mainMarketplaceTask.distance_away != undefined">{{mainMarketplaceTask.distance_away}} Miles</ion-note>
-        <small *ngIf="mainMarketplaceTask.status == 'Complete'">
+        <ion-note *ngIf="mainMarketplaceTask.distance_away != undefined && mainMarketplaceTask.status != TaskStatus.COMPLETE">{{mainMarketplaceTask.distance_away}} Miles</ion-note>
+        <small *ngIf="mainMarketplaceTask.status == TaskStatus.COMPLETE">
           <ion-icon size="large" color="success" name="checkmark-circle" ariaLabel="task completed"></ion-icon>
         </small>
       </div>

@@ -10,6 +10,7 @@ import {AuthService} from '../../utils/services/auth.service';
 import {Router} from '@angular/router';
 import {ProfileRouteResponse, User} from '../../utils/interfaces/user';
 import {Geolocation} from '@ionic-native/geolocation/ngx';
+import {CustomerTutorialPage} from '../customer-tutorial/customer-tutorial.page';
 
 @Component({
   selector: 'marketplace',
@@ -143,12 +144,31 @@ export class MarketplacePage implements OnInit, OnDestroy {
     }
   }
 
+  async openCustomerTutorial() {
+    const modal = await this.modalCtrl.create({
+      component: CustomerTutorialPage,
+      componentProps: {'isModal': true}
+    });
+
+    const loadingRequestPage = await this.loadingCtrl.create({
+      message: 'Please wait...',
+      translucent: true
+    });
+
+    await loadingRequestPage.present();
+
+    await modal.present()
+      .then(() => {
+
+        return loadingRequestPage.dismiss();
+      });
+  }
+
   async openRequestPage() {
     this.storage.get(StorageKeys.CUSTOMER_TUTORIAL).then(res => {
       setTimeout(async () => {
         if (!res) {
-          this.router.navigateByUrl('/app/customer-tutorial');
-          await Promise.resolve(false);
+          this.openCustomerTutorial();
         } else {
           const modal = await this.modalCtrl.create({
             component: RequestPage,
@@ -161,22 +181,6 @@ export class MarketplacePage implements OnInit, OnDestroy {
           });
 
           await loadingRequestPage.present();
-
-          modal.onDidDismiss().then(async () => {
-            const loadingMarketplacePage = await this.loadingCtrl.create({
-              message: 'Please wait...',
-              translucent: true
-            });
-
-            await loadingMarketplacePage.present();
-
-            // this.marketplaceService.getMainMarketplaceRequests('all')
-            //   .then(tasks => this.marketplaceTasks = tasks);
-            // this.marketplaceService.getMainMarketplaceRequests('me')
-            //   .then(tasks => this.marketplaceTasks = tasks);
-            this.doRefresh();
-            loadingMarketplacePage.dismiss();
-          });
 
           await modal.present()
             .then(() => {
