@@ -2,15 +2,15 @@
 
   <ion-slides [pager]="true">
     <ion-slide (click)="viewAttachedPhoto(mainMarketTask.image_one, 'Image 1')" class="marketplace-slide-image" *ngIf="mainMarketTask.image_one">
-      <img [src]="mainMarketTask.image_one" alt="image one">
+      <ion-img [src]="mainMarketTask.image_one" alt="image one"></ion-img>
     </ion-slide>
 
     <ion-slide (click)="viewAttachedPhoto(mainMarketTask.image_two, 'Image 2')" class="marketplace-slide-image" *ngIf="mainMarketTask.image_two">
-      <img [src]="mainMarketTask.image_two" alt="image two">
+      <ion-img [src]="mainMarketTask.image_two" alt="image two"></ion-img>
     </ion-slide>
 
     <ion-slide (click)="viewAttachedPhoto(mainMarketTask.image_three, 'Image 3')" class="marketplace-slide-image" *ngIf="mainMarketTask.image_three">
-      <img [src]="mainMarketTask.image_three" alt="image three">
+      <ion-img [src]="mainMarketTask.image_three" alt="image three"></ion-img>
     </ion-slide>
   </ion-slides>
 
